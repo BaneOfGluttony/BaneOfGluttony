@@ -4,9 +4,11 @@
 	import flash.events.Event;
 	
 	public class GameEvent {
-		var player:Player;
-		var xml:XML;
-		var loader:URLLoader = new URLLoader();
+		public var player:Player;
+		public var xml:XML;
+		public var loader:URLLoader = new URLLoader();
+		public var currLevel:int = 0;
+		public var text:String;
 
 		public function GameEvent(player:Player, fileName:String) {
 			this.player = player;
@@ -16,7 +18,12 @@
 		
 		public function parseXML(e:Event):void {
 			xml = new XML(e.target.data);
-			trace(xml.text);
+			text = xml.text;
+			trace(text);
+		}
+	
+		public function getChild():void {
+			
 		}
 		
 		public function checkResource(resource:String, x:Number):Boolean {
