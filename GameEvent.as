@@ -22,9 +22,9 @@
 			trace(text);
 		}
 	
-		public function getChild():void {
+		/*public function getChild():void {
 			
-		}
+		}*/
 		
 		public function checkResource(resource:String, x:Number):Boolean {
 			if (player.resources["min" + resource] / player.resources["max" + resource] >= x)
