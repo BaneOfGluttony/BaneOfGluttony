@@ -6,8 +6,8 @@
 	public class GameEvent {
 		public var player:Player;
 		public var xml:XML;
+		public var currChild:XMLList;
 		public var loader:URLLoader = new URLLoader();
-		public var currLevel:int = 0;
 		public var text:String;
 
 		public function GameEvent(player:Player, fileName:String) {
@@ -17,27 +17,28 @@
 		}
 		
 		public function parseXML(e:Event):void {
-			xml = new XML(e.target.data);
+			xml = new XML(e.target.data)
 			text = xml.text;
 			trace(text);
+			currChild = xml.child("choices");
+			
+			getChoice(0);
+			getChoice(1);
+			getChoice(1);
 		}
 	
-		/*public function getChild():void {
-			
-		}*/
+		public function getChoice(i:int):void {
+			text = currChild.choice[i].text;
+			currChild = currChild.choice[i].child("choices");
+			trace(text);
+		}
 		
 		public function checkResource(resource:String, x:Number):Boolean {
-			if (player.resources["min" + resource] / player.resources["max" + resource] >= x)
-				return true;
-			
-			return false;
+			return (player.resources["min" + resource] / player.resources["max" + resource]) >= x;
 		}
 		
 		public function checkStat(stat:String, x:int):Boolean {
-			if (player.stats[stat] > x)
-				return true;
-			
-			return false;
+			return player.stats[stat] >= x;
 		}
 		
 		public function checkItem(items:Array) {
