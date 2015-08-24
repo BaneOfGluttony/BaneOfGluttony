@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<event>
+    <text>This is a test quest. Do you accept?</text>
+    <choices>
+        <choice>
+            <text>You selected yes.</text>
+            <choices>
+                <choice>
+                    <text>You selected yes, then yes.</text>
+                    <choices>
+                        <choice>
+                            <text>You selected yes, then yes, then yes.</text>
+                        </choice>
+                        <choice>
+                            <text>You selected yes, then yes, then no.</text>
+                        </choice>
+                    </choices>
+                </choice>
+                <choice>
+                    <text>You selected yes, then no.</text>
+                    <choices>
+                        <choice>
+                            <text>You selected yes, then no, then yes.</text>
+                        </choice>
+                        <choice>
+                            <text>You selected yes, then no, then no.</text>
+                        </choice>
+                    </choices>
+                </choice>
+            </choices>
+        </choice>
+        <choice>
+            <text>You selected no.</text>
+            <choices>
+                <choice>
+                    <text>You selected no, then yes.</text>
+                    <choices>
+                        <choice>
+                            <text>You selected no, then yes, then yes.</text>
+                        </choice>
+                        <choice>
+                            <text>You selected no, then yes, then no.</text>
+                        </choice>
+                    </choices>
+                </choice>
+                <choice>
+                    <text>You selected no, then no.</text>
+                    <choices>
+                        <choice>
+                            <text>You selected no, then no, then yes.</text>
+                        </choice>
+                        <choice>
+                            <text>You selected no, then no, then no.</text>
+                        </choice>
+                    </choices>
+                </choice>
+            </choices>
+        </choice>
+    </choices>
+</event>

@@ -5,6 +5,8 @@
 	import flash.net.SharedObject;
 	import flash.utils.ByteArray;
 	
+	import Quests.*;
+	
 	public class Main extends MovieClip {
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
@@ -17,6 +19,8 @@
 		public var inventoryText:String = "Inventory";
 		public var skillsText:String = "Skills\n\nTo be implemented.";
 		public var questsText:String = "Quests\n\nTo be implemented.";
+		
+		public var test:Test = new Test(this as MovieClip, player, "test.xml");
 		
 		public function Main() {
 			addResource("Health", 100, 0);
@@ -71,8 +75,6 @@
 			addExp(196);*/
 			
 			reInit();
-			
-			var test:GameEvent = new GameEvent(player, "test.xml");
 		}
 		
 		public function reInit():void {
@@ -118,16 +120,6 @@
 				equipmentData.writeObject(player.equipment);
 				saveFile.data.playerData = playerData;
 				saveFile.data.equipmentData = equipmentData;
-				/*saveFile.data.name = player.name;
-				saveFile.data.x = player.x;
-				saveFile.data.y = player.y;
-				saveFile.data.resources = player.resources;
-				saveFile.data.stats = player.stats;
-				saveFile.data.maxExp = player.maxExp;
-				saveFile.data.currExp = player.currExp;
-				saveFile.data.level = player.level;
-				saveFile.data.gold = player.gold;
-				saveFile.data.inventory = player.inventory;*/
 				
 				saveFile.flush();
 				trace("Game saved");
@@ -147,23 +139,6 @@
 				player = playerData.readObject() as Player;
 				equipmentData.position = 0;
 				player.equipment = equipmentData.readObject() as Object;
-				/*player.equipment["head"] = player.equipment["head"] as Item;
-				player.equipment["torso"] = player.equipment["torso"] as Item;
-				player.equipment["legs"] = player.equipment["legs"] as Item;
-				player.equipment["feet"] = player.equipment["feet"] as Item;
-				player.equipment["weapon"] = player.equipment["weapon"] as Item;
-				player.equipment["shield"] = player.equipment["shield"] as Item;*/
-				/*player.name = saveFile.data.name;
-				player.x = saveFile.data.x;
-				player.y = saveFile.data.y;
-				player.resources = saveFile.data.resources;
-				player.stats = saveFile.data.stats;
-				player.maxExp = saveFile.data.maxExp;
-				player.currExp = saveFile.data.currExp;
-				player.level = saveFile.data.level;
-				player.gold = saveFile.data.gold;
-				player.inventory = saveFile.data.inventory;*/
-				//trace(player.equipment["head"].name);
 				
 				setResource("Health", player.resources["currHealth"], player.resources["maxHealth"]);
 				setResource("Mana", player.resources["currMana"], player.resources["maxMana"]);
