@@ -641,10 +641,11 @@
 			addStat("vor", item.vor);
 			
 			var index:int = 0;
-			for (index; index < player.inventory.length; index++) {
+			/*for (index; index < player.inventory.length; index++) {
 				if (player.inventory[index].name == item.name)
 					break;
-			}
+			}*/
+			player.indexOfInventory(item);
 			
 			player.inventory[index].count--;
 			if (player.inventory[index].count <= 0)

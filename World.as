@@ -97,9 +97,8 @@
 								   text : "The town's northern entrance."});
 			world[4][2] = new Zone({name : "North Road"						, x : 4, y : 2, 
 								   text : "This road leads to the northern gates."});
-			/*world[4][3] = new Zone({name : "North Square"					, x : 4, y : 3, 
-								   text : "Town square's northern wing."});*/
-								   world[4][3] = new Zone({name : "Road"});
+			world[4][3] = new Zone({name : "North Square"					, x : 4, y : 3, 
+								   text : "Town square's northern wing."});
 			world[4][4] = new Zone({name : "Town Square"					, x : 4, y : 4, 
 								   text : "This is the town center."});
 			world[4][5] = new Zone({name : "South Square"					, x : 4, y : 5, 
@@ -121,9 +120,8 @@
 								   text : "Potions of all kinds"});
 			world[5][3] = new Zone({name : "NE Pavilion"					, x : 5, y : 3, 
 								   text : "The northeastern pavilion."});
-			/*world[5][4] = new Zone({name : "East Square"					, x : 5, y : 4, 
-								   text : "Town square's eastern wing."});*/
-								   world[5][4] = new Zone({name : "Road"});
+			world[5][4] = new Zone({name : "East Square"					, x : 5, y : 4, 
+								   text : "Town square's eastern wing."});
 			world[5][5] = new Zone({name : "SE Pavilion"					, x : 5, y : 5, 
 								   text : "The southeastern pavilion."});
 			world[5][6] = new Zone({name : "Armorsmith"						, x : 5, y : 6, 

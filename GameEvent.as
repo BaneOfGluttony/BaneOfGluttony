@@ -5,29 +5,52 @@
 	import flash.display.MovieClip;
 	
 	public class GameEvent {
+		public var main:MovieClip;
 		public var player:Player;
 		public var xml:XML;
 		public var currChild:XMLList;
 		public var loader:URLLoader = new URLLoader();
+		
+		public var name:String;
+		public var state:int;
 		public var text:String;
 
 		public function GameEvent(main:MovieClip, player:Player, fileName:String) {
+			this.main = main;
 			this.player = player;
+			
 			loader.load(new URLRequest("XML/" + fileName));
 			loader.addEventListener(Event.COMPLETE, parseXML);
+			
+			name = fileName;
+			state = 0;
+			
+			trace("Quest added: " + name);
 		}
 		
 		public function parseXML(e:Event):void {
 			xml = new XML(e.target.data)
 			text = xml.text;
-			trace(text);
+			main.addText(text);
 			currChild = xml.child("choices");
 		}
 	
 		public function getChoice(i:int):void {
+			if (currChild.choice[i] == null)
+				return;
+				
 			text = currChild.choice[i].text;
 			currChild = currChild.choice[i].child("choices");
 			trace(text);
+		}
+		
+		public function checkState():int {
+			return -1;	//override
+		}
+		
+		public function finishQuest():void {
+			player.quests.splice(player.quests.indexOf(this), 1);
+			trace("Quest finished\n" + player.quests);
 		}
 		
 		public function checkResource(resource:String, x:Number):Boolean {
