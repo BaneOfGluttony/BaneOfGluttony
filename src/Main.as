@@ -772,8 +772,8 @@
 			return appearanceText;
 		}
 
-		public function writeInventory():String {
-			switch (mainMC.game.state) {
+		public function writeInventory():String {			
+			switch (mainMC.state) {
 				case "inventory" :
 					inventoryText = "Inventory\n\n";
 					for each (var item:Item in player.inventory)
