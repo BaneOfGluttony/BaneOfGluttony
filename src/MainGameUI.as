@@ -4,6 +4,9 @@ package
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.events.TextEvent;
+	import flash.net.navigateToURL;
+	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
 	import Quests.Test;
 	
@@ -27,6 +30,8 @@ package
 
 		public var btnArray:Array;
 		public var player:Player;
+		
+		public const faURL:String = "http://www.furaffinity.net/user/";
 						
 		public function MainGameUI(_main:Main) 
 		{
@@ -281,6 +286,7 @@ package
 			battleUI.btn9.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(battleUI.btn9); });*/
 
 			//Listeners
+			game.mainUI.textField.addEventListener(TextEvent.LINK, linkClicked);
 			game.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyReleased);
 			game.optionsBtn.addEventListener(MouseEvent.CLICK, clickOptions);
 			game.menuUI.appearanceBtn.addEventListener(MouseEvent.CLICK, clickAppearance);
@@ -308,449 +314,204 @@ package
 			main.firstInit();
 		}
 
-			public function down(btn:MovieClip):void {
-				btn.scaleX = 0.9;
-				btn.scaleY = 0.9;
-			}
+		public function down(btn:MovieClip):void {
+			btn.scaleX = 0.9;
+			btn.scaleY = 0.9;
+		}
 
-			public function up(btn:MovieClip):void {
-				btn.scaleX = 1;
-				btn.scaleY = 1;
-			}
+		public function up(btn:MovieClip):void {
+			btn.scaleX = 1;
+			btn.scaleY = 1;
+		}
 
+		public function hideBtnArray():void {
+			for each (var btn:MovieClip in btnArray)
+					btn.visible = false;
+		}
+
+		//Update public functions
+		public function update():void {
+			updateMenuBtns();
+			updateNavBtns();
+			updateMaps();
 			
+			if (player.resources["currCapacity"] <= 0) {
+				main.addResource("Health", -0.05 * player.resources["maxHealth"], 0);
+				if (player.resources["currHealth"] <= 0)
+					main.gameOver(2);
+			}
 			
+			var capDrained:int;
+			if (player.stats["vit"] <= 0.8 * player.resources["maxCapacity"])
+				capDrained = Math.round(0.05 * (player.resources["maxCapacity"] - player.stats["vit"]));
+			else
+				capDrained = Math.round(0.01 * player.resources["maxCapacity"]);
+			
+			if (capDrained > player.resources["currCapacity"]) {
+				capDrained = player.resources["currCapacity"] - capDrained;
+				main.setResource("Capacity", 0, player.resources["maxCapacity"]);
+			} else
+				main.addResource("Capacity", -capDrained, 0);
+			
+			main.addFat(0.03 * capDrained);
+			main.updateStats();
+			updateQuests();
+		}
 
-			public function hideBtnArray():void {
-				for each (var btn:MovieClip in btnArray)
-						btn.visible = false;
+		public function checkBounds(x:int, y:int):Boolean {
+			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1) {
+				//main.addText("Edge of the world.");
+				return false;
+			} else if (World.world[x][y].name == "Wall") {
+				//main.addText("You can't go there");
+				return false;
+			} else {
+				return true;
 			}
+		}
 
-			//Update public functions
-			public function update():void {
-				updateMenuBtns();
-				updateNavBtns();
-				updateMaps();
-				
-				if (player.resources["currCapacity"] <= 0) {
-					main.addResource("Health", -0.05 * player.resources["maxHealth"], 0);
-					if (player.resources["currHealth"] <= 0)
-						main.gameOver(2);
-				}
-				
-				var capDrained:int;
-				if (player.stats["vit"] <= 0.8 * player.resources["maxCapacity"])
-					capDrained = Math.round(0.05 * (player.resources["maxCapacity"] - player.stats["vit"]));
-				else
-					capDrained = Math.round(0.01 * player.resources["maxCapacity"]);
-				
-				if (capDrained > player.resources["currCapacity"]) {
-					capDrained = player.resources["currCapacity"] - capDrained;
-					main.setResource("Capacity", 0, player.resources["maxCapacity"]);
-				} else
-					main.addResource("Capacity", -capDrained, 0);
-				
-				main.addFat(0.03 * capDrained);
-				main.updateStats();
-				updateQuests();
+		public function updateQuests():void {
+			for each (var quest:GameEvent in player.quests) {
+				quest.checkState();
 			}
+		}
 
-			public function checkBounds(x:int, y:int):Boolean {
-				if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1) {
-					//main.addText("Edge of the world.");
-					return false;
-				} else if (World.world[x][y].name == "Wall") {
-					//main.addText("You can't go there");
-					return false;
-				} else {
-					return true;
-				}
+		public function updateMenuBtns():void {
+			if (menuItemSelected || state == "shop" || state == "buying" || state == "selling") {
+				game.menuUI.saveBtn.visible = false;
+				game.menuUI.loadBtn.visible = true;
+				game.menuUI.loadBtn.btnText.text = "Back";
+			} else if (World.world[player.x][player.y].save) {
+				game.menuUI.saveBtn.visible = true;
+				game.menuUI.loadBtn.visible = true;
+			} else if (state == "gameover" || state == "navigate") {
+				game.menuUI.saveBtn.visible = false;
+				game.menuUI.loadBtn.visible = true;
+				game.menuUI.loadBtn.btnText.text = "Load";
+			} else {
+				game.menuUI.saveBtn.visible = false;
+				game.menuUI.loadBtn.visible = false;
 			}
+		}
 
-			public function updateQuests():void {
-				for each (var quest:GameEvent in player.quests) {
-					quest.checkState();
-				}
+		public function updateNavBtns():void {
+			var x:int = player.x;
+			var y:int = player.y;
+			
+			game.btnsUI.btn5.visible = false;
+			game.mainUI.zoneBtn.zoneName.text = World.world[player.x][player.y].name;
+			
+			if (!checkBounds(player.x - 1, player.y - 1) ||
+					World.world[player.x - 1][player.y - 1] == null) {
+				game.btnsUI.btn1.visible = false;
+			} else {
+				game.btnsUI.btn1.visible = true;
+				game.btnsUI.btn1.btnText.text = World.world[player.x - 1][player.y - 1].name;
 			}
-
-			public function updateMenuBtns():void {
-				if (menuItemSelected || state == "shop" || state == "buying" || state == "selling") {
-					game.menuUI.saveBtn.visible = false;
-					game.menuUI.loadBtn.visible = true;
-					game.menuUI.loadBtn.btnText.text = "Back";
-				} else if (World.world[player.x][player.y].save) {
-					game.menuUI.saveBtn.visible = true;
-					game.menuUI.loadBtn.visible = true;
-				} else if (state == "navigate") {
-					game.menuUI.saveBtn.visible = false;
-					game.menuUI.loadBtn.visible = true;
-					game.menuUI.loadBtn.btnText.text = "Load";
-				} else {
-					game.menuUI.saveBtn.visible = false;
-					game.menuUI.loadBtn.visible = false;
-				}
+			
+			if (!checkBounds(player.x, player.y - 1) ||
+					World.world[player.x][player.y - 1] == null) {
+				game.btnsUI.btn2.visible = false;
+			} else {
+				game.btnsUI.btn2.visible = true;
+				game.btnsUI.btn2.btnText.text = World.world[x][y - 1].name;
 			}
-
-			public function updateNavBtns():void {
-				var x:int = player.x;
-				var y:int = player.y;
-				
-				game.btnsUI.btn5.visible = false;
-				game.mainUI.zoneBtn.zoneName.text = World.world[player.x][player.y].name;
-				
-				if (!checkBounds(player.x - 1, player.y - 1) ||
-						World.world[player.x - 1][player.y - 1] == null) {
-					game.btnsUI.btn1.visible = false;
-				} else {
-					game.btnsUI.btn1.visible = true;
-					game.btnsUI.btn1.btnText.text = World.world[player.x - 1][player.y - 1].name;
-				}
-				
-				if (!checkBounds(player.x, player.y - 1) ||
-						World.world[player.x][player.y - 1] == null) {
-					game.btnsUI.btn2.visible = false;
-				} else {
-					game.btnsUI.btn2.visible = true;
-					game.btnsUI.btn2.btnText.text = World.world[x][y - 1].name;
-				}
-				
-				if (!checkBounds(player.x + 1, player.y - 1) ||
-						World.world[player.x + 1][player.y - 1] == null) {
-					game.btnsUI.btn3.visible = false;
-				} else {
-					game.btnsUI.btn3.visible = true;
-					game.btnsUI.btn3.btnText.text = World.world[player.x + 1][player.y - 1].name;
-				}
-				
-				if (!checkBounds(player.x - 1, player.y) ||
-						World.world[player.x - 1][player.y] == null) {
-					game.btnsUI.btn4.visible = false;
-				} else {
-					game.btnsUI.btn4.visible = true;
-					game.btnsUI.btn4.btnText.text = World.world[player.x - 1][player.y].name;
-				}
-				
-				if (World.world[player.x][player.y].enter) {
-					game.btnsUI.btn5.visible = true;
-					game.btnsUI.btn5.btnText.text = "Enter";
-				}
-				
-				if (!checkBounds(player.x + 1, player.y) ||
-						World.world[player.x + 1][player.y] == null) {
-					game.btnsUI.btn6.visible = false;
-				} else {
-					game.btnsUI.btn6.visible = true;
-					game.btnsUI.btn6.btnText.text = World.world[player.x + 1][player.y].name;
-				}
-				
-				if (!checkBounds(player.x - 1, player.y + 1) ||
-						World.world[player.x - 1][player.y + 1] == null) {
-					game.btnsUI.btn7.visible = false;
-				} else {
-					game.btnsUI.btn7.visible = true;
-					game.btnsUI.btn7.btnText.text = World.world[player.x - 1][player.y + 1].name;
-				}
-				
-				if (!checkBounds(player.x, player.y + 1) ||
-						World.world[player.x][player.y + 1] == null) {
-					game.btnsUI.btn8.visible = false;
-				} else {
-					game.btnsUI.btn8.visible = true;
-					game.btnsUI.btn8.btnText.text = World.world[player.x][player.y + 1].name;
-				}
-				
-				if (!checkBounds(player.x + 1, player.y + 1) ||
-						World.world[player.x + 1][player.y + 1] == null) {
-					game.btnsUI.btn9.visible = false;
-				} else {
-					game.btnsUI.btn9.visible = true;
-					game.btnsUI.btn9.btnText.text = World.world[player.x + 1][player.y + 1].name;
-				}
+			
+			if (!checkBounds(player.x + 1, player.y - 1) ||
+					World.world[player.x + 1][player.y - 1] == null) {
+				game.btnsUI.btn3.visible = false;
+			} else {
+				game.btnsUI.btn3.visible = true;
+				game.btnsUI.btn3.btnText.text = World.world[player.x + 1][player.y - 1].name;
 			}
-
-			public function updateMaps():void {
-				var mapMask:MovieClip = new MovieClip();
-				mapMask.graphics.beginFill(0x000000);
-				mapMask.graphics.drawRect(20, 20, 175, 175);
-				mapMask.graphics.endFill();
-				
-				game.mainUI.miniMap.mask = mapMask;
-				game.mainUI.miniMap.x = 350 + 70 - 35 * player.x;
-				game.mainUI.miniMap.y = 70 - 35 * player.y;
-				
-				game.mainUI.bigMarker.x = 552 + 62 * player.x;
-				game.mainUI.bigMarker.y = 62 * player.y;
+			
+			if (!checkBounds(player.x - 1, player.y) ||
+					World.world[player.x - 1][player.y] == null) {
+				game.btnsUI.btn4.visible = false;
+			} else {
+				game.btnsUI.btn4.visible = true;
+				game.btnsUI.btn4.btnText.text = World.world[player.x - 1][player.y].name;
 			}
-
-			//Keyboard handlers
-			public function keyReleased(e:KeyboardEvent):void {
-				/*if (e.keyCode == Keyboard.C)
-					test.getChoice(0);
-				else if (e.keyCode == Keyboard.V)
-					test.getChoice(1);*/
-				
-				//Menus
-				if (e.keyCode == Keyboard.ESCAPE || e.keyCode == Keyboard.EQUAL)
-					openOptions();
-				else if (e.keyCode == Keyboard.U)
-					openAppearance();
-				else if (e.keyCode == Keyboard.I)
-					openInventory();
-				else if (e.keyCode == Keyboard.J)
-					openQuests();
-				else if (e.keyCode == Keyboard.K)
-					openSkills();
-				else if (e.keyCode == Keyboard.M)
-					toggleMap();
-				else if ((e.keyCode == Keyboard.BACKSPACE || e.keyCode == Keyboard.MINUS) &&
-						 game.menuUI.loadBtn.visible && game.menuUI.loadBtn.btnText.text == "Back") {
-					switch (state) {
-						case "appearance" :
-						case "inventory" :
-							if (menuItemSelected)
-								menuConfirm(selectedItem, -1);
-							break;
-						case "shop" :
-						case "buying" :
-						case "selling" :
-							menuConfirm(selectedItem, -1);
-							game.btnsUI.upBtn.visible = false;
-							game.btnsUI.downBtn.visible = false;
-							scrollIndex = 0;
-							break;
-					}
-				}
-				
-				else if ((e.keyCode == Keyboard.PAGE_UP || e.keyCode == Keyboard.LEFTBRACKET) &&
-						game.btnsUI.upBtn.visible) {
-					switch (state) {
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							scrollUp();
-							break;
-						default :
-							break;
-					}
-				}
-				else if ((e.keyCode == Keyboard.PAGE_DOWN || e.keyCode == Keyboard.QUOTE) &&
-						game.btnsUI.downBtn.visible) {
-					switch (state) {
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							scrollDown();
-							break;
-						default :
-							break;
-					}
-				}
-				
-				//Movement
-				else if (game.btnsUI.btn1.visible && e.keyCode == Keyboard.NUMPAD_7) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x - 1][player.y - 1] != null)
-								moveNW();
-							break;
-						case "appearance" :
-							if (menuItemSelected)
-								menuConfirm(selectedItem, 1);
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							if (menuItemSelected)
-								menuConfirm(selectedItem, 1);
-							else
-								menuSelect(0);
-							break;
-						case "shop" :
-							displayBuying();
-							break;
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn2.visible && (e.keyCode == Keyboard.NUMPAD_8 || e.keyCode == Keyboard.UP || e.keyCode == Keyboard.W)) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x][player.y - 1] != null)
-								moveN();
-							break;
-						case "appearance" :
-							menuSelect(1);
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							menuSelect(1);
-							break;
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn3.visible && e.keyCode == Keyboard.NUMPAD_9) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x + 1][player.y - 1] != null)
-								moveNE();
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							if (menuItemSelected)
-								menuConfirm(selectedItem, 0);
-							else
-								menuSelect(2);
-							break;
-						case "shop" :
-							displaySelling();
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn4.visible && (e.keyCode == Keyboard.NUMPAD_4 || e.keyCode == Keyboard.LEFT || e.keyCode == Keyboard.A)) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x - 1][player.y] != null)
-								moveW();
-							break;
-						case "appearance" :
-							menuSelect(3);
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							menuSelect(3);
-							break;
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn5.visible && (e.keyCode == Keyboard.NUMPAD_5 || e.keyCode == Keyboard.ENTER)) {
-					switch (state) {
-						case "navigate"	:
-							moveCenter();
-							break;
-						case "appearance" :
-							menuSelect(4);
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							menuSelect(4);
-							break;
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn6.visible && (e.keyCode == Keyboard.NUMPAD_6 || e.keyCode == Keyboard.RIGHT || e.keyCode == Keyboard.D)) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x + 1][player.y] != null)
-								moveE();
-							break;
-						case "appearance" :
-							menuSelect(5);
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							menuSelect(5);
-							break;
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn7.visible && e.keyCode == Keyboard.NUMPAD_1) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x - 1][player.y + 1] != null)
-								moveSW();
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							menuSelect(6);
-							break;
-						case "shop" :
-							state = "navigate";
-							updateNavBtns();
-							break;
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn8.visible && (e.keyCode == Keyboard.NUMPAD_2 || e.keyCode == Keyboard.DOWN || e.keyCode == Keyboard.S)) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x][player.y + 1] != null)
-								moveS();
-							break;
-						case "appearance" :
-							menuSelect(7);
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							menuSelect(7);
-							break;
-						default	:
-							break;
-					}
-				}
-				else if (game.btnsUI.btn9.visible && e.keyCode == Keyboard.NUMPAD_3) {
-					switch (state) {
-						case "navigate"	:
-							if (World.world[player.x + 1][player.y + 1] != null)
-								moveSE();
-							break;
-						case "appearance" :
-							menuSelect(8);
-							break;
-						case "inventory" :
-						case "buying" :
-						case "selling" :
-							menuSelect(8);
-							break;
-						default	:
-							break;
-					}
-				}
+			
+			if (World.world[player.x][player.y].enter) {
+				game.btnsUI.btn5.visible = true;
+				game.btnsUI.btn5.btnText.text = "Enter";
 			}
+			
+			if (!checkBounds(player.x + 1, player.y) ||
+					World.world[player.x + 1][player.y] == null) {
+				game.btnsUI.btn6.visible = false;
+			} else {
+				game.btnsUI.btn6.visible = true;
+				game.btnsUI.btn6.btnText.text = World.world[player.x + 1][player.y].name;
+			}
+			
+			if (!checkBounds(player.x - 1, player.y + 1) ||
+					World.world[player.x - 1][player.y + 1] == null) {
+				game.btnsUI.btn7.visible = false;
+			} else {
+				game.btnsUI.btn7.visible = true;
+				game.btnsUI.btn7.btnText.text = World.world[player.x - 1][player.y + 1].name;
+			}
+			
+			if (!checkBounds(player.x, player.y + 1) ||
+					World.world[player.x][player.y + 1] == null) {
+				game.btnsUI.btn8.visible = false;
+			} else {
+				game.btnsUI.btn8.visible = true;
+				game.btnsUI.btn8.btnText.text = World.world[player.x][player.y + 1].name;
+			}
+			
+			if (!checkBounds(player.x + 1, player.y + 1) ||
+					World.world[player.x + 1][player.y + 1] == null) {
+				game.btnsUI.btn9.visible = false;
+			} else {
+				game.btnsUI.btn9.visible = true;
+				game.btnsUI.btn9.btnText.text = World.world[player.x + 1][player.y + 1].name;
+			}
+		}
 
-			//Mouse handlers
+		public function updateMaps():void {
+			var mapMask:MovieClip = new MovieClip();
+			mapMask.graphics.beginFill(0x000000);
+			mapMask.graphics.drawRect(20, 20, 175, 175);
+			mapMask.graphics.endFill();
+			
+			game.mainUI.miniMap.mask = mapMask;
+			game.mainUI.miniMap.x = 350 + 70 - 35 * player.x;
+			game.mainUI.miniMap.y = 70 - 35 * player.y;
+			
+			game.mainUI.bigMarker.x = 552 + 62 * player.x;
+			game.mainUI.bigMarker.y = 62 * player.y;
+		}
+
+		public function linkClicked(e:TextEvent):void {
+			navigateToURL(new URLRequest(faURL + e.text), "_blank");
+		}
+		
+		//Keyboard handlers
+		public function keyReleased(e:KeyboardEvent):void {
+			/*if (e.keyCode == Keyboard.C)
+				test.getChoice(0);
+			else if (e.keyCode == Keyboard.V)
+				test.getChoice(1);*/
+			
 			//Menus
-			public function clickOptions(e:MouseEvent):void {
+			if (e.keyCode == Keyboard.ESCAPE || e.keyCode == Keyboard.EQUAL)
 				openOptions();
-			}
-
-			public function clickAppearance(e:MouseEvent):void {
+			else if (e.keyCode == Keyboard.U)
 				openAppearance();
-			}
-
-			public function clickInventory(e:MouseEvent):void {
+			else if (e.keyCode == Keyboard.I)
 				openInventory();
-			}
-
-			public function clickSkills(e:MouseEvent):void {
-				openSkills();
-			}
-
-			public function clickQuests(e:MouseEvent):void {
+			else if (e.keyCode == Keyboard.J)
 				openQuests();
-			}
-
-			public function clickSave(e:MouseEvent):void {
-				main.saveGame();
-			}
-
-			public function clickLoad(e:MouseEvent):void {
+			else if (e.keyCode == Keyboard.K)
+				openSkills();
+			else if (e.keyCode == Keyboard.M)
+				toggleMap();
+			else if ((e.keyCode == Keyboard.BACKSPACE || e.keyCode == Keyboard.MINUS) &&
+					 game.menuUI.loadBtn.visible && game.menuUI.loadBtn.btnText.text == "Back") {
 				switch (state) {
-					case "navigate" :
-						main.loadGame();
-						break;
 					case "appearance" :
 					case "inventory" :
 						if (menuItemSelected)
@@ -766,24 +527,38 @@ package
 						break;
 				}
 			}
-
-			public function clickMap(e:MouseEvent):void {
-				toggleMap();
-			}
-
-			public function clickUpBtn(e:MouseEvent):void {
-				scrollUp();
-			}
-
-			public function clickDownBtn(e:MouseEvent):void {
-				scrollDown();
-			}
-
-			//Movement
-			public function clickNW(e:MouseEvent):void {
+			
+			else if ((e.keyCode == Keyboard.PAGE_UP || e.keyCode == Keyboard.LEFTBRACKET) &&
+					game.btnsUI.upBtn.visible) {
 				switch (state) {
-					case "navigate" :
-						moveNW();
+					case "inventory" :
+					case "buying" :
+					case "selling" :
+						scrollUp();
+						break;
+					default :
+						break;
+				}
+			}
+			else if ((e.keyCode == Keyboard.PAGE_DOWN || e.keyCode == Keyboard.QUOTE) &&
+					game.btnsUI.downBtn.visible) {
+				switch (state) {
+					case "inventory" :
+					case "buying" :
+					case "selling" :
+						scrollDown();
+						break;
+					default :
+						break;
+				}
+			}
+			
+			//Movement
+			else if (game.btnsUI.btn1.visible && e.keyCode == Keyboard.NUMPAD_7) {
+				switch (state) {
+					case "navigate"	:
+						if (World.world[player.x - 1][player.y - 1] != null)
+							moveNW();
 						break;
 					case "appearance" :
 						if (menuItemSelected)
@@ -800,33 +575,33 @@ package
 					case "shop" :
 						displayBuying();
 						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickN(e:MouseEvent):void {
+			else if (game.btnsUI.btn2.visible && (e.keyCode == Keyboard.NUMPAD_8 || e.keyCode == Keyboard.UP || e.keyCode == Keyboard.W)) {
 				switch (state) {
-					case "navigate" :
-						moveN();
+					case "navigate"	:
+						if (World.world[player.x][player.y - 1] != null)
+							moveN();
+						break;
+					case "appearance" :
+						menuSelect(1);
 						break;
 					case "inventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(1);
 						break;
-					case "appearance" :
-						menuSelect(1);
-						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickNE(e:MouseEvent):void {
+			else if (game.btnsUI.btn3.visible && e.keyCode == Keyboard.NUMPAD_9) {
 				switch (state) {
-					case "navigate" :
-						moveNE();
+					case "navigate"	:
+						if (World.world[player.x + 1][player.y - 1] != null)
+							moveNE();
 						break;
 					case "inventory" :
 					case "buying" :
@@ -838,70 +613,68 @@ package
 						break;
 					case "shop" :
 						displaySelling();
-						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickW(e:MouseEvent):void {
+			else if (game.btnsUI.btn4.visible && (e.keyCode == Keyboard.NUMPAD_4 || e.keyCode == Keyboard.LEFT || e.keyCode == Keyboard.A)) {
 				switch (state) {
-					case "navigate" :
-						moveW();
+					case "navigate"	:
+						if (World.world[player.x - 1][player.y] != null)
+							moveW();
+						break;
+					case "appearance" :
+						menuSelect(3);
 						break;
 					case "inventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(3);
 						break;
-					case "appearance" :
-						menuSelect(3);
-						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickCenter(e:MouseEvent):void {
+			else if (game.btnsUI.btn5.visible && (e.keyCode == Keyboard.NUMPAD_5 || e.keyCode == Keyboard.ENTER)) {
 				switch (state) {
-					case "navigate" :
+					case "navigate"	:
 						moveCenter();
 						break;
+					case "appearance" :
+						menuSelect(4);
+						break;
 					case "inventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(4);
 						break;
-					case "appearance" :
-						menuSelect(4);
-						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickE(e:MouseEvent):void {
+			else if (game.btnsUI.btn6.visible && (e.keyCode == Keyboard.NUMPAD_6 || e.keyCode == Keyboard.RIGHT || e.keyCode == Keyboard.D)) {
 				switch (state) {
-					case "navigate" :
-						moveE();
+					case "navigate"	:
+						if (World.world[player.x + 1][player.y] != null)
+							moveE();
+						break;
+					case "appearance" :
+						menuSelect(5);
 						break;
 					case "inventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(5);
 						break;
-					case "appearance" :
-						menuSelect(5);
-						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickSW(e:MouseEvent):void {
+			else if (game.btnsUI.btn7.visible && e.keyCode == Keyboard.NUMPAD_1) {
 				switch (state) {
-					case "navigate" :
-						moveSW();
+					case "navigate"	:
+						if (World.world[player.x - 1][player.y + 1] != null)
+							moveSW();
 						break;
 					case "inventory" :
 					case "buying" :
@@ -912,611 +685,848 @@ package
 						state = "navigate";
 						updateNavBtns();
 						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickS(e:MouseEvent):void {
+			else if (game.btnsUI.btn8.visible && (e.keyCode == Keyboard.NUMPAD_2 || e.keyCode == Keyboard.DOWN || e.keyCode == Keyboard.S)) {
 				switch (state) {
-					case "navigate" :
-						moveS();
+					case "navigate"	:
+						if (World.world[player.x][player.y + 1] != null)
+							moveS();
+						break;
+					case "appearance" :
+						menuSelect(7);
 						break;
 					case "inventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(7);
 						break;
-					case "appearance" :
-						menuSelect(7);
-						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			public function clickSE(e:MouseEvent):void {
+			else if (game.btnsUI.btn9.visible && e.keyCode == Keyboard.NUMPAD_3) {
 				switch (state) {
-					case "navigate" :
-						moveSE();
+					case "navigate"	:
+						if (World.world[player.x + 1][player.y + 1] != null)
+							moveSE();
+						break;
+					case "appearance" :
+						menuSelect(8);
 						break;
 					case "inventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(8);
 						break;
-					case "appearance" :
-						menuSelect(8);
-						break;
-					default :
+					default	:
 						break;
 				}
 			}
-
-			//Menu public function
-			public function scrollUp():void {
-				scrollIndex--;
-				menuIndex = scrollIndex * 9;
-				btnIndex = 0;
-				
-				switch (state) {
-					case "inventory" :
-						displayInventory();
-						break;
-					case "buying" :
-						displayBuying();
-						break;
-					case "selling" :
-						displaySelling();
-						break;
-					default :
-						break;
-				}
-			}
-
-			public function scrollDown():void {
-				scrollIndex++;
-				btnIndex = 0;
-				
-				switch (state) {
-					case "inventory" :
-						displayInventory();
-						break;
-					case "buying" :
-						displayBuying();
-						break;
-					case "selling" :
-						displaySelling();
-						break;
-					default :
-						break;
-				}
-			}
-
-			public function displayInventory():void {
-				main.setText(main.writeInventory());
-				
-				hideBtnArray();
-				game.btnsUI.upBtn.visible = false;
-				game.btnsUI.downBtn.visible = false;
-				btnIndex = 0;
-				menuIndex = scrollIndex * 9;
-				for (var i:int = menuIndex; i < player.inventory.length; i++) {
-					btnArray[btnIndex].visible = true;
-					btnArray[btnIndex].btnText.text = player.inventory[menuIndex].count + "x " + player.inventory[menuIndex].name;
-					
-					btnIndex++;
-					menuIndex++;
-					if (btnIndex > 8)
-						break;
-				}
-				
-				if (scrollIndex > 0)
-					game.btnsUI.upBtn.visible = true;
-				if (player.inventory.length > (scrollIndex  + 1) * 9)
-					game.btnsUI.downBtn.visible = true;
-			}
-
-			public function displayAppearance():void {
-				main.setText(main.writeAppearance());
-				hideBtnArray();
-				
-				if (player.equipment["head"] != null) {
-					game.btnsUI.btn2.visible = true;
-					game.btnsUI.btn2.btnText.text = player.equipment["head"].name;
-				}
-				if (player.equipment["torso"] != null) {
-					game.btnsUI.btn5.visible = true;
-					game.btnsUI.btn5.btnText.text = player.equipment["torso"].name;
-				}
-				if (player.equipment["legs"] != null) {
-					game.btnsUI.btn8.visible = true;
-					game.btnsUI.btn8.btnText.text = player.equipment["legs"].name;
-				}
-				if (player.equipment["feet"] != null) {
-					game.btnsUI.btn9.visible = true;
-					game.btnsUI.btn9.btnText.text = player.equipment["feet"].name;
-				}
-				if (player.equipment["weapon"] != null) {
-					game.btnsUI.btn4.visible = true;
-					game.btnsUI.btn4.btnText.text = player.equipment["weapon"].name;
-					if (player.equipment["weapon"].twoHanded) {
-						game.btnsUI.btn6.visible = true;
-						game.btnsUI.btn6.btnText.text = player.equipment["weapon"].name;
-					}
-				}
-				if (player.equipment["shield"] != null) {
-					game.btnsUI.btn6.visible = true;
-					game.btnsUI.btn6.btnText.text = player.equipment["shield"].name;
-				}
-			}
-
-			public function openOptions():void {
-				switch (state) {
-					case "map" :
-						break;
-					case "options" :
-						state = "navigate";
-						
-						game.optionsBtn.gotoAndStop(1);
-						main.setText(main.mainText);
-						updateMenuBtns();
-						updateNavBtns();
-						break;
-					default :
-						state = "options";
-						
-						game.menuUI.loadBtn.visible = false;
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
-						game.optionsBtn.gotoAndStop(2);
-						game.menuUI.appearanceBtn.gotoAndStop(1);
-						game.menuUI.inventoryBtn.gotoAndStop(1);
-						game.menuUI.skillsBtn.gotoAndStop(1);
-						game.menuUI.questsBtn.gotoAndStop(1);
-						main.setText(main.optionsText);
-						hideBtnArray();
-						updateMenuBtns();
-						break;
-				}
-			}
-
-			public function openAppearance():void {
-				switch (state) {
-					case "map" :
-						break;
-					case "appearance" :
-						state = "navigate";
-						
-						game.menuUI.appearanceBtn.gotoAndStop(1);
-						main.setText(main.mainText);
-						updateMenuBtns();
-						updateNavBtns();
-						break;
-					default :
-						state = "appearance";
-						
-						game.menuUI.loadBtn.visible = false;
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
-						game.optionsBtn.gotoAndStop(1);
-						game.menuUI.appearanceBtn.gotoAndStop(2);
-						game.menuUI.inventoryBtn.gotoAndStop(1);
-						game.menuUI.skillsBtn.gotoAndStop(1);
-						game.menuUI.questsBtn.gotoAndStop(1);
-						
-						updateMenuBtns();
-						main.setText(main.writeAppearance());
-						displayAppearance();
-						break;
-				}
-			}
-
-			public function openInventory():void {
-				switch (state) {
-					case "map" :
-						break;
-					case "inventory" :
-						btnIndex = 0;
-						menuIndex = 0;
-						scrollIndex = 0;
-						
-						state = "navigate";
-						
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
-						game.menuUI.inventoryBtn.gotoAndStop(1);
-						main.setText(main.mainText);
-						updateMenuBtns();
-						updateNavBtns();
-						break;
-					default :
-						state = "inventory";
-						
-						game.menuUI.loadBtn.visible = false;
-						game.optionsBtn.gotoAndStop(1);
-						game.menuUI.appearanceBtn.gotoAndStop(1);
-						game.menuUI.inventoryBtn.gotoAndStop(2);
-						game.menuUI.skillsBtn.gotoAndStop(1);
-						game.menuUI.questsBtn.gotoAndStop(1);
-						
-						updateMenuBtns();
-						main.setText(main.writeInventory());
-						btnIndex = 0;
-						menuIndex = 0;
-						scrollIndex = 0;
-						displayInventory();
-						break;
-				}
-			}
-
-			public function openSkills():void {	//Needs to work like inventory
-				switch (state) {
-					case "map" :
-						break;
-					case "skills" :
-						state = "navigate";
-						
-						game.menuUI.skillsBtn.gotoAndStop(1);
-						updateMenuBtns();
-						updateNavBtns();
-						main.setText(main.mainText);
-						break;
-					default :
-						state = "skills";
-						
-						game.menuUI.loadBtn.visible = false;
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
-						game.optionsBtn.gotoAndStop(1);
-						game.menuUI.appearanceBtn.gotoAndStop(1);
-						game.menuUI.inventoryBtn.gotoAndStop(1);
-						game.menuUI.skillsBtn.gotoAndStop(2);
-						game.menuUI.questsBtn.gotoAndStop(1);
-						hideBtnArray();
-						
-						updateMenuBtns();
-						main.setText(main.skillsText);
-						break;
-				}
-			}
-
-			public function openQuests():void {
-				switch (state) {
-					case "map" :
-						break;
-					case "quests" :
-						state = "navigate";
-						
-						game.menuUI.questsBtn.gotoAndStop(1);
-						updateMenuBtns();
-						updateNavBtns();
-						main.setText(main.mainText);
-						break;
-					default :
-						state = "quests"
-						
-						game.menuUI.loadBtn.visible = false;
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
-						game.optionsBtn.gotoAndStop(1);
-						game.menuUI.appearanceBtn.gotoAndStop(1);
-						game.menuUI.inventoryBtn.gotoAndStop(1);
-						game.menuUI.skillsBtn.gotoAndStop(1);
-						game.menuUI.questsBtn.gotoAndStop(2);
-						hideBtnArray();
-						
-						updateMenuBtns();
-						main.setText(main.questsText);
-						break;
-				}
-			}
-
-			public function toggleMap():void {
-				switch (state) {
-					case "map" :
-						state = "navigate"
-						
-						game.optionsBtn.visible = true;
-						game.mainUI.bigMap.visible = false;
-						game.mainUI.bigMarker.visible = false;
-						game.mainUI.textField.visible = true;
-						game.mainUI.scrollBar.visible = true;
-						game.menuUI.appearanceBtn.visible = true;
-						game.menuUI.inventoryBtn.visible = true;
-						game.menuUI.skillsBtn.visible = true;
-						game.menuUI.questsBtn.visible = true;
-						updateNavBtns();
-						updateMenuBtns()
-						break;
-					case "navigate" :
-						state = "map";
-						
-						game.menuUI.loadBtn.visible = false;
-						game.optionsBtn.visible = false;
-						game.mainUI.bigMap.visible = true;
-						game.mainUI.bigMarker.visible = true;
-						game.mainUI.textField.visible = false;
-						game.mainUI.scrollBar.visible = false;
-						game.menuUI.appearanceBtn.visible = false;
-						game.menuUI.inventoryBtn.visible = false;
-						game.menuUI.skillsBtn.visible = false;
-						game.menuUI.questsBtn.visible = false;
-						game.menuUI.saveBtn.visible = false;
-						game.menuUI.loadBtn.visible = false;
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
-						hideBtnArray();
-						break;
-					default :
-						break;
-				}
-			}
-
-			public function menuSelect(x:int):void {
-				var selection:String = btnArray[x].btnText.text;
-				
-				switch (state) {
-					case "appearance" :
-						menuItemSelected = true;
-						var equip:Item = ItemDefinitions.getItem(selection);
-						main.setText(equip.name + "\n\n" + equip.short + " " + equip.long);
-						selectedItem = equip;
-						
-						hideBtnArray();
-						game.btnsUI.btn1.visible = true;
-						game.btnsUI.btn1.btnText.text = "main.unequip";
-						break;
-					case "inventory" :
-						menuItemSelected = true;
-						selection = selection.substring(selection.indexOf("x") + 2);
-						var item:Item = player.inventory[player.indexOfInventory(ItemDefinitions.getItem(selection))];
-						main.setText(item.name + " -- " + item.count + "x\n\n" + item.short + " " + item.long);
-						selectedItem = item;
-						
-						hideBtnArray();
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
-						game.btnsUI.btn1.visible = true;
-						if (item.equip)
-							game.btnsUI.btn1.btnText.text = "Equip";
-						else
-							game.btnsUI.btn1.btnText.text = "Use";
-						game.btnsUI.btn3.visible = true;
-						game.btnsUI.btn3.btnText.text = "Discard";
-						break;
-					case "buying" :
-						menuItemSelected = false;
-						var buying:Item = ItemDefinitions.getItem(selection);
-						
-						if (main.buy(buying))
-							main.setText(main.writeStock());
-						else
-							main.addText("You don't have enough gold to buy that.");
-						break;
-					case "selling" :
-						menuItemSelected = false;
-						selection = selection.substring(selection.indexOf("x") + 2);
-						var selling:Item = player.inventory[player.indexOfInventory(ItemDefinitions.getItem(selection))];
-						
-						if (main.sell(selling)) {
-							main.setText(main.writeInventory());
-							displaySelling();
-						} else
-							main.addText("You can't sell that.");
-						break;
-					default :
-						break;
-				}
-				updateMenuBtns();
-			}
-
-			public function menuConfirm(object:Object, selection:int):void {
-				switch (state) {
-					case "appearance" :
-						var equip:Item = object as Item;
-					
-						if (selection == 1) {
-							main.unequip(equip);
-						}
-						
-						menuItemSelected = false;
-						displayAppearance();
-						break;
-					case "inventory" :
-						var item:Item = object as Item;
-						
-						menuItemSelected = false;
-						if (selection == 0) {
-							main.drop(item, 1);
-						} else if (selection == 1) {
-							if (!main.useItem(item))
-								return;
-						}
-						
-						displayInventory();
-						break;
-					case "shop" :
-						state = "navigate";
-						main.setText(main.mainText);
-						updateMenuBtns();
-						updateNavBtns();
-						break;
-					case "buying" :
-					case "selling" :
-						state = "shop";
-						enterShop(World.world[player.x][player.y]);
-						break;
-					default :
-						break;
-				}
-				updateMenuBtns();
-			}
-
-			//Navigation
-			public function travel(x:int, y:int):void {
-				var oldX:int = player.x;
-				var oldY:int = player.y;
-				
-				player.x = x;
-				player.y = y;
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				updateMenuBtns();
-				updateNavBtns();
-				updateMaps();
-			}
-
-			public function moveNW():void {
-				player.x--;
-				player.y--;
-				
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			public function moveN():void {
-				player.y--;
-
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			public function moveNE():void {
-				player.x++;
-				player.y--;
-				
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			public function moveW():void {
-				player.x--;
-
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			public function moveCenter():void {
-				var zone:Zone = World.world[player.x][player.y];
-				
-				if (zone.items != null) {
-					enterShop(zone);
-				}
-			}
-
-			public function moveE():void {
-				player.x++;
-
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			public function moveSW():void {
-				player.x--;
-				player.y++;
-				
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			public function moveS():void {
-				player.y++;
-
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			public function moveSE():void {
-				player.x++;
-				player.y++;
-				
-				main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-					World.world[player.x][player.y].name + "\n" +
-					World.world[player.x][player.y].text;
-				
-				main.setText(main.mainText);
-				update();
-			}
-
-			//Shop public functions
-			public function enterShop(zone:Zone):void {
-				state = "shop";
-				
-				main.setText(main.mainText);
-				updateMenuBtns();
-				
-				hideBtnArray();
-				game.btnsUI.btn1.visible = true;
-				game.btnsUI.btn1.btnText.text = "Buy";
-				game.btnsUI.btn3.visible = true;
-				game.btnsUI.btn3.btnText.text = "Sell";
-			}
-
-			public function displayBuying():void {
-				state = "buying";
-				
-				var zone:Zone = World.world[player.x][player.y];
-				main.setText(main.writeStock());
-				
-				hideBtnArray();
-				game.btnsUI.upBtn.visible = false;
-				game.btnsUI.downBtn.visible = false;
-				btnIndex = 0;
-				menuIndex = scrollIndex * 9;
-				for (var i:int = menuIndex; i < zone.stock.length; i++) {
-					btnArray[btnIndex].visible = true;
-					btnArray[btnIndex].btnText.text = zone.stock[menuIndex].name;
-					
-					btnIndex++;
-					menuIndex++;
-					if (btnIndex > 8)
-						break;
-				}
-				
-				if (scrollIndex > 0)
-					game.btnsUI.upBtn.visible = true;
-				if (zone.stock.length > (scrollIndex  + 1) * 9)
-					game.btnsUI.downBtn.visible = true;
-			}
-
-			public function displaySelling():void {
-				state = "selling";
-				
-				displayInventory();
-			}
-
 		}
+
+		//Mouse handlers
+		//Menus
+		public function clickOptions(e:MouseEvent):void {
+			openOptions();
+		}
+
+		public function clickAppearance(e:MouseEvent):void {
+			openAppearance();
+		}
+
+		public function clickInventory(e:MouseEvent):void {
+			openInventory();
+		}
+
+		public function clickSkills(e:MouseEvent):void {
+			openSkills();
+		}
+
+		public function clickQuests(e:MouseEvent):void {
+			openQuests();
+		}
+
+		public function clickSave(e:MouseEvent):void {
+			main.saveGame();
+		}
+
+		public function clickLoad(e:MouseEvent):void {
+			switch (state) {
+				case "gameover" :
+				case "navigate" :
+					main.loadGame();
+					break;
+				case "appearance" :
+				case "inventory" :
+					if (menuItemSelected)
+						menuConfirm(selectedItem, -1);
+					break;
+				case "shop" :
+				case "buying" :
+				case "selling" :
+					menuConfirm(selectedItem, -1);
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					scrollIndex = 0;
+					break;
+			}
+		}
+
+		public function clickMap(e:MouseEvent):void {
+			toggleMap();
+		}
+
+		public function clickUpBtn(e:MouseEvent):void {
+			scrollUp();
+		}
+
+		public function clickDownBtn(e:MouseEvent):void {
+			scrollDown();
+		}
+
+		//Movement
+		public function clickNW(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveNW();
+					break;
+				case "appearance" :
+					if (menuItemSelected)
+						menuConfirm(selectedItem, 1);
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					if (menuItemSelected)
+						menuConfirm(selectedItem, 1);
+					else
+						menuSelect(0);
+					break;
+				case "shop" :
+					displayBuying();
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickN(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveN();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					menuSelect(1);
+					break;
+				case "appearance" :
+					menuSelect(1);
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickNE(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveNE();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					if (menuItemSelected)
+						menuConfirm(selectedItem, 0);
+					else
+						menuSelect(2);
+					break;
+				case "shop" :
+					displaySelling();
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickW(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveW();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					menuSelect(3);
+					break;
+				case "appearance" :
+					menuSelect(3);
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickCenter(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveCenter();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					menuSelect(4);
+					break;
+				case "appearance" :
+					menuSelect(4);
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickE(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveE();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					menuSelect(5);
+					break;
+				case "appearance" :
+					menuSelect(5);
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickSW(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveSW();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					menuSelect(6);
+					break;
+				case "shop" :
+					state = "navigate";
+					updateNavBtns();
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickS(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveS();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					menuSelect(7);
+					break;
+				case "appearance" :
+					menuSelect(7);
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function clickSE(e:MouseEvent):void {
+			switch (state) {
+				case "navigate" :
+					moveSE();
+					break;
+				case "inventory" :
+				case "buying" :
+				case "selling" :
+					menuSelect(8);
+					break;
+				case "appearance" :
+					menuSelect(8);
+					break;
+				default :
+					break;
+			}
+		}
+
+		//Menu public function
+		public function scrollUp():void {
+			scrollIndex--;
+			menuIndex = scrollIndex * 9;
+			btnIndex = 0;
+			
+			switch (state) {
+				case "inventory" :
+					displayInventory();
+					break;
+				case "buying" :
+					displayBuying();
+					break;
+				case "selling" :
+					displaySelling();
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function scrollDown():void {
+			scrollIndex++;
+			btnIndex = 0;
+			
+			switch (state) {
+				case "inventory" :
+					displayInventory();
+					break;
+				case "buying" :
+					displayBuying();
+					break;
+				case "selling" :
+					displaySelling();
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function displayInventory():void {
+			main.setText(main.writeInventory());
+			
+			hideBtnArray();
+			game.btnsUI.upBtn.visible = false;
+			game.btnsUI.downBtn.visible = false;
+			btnIndex = 0;
+			menuIndex = scrollIndex * 9;
+			for (var i:int = menuIndex; i < player.inventory.length; i++) {
+				btnArray[btnIndex].visible = true;
+				btnArray[btnIndex].btnText.text = player.inventory[menuIndex].count + "x " + player.inventory[menuIndex].name;
+				
+				btnIndex++;
+				menuIndex++;
+				if (btnIndex > 8)
+					break;
+			}
+			
+			if (scrollIndex > 0)
+				game.btnsUI.upBtn.visible = true;
+			if (player.inventory.length > (scrollIndex  + 1) * 9)
+				game.btnsUI.downBtn.visible = true;
+		}
+
+		public function displayAppearance():void {
+			main.setText(main.writeAppearance());
+			hideBtnArray();
+			
+			if (player.equipment["head"] != null) {
+				game.btnsUI.btn2.visible = true;
+				game.btnsUI.btn2.btnText.text = player.equipment["head"].name;
+			}
+			if (player.equipment["torso"] != null) {
+				game.btnsUI.btn5.visible = true;
+				game.btnsUI.btn5.btnText.text = player.equipment["torso"].name;
+			}
+			if (player.equipment["legs"] != null) {
+				game.btnsUI.btn8.visible = true;
+				game.btnsUI.btn8.btnText.text = player.equipment["legs"].name;
+			}
+			if (player.equipment["feet"] != null) {
+				game.btnsUI.btn9.visible = true;
+				game.btnsUI.btn9.btnText.text = player.equipment["feet"].name;
+			}
+			if (player.equipment["weapon"] != null) {
+				game.btnsUI.btn4.visible = true;
+				game.btnsUI.btn4.btnText.text = player.equipment["weapon"].name;
+				if (player.equipment["weapon"].twoHanded) {
+					game.btnsUI.btn6.visible = true;
+					game.btnsUI.btn6.btnText.text = player.equipment["weapon"].name;
+				}
+			}
+			if (player.equipment["shield"] != null) {
+				game.btnsUI.btn6.visible = true;
+				game.btnsUI.btn6.btnText.text = player.equipment["shield"].name;
+			}
+		}
+
+		public function openOptions():void {
+			switch (state) {
+				case "gameover" :
+				case "map" :
+					break;
+				case "options" :
+					state = "navigate";
+					
+					game.optionsBtn.gotoAndStop(1);
+					main.setText(main.mainText);
+					updateMenuBtns();
+					updateNavBtns();
+					break;
+				default :
+					state = "options";
+					
+					game.menuUI.loadBtn.visible = false;
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.optionsBtn.gotoAndStop(2);
+					game.menuUI.appearanceBtn.gotoAndStop(1);
+					game.menuUI.inventoryBtn.gotoAndStop(1);
+					game.menuUI.skillsBtn.gotoAndStop(1);
+					game.menuUI.questsBtn.gotoAndStop(1);
+					game.mainUI.textField.htmlText = main.optionsText;
+					//main.setText(main.optionsText);
+					hideBtnArray();
+					updateMenuBtns();
+					break;
+			}
+		}
+
+		public function openAppearance():void {
+			switch (state) {
+				case "map" :
+					break;
+				case "appearance" :
+					state = "navigate";
+					
+					game.menuUI.appearanceBtn.gotoAndStop(1);
+					main.setText(main.mainText);
+					updateMenuBtns();
+					updateNavBtns();
+					break;
+				default :
+					state = "appearance";
+					
+					game.menuUI.loadBtn.visible = false;
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.optionsBtn.gotoAndStop(1);
+					game.menuUI.appearanceBtn.gotoAndStop(2);
+					game.menuUI.inventoryBtn.gotoAndStop(1);
+					game.menuUI.skillsBtn.gotoAndStop(1);
+					game.menuUI.questsBtn.gotoAndStop(1);
+					
+					updateMenuBtns();
+					main.setText(main.writeAppearance());
+					displayAppearance();
+					break;
+			}
+		}
+
+		public function openInventory():void {
+			switch (state) {
+				case "map" :
+					break;
+				case "inventory" :
+					btnIndex = 0;
+					menuIndex = 0;
+					scrollIndex = 0;
+					
+					state = "navigate";
+					
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.menuUI.inventoryBtn.gotoAndStop(1);
+					main.setText(main.mainText);
+					updateMenuBtns();
+					updateNavBtns();
+					break;
+				default :
+					state = "inventory";
+					
+					game.menuUI.loadBtn.visible = false;
+					game.optionsBtn.gotoAndStop(1);
+					game.menuUI.appearanceBtn.gotoAndStop(1);
+					game.menuUI.inventoryBtn.gotoAndStop(2);
+					game.menuUI.skillsBtn.gotoAndStop(1);
+					game.menuUI.questsBtn.gotoAndStop(1);
+					
+					updateMenuBtns();
+					main.setText(main.writeInventory());
+					btnIndex = 0;
+					menuIndex = 0;
+					scrollIndex = 0;
+					displayInventory();
+					break;
+			}
+		}
+
+		public function openSkills():void {	//Needs to work like inventory
+			switch (state) {
+				case "map" :
+					break;
+				case "skills" :
+					state = "navigate";
+					
+					game.menuUI.skillsBtn.gotoAndStop(1);
+					updateMenuBtns();
+					updateNavBtns();
+					main.setText(main.mainText);
+					break;
+				default :
+					state = "skills";
+					
+					game.menuUI.loadBtn.visible = false;
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.optionsBtn.gotoAndStop(1);
+					game.menuUI.appearanceBtn.gotoAndStop(1);
+					game.menuUI.inventoryBtn.gotoAndStop(1);
+					game.menuUI.skillsBtn.gotoAndStop(2);
+					game.menuUI.questsBtn.gotoAndStop(1);
+					hideBtnArray();
+					
+					updateMenuBtns();
+					main.setText(main.skillsText);
+					break;
+			}
+		}
+
+		public function openQuests():void {
+			switch (state) {
+				case "map" :
+					break;
+				case "quests" :
+					state = "navigate";
+					
+					game.menuUI.questsBtn.gotoAndStop(1);
+					updateMenuBtns();
+					updateNavBtns();
+					main.setText(main.mainText);
+					break;
+				default :
+					state = "quests"
+					
+					game.menuUI.loadBtn.visible = false;
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.optionsBtn.gotoAndStop(1);
+					game.menuUI.appearanceBtn.gotoAndStop(1);
+					game.menuUI.inventoryBtn.gotoAndStop(1);
+					game.menuUI.skillsBtn.gotoAndStop(1);
+					game.menuUI.questsBtn.gotoAndStop(2);
+					hideBtnArray();
+					
+					updateMenuBtns();
+					main.setText(main.questsText);
+					break;
+			}
+		}
+
+		public function toggleMap():void {
+			switch (state) {
+				case "map" :
+					state = "navigate"
+					
+					game.optionsBtn.visible = true;
+					game.mainUI.bigMap.visible = false;
+					game.mainUI.bigMarker.visible = false;
+					game.mainUI.textField.visible = true;
+					game.mainUI.scrollBar.visible = true;
+					game.menuUI.appearanceBtn.visible = true;
+					game.menuUI.inventoryBtn.visible = true;
+					game.menuUI.skillsBtn.visible = true;
+					game.menuUI.questsBtn.visible = true;
+					updateNavBtns();
+					updateMenuBtns()
+					break;
+				case "navigate" :
+					state = "map";
+					
+					game.menuUI.loadBtn.visible = false;
+					game.optionsBtn.visible = false;
+					game.mainUI.bigMap.visible = true;
+					game.mainUI.bigMarker.visible = true;
+					game.mainUI.textField.visible = false;
+					game.mainUI.scrollBar.visible = false;
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = false;
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					hideBtnArray();
+					break;
+				default :
+					break;
+			}
+		}
+
+		public function menuSelect(x:int):void {
+			var selection:String = btnArray[x].btnText.text;
+			
+			switch (state) {
+				case "appearance" :
+					menuItemSelected = true;
+					var equip:Item = ItemDefinitions.getItem(selection);
+					main.setText(equip.name + "\n\n" + equip.short + " " + equip.long);
+					selectedItem = equip;
+					
+					hideBtnArray();
+					game.btnsUI.btn1.visible = true;
+					game.btnsUI.btn1.btnText.text = "Unequip";
+					break;
+				case "inventory" :
+					menuItemSelected = true;
+					selection = selection.substring(selection.indexOf("x") + 2);
+					var item:Item = player.inventory[player.indexOfInventory(ItemDefinitions.getItem(selection))];
+					main.setText(item.name + " -- " + item.count + "x\n\n" + item.short + " " + item.long);
+					selectedItem = item;
+					
+					hideBtnArray();
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.btnsUI.btn1.visible = true;
+					if (item.equip)
+						game.btnsUI.btn1.btnText.text = "Equip";
+					else
+						game.btnsUI.btn1.btnText.text = "Use";
+					game.btnsUI.btn3.visible = true;
+					game.btnsUI.btn3.btnText.text = "Discard";
+					break;
+				case "buying" :
+					menuItemSelected = false;
+					var buying:Item = ItemDefinitions.getItem(selection);
+					
+					if (main.buy(buying))
+						main.setText(main.writeStock());
+					else
+						main.addText("You don't have enough gold to buy that.");
+					break;
+				case "selling" :
+					menuItemSelected = false;
+					selection = selection.substring(selection.indexOf("x") + 2);
+					var selling:Item = player.inventory[player.indexOfInventory(ItemDefinitions.getItem(selection))];
+					
+					if (main.sell(selling)) {
+						main.setText(main.writeInventory());
+						displaySelling();
+					} else
+						main.addText("You can't sell that.");
+					break;
+				default :
+					break;
+			}
+			updateMenuBtns();
+		}
+
+		public function menuConfirm(object:Object, selection:int):void {
+			switch (state) {
+				case "appearance" :
+					var equip:Item = object as Item;
+				
+					if (selection == 1) {
+						main.unequip(equip);
+					}
+					
+					menuItemSelected = false;
+					displayAppearance();
+					break;
+				case "inventory" :
+					var item:Item = object as Item;
+					
+					menuItemSelected = false;
+					if (selection == 0) {
+						main.drop(item, 1);
+					} else if (selection == 1) {
+						if (!main.useItem(item))
+							return;
+					}
+					
+					displayInventory();
+					break;
+				case "shop" :
+					state = "navigate";
+					main.setText(main.mainText);
+					updateMenuBtns();
+					updateNavBtns();
+					break;
+				case "buying" :
+				case "selling" :
+					state = "shop";
+					enterShop(World.world[player.x][player.y]);
+					break;
+				default :
+					break;
+			}
+			updateMenuBtns();
+		}
+
+		//Navigation
+		public function travel(x:int, y:int):void {
+			var oldX:int = player.x;
+			var oldY:int = player.y;
+			
+			player.x = x;
+			player.y = y;
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			updateMenuBtns();
+			updateNavBtns();
+			updateMaps();
+		}
+
+		public function moveNW():void {
+			player.x--;
+			player.y--;
+			
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		public function moveN():void {
+			player.y--;
+
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		public function moveNE():void {
+			player.x++;
+			player.y--;
+			
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		public function moveW():void {
+			player.x--;
+
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		public function moveCenter():void {
+			var zone:Zone = World.world[player.x][player.y];
+			
+			if (zone.items != null) {
+				enterShop(zone);
+			}
+		}
+
+		public function moveE():void {
+			player.x++;
+
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		public function moveSW():void {
+			player.x--;
+			player.y++;
+			
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		public function moveS():void {
+			player.y++;
+
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		public function moveSE():void {
+			player.x++;
+			player.y++;
+			
+			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
+				World.world[player.x][player.y].name + "\n" +
+				World.world[player.x][player.y].text;
+			
+			main.setText(main.mainText);
+			update();
+		}
+
+		//Shop public functions
+		public function enterShop(zone:Zone):void {
+			state = "shop";
+			
+			main.setText(main.mainText);
+			updateMenuBtns();
+			
+			hideBtnArray();
+			game.btnsUI.btn1.visible = true;
+			game.btnsUI.btn1.btnText.text = "Buy";
+			game.btnsUI.btn3.visible = true;
+			game.btnsUI.btn3.btnText.text = "Sell";
+		}
+
+		public function displayBuying():void {
+			state = "buying";
+			
+			var zone:Zone = World.world[player.x][player.y];
+			main.setText(main.writeStock());
+			
+			hideBtnArray();
+			game.btnsUI.upBtn.visible = false;
+			game.btnsUI.downBtn.visible = false;
+			btnIndex = 0;
+			menuIndex = scrollIndex * 9;
+			for (var i:int = menuIndex; i < zone.stock.length; i++) {
+				btnArray[btnIndex].visible = true;
+				btnArray[btnIndex].btnText.text = zone.stock[menuIndex].name;
+				
+				btnIndex++;
+				menuIndex++;
+				if (btnIndex > 8)
+					break;
+			}
+			
+			if (scrollIndex > 0)
+				game.btnsUI.upBtn.visible = true;
+			if (zone.stock.length > (scrollIndex  + 1) * 9)
+				game.btnsUI.downBtn.visible = true;
+		}
+
+		public function displaySelling():void {
+			state = "selling";
+			
+			displayInventory();
+		}
+
+	}
 
 }
