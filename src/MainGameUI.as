@@ -228,58 +228,6 @@ package
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.combatUI.surrenderBtn); });
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.combatUI.surrenderBtn); });
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.combatUI.surrenderBtn); });
-			combatUI.btn1.mouseChildren = false;
-			combatUI.btn1.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn1); });
-			combatUI.btn1.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn1); });
-			combatUI.btn1.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn1); });
-
-			combatUI.btn2.buttonMode = true;
-			combatUI.btn2.mouseChildren = false;
-			combatUI.btn2.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn2); });
-			combatUI.btn2.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn2); });
-			combatUI.btn2.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn2); });
-
-			combatUI.btn3.buttonMode = true;
-			combatUI.btn3.mouseChildren = false;
-			combatUI.btn3.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn3); });
-			combatUI.btn3.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn3); });
-			combatUI.btn3.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn3); });
-
-			combatUI.btn4.buttonMode = true;
-			combatUI.btn4.mouseChildren = false;
-			combatUI.btn4.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn4); });
-			combatUI.btn4.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn4); });
-			combatUI.btn4.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn4); });
-
-			combatUI.btn5.buttonMode = true;
-			combatUI.btn5.mouseChildren = false;
-			combatUI.btn5.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn5); });
-			combatUI.btn5.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn5); });
-			combatUI.btn5.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn5); });
-
-			combatUI.btn6.buttonMode = true;
-			combatUI.btn6.mouseChildren = false;
-			combatUI.btn6.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn6); });
-			combatUI.btn6.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn6); });
-			combatUI.btn6.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn6); });
-
-			combatUI.btn7.buttonMode = true;
-			combatUI.btn7.mouseChildren = false;
-			combatUI.btn7.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn7); });
-			combatUI.btn7.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn7); });
-			combatUI.btn7.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn7); });
-
-			combatUI.btn8.buttonMode = true;
-			combatUI.btn8.mouseChildren = false;
-			combatUI.btn8.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn8); });
-			combatUI.btn8.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn8); });
-			combatUI.btn8.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn8); });
-
-			combatUI.btn9.buttonMode = true;
-			combatUI.btn9.mouseChildren = false;
-			combatUI.btn9.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(combatUI.btn9); });
-			combatUI.btn9.addEventListener(MouseEvent.MOUSE_UP, function():void { up(combatUI.btn9); });
-			combatUI.btn9.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(combatUI.btn9); });*/
 
 			//Listeners
 			game.mainUI.textField.addEventListener(TextEvent.LINK, linkClicked);
