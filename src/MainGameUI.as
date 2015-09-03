@@ -58,20 +58,22 @@ package
 			game.mainUI.bigMarker.visible = false;	
 			game.btnsUI.upBtn.visible = false;
 			game.btnsUI.downBtn.visible = false;
+			game.battleUI.visible = false;
 			
 			updateMaps();
-								 
+			
 			game.optionsBtn.stop();
 			game.menuUI.appearanceBtn.stop();
 			game.menuUI.inventoryBtn.stop();
 			game.menuUI.skillsBtn.stop();
 			game.menuUI.questsBtn.stop();
 
-			/*battleUI.attackBtn.stop();
-			battleUI.inventoryBtn.stop();
-			battleUI.skillsBtn.stop();
-			battleUI.runBtn.stop();
-			battleUI.surrenderBtn.stop();*/
+			game.battleUI.attackBtn.stop();
+			game.battleUI.inventoryBtn.stop();
+			game.battleUI.skillsBtn.stop();
+			game.battleUI.runBtn.stop();
+			game.battleUI.devourBtn.stop();
+			game.battleUI.surrenderBtn.stop();
 
 			//Button handling
 			game.optionsBtn.buttonMode = true;
@@ -1527,6 +1529,9 @@ package
 			displayInventory();
 		}
 
+		public function startCombat():void {
+			
+		}
 	}
 
 }
