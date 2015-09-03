@@ -55,6 +55,9 @@
 			addExp(0);
 			setGold(500);
 			
+			reInit();
+			
+			/*TEST BLOCK*/
 			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			drop(ItemDefinitions.getItem("Sword"), 1);
@@ -98,7 +101,7 @@
 			setGold(245);
 			addExp(196);*/
 			
-			reInit();
+			mainMC.startCombat(EnemyDefinitions.definitions["Slime"]);
 		}
 		
 		public function reInit():void {
