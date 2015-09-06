@@ -23,6 +23,10 @@
 			
 		}
 		
+		public function getItemFromInventory(item:Item):Item {
+			return inventory[indexOfInventory(item)];
+		}
+		
 		public function indexOfInventory(item:Item):int {
 			for (var i:int = 0; i < inventory.length; i++) {
 				if (inventory[i].name == item.name)

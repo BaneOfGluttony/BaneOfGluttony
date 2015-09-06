@@ -273,7 +273,7 @@ package
 					btn.visible = false;
 		}
 
-		//Update public functions
+		//{ Update functions
 		public function update():void {
 			updateMenuBtns();
 			updateNavBtns();
@@ -321,21 +321,90 @@ package
 		}
 
 		public function updateMenuBtns():void {
-			if (menuItemSelected || state == "shop" || state == "buying" || state == "selling") {
+			trace("state = " + state);
+			game.menuUI.appearanceBtn.visible = true;
+			game.menuUI.inventoryBtn.visible = true;
+			game.menuUI.skillsBtn.visible = true;
+			game.menuUI.questsBtn.visible = true;
+			
+			switch (state) {
+				case "navigate" :
+					if (World.world[player.x][player.y].save) {
+						game.menuUI.saveBtn.visible = true;
+						game.menuUI.loadBtn.visible = true;
+					} else {
+						game.menuUI.saveBtn.visible = false;
+						game.menuUI.loadBtn.visible = true;
+						game.menuUI.loadBtn.btnText.text = "Load";
+					}
+					break;
+				case "inventory" :
+				case "appearance" :
+					if (menuItemSelected) {
+						game.menuUI.saveBtn.visible = false;
+						game.menuUI.loadBtn.visible = true;
+						game.menuUI.loadBtn.btnText.text = "Back";
+					}
+					break;
+				case "shop" :
+				case "buying" :
+				case "selling" :
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Back";
+					break;
+				case "map" :
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = false;
+					break;
+				case "gameover" :
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Load";
+					break;
+				default :
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = false;
+					break;
+			}
+			/*if (menuItemSelected || state == "shop" || state == "buying" || state == "selling") {
 				game.menuUI.saveBtn.visible = false;
 				game.menuUI.loadBtn.visible = true;
 				game.menuUI.loadBtn.btnText.text = "Back";
 			} else if (World.world[player.x][player.y].save) {
 				game.menuUI.saveBtn.visible = true;
 				game.menuUI.loadBtn.visible = true;
-			} else if (state == "gameover" || state == "navigate") {
+			} else if (state == "gameover") {
+				game.menuUI.appearanceBtn.visible = false;
+				game.menuUI.inventoryBtn.visible = false;
+				game.menuUI.skillsBtn.visible = false;
+				game.menuUI.questsBtn.visible = false;
+				game.menuUI.saveBtn.visible = false;
+				game.menuUI.loadBtn.visible = true;
+				game.menuUI.loadBtn.btnText.text = "Load";
+			} else if (state == "map") {
+				game.menuUI.appearanceBtn.visible = false;
+				game.menuUI.inventoryBtn.visible = false;
+				game.menuUI.skillsBtn.visible = false;
+				game.menuUI.questsBtn.visible = false;
+				game.menuUI.saveBtn.visible = false;
+				game.menuUI.loadBtn.visible = false;
+			} else if (state == "navigate") {
 				game.menuUI.saveBtn.visible = false;
 				game.menuUI.loadBtn.visible = true;
 				game.menuUI.loadBtn.btnText.text = "Load";
 			} else {
 				game.menuUI.saveBtn.visible = false;
 				game.menuUI.loadBtn.visible = false;
-			}
+			}*/
 		}
 
 		public function updateNavBtns():void {
@@ -422,19 +491,16 @@ package
 			game.mainUI.bigMarker.x = 552 + 62 * player.x;
 			game.mainUI.bigMarker.y = 62 * player.y;
 		}
-
-		public function linkClicked(e:TextEvent):void {
-			navigateToURL(new URLRequest(faURL + e.text), "_blank");
-		}
+		//}
 		
-		//Keyboard handlers
+		//{ Keyboard handlers
 		public function keyReleased(e:KeyboardEvent):void {
 			/*if (e.keyCode == Keyboard.C)
 				test.getChoice(0);
 			else if (e.keyCode == Keyboard.V)
 				test.getChoice(1);*/
 			
-			//Menus
+			//{ Menus
 			if (e.keyCode == Keyboard.ESCAPE || e.keyCode == Keyboard.EQUAL)
 				openOptions();
 			else if (e.keyCode == Keyboard.U)
@@ -490,8 +556,9 @@ package
 						break;
 				}
 			}
+			//}
 			
-			//Movement
+			//{ Movement
 			else if (game.btnsUI.btn1.visible && e.keyCode == Keyboard.NUMPAD_7) {
 				switch (state) {
 					case "navigate"	:
@@ -663,10 +730,15 @@ package
 						break;
 				}
 			}
+			//}
 		}
+		//}
 
-		//Mouse handlers
-		//Menus
+		//{ Mouse handlers
+		public function linkClicked(e:TextEvent):void {
+			navigateToURL(new URLRequest(faURL + e.text), "_blank");
+		}
+		//{ Menus
 		public function clickOptions(e:MouseEvent):void {
 			openOptions();
 		}
@@ -724,8 +796,9 @@ package
 		public function clickDownBtn(e:MouseEvent):void {
 			scrollDown();
 		}
-
-		//Movement
+		//}
+		
+		//{ Movement
 		public function clickNW(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
@@ -898,8 +971,10 @@ package
 					break;
 			}
 		}
-
-		//Menu public function
+		//}
+		//}
+		
+		//{ Menu function
 		public function scrollUp():void {
 			scrollIndex--;
 			menuIndex = scrollIndex * 9;
@@ -949,7 +1024,7 @@ package
 			menuIndex = scrollIndex * 9;
 			for (var i:int = menuIndex; i < player.inventory.length; i++) {
 				btnArray[btnIndex].visible = true;
-				btnArray[btnIndex].btnText.text = player.inventory[menuIndex].count + "x " + player.inventory[menuIndex].name;
+				btnArray[btnIndex].btnText.text = player.inventory[menuIndex].name;
 				
 				btnIndex++;
 				menuIndex++;
@@ -1170,10 +1245,6 @@ package
 					game.mainUI.bigMarker.visible = false;
 					game.mainUI.textField.visible = true;
 					game.mainUI.scrollBar.visible = true;
-					game.menuUI.appearanceBtn.visible = true;
-					game.menuUI.inventoryBtn.visible = true;
-					game.menuUI.skillsBtn.visible = true;
-					game.menuUI.questsBtn.visible = true;
 					updateNavBtns();
 					updateMenuBtns()
 					break;
@@ -1186,14 +1257,9 @@ package
 					game.mainUI.bigMarker.visible = true;
 					game.mainUI.textField.visible = false;
 					game.mainUI.scrollBar.visible = false;
-					game.menuUI.appearanceBtn.visible = false;
-					game.menuUI.inventoryBtn.visible = false;
-					game.menuUI.skillsBtn.visible = false;
-					game.menuUI.questsBtn.visible = false;
-					game.menuUI.saveBtn.visible = false;
-					game.menuUI.loadBtn.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
+					updateMenuBtns();
 					hideBtnArray();
 					break;
 				default :
@@ -1207,9 +1273,8 @@ package
 			switch (state) {
 				case "appearance" :
 					menuItemSelected = true;
-					var equip:Item = ItemDefinitions.getItem(selection);
-					main.setText(equip.name + "\n\n" + equip.short + " " + equip.long);
-					selectedItem = equip;
+					selectedItem = ItemDefinitions.getItem(selection);
+					main.setText(selectedItem.name + "\n\n" + selectedItem.short + " " + selectedItem.long);
 					
 					hideBtnArray();
 					game.btnsUI.btn1.visible = true;
@@ -1217,16 +1282,14 @@ package
 					break;
 				case "inventory" :
 					menuItemSelected = true;
-					selection = selection.substring(selection.indexOf("x") + 2);
-					var item:Item = player.inventory[player.indexOfInventory(ItemDefinitions.getItem(selection))];
-					main.setText(item.name + " -- " + item.count + "x\n\n" + item.short + " " + item.long);
-					selectedItem = item;
+					selectedItem = player.getItemFromInventory(ItemDefinitions.getItem(selection));
+					main.setText(selectedItem.name + " -- " + selectedItem.count + "x\n\n" + selectedItem.short + " " + selectedItem.long);
 					
 					hideBtnArray();
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.btnsUI.btn1.visible = true;
-					if (item.equip)
+					if (selectedItem.equip)
 						game.btnsUI.btn1.btnText.text = "Equip";
 					else
 						game.btnsUI.btn1.btnText.text = "Use";
@@ -1234,24 +1297,28 @@ package
 					game.btnsUI.btn3.btnText.text = "Discard";
 					break;
 				case "buying" :
-					menuItemSelected = false;
-					var buying:Item = ItemDefinitions.getItem(selection);
+					menuItemSelected = true;
+					selectedItem = ItemDefinitions.getItem(selection);
+					main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea.\n\n" +
+						selectedItem.short + " " + selectedItem.long);
 					
-					if (main.buy(buying))
-						main.setText(main.writeStock());
-					else
-						main.addText("You don't have enough gold to buy that.");
+					hideBtnArray();
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.btnsUI.btn1.visible = true;
+					game.btnsUI.btn1.btnText.text = "Buy";
 					break;
 				case "selling" :
-					menuItemSelected = false;
-					selection = selection.substring(selection.indexOf("x") + 2);
-					var selling:Item = player.inventory[player.indexOfInventory(ItemDefinitions.getItem(selection))];
+					menuItemSelected = true;
+					selectedItem = player.getItemFromInventory(ItemDefinitions.getItem(selection));
+					main.setText(selectedItem.name + " -- " + Math.round(0.5 * selectedItem.value) + " gold ea.\n\n" +
+						selectedItem.short + " " + selectedItem.long);
 					
-					if (main.sell(selling)) {
-						main.setText(main.writeInventory());
-						displaySelling();
-					} else
-						main.addText("You can't sell that.");
+					hideBtnArray();
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.btnsUI.btn1.visible = true;
+					game.btnsUI.btn1.btnText.text = "Sell";
 					break;
 				default :
 					break;
@@ -1285,23 +1352,49 @@ package
 					displayInventory();
 					break;
 				case "shop" :
-					state = "navigate";
-					main.setText(main.mainText);
-					updateMenuBtns();
-					updateNavBtns();
+					if (selection == -1) {
+						state = "navigate";
+						main.setText(main.mainText);
+						updateMenuBtns();
+						updateNavBtns();
+					}
 					break;
 				case "buying" :
+					if (selection == -1) {
+						if (menuItemSelected) {
+							menuItemSelected = false;
+							displayBuying();
+						} else {
+							state = "shop";
+							enterShop(World.world[player.x][player.y]);
+						}
+					} else {
+						if (!main.buy(selectedItem))
+							main.addText("You don't have enough gold to buy that.");
+					}
+					break;
 				case "selling" :
-					state = "shop";
-					enterShop(World.world[player.x][player.y]);
+					if (selection == -1) {
+						if (menuItemSelected) {
+							menuItemSelected = false;
+							displaySelling();
+						} else {
+							state = "shop";
+							enterShop(World.world[player.x][player.y]);
+						}
+					} else {
+						if (!main.sell(selectedItem))
+							main.addText("You can't sell that.");
+					}
 					break;
 				default :
 					break;
 			}
 			updateMenuBtns();
 		}
-
-		//Navigation
+		//}
+		
+		//{ Navigation
 		public function travel(x:int, y:int):void {
 			var oldX:int = player.x;
 			var oldY:int = player.y;
@@ -1417,8 +1510,9 @@ package
 			main.setText(main.mainText);
 			update();
 		}
-
-		//Shop public functions
+		//}
+		
+		//{ Shop functions
 		public function enterShop(zone:Zone):void {
 			state = "shop";
 			
@@ -1464,8 +1558,9 @@ package
 			
 			displayInventory();
 		}
-
-		//Combat functions
+		//}
+		
+		//{ Combat functions
 		public function startCombat(enemy:Enemy):void {
 			state = "combat";
 			hideBtnArray();
@@ -1480,5 +1575,6 @@ package
 			main.setText(enemy.desc + "\n--------------------------------------------------");
 			
 		}
+		//}
 	}
 }

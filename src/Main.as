@@ -25,14 +25,14 @@
 		public var player:Player = new Player();
 		
 		//Text
-		public var optionsText:String = "Options\n\nTo be implemented.\n\nControls should be self-explanatory. In addition to using the mouse, keyboard control is also possible for most functions:\nWASD/Arrow Keys/Numpad - Navigation (numpad can move diagonally)\nU - Open appearance\nI - Open inventory\nJ - Open quests\nK - Open skills\nM - Toggle map\nEnter - Enter a particular area\nBackspace - Go back one menu\nPage Up/Down - Scroll through button menus\nEsc - Options\n\nCredits (FurAffinity usernames unless otherwise noted)\n\nIntroduction Text - PowersNDark\nIdeas - mysticmightg, Anonymous\nSome Weapon Text - Sinwraith\nAS3 Advisor - Serule\nEverything Else - Kazan.K";
+		public var optionsText:String = "Options\n\nTo be implemented.\n\nControls should be self-explanatory. In addition to using the mouse, keyboard control is also possible for most functions:\nWASD/Arrow Keys/Numpad - Navigation (numpad can move diagonally)\nU - Open appearance\nI - Open inventory\nJ - Open quests\nK - Open skills\nM - Toggle map\nEnter - Enter a particular area\nBackspace - Go back one menu\nPage Up/Down - Scroll through button menus\nEsc - Options\n\nCredits (FurAffinity usernames unless otherwise noted)\n\nIntroduction Text - PowersNDark\nIdeas - Mysticmightg, Anonymous\nSome Weapon Text - Sinwraith\nAS3 Advisor - Serule\nEverything Else - Kazan.K";
 		public var mainText:String = "While time is the great keeper of all, there will always remain the events and artifacts that even he cannot keep eternal. Expunged from the very world they tried to conquer, the earliest civilizations of [WORLD NAME] were lost to the ravages of time, and the plague that struck down their people has long since been forgotten. Despite being erased from history itself, the aftermath of this great catastrophe still surfaces and ripples far into the future of generations to come. Unbeknownst to any, the cause of this calamity lives on, trapped in a seal containing the very essence of this powerful force. However, through malicious intent or an unfortunate accident, this seal has been broken.\n\nEvil has spread across the land, contaminating the earth, the water, and everything in its path. Although, perhaps not in the most obvious of ways. Rich and fertile fields, once known for their bountiful crops, had changed in a matter of weeks. Now, seen simply as a miracle by the gods, the soil promotes nothing short of rampant growth in anything it feeds. Never before have forests been more dense and lush, hills and mountains been so overgrown with vegetation, and livestock been fattened to more than double their weight. The boundless abundance of mother nature has seen to it that even the poorest of farmers have begun producing enough to appease the exploding appetites of entire villages.\n\nWhile crops flourish and civilization and wildlife alike gorge upon this newfound bounty, the essence of the ancient seal continues its march across [WORLD NAME]. The inhabitants of this land are falling prey to this new evil while those afflicted slowly find their world becoming muted and dull as baser instincts take hold of their minds. An insatiable hunger for food will overwhelm them. The unrelenting desires of hedonistic gluttony will drive them to consume all that lie before them – only to leave themselves famished and starving for more, trapped in an endless cycle of ravenous greed.";
 		public var appearanceText:String = "Appearance";
 		public var inventoryText:String = "Inventory";
 		public var skillsText:String = "Skills\n\nTo be implemented.";
 		public var questsText:String = "Quests\n\nTo be implemented.";
 		
-		public var credits:Array = ["PowersNDark", "mysticmightg", "Sinwraith", "Serule", "Kazan.K"];
+		public var credits:Array = ["PowersNDark", "Mysticmightg", "Sinwraith", "Serule", "Kazan.K"];
 		
 		//public var test:Test = new Test(this as MovieClip, player, "test.xml");
 		
@@ -57,7 +57,7 @@
 			
 			reInit();
 			
-			/*TEST BLOCK*/
+			/*TEST CODE BELOW*/
 			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			drop(ItemDefinitions.getItem("Sword"), 1);
@@ -101,11 +101,11 @@
 			setGold(245);
 			addExp(196);*/
 			
-			mainMC.startCombat(EnemyDefinitions.definitions["Slime"]);
+			//mainMC.startCombat(EnemyDefinitions.definitions["Slime"]);
 		}
 		
 		public function reInit():void {
-			mainMC.game.state = "navigate";
+			mainMC.state = "navigate";
 			mainMC.menuItemSelected = false;
 			
 			mainMC.game.btnsUI.upBtn.visible = false;
@@ -516,9 +516,9 @@
 		public function loot(item:Item, x:int):void {
 			var retString:String = "";
 			if (x == 1)
-				retString = "You picked up a " + item.name + ". ";
+				retString = "You got a " + item.name + ". ";
 			else if (x > 1)
-				retString = "You picked up " + x + " " + item.name + "s. ";
+				retString = "You got " + x + " " + item.name + "s. ";
 			
 			if (x > 0) {
 				var index:int = player.indexOfInventory(item);
@@ -779,16 +779,24 @@
 			switch (mainMC.state) {
 				case "inventory" :
 					inventoryText = "Inventory\n\n";
-					for each (var item:Item in player.inventory)
-						inventoryText += item.name + " -- " + item.count + "x\n" + item.short + "\n\n";
 					
-					if (inventoryText == "Inventory\n\n")
+					if (player.inventory.length == 0) {
 						inventoryText += "Your inventory is empty.";
+					} else {
+						for each (var item:Item in player.inventory)
+						inventoryText += item.name + " x" + item.count + "\n" + item.short + "\n\n";
+					}
 					break;
 				case "selling" :
 					inventoryText = "Selling\n\n";
-					for each (var sell:Item in player.inventory)
-						inventoryText += sell.name + " -- " + Math.round(0.5 * sell.value) + " gold\n" + sell.short + " " + sell.long + "\n\n";
+					
+					if (player.inventory.length == 0) {
+						inventoryText += "You have nothing to sell.";
+					} else {
+						for each (var sell:Item in player.inventory) {
+							inventoryText += sell.name + " x" + sell.count + " -- " + Math.round(0.5 * sell.value) + " gold ea.\n" + sell.short + "\n\n";
+						}
+					}
 					break;
 				default :
 					break;
@@ -800,7 +808,7 @@
 		public function writeStock():String {
 			var text:String = "Buying\n\n";
 			for each (var item:Item in World.world[player.x][player.y].stock) {
-				text += item.name + " -- " + item.value + " gold -- ";
+				text += item.name + " -- " + item.value + " gold ea. -- ";
 				
 				if (player.indexOfInventory(item) != -1)
 					text += player.inventory[player.indexOfInventory(item)].count;
@@ -817,6 +825,9 @@
 			mainMC.state = "gameover";
 			
 			mainMC.hideBtnArray();
+			mainMC.menuItemSelected = false;
+			mainMC.game.btnsUI.upBtn.visible = false;
+			mainMC.game.btnsUI.downBtn.visible = false;
 			mainMC.game.menuUI.appearanceBtn.visible = false;
 			mainMC.game.menuUI.inventoryBtn.visible = false;
 			mainMC.game.menuUI.questsBtn.visible = false;
