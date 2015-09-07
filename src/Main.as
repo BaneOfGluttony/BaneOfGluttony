@@ -58,7 +58,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
@@ -99,7 +99,7 @@
 			setStat("vor", 26);
 			setFat(86);
 			setGold(245);
-			addExp(196);*/
+			addExp(196);
 			
 			//mainMC.startCombat(EnemyDefinitions.definitions["Slime"]);
 		}
@@ -784,7 +784,7 @@
 						inventoryText += "Your inventory is empty.";
 					} else {
 						for each (var item:Item in player.inventory)
-						inventoryText += item.name + " x" + item.count + "\n" + item.short + "\n\n";
+							inventoryText += item.name + " x" + item.count + "\n" + item.short + "\n\n";
 					}
 					break;
 				case "selling" :

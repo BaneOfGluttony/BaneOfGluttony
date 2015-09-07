@@ -32,14 +32,12 @@ package
 		public var selectedItem:Item = null;
 
 		public var btnArray:Array;
-		public var player:Player;
 		
 		public const faURL:String = "http://www.furaffinity.net/user/";
 						
 		public function MainGameUI(_main:Main) 
 		{
 			main = _main;
-			player = main.player;
 
 			game = new MainGame();
 
@@ -279,21 +277,21 @@ package
 			updateNavBtns();
 			updateMaps();
 			
-			if (player.resources["currCapacity"] <= 0) {
-				main.addResource("Health", -0.05 * player.resources["maxHealth"], 0);
-				if (player.resources["currHealth"] <= 0)
+			if (main.player.resources["currCapacity"] <= 0) {
+				main.addResource("Health", -0.05 * main.player.resources["maxHealth"], 0);
+				if (main.player.resources["currHealth"] <= 0)
 					main.gameOver(2);
 			}
 			
 			var capDrained:int;
-			if (player.stats["vit"] <= 0.8 * player.resources["maxCapacity"])
-				capDrained = Math.round(0.05 * (player.resources["maxCapacity"] - player.stats["vit"]));
+			if (main.player.stats["vit"] <= 0.8 * main.player.resources["maxCapacity"])
+				capDrained = Math.round(0.05 * (main.player.resources["maxCapacity"] - main.player.stats["vit"]));
 			else
-				capDrained = Math.round(0.01 * player.resources["maxCapacity"]);
+				capDrained = Math.round(0.01 * main.player.resources["maxCapacity"]);
 			
-			if (capDrained > player.resources["currCapacity"]) {
-				capDrained = player.resources["currCapacity"] - capDrained;
-				main.setResource("Capacity", 0, player.resources["maxCapacity"]);
+			if (capDrained > main.player.resources["currCapacity"]) {
+				capDrained = main.player.resources["currCapacity"] - capDrained;
+				main.setResource("Capacity", 0, main.player.resources["maxCapacity"]);
 			} else
 				main.addResource("Capacity", -capDrained, 0);
 			
@@ -315,13 +313,13 @@ package
 		}
 
 		public function updateQuests():void {
-			for each (var quest:GameEvent in player.quests) {
+			for each (var quest:GameEvent in main.player.quests) {
 				quest.checkState();
 			}
 		}
 
 		public function updateMenuBtns():void {
-			trace("state = " + state);
+			//trace("state = " + state);
 			game.menuUI.appearanceBtn.visible = true;
 			game.menuUI.inventoryBtn.visible = true;
 			game.menuUI.skillsBtn.visible = true;
@@ -329,7 +327,7 @@ package
 			
 			switch (state) {
 				case "navigate" :
-					if (World.world[player.x][player.y].save) {
+					if (World.world[main.player.x][main.player.y].save) {
 						game.menuUI.saveBtn.visible = true;
 						game.menuUI.loadBtn.visible = true;
 					} else {
@@ -344,6 +342,9 @@ package
 						game.menuUI.saveBtn.visible = false;
 						game.menuUI.loadBtn.visible = true;
 						game.menuUI.loadBtn.btnText.text = "Back";
+					} else {
+						game.menuUI.saveBtn.visible = false;
+						game.menuUI.loadBtn.visible = false;
 					}
 					break;
 				case "shop" :
@@ -375,121 +376,91 @@ package
 					game.menuUI.loadBtn.visible = false;
 					break;
 			}
-			/*if (menuItemSelected || state == "shop" || state == "buying" || state == "selling") {
-				game.menuUI.saveBtn.visible = false;
-				game.menuUI.loadBtn.visible = true;
-				game.menuUI.loadBtn.btnText.text = "Back";
-			} else if (World.world[player.x][player.y].save) {
-				game.menuUI.saveBtn.visible = true;
-				game.menuUI.loadBtn.visible = true;
-			} else if (state == "gameover") {
-				game.menuUI.appearanceBtn.visible = false;
-				game.menuUI.inventoryBtn.visible = false;
-				game.menuUI.skillsBtn.visible = false;
-				game.menuUI.questsBtn.visible = false;
-				game.menuUI.saveBtn.visible = false;
-				game.menuUI.loadBtn.visible = true;
-				game.menuUI.loadBtn.btnText.text = "Load";
-			} else if (state == "map") {
-				game.menuUI.appearanceBtn.visible = false;
-				game.menuUI.inventoryBtn.visible = false;
-				game.menuUI.skillsBtn.visible = false;
-				game.menuUI.questsBtn.visible = false;
-				game.menuUI.saveBtn.visible = false;
-				game.menuUI.loadBtn.visible = false;
-			} else if (state == "navigate") {
-				game.menuUI.saveBtn.visible = false;
-				game.menuUI.loadBtn.visible = true;
-				game.menuUI.loadBtn.btnText.text = "Load";
-			} else {
-				game.menuUI.saveBtn.visible = false;
-				game.menuUI.loadBtn.visible = false;
-			}*/
 		}
 
 		public function updateNavBtns():void {
-			var x:int = player.x;
-			var y:int = player.y;
+			var x:int = main.player.x;
+			var y:int = main.player.y;
 			
 			game.btnsUI.btn5.visible = false;
-			game.mainUI.zoneBtn.zoneName.text = World.world[player.x][player.y].name;
+			game.mainUI.zoneBtn.zoneName.text = World.world[main.player.x][main.player.y].name;
 			
-			if (!checkBounds(player.x - 1, player.y - 1) ||
-					World.world[player.x - 1][player.y - 1] == null) {
+			if (!checkBounds(main.player.x - 1, main.player.y - 1) ||
+					World.world[main.player.x - 1][main.player.y - 1] == null) {
 				game.btnsUI.btn1.visible = false;
 			} else {
 				game.btnsUI.btn1.visible = true;
-				game.btnsUI.btn1.btnText.text = World.world[player.x - 1][player.y - 1].name;
+				game.btnsUI.btn1.btnText.text = World.world[main.player.x - 1][main.player.y - 1].name;
 			}
 			
-			if (!checkBounds(player.x, player.y - 1) ||
-					World.world[player.x][player.y - 1] == null) {
+			if (!checkBounds(main.player.x, main.player.y - 1) ||
+					World.world[main.player.x][main.player.y - 1] == null) {
 				game.btnsUI.btn2.visible = false;
 			} else {
 				game.btnsUI.btn2.visible = true;
 				game.btnsUI.btn2.btnText.text = World.world[x][y - 1].name;
 			}
 			
-			if (!checkBounds(player.x + 1, player.y - 1) ||
-					World.world[player.x + 1][player.y - 1] == null) {
+			if (!checkBounds(main.player.x + 1, main.player.y - 1) ||
+					World.world[main.player.x + 1][main.player.y - 1] == null) {
 				game.btnsUI.btn3.visible = false;
 			} else {
 				game.btnsUI.btn3.visible = true;
-				game.btnsUI.btn3.btnText.text = World.world[player.x + 1][player.y - 1].name;
+				game.btnsUI.btn3.btnText.text = World.world[main.player.x + 1][main.player.y - 1].name;
 			}
 			
-			if (!checkBounds(player.x - 1, player.y) ||
-					World.world[player.x - 1][player.y] == null) {
+			if (!checkBounds(main.player.x - 1, main.player.y) ||
+					World.world[main.player.x - 1][main.player.y] == null) {
 				game.btnsUI.btn4.visible = false;
 			} else {
 				game.btnsUI.btn4.visible = true;
-				game.btnsUI.btn4.btnText.text = World.world[player.x - 1][player.y].name;
+				game.btnsUI.btn4.btnText.text = World.world[main.player.x - 1][main.player.y].name;
 			}
 			
-			if (World.world[player.x][player.y].enter) {
+			if (World.world[main.player.x][main.player.y].enter) {
 				game.btnsUI.btn5.visible = true;
 				game.btnsUI.btn5.btnText.text = "Enter";
 			}
 			
-			if (!checkBounds(player.x + 1, player.y) ||
-					World.world[player.x + 1][player.y] == null) {
+			if (!checkBounds(main.player.x + 1, main.player.y) ||
+					World.world[main.player.x + 1][main.player.y] == null) {
 				game.btnsUI.btn6.visible = false;
 			} else {
 				game.btnsUI.btn6.visible = true;
-				game.btnsUI.btn6.btnText.text = World.world[player.x + 1][player.y].name;
+				game.btnsUI.btn6.btnText.text = World.world[main.player.x + 1][main.player.y].name;
 			}
 			
-			if (!checkBounds(player.x - 1, player.y + 1) ||
-					World.world[player.x - 1][player.y + 1] == null) {
+			if (!checkBounds(main.player.x - 1, main.player.y + 1) ||
+					World.world[main.player.x - 1][main.player.y + 1] == null) {
 				game.btnsUI.btn7.visible = false;
 			} else {
 				game.btnsUI.btn7.visible = true;
-				game.btnsUI.btn7.btnText.text = World.world[player.x - 1][player.y + 1].name;
+				game.btnsUI.btn7.btnText.text = World.world[main.player.x - 1][main.player.y + 1].name;
 			}
 			
-			if (!checkBounds(player.x, player.y + 1) ||
-					World.world[player.x][player.y + 1] == null) {
+			if (!checkBounds(main.player.x, main.player.y + 1) ||
+					World.world[main.player.x][main.player.y + 1] == null) {
 				game.btnsUI.btn8.visible = false;
 			} else {
 				game.btnsUI.btn8.visible = true;
-				game.btnsUI.btn8.btnText.text = World.world[player.x][player.y + 1].name;
+				game.btnsUI.btn8.btnText.text = World.world[main.player.x][main.player.y + 1].name;
 			}
 			
-			if (!checkBounds(player.x + 1, player.y + 1) ||
-					World.world[player.x + 1][player.y + 1] == null) {
+			if (!checkBounds(main.player.x + 1, main.player.y + 1) ||
+					World.world[main.player.x + 1][main.player.y + 1] == null) {
 				game.btnsUI.btn9.visible = false;
 			} else {
 				game.btnsUI.btn9.visible = true;
-				game.btnsUI.btn9.btnText.text = World.world[player.x + 1][player.y + 1].name;
+				game.btnsUI.btn9.btnText.text = World.world[main.player.x + 1][main.player.y + 1].name;
 			}
 		}
 
 		public function updateMaps():void {
-			game.mainUI.miniMap.x = 350 + 70 - 35 * player.x;
-			game.mainUI.miniMap.y = 70 - 35 * player.y;
+			game.mainUI.miniMap.x = 350 + 70 - 35 * main.player.x;
+			game.mainUI.miniMap.y = 70 - 35 * main.player.y;
 			
-			game.mainUI.bigMarker.x = 552 + 62 * player.x;
-			game.mainUI.bigMarker.y = 62 * player.y;
+			game.mainUI.bigMarker.x = 552 + 62 * main.player.x;
+			game.mainUI.bigMarker.y = 62 * main.player.y;
 		}
 		//}
 		
@@ -562,7 +533,7 @@ package
 			else if (game.btnsUI.btn1.visible && e.keyCode == Keyboard.NUMPAD_7) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x - 1][player.y - 1] != null)
+						if (World.world[main.player.x - 1][main.player.y - 1] != null)
 							moveNW();
 						break;
 					case "appearance" :
@@ -587,7 +558,7 @@ package
 			else if (game.btnsUI.btn2.visible && (e.keyCode == Keyboard.NUMPAD_8 || e.keyCode == Keyboard.UP || e.keyCode == Keyboard.W)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x][player.y - 1] != null)
+						if (World.world[main.player.x][main.player.y - 1] != null)
 							moveN();
 						break;
 					case "appearance" :
@@ -605,7 +576,7 @@ package
 			else if (game.btnsUI.btn3.visible && e.keyCode == Keyboard.NUMPAD_9) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x + 1][player.y - 1] != null)
+						if (World.world[main.player.x + 1][main.player.y - 1] != null)
 							moveNE();
 						break;
 					case "inventory" :
@@ -625,7 +596,7 @@ package
 			else if (game.btnsUI.btn4.visible && (e.keyCode == Keyboard.NUMPAD_4 || e.keyCode == Keyboard.LEFT || e.keyCode == Keyboard.A)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x - 1][player.y] != null)
+						if (World.world[main.player.x - 1][main.player.y] != null)
 							moveW();
 						break;
 					case "appearance" :
@@ -660,7 +631,7 @@ package
 			else if (game.btnsUI.btn6.visible && (e.keyCode == Keyboard.NUMPAD_6 || e.keyCode == Keyboard.RIGHT || e.keyCode == Keyboard.D)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x + 1][player.y] != null)
+						if (World.world[main.player.x + 1][main.player.y] != null)
 							moveE();
 						break;
 					case "appearance" :
@@ -678,7 +649,7 @@ package
 			else if (game.btnsUI.btn7.visible && e.keyCode == Keyboard.NUMPAD_1) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x - 1][player.y + 1] != null)
+						if (World.world[main.player.x - 1][main.player.y + 1] != null)
 							moveSW();
 						break;
 					case "inventory" :
@@ -697,7 +668,7 @@ package
 			else if (game.btnsUI.btn8.visible && (e.keyCode == Keyboard.NUMPAD_2 || e.keyCode == Keyboard.DOWN || e.keyCode == Keyboard.S)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x][player.y + 1] != null)
+						if (World.world[main.player.x][main.player.y + 1] != null)
 							moveS();
 						break;
 					case "appearance" :
@@ -715,7 +686,7 @@ package
 			else if (game.btnsUI.btn9.visible && e.keyCode == Keyboard.NUMPAD_3) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[player.x + 1][player.y + 1] != null)
+						if (World.world[main.player.x + 1][main.player.y + 1] != null)
 							moveSE();
 						break;
 					case "appearance" :
@@ -1022,19 +993,17 @@ package
 			game.btnsUI.downBtn.visible = false;
 			btnIndex = 0;
 			menuIndex = scrollIndex * 9;
-			for (var i:int = menuIndex; i < player.inventory.length; i++) {
+			for (var i:int = menuIndex; i < main.player.inventory.length && btnIndex < 9; i++) {
 				btnArray[btnIndex].visible = true;
-				btnArray[btnIndex].btnText.text = player.inventory[menuIndex].name;
+				btnArray[btnIndex].btnText.text = main.player.inventory[menuIndex].name;
 				
 				btnIndex++;
 				menuIndex++;
-				if (btnIndex > 8)
-					break;
 			}
 			
 			if (scrollIndex > 0)
 				game.btnsUI.upBtn.visible = true;
-			if (player.inventory.length > (scrollIndex  + 1) * 9)
+			if (main.player.inventory.length > (scrollIndex  + 1) * 9)
 				game.btnsUI.downBtn.visible = true;
 		}
 
@@ -1042,33 +1011,33 @@ package
 			main.setText(main.writeAppearance());
 			hideBtnArray();
 			
-			if (player.equipment["head"] != null) {
+			if (main.player.equipment["head"] != null) {
 				game.btnsUI.btn2.visible = true;
-				game.btnsUI.btn2.btnText.text = player.equipment["head"].name;
+				game.btnsUI.btn2.btnText.text = main.player.equipment["head"].name;
 			}
-			if (player.equipment["torso"] != null) {
+			if (main.player.equipment["torso"] != null) {
 				game.btnsUI.btn5.visible = true;
-				game.btnsUI.btn5.btnText.text = player.equipment["torso"].name;
+				game.btnsUI.btn5.btnText.text = main.player.equipment["torso"].name;
 			}
-			if (player.equipment["legs"] != null) {
+			if (main.player.equipment["legs"] != null) {
 				game.btnsUI.btn8.visible = true;
-				game.btnsUI.btn8.btnText.text = player.equipment["legs"].name;
+				game.btnsUI.btn8.btnText.text = main.player.equipment["legs"].name;
 			}
-			if (player.equipment["feet"] != null) {
+			if (main.player.equipment["feet"] != null) {
 				game.btnsUI.btn9.visible = true;
-				game.btnsUI.btn9.btnText.text = player.equipment["feet"].name;
+				game.btnsUI.btn9.btnText.text = main.player.equipment["feet"].name;
 			}
-			if (player.equipment["weapon"] != null) {
+			if (main.player.equipment["weapon"] != null) {
 				game.btnsUI.btn4.visible = true;
-				game.btnsUI.btn4.btnText.text = player.equipment["weapon"].name;
-				if (player.equipment["weapon"].twoHanded) {
+				game.btnsUI.btn4.btnText.text = main.player.equipment["weapon"].name;
+				if (main.player.equipment["weapon"].twoHanded) {
 					game.btnsUI.btn6.visible = true;
-					game.btnsUI.btn6.btnText.text = player.equipment["weapon"].name;
+					game.btnsUI.btn6.btnText.text = main.player.equipment["weapon"].name;
 				}
 			}
-			if (player.equipment["shield"] != null) {
+			if (main.player.equipment["shield"] != null) {
 				game.btnsUI.btn6.visible = true;
-				game.btnsUI.btn6.btnText.text = player.equipment["shield"].name;
+				game.btnsUI.btn6.btnText.text = main.player.equipment["shield"].name;
 			}
 		}
 
@@ -1282,7 +1251,7 @@ package
 					break;
 				case "inventory" :
 					menuItemSelected = true;
-					selectedItem = player.getItemFromInventory(ItemDefinitions.getItem(selection));
+					selectedItem = main.player.getItemFromInventory(ItemDefinitions.getItem(selection));
 					main.setText(selectedItem.name + " -- " + selectedItem.count + "x\n\n" + selectedItem.short + " " + selectedItem.long);
 					
 					hideBtnArray();
@@ -1310,7 +1279,7 @@ package
 					break;
 				case "selling" :
 					menuItemSelected = true;
-					selectedItem = player.getItemFromInventory(ItemDefinitions.getItem(selection));
+					selectedItem = main.player.getItemFromInventory(ItemDefinitions.getItem(selection));
 					main.setText(selectedItem.name + " -- " + Math.round(0.5 * selectedItem.value) + " gold ea.\n\n" +
 						selectedItem.short + " " + selectedItem.long);
 					
@@ -1366,7 +1335,7 @@ package
 							displayBuying();
 						} else {
 							state = "shop";
-							enterShop(World.world[player.x][player.y]);
+							enterShop(World.world[main.player.x][main.player.y]);
 						}
 					} else {
 						if (!main.buy(selectedItem))
@@ -1380,7 +1349,7 @@ package
 							displaySelling();
 						} else {
 							state = "shop";
-							enterShop(World.world[player.x][player.y]);
+							enterShop(World.world[main.player.x][main.player.y]);
 						}
 					} else {
 						if (!main.sell(selectedItem))
@@ -1396,14 +1365,14 @@ package
 		
 		//{ Navigation
 		public function travel(x:int, y:int):void {
-			var oldX:int = player.x;
-			var oldY:int = player.y;
+			var oldX:int = main.player.x;
+			var oldY:int = main.player.y;
 			
-			player.x = x;
-			player.y = y;
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.player.x = x;
+			main.player.y = y;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			updateMenuBtns();
@@ -1412,53 +1381,53 @@ package
 		}
 
 		public function moveNW():void {
-			player.x--;
-			player.y--;
+			main.player.x--;
+			main.player.y--;
 			
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
 		}
 
 		public function moveN():void {
-			player.y--;
+			main.player.y--;
 
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
 		}
 
 		public function moveNE():void {
-			player.x++;
-			player.y--;
+			main.player.x++;
+			main.player.y--;
 			
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
 		}
 
 		public function moveW():void {
-			player.x--;
+			main.player.x--;
 
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
 		}
 
 		public function moveCenter():void {
-			var zone:Zone = World.world[player.x][player.y];
+			var zone:Zone = World.world[main.player.x][main.player.y];
 			
 			if (zone.items != null) {
 				enterShop(zone);
@@ -1466,46 +1435,46 @@ package
 		}
 
 		public function moveE():void {
-			player.x++;
+			main.player.x++;
 
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
 		}
 
 		public function moveSW():void {
-			player.x--;
-			player.y++;
+			main.player.x--;
+			main.player.y++;
 			
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
 		}
 
 		public function moveS():void {
-			player.y++;
+			main.player.y++;
 
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
 		}
 
 		public function moveSE():void {
-			player.x++;
-			player.y++;
+			main.player.x++;
+			main.player.y++;
 			
-			main.mainText = "(" + player.x + ", " + player.y + ")\n" +
-				World.world[player.x][player.y].name + "\n" +
-				World.world[player.x][player.y].text;
+			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+				World.world[main.player.x][main.player.y].name + "\n" +
+				World.world[main.player.x][main.player.y].text;
 			
 			main.setText(main.mainText);
 			update();
@@ -1529,7 +1498,7 @@ package
 		public function displayBuying():void {
 			state = "buying";
 			
-			var zone:Zone = World.world[player.x][player.y];
+			var zone:Zone = World.world[main.player.x][main.player.y];
 			main.setText(main.writeStock());
 			
 			hideBtnArray();
@@ -1537,14 +1506,12 @@ package
 			game.btnsUI.downBtn.visible = false;
 			btnIndex = 0;
 			menuIndex = scrollIndex * 9;
-			for (var i:int = menuIndex; i < zone.stock.length; i++) {
+			for (var i:int = menuIndex; i < zone.stock.length && btnIndex < 9; i++) {
 				btnArray[btnIndex].visible = true;
 				btnArray[btnIndex].btnText.text = zone.stock[menuIndex].name;
 				
 				btnIndex++;
 				menuIndex++;
-				if (btnIndex > 8)
-					break;
 			}
 			
 			if (scrollIndex > 0)
