@@ -5,6 +5,7 @@ package
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.events.TextEvent;
+	import flash.geom.ColorTransform;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
@@ -76,7 +77,7 @@ package
 			game.combatUI.devourBtn.stop();
 			game.combatUI.surrenderBtn.stop();
 
-			//Button handling
+			//Menus
 			game.optionsBtn.buttonMode = true;
 			game.optionsBtn.mouseChildren = false;
 			game.optionsBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.optionsBtn); });
@@ -124,7 +125,8 @@ package
 			game.menuUI.loadBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.menuUI.loadBtn); });
 			game.menuUI.loadBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.menuUI.loadBtn); });
 			game.menuUI.loadBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.menuUI.loadBtn); });
-
+			
+			//Navigation
 			game.btnsUI.btn1.buttonMode = true;
 			game.btnsUI.btn1.mouseChildren = false;
 			game.btnsUI.btn1.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.btnsUI.btn1); });
@@ -190,7 +192,8 @@ package
 			game.btnsUI.downBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.btnsUI.downBtn); });
 			game.btnsUI.downBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.btnsUI.downBtn); });
 			game.btnsUI.downBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.btnsUI.downBtn); });
-
+			
+			//Combat
 			game.combatUI.attackBtn.buttonMode = true;
 			game.combatUI.attackBtn.mouseChildren = false;
 			game.combatUI.attackBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.combatUI.attackBtn); });
@@ -230,6 +233,7 @@ package
 			//Listeners
 			game.mainUI.textField.addEventListener(TextEvent.LINK, linkClicked);
 			game.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyReleased);
+			
 			game.optionsBtn.addEventListener(MouseEvent.CLICK, clickOptions);
 			game.menuUI.appearanceBtn.addEventListener(MouseEvent.CLICK, clickAppearance);
 			game.menuUI.inventoryBtn.addEventListener(MouseEvent.CLICK, clickInventory);
@@ -240,6 +244,7 @@ package
 			game.menuUI.loadBtn.addEventListener(MouseEvent.CLICK, clickLoad);
 			game.btnsUI.upBtn.addEventListener(MouseEvent.CLICK, clickUpBtn);
 			game.btnsUI.downBtn.addEventListener(MouseEvent.CLICK, clickDownBtn);
+			
 			game.btnsUI.btn1.addEventListener(MouseEvent.CLICK, clickNW);
 			game.btnsUI.btn2.addEventListener(MouseEvent.CLICK, clickN);
 			game.btnsUI.btn3.addEventListener(MouseEvent.CLICK, clickNE);
@@ -249,6 +254,13 @@ package
 			game.btnsUI.btn7.addEventListener(MouseEvent.CLICK, clickSW);
 			game.btnsUI.btn8.addEventListener(MouseEvent.CLICK, clickS);
 			game.btnsUI.btn9.addEventListener(MouseEvent.CLICK, clickSE);
+			
+			game.combatUI.attackBtn.addEventListener(MouseEvent.CLICK, combatAttack);
+			game.combatUI.inventoryBtn.addEventListener(MouseEvent.CLICK, combatInventory);
+			game.combatUI.skillsBtn.addEventListener(MouseEvent.CLICK, combatSkills);
+			game.combatUI.runBtn.addEventListener(MouseEvent.CLICK, combatRun);
+			game.combatUI.devourBtn.addEventListener(MouseEvent.CLICK, combatDevour);
+			game.combatUI.surrenderBtn.addEventListener(MouseEvent.CLICK, combatSurrender);
 			
 			// now allow Main to finish initalizing
 			if (!main.mainMC)
@@ -363,6 +375,8 @@ package
 					game.menuUI.loadBtn.visible = false;
 					break;
 				case "gameover" :
+					game.combatUI.visible = false;
+					game.menuUI.visible = true;
 					game.menuUI.appearanceBtn.visible = false;
 					game.menuUI.inventoryBtn.visible = false;
 					game.menuUI.skillsBtn.visible = false;
@@ -679,6 +693,9 @@ package
 					case "selling" :
 						menuSelect(7);
 						break;
+					case "combat" :
+						hideCombat();
+						break;
 					default	:
 						break;
 				}
@@ -766,6 +783,30 @@ package
 
 		public function clickDownBtn(e:MouseEvent):void {
 			scrollDown();
+		}
+		
+		public function combatAttack(e:MouseEvent):void {
+			main.combat.playerAttack();
+		}
+		
+		public function combatInventory(e:MouseEvent):void {
+			
+		}
+		
+		public function combatSkills(e:MouseEvent):void {
+			
+		}
+		
+		public function combatRun(e:MouseEvent):void {
+			
+		}
+		
+		public function combatDevour(e:MouseEvent):void {
+			
+		}
+		
+		public function combatSurrender(e:MouseEvent):void {
+			
 		}
 		//}
 		
@@ -919,6 +960,9 @@ package
 					break;
 				case "appearance" :
 					menuSelect(7);
+					break;
+				case "combat" :
+					hideCombat();
 					break;
 				default :
 					break;
@@ -1528,9 +1572,10 @@ package
 		//}
 		
 		//{ Combat functions
-		public function startCombat(enemy:Enemy):void {
+		public function displayCombat(enemy:Enemy):void {
 			state = "combat";
 			hideBtnArray();
+			game.optionsBtn.visible = false;
 			game.menuUI.visible = false;
 			game.combatUI.visible = true;
 			
@@ -1539,8 +1584,31 @@ package
 			else
 				game.combatUI.enemyLabel.text = enemy.name;
 			
+			updateEnemyHealth();
 			main.setText(enemy.desc + "\n--------------------------------------------------");
+		}
+		
+		public function hideCombat():void {
+			state = "navigate";
+			game.optionsBtn.visible = true;
+			game.menuUI.visible = true;
+			updateMenuBtns();
+			updateNavBtns();
+			main.setText(main.mainText);
+		}
+		
+		public function updateEnemyHealth():void {
+			var colorTF:ColorTransform = new ColorTransform();
 			
+			game.combatUI.healthBar.scaleX = main.combat.enemy.currHP / main.combat.enemy.maxHP;
+			if (game.combatUI.healthBar.scaleX <= 0.25) {
+				colorTF.color = 0xDD0000;
+				game.combatUI.healthBar.transform.colorTransform = colorTF;
+			} else {
+				colorTF.color = 0x009900;
+				game.combatUI.healthBar.transform.colorTransform = colorTF;
+			}
+			game.combatUI.healthLabel.text = main.combat.enemy.currHP + "/" + main.combat.enemy.maxHP;
 		}
 		//}
 	}

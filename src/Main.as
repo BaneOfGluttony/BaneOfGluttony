@@ -23,6 +23,7 @@
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
 		public var player:Player = new Player();
+		public var combat:Combat;
 		
 		//Text
 		public var optionsText:String = "Options\n\nTo be implemented.\n\nControls should be self-explanatory. In addition to using the mouse, keyboard control is also possible for most functions:\nWASD/Arrow Keys/Numpad - Navigation (numpad can move diagonally)\nU - Open appearance\nI - Open inventory\nJ - Open quests\nK - Open skills\nM - Toggle map\nEnter - Enter a particular area\nBackspace - Go back one menu\nPage Up/Down - Scroll through button menus\nEsc - Options\n\nCredits (FurAffinity usernames unless otherwise noted)\n\nIntroduction Text - PowersNDark\nIdeas - Mysticmightg, Anonymous\nSome Weapon Text - Sinwraith\nAS3 Advisor - Serule\nEverything Else - Kazan.K";
@@ -58,7 +59,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			loot(ItemDefinitions.getItem("Sword"), 2);
+			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
@@ -99,9 +100,9 @@
 			setStat("vor", 26);
 			setFat(86);
 			setGold(245);
-			addExp(196);
+			addExp(196);*/
 			
-			//mainMC.startCombat(EnemyDefinitions.definitions["Slime"]);
+			startCombat(EnemyDefinitions.definitions["Slime"]);
 		}
 		
 		public function reInit():void {
@@ -575,6 +576,7 @@
 		
 		public function addGold(x:Number):void {
 			player.gold += x;
+			addText("You got " + x + " gold.");
 			
 			if (player.gold > 999999999999) {
 				player.gold = 999999999999;
@@ -660,12 +662,19 @@
 			addResource("Capacity", item.capacity, 0);
 			addFat(0.05 * item.capacity);
 			
-			addStat("str", item.str);
-			addStat("agi", item.agi);
-			addStat("vit", item.vit);
-			addStat("int", item.itn);
-			addStat("dex", item.dex);
-			addStat("vor", item.vor);
+			addStat("str", item.strFlat);
+			addStat("agi", item.agiFlat);
+			addStat("vit", item.vitFlat);
+			addStat("int", item.intFlat);
+			addStat("dex", item.dexFlat);
+			addStat("vor", item.vorFlat);
+			
+			addStat("str", Math.round(player.stats["str"] * item.strScale));
+			addStat("agi", Math.round(player.stats["agi"] * item.agiScale));
+			addStat("vit", Math.round(player.stats["vit"] * item.vitScale));
+			addStat("int", Math.round(player.stats["int"] * item.intScale));
+			addStat("dex", Math.round(player.stats["dex"] * item.dexScale));
+			addStat("vor", Math.round(player.stats["vor"] * item.vorScale));
 			
 			var index:int = player.indexOfInventory(item);
 			
@@ -821,6 +830,25 @@
 			return text;
 		}
 		
+		public function startCombat(enemy:Enemy):void {
+			combat = new Combat(this, player, enemy);
+			mainMC.displayCombat(enemy);
+			
+		}
+		
+		public function endCombat():void {
+			mainMC.game.combatUI.visible = false;
+			mainMC.game.btnsUI.btn8.visible = true;
+			mainMC.game.btnsUI.btn8.btnText.text = "Continue";
+			
+			for each (var item:Item in combat.enemy.loot) {
+				loot(item, 1);
+			}
+			
+			addGold(combat.enemy.gold);
+			addExp(combat.enemy.exp);
+		}
+		
 		public function gameOver(cause:int):void {
 			mainMC.state = "gameover";
 			
@@ -828,22 +856,19 @@
 			mainMC.menuItemSelected = false;
 			mainMC.game.btnsUI.upBtn.visible = false;
 			mainMC.game.btnsUI.downBtn.visible = false;
-			mainMC.game.menuUI.appearanceBtn.visible = false;
-			mainMC.game.menuUI.inventoryBtn.visible = false;
-			mainMC.game.menuUI.questsBtn.visible = false;
-			mainMC.game.menuUI.skillsBtn.visible = false;
+			mainMC.game.menuUI.visible = false;
 			mainMC.updateMenuBtns();
 			
 			if (cause == 0)
-				setText("You have been slain.");
+				addText("You have been slain.");
 			else if (cause == 1)
-				setText("You have eaten yourself into a food coma.");
+				addText("You have eaten yourself into a food coma.");
 			else if (cause == 2)
-				setText("You have collapsed from exhaustion.");
+				addText("You have collapsed from exhaustion.");
 			else if (cause == 3)
-				setText("You have been devoured.");
+				addText("You have been devoured.");
 			else
-				setText("You died.");
+				addText("You died.");
 			
 			addText("Load your last saved state.");
 		}

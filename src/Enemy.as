@@ -2,9 +2,16 @@
 	
 	public class Enemy {
 		public var name:String = "Enemy";
-		public var desc:String = "Description"
+		public var desc:String = "Description";
+		public var atkText:String = "get fuked m8";
 		public var maxHP:int = 100;
-		public var currHP:int = maxHP;
+		public var currHP:int = 100;
+		public var atk:int = 0;
+		public var def:int = 0;
+		public var agi:int = 0;
+		public var exp:int = 0;
+		public var gold:int = 0;
+		public var loot:Array = new Array();
 		public var moves:Array = new Array();
 
 		public function Enemy(properties:Object) {
@@ -13,11 +20,8 @@
 					this[name] = properties[name];
 				}
 			}
-		}
-		
-		public function act(player:Player):void {
-			var move:Move = moves[Math.random() * moves.length];
 			
+			currHP = maxHP;
 		}
 	}
 }

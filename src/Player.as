@@ -35,7 +35,7 @@
 			
 			return -1;
 		}
-
+		
 		public function levelUp():int {
 			var overflow:int = currExp - maxExp;
 			level++;

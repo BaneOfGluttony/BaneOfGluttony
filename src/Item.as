@@ -4,6 +4,7 @@
 		public var name:String = "Item";
 		public var short:String = "Short description";
 		public var long:String = "Long description";
+		public var wpnText:String = "Weapon text";
 		public var canDrop:Boolean = true;
 		public var equip:Boolean = false;
 		public var count:int = 0;
@@ -22,13 +23,6 @@
 		public var energy:int = 0;
 		public var capacity:int = 0;
 		
-		public var str:int = 0;
-		public var agi:int = 0;
-		public var vit:int = 0;
-		public var itn:int = 0;
-		public var dex:int = 0;
-		public var vor:int = 0;
-		
 		public var atk:int = 0;
 		public var matk:int = 0;
 		public var def:int = 0;
@@ -37,6 +31,20 @@
 		public var dodge:int = 0;
 		public var fat:int = 0;
 		public var cap:int = 0;
+		
+		public var strFlat:int = 0;
+		public var agiFlat:int = 0;
+		public var vitFlat:int = 0;
+		public var intFlat:int = 0;
+		public var dexFlat:int = 0;
+		public var vorFlat:int = 0;
+		
+		public var strScale:Number = 0;
+		public var agiScale:Number = 0;
+		public var vitScale:Number = 0;
+		public var dexScale:Number = 0;
+		public var intScale:Number = 0;
+		public var vorScale:Number = 0;
 		
 		//public var effect:Status = new Status({});
 
@@ -47,13 +55,6 @@
 				}
 			}
 		}
-		
-		/*public function Item(name:String, short:String, long:String, canDrop:Boolean) {
-			this.name = name;
-			this.short = short;
-			this.long = long;
-			this.canDrop = canDrop;
-		}*/
 		
 		public function toString():String {
 			return count + "x " + name + " - " + long;
