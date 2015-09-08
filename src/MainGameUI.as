@@ -1488,7 +1488,7 @@ package
 			main.setText(main.mainText);
 			update();
 		}
-
+		
 		public function moveSW():void {
 			main.player.x--;
 			main.player.y++;
@@ -1500,10 +1500,10 @@ package
 			main.setText(main.mainText);
 			update();
 		}
-
+		
 		public function moveS():void {
 			main.player.y++;
-
+			
 			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
 				World.world[main.player.x][main.player.y].name + "\n" +
 				World.world[main.player.x][main.player.y].text;
@@ -1585,7 +1585,7 @@ package
 				game.combatUI.enemyLabel.text = enemy.name;
 			
 			updateEnemyHealth();
-			main.setText(enemy.desc + "\n--------------------------------------------------");
+			main.setText(enemy.startText + "\n--------------------------------------------------");
 		}
 		
 		public function hideCombat():void {
@@ -1608,6 +1608,7 @@ package
 				colorTF.color = 0x009900;
 				game.combatUI.healthBar.transform.colorTransform = colorTF;
 			}
+			
 			game.combatUI.healthLabel.text = main.combat.enemy.currHP + "/" + main.combat.enemy.maxHP;
 		}
 		//}

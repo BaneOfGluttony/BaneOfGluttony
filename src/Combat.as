@@ -36,8 +36,9 @@
 			text += "\nYou deal " + dmg + " damage.";
 			
 			main.addText(text);
-			enemyDmg(dmg);
-			enemyTurn();
+			
+			if (enemyDmg(dmg))
+				enemyTurn();
 		}
 		
 		public function enemyTurn():void {
@@ -69,14 +70,16 @@
 			}
 		}
 		
-		public function enemyDmg(dmg:int):void {
+		public function enemyDmg(dmg:int):Boolean {
 			enemy.currHP -= dmg;
 			if (enemy.currHP <= 0) {
 				enemy.currHP = 0;
 				main.mainMC.updateEnemyHealth();
 				main.endCombat();
+				return false
 			} else {
 				main.mainMC.updateEnemyHealth();
+				return true;
 			}
 		}
 	}

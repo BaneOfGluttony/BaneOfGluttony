@@ -2,7 +2,8 @@
 	
 	public class Enemy {
 		public var name:String = "Enemy";
-		public var desc:String = "Description";
+		public var startText:String = "Start";
+		public var endText:String = "End";
 		public var atkText:String = "get fuked m8";
 		public var maxHP:int = 100;
 		public var currHP:int = 100;

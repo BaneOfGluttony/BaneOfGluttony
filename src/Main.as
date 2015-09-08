@@ -841,10 +841,10 @@
 			mainMC.game.btnsUI.btn8.visible = true;
 			mainMC.game.btnsUI.btn8.btnText.text = "Continue";
 			
+			addText(combat.enemy.endText);
 			for each (var item:Item in combat.enemy.loot) {
 				loot(item, 1);
 			}
-			
 			addGold(combat.enemy.gold);
 			addExp(combat.enemy.exp);
 		}
@@ -856,7 +856,6 @@
 			mainMC.menuItemSelected = false;
 			mainMC.game.btnsUI.upBtn.visible = false;
 			mainMC.game.btnsUI.downBtn.visible = false;
-			mainMC.game.menuUI.visible = false;
 			mainMC.updateMenuBtns();
 			
 			if (cause == 0)
