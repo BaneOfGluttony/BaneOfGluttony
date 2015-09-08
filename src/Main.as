@@ -833,7 +833,6 @@
 		public function startCombat(enemy:Enemy):void {
 			combat = new Combat(this, player, enemy);
 			mainMC.displayCombat(enemy);
-			
 		}
 		
 		public function endCombat():void {

@@ -10,16 +10,20 @@
 			this.main = main;
 			this.player = player;
 			this.enemy = enemy;
+			main.setText(enemy.startText + "\n--------------------------------------------------");
 			
 			if (player.stats["agi"] > enemy.agi) {
 				playerTurn = true;
 			} else if (player.stats["agi"] < enemy.agi) {
 				playerTurn = false;
+				enemyTurn();
 			} else {
-				if (Math.random() < 0.5)
-					playerTurn = false;
-				else
-					playerTurn = true;
+				if (Math.random() < 0.5) {
+					//playerTurn = false;
+					enemyTurn();
+				} else {
+					//playerTurn = true;
+				}
 			}
 		}
 		
@@ -36,6 +40,7 @@
 			text += "\nYou deal " + dmg + " damage.";
 			
 			main.addText(text);
+			main.addText("-----");
 			
 			if (enemyDmg(dmg))
 				enemyTurn();
@@ -60,11 +65,13 @@
 			}
 			
 			main.addText(text);
+			main.addText("-----");
 			playerDmg(dmg);
 		}
 		
 		public function playerDmg(dmg:int):void {
 			main.addResource("Health", -dmg, 0);
+			
 			if (player.resources["currHealth"] <= 0) {
 				main.gameOver(0);
 			}
@@ -72,6 +79,7 @@
 		
 		public function enemyDmg(dmg:int):Boolean {
 			enemy.currHP -= dmg;
+			
 			if (enemy.currHP <= 0) {
 				enemy.currHP = 0;
 				main.mainMC.updateEnemyHealth();

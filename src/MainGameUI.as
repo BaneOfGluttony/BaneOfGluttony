@@ -332,6 +332,7 @@ package
 
 		public function updateMenuBtns():void {
 			//trace("state = " + state);
+			game.optionsBtn.visible = true;
 			game.menuUI.appearanceBtn.visible = true;
 			game.menuUI.inventoryBtn.visible = true;
 			game.menuUI.skillsBtn.visible = true;
@@ -348,16 +349,50 @@ package
 						game.menuUI.loadBtn.btnText.text = "Load";
 					}
 					break;
+				case "options" :
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Back";
+					break;
 				case "inventory" :
+					game.optionsBtn.visible = false;
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Back";
+					break;
 				case "appearance" :
-					if (menuItemSelected) {
-						game.menuUI.saveBtn.visible = false;
-						game.menuUI.loadBtn.visible = true;
-						game.menuUI.loadBtn.btnText.text = "Back";
-					} else {
-						game.menuUI.saveBtn.visible = false;
-						game.menuUI.loadBtn.visible = false;
-					}
+					game.optionsBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Back";
+					break;
+				case "skills" :
+					game.optionsBtn.visible = false;
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Back";
+					break;
+				case "quests" :
+					game.optionsBtn.visible = false;
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Back";
 					break;
 				case "shop" :
 				case "buying" :
@@ -486,25 +521,44 @@ package
 				test.getChoice(1);*/
 			
 			//{ Menus
-			if (e.keyCode == Keyboard.ESCAPE || e.keyCode == Keyboard.EQUAL)
+			if (e.keyCode == Keyboard.ESCAPE && game.optionsBtn.visible)
 				openOptions();
-			else if (e.keyCode == Keyboard.U)
+			else if (e.keyCode == Keyboard.U && game.menuUI.visible && game.menuUI.appearanceBtn.visible)
 				openAppearance();
-			else if (e.keyCode == Keyboard.I)
+			else if (e.keyCode == Keyboard.I && game.menuUI.visible && game.menuUI.inventoryBtn.visible)
 				openInventory();
-			else if (e.keyCode == Keyboard.J)
+			else if (e.keyCode == Keyboard.J && game.menuUI.visible && game.menuUI.questsBtn.visible)
 				openQuests();
-			else if (e.keyCode == Keyboard.K)
+			else if (e.keyCode == Keyboard.K && game.menuUI.visible && game.menuUI.skillsBtn.visible)
 				openSkills();
-			else if (e.keyCode == Keyboard.M)
+			else if (e.keyCode == Keyboard.M && game.menuUI.visible && game.mainUI.zoneBtn.visible)
 				toggleMap();
-			else if ((e.keyCode == Keyboard.BACKSPACE || e.keyCode == Keyboard.MINUS) &&
-					 game.menuUI.loadBtn.visible && game.menuUI.loadBtn.btnText.text == "Back") {
+			else if (e.keyCode == Keyboard.BACKSPACE && game.menuUI.loadBtn.visible && game.menuUI.loadBtn.btnText.text == "Back") {
 				switch (state) {
+					case "gameover" :
+					case "navigate" :
+						main.loadGame();
+						break;
+					case "options" :
+						openOptions();
+						break;
 					case "appearance" :
+						if (menuItemSelected)
+							menuConfirm(selectedItem, -1);
+						else
+							openAppearance();
+						break;
 					case "inventory" :
 						if (menuItemSelected)
 							menuConfirm(selectedItem, -1);
+						else
+							openInventory();
+						break;
+					case "skills" :
+						openSkills();
+						break;
+					case "quests" :
+						openQuests();
 						break;
 					case "shop" :
 					case "buying" :
@@ -517,8 +571,7 @@ package
 				}
 			}
 			
-			else if ((e.keyCode == Keyboard.PAGE_UP || e.keyCode == Keyboard.LEFTBRACKET) &&
-					game.btnsUI.upBtn.visible) {
+			else if (e.keyCode == Keyboard.PAGE_UP && game.btnsUI.upBtn.visible) {
 				switch (state) {
 					case "inventory" :
 					case "buying" :
@@ -529,8 +582,7 @@ package
 						break;
 				}
 			}
-			else if ((e.keyCode == Keyboard.PAGE_DOWN || e.keyCode == Keyboard.QUOTE) &&
-					game.btnsUI.downBtn.visible) {
+			else if (e.keyCode == Keyboard.PAGE_DOWN && game.btnsUI.downBtn.visible) {
 				switch (state) {
 					case "inventory" :
 					case "buying" :
@@ -757,10 +809,26 @@ package
 				case "navigate" :
 					main.loadGame();
 					break;
+				case "options" :
+					openOptions();
+					break;
 				case "appearance" :
+					if (menuItemSelected)
+						menuConfirm(selectedItem, -1);
+					else
+						openAppearance();
+					break;
 				case "inventory" :
 					if (menuItemSelected)
 						menuConfirm(selectedItem, -1);
+					else
+						openInventory();
+					break;
+				case "skills" :
+					openSkills();
+					break;
+				case "quests" :
+					openQuests();
 					break;
 				case "shop" :
 				case "buying" :
@@ -1132,7 +1200,6 @@ package
 				default :
 					state = "appearance";
 					
-					game.menuUI.loadBtn.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1166,10 +1233,13 @@ package
 					updateMenuBtns();
 					updateNavBtns();
 					break;
+				case "combat" :
+					//state = "combatInventory";
+					
+					break;
 				default :
 					state = "inventory";
 					
-					game.menuUI.loadBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
 					game.menuUI.appearanceBtn.gotoAndStop(1);
 					game.menuUI.inventoryBtn.gotoAndStop(2);
@@ -1201,7 +1271,6 @@ package
 				default :
 					state = "skills";
 					
-					game.menuUI.loadBtn.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1232,7 +1301,6 @@ package
 				default :
 					state = "quests"
 					
-					game.menuUI.loadBtn.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1264,7 +1332,6 @@ package
 				case "navigate" :
 					state = "map";
 					
-					game.menuUI.loadBtn.visible = false;
 					game.optionsBtn.visible = false;
 					game.mainUI.bigMap.visible = true;
 					game.mainUI.bigMarker.visible = true;
@@ -1585,7 +1652,6 @@ package
 				game.combatUI.enemyLabel.text = enemy.name;
 			
 			updateEnemyHealth();
-			main.setText(enemy.startText + "\n--------------------------------------------------");
 		}
 		
 		public function hideCombat():void {
