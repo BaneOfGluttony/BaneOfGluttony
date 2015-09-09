@@ -5,20 +5,23 @@
 		public var main:Main;
 		public var player:Player;
 		public var enemy:Enemy;
-		public var text:String = "";
+		public var text:String;
 		public var enemyFirstStrike:Boolean = false;
 		public var enemyIsAlive:Boolean = true;
+		public var playerIsAlive:Boolean = true;
 		
 		public function Combat(main:Main, player:Player, enemy:Enemy) {
 			this.main = main;
 			this.player = player;
 			this.enemy = enemy;
-			main.combatText = enemy.startText + "\n--------------------------------------------------\n";
+			text = enemy.startText + "\n--------------------------------------------------\n"
+			main.combatText = text;
 			main.setText(main.combatText);
 		}
 		
 		public function turn(cmd:String, item:Item = null, skill:Skill = null):Boolean {
 			var ret:Boolean = true;
+			main.combatText = text;
 			
 			switch (cmd) {
 				case "attack" :
@@ -28,11 +31,13 @@
 							enemyTurn();
 					} else if (player.stats["agi"] < enemy.agi) {
 						enemyTurn();
-						playerAttack();
+						if (playerIsAlive)
+							playerAttack();
 					} else if (player.stats["agi"] == enemy.agi) {
 						if (Math.random() < 0.5) {
 							enemyTurn();
-							playerAttack();
+							if (playerIsAlive)
+								playerAttack();
 						} else {
 							playerAttack();
 							if (enemyIsAlive)
@@ -47,11 +52,13 @@
 							enemyTurn();
 					} else if (player.stats["agi"] < enemy.agi) {
 						enemyTurn();
-						ret = useItem(item);
+						if (playerIsAlive)
+							ret = useItem(item);
 					} else if (player.stats["agi"] == enemy.agi) {
 						if (Math.random() < 0.5) {
 							enemyTurn();
-							ret = useItem(item);
+							if (playerIsAlive)
+								ret = useItem(item);
 						} else {
 							ret = useItem(item);
 							if (enemyIsAlive)
@@ -73,24 +80,23 @@
 					break;
 			}
 			
-			text = "";
 			return ret;
 		}
 		
 		public function playerAttack():Boolean {
-			text += "\n";
+			main.combatText += "\n";
 			var dmg:int = player.derivedStats["atk"] - enemy.def;
 			if (dmg < 0)
 				dmg = 0;
 			
 			if (player.equipment["weapon"] != null && player.equipment["weapon"].wpnText != "Weapon text")
-				text += player.equipment["weapon"].wpnText + " for " + dmg + " damage.";
+				main.combatText += player.equipment["weapon"].wpnText + " for " + dmg + " damage.";
 			else
-				text += "You lunge at your foe with all your might.";
-			text += "\nYou deal " + dmg + " damage.";
-			text += "\n-----";
+				main.combatText += "You lunge at your foe with all your might.";
+			main.combatText += "\nYou deal " + dmg + " damage.";
+			main.combatText += "\n-----";
 			
-			main.setText(main.combatText + text);
+			main.setText(main.combatText);
 			
 			return enemyDmg(dmg);
 		}
@@ -99,20 +105,25 @@
 			var used:Boolean = main.useItem(item);
 			
 			if (item.equip) {
-				text += "\nYou equip a " + item.name + ".";
+				main.combatText += "\nYou equip a " + item.name + ".";
 			} else {
-				text += "\nYou use a " + item.name + ".";
-				text += "\n" + item.effect.listEffects();
+				main.combatText += "\nYou use a " + item.name + ".";
+				main.combatText += "\n" + item.effect.listEffects();
 			}
 			
-			text += "\n-----";
-			main.setText(main.combatText + text);
+			main.combatText += "\n-----";
+			main.setText(main.combatText);
+			
+			if (!used) {
+				main.gameOver(1);
+				playerIsAlive = false;
+			}
 			
 			return used;
 		}
 		
 		public function enemyTurn():Boolean {
-			text += "\n";
+			main.combatText += "\n";
 			var dmg:int;
 			
 			if (enemy.moves.length > 0) {
@@ -122,7 +133,7 @@
 					if (dmg < 0)
 						dmg = 0;
 						
-					text += enemy.atkText + "\nYou take " + dmg + " damage.";
+					main.combatText += enemy.atkText + "\nYou take " + dmg + " damage.";
 				} else {
 					var randSkill:int = (Math.random() * enemy.moves.length) as int;
 					//useSkill(randSkill);
@@ -132,10 +143,10 @@
 				if (dmg < 0)
 					dmg = 0;
 					
-				text += enemy.atkText + "\nYou take " + dmg + " damage.";
+				main.combatText += enemy.atkText + "\nYou take " + dmg + " damage.";
 			}
-			text += "\n-----";
-			main.setText(main.combatText + text);
+			main.combatText += "\n-----";
+			main.setText(main.combatText);
 			
 			return playerDmg(dmg);
 		}
@@ -145,6 +156,7 @@
 			
 			if (player.resources["currHealth"] <= 0) {
 				main.gameOver(0);
+				playerIsAlive = false;
 				return false;
 			}
 			

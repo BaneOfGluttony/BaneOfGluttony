@@ -679,11 +679,11 @@
 			if (player.inventory[index].count <= 0)
 				player.inventory.splice(index, 1);
 			
-			if (player.resources["currHealth"] <= 0) {
-				gameOver(0);
-				return false;
-			} else if (player.resources["currCapacity"] > player.derivedStats["cap"]) {
+			if (player.resources["currCapacity"] > player.derivedStats["cap"]) {
 				gameOver(1);
+				return false;
+			} else if (player.resources["currHealth"] <= 0) {
+				gameOver(0);
 				return false;
 			}
 			
@@ -833,6 +833,10 @@
 		}
 		
 		public function endCombat(win:Boolean):void {
+			mainMC.hideBtnArray();
+			mainMC.game.btnsUI.upBtn.visible = false;
+			mainMC.game.btnsUI.downBtn.visible = false;
+			
 			if (win) {
 				mainMC.game.combatUI.visible = false;
 				mainMC.game.btnsUI.btn8.visible = true;
@@ -844,6 +848,15 @@
 				}
 				addGold(combat.enemy.gold);
 				addExp(combat.enemy.exp);
+			} else {
+				trace(mainMC.state);
+				mainMC.updateMenuBtns();
+				mainMC.game.combatUI.attackBtn.visible = false;
+				mainMC.game.combatUI.inventoryBtn.visible = false;
+				mainMC.game.combatUI.skillsBtn.visible = false;
+				mainMC.game.combatUI.runBtn.visible = false;
+				mainMC.game.combatUI.devourBtn.visible = false;
+				mainMC.game.combatUI.surrenderBtn.visible = false;
 			}
 		}
 		

@@ -1294,7 +1294,7 @@ package
 					game.combatUI.inventoryBtn.gotoAndStop(1);
 					hideBtnArray();
 					
-					//main.setText(main.combatText);
+					main.setText(main.combatText);
 					game.mainUI.scrollBar.scrollPosition = game.mainUI.scrollBar.maxScrollPosition;
 					game.mainUI.scrollBar.update();
 					break;
@@ -1534,8 +1534,10 @@ package
 							if (!main.combat.turn("inventory", item))
 								return;
 							openInventory();
+							return;
 						}
 					}
+					displayInventory();
 					break;
 				case "shop" :
 					if (selection == -1) {

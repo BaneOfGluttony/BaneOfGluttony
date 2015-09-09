@@ -94,7 +94,7 @@
 				else if (name == "cap")
 					text += "CAP + " + properties[name] + ", ";
 			}
-			trace(text);
+			
 			return text.slice(0, text.length - 2);
 		}
 	}
