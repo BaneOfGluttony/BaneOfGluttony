@@ -36,8 +36,7 @@ package
 		
 		public const faURL:String = "http://www.furaffinity.net/user/";
 						
-		public function MainGameUI(_main:Main) 
-		{
+		public function MainGameUI(_main:Main) {
 			main = _main;
 
 			game = new MainGame();
@@ -46,8 +45,7 @@ package
 			main.runner.addChild(game);
 		}
 		
-		private function init(e:Event):void
-		{
+		private function init(e:Event):void {
 			game.removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			main.runner.stage.showDefaultContextMenu = false;
@@ -409,8 +407,34 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = false;
 					break;
+				case "combat" :
+					game.optionsBtn.visible = false;
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = false;
+					break;
+				case "combatInventory" :
+				case "combatSkills" :
+					game.optionsBtn.visible = false;
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.saveBtn.visible = false;
+					game.menuUI.loadBtn.visible = true;
+					game.menuUI.loadBtn.btnText.text = "Back";
+					break;
 				case "gameover" :
-					game.combatUI.visible = false;
+					game.combatUI.attackBtn.visible = false;
+					game.combatUI.inventoryBtn.visible = false;
+					game.combatUI.skillsBtn.visible = false;
+					game.combatUI.runBtn.visible = false;
+					game.combatUI.devourBtn.visible = false;
+					game.combatUI.surrenderBtn.visible = false;
+					game.optionsBtn.visible = false;
 					game.menuUI.visible = true;
 					game.menuUI.appearanceBtn.visible = false;
 					game.menuUI.inventoryBtn.visible = false;
@@ -549,12 +573,14 @@ package
 							openAppearance();
 						break;
 					case "inventory" :
+					case "combatInventory" :
 						if (menuItemSelected)
 							menuConfirm(selectedItem, -1);
 						else
 							openInventory();
 						break;
 					case "skills" :
+					case "combatSkills" :
 						openSkills();
 						break;
 					case "quests" :
@@ -573,23 +599,15 @@ package
 			
 			else if (e.keyCode == Keyboard.PAGE_UP && game.btnsUI.upBtn.visible) {
 				switch (state) {
-					case "inventory" :
-					case "buying" :
-					case "selling" :
-						scrollUp();
-						break;
 					default :
+						scrollUp();
 						break;
 				}
 			}
 			else if (e.keyCode == Keyboard.PAGE_DOWN && game.btnsUI.downBtn.visible) {
 				switch (state) {
-					case "inventory" :
-					case "buying" :
-					case "selling" :
-						scrollDown();
-						break;
 					default :
+						scrollDown();
 						break;
 				}
 			}
@@ -607,6 +625,7 @@ package
 							menuConfirm(selectedItem, 1);
 						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						if (menuItemSelected)
@@ -628,9 +647,8 @@ package
 							moveN();
 						break;
 					case "appearance" :
-						menuSelect(1);
-						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(1);
@@ -646,6 +664,7 @@ package
 							moveNE();
 						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						if (menuItemSelected)
@@ -666,9 +685,8 @@ package
 							moveW();
 						break;
 					case "appearance" :
-						menuSelect(3);
-						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(3);
@@ -683,9 +701,8 @@ package
 						moveCenter();
 						break;
 					case "appearance" :
-						menuSelect(4);
-						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(4);
@@ -701,9 +718,8 @@ package
 							moveE();
 						break;
 					case "appearance" :
-						menuSelect(5);
-						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(5);
@@ -719,6 +735,7 @@ package
 							moveSW();
 						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(6);
@@ -738,9 +755,8 @@ package
 							moveS();
 						break;
 					case "appearance" :
-						menuSelect(7);
-						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(7);
@@ -759,9 +775,8 @@ package
 							moveSE();
 						break;
 					case "appearance" :
-						menuSelect(8);
-						break;
 					case "inventory" :
+					case "combatInventory" :
 					case "buying" :
 					case "selling" :
 						menuSelect(8);
@@ -819,12 +834,14 @@ package
 						openAppearance();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 					if (menuItemSelected)
 						menuConfirm(selectedItem, -1);
 					else
 						openInventory();
 					break;
 				case "skills" :
+				case "combatSkills" :
 					openSkills();
 					break;
 				case "quests" :
@@ -854,15 +871,15 @@ package
 		}
 		
 		public function combatAttack(e:MouseEvent):void {
-			main.combat.playerAttack();
+			main.combat.turn("attack");
 		}
 		
 		public function combatInventory(e:MouseEvent):void {
-			
+			openInventory();
 		}
 		
 		public function combatSkills(e:MouseEvent):void {
-			
+			openSkills();
 		}
 		
 		public function combatRun(e:MouseEvent):void {
@@ -889,6 +906,7 @@ package
 						menuConfirm(selectedItem, 1);
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					if (menuItemSelected)
@@ -910,6 +928,7 @@ package
 					moveN();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					menuSelect(1);
@@ -928,6 +947,7 @@ package
 					moveNE();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					if (menuItemSelected)
@@ -949,6 +969,7 @@ package
 					moveW();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					menuSelect(3);
@@ -967,6 +988,7 @@ package
 					moveCenter();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					menuSelect(4);
@@ -985,6 +1007,7 @@ package
 					moveE();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					menuSelect(5);
@@ -1003,6 +1026,7 @@ package
 					moveSW();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					menuSelect(6);
@@ -1022,6 +1046,7 @@ package
 					moveS();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					menuSelect(7);
@@ -1043,6 +1068,7 @@ package
 					moveSE();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 				case "buying" :
 				case "selling" :
 					menuSelect(8);
@@ -1065,6 +1091,7 @@ package
 			
 			switch (state) {
 				case "inventory" :
+				case "combatInventory" :
 					displayInventory();
 					break;
 				case "buying" :
@@ -1084,6 +1111,7 @@ package
 			
 			switch (state) {
 				case "inventory" :
+				case "combatInventory" :
 					displayInventory();
 					break;
 				case "buying" :
@@ -1220,11 +1248,10 @@ package
 				case "map" :
 					break;
 				case "inventory" :
+					state = "navigate";
 					btnIndex = 0;
 					menuIndex = 0;
 					scrollIndex = 0;
-					
-					state = "navigate";
 					
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
@@ -1234,8 +1261,42 @@ package
 					updateNavBtns();
 					break;
 				case "combat" :
-					//state = "combatInventory";
+					state = "combatInventory";
 					
+					game.combatUI.attackBtn.visible = false;
+					game.combatUI.skillsBtn.visible = false;
+					game.combatUI.runBtn.visible = false;
+					game.combatUI.devourBtn.visible = false;
+					game.combatUI.surrenderBtn.visible = false;
+					game.combatUI.inventoryBtn.gotoAndStop(2);
+					
+					updateMenuBtns();
+					btnIndex = 0;
+					menuIndex = 0;
+					scrollIndex = 0;
+					displayInventory();
+					break;
+				case "combatInventory" :
+					state = "combat";
+					btnIndex = 0;
+					menuIndex = 0;
+					scrollIndex = 0;
+					
+					updateMenuBtns();
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.combatUI.attackBtn.visible = true;
+					game.combatUI.inventoryBtn.visible = true;
+					game.combatUI.skillsBtn.visible = true;
+					game.combatUI.runBtn.visible = true;
+					game.combatUI.devourBtn.visible = true;
+					game.combatUI.surrenderBtn.visible = true;
+					game.combatUI.inventoryBtn.gotoAndStop(1);
+					hideBtnArray();
+					
+					//main.setText(main.combatText);
+					game.mainUI.scrollBar.scrollPosition = game.mainUI.scrollBar.maxScrollPosition;
+					game.mainUI.scrollBar.update();
 					break;
 				default :
 					state = "inventory";
@@ -1247,7 +1308,6 @@ package
 					game.menuUI.questsBtn.gotoAndStop(1);
 					
 					updateMenuBtns();
-					main.setText(main.writeInventory());
 					btnIndex = 0;
 					menuIndex = 0;
 					scrollIndex = 0;
@@ -1267,6 +1327,44 @@ package
 					updateMenuBtns();
 					updateNavBtns();
 					main.setText(main.mainText);
+					break;
+				case "combat" :
+					state = "combatSkills";
+					
+					game.combatUI.attackBtn.visible = false;
+					game.combatUI.inventoryBtn.visible = false;
+					game.combatUI.runBtn.visible = false;
+					game.combatUI.devourBtn.visible = false;
+					game.combatUI.surrenderBtn.visible = false;
+					game.combatUI.skillsBtn.gotoAndStop(2);
+					
+					updateMenuBtns();
+					btnIndex = 0;
+					menuIndex = 0;
+					scrollIndex = 0;
+					main.setText(main.skillsText);
+					break;
+				case "combatSkills" :
+					state = "combat";
+					btnIndex = 0;
+					menuIndex = 0;
+					scrollIndex = 0;
+					
+					updateMenuBtns();
+					game.btnsUI.upBtn.visible = false;
+					game.btnsUI.downBtn.visible = false;
+					game.combatUI.attackBtn.visible = true;
+					game.combatUI.inventoryBtn.visible = true;
+					game.combatUI.skillsBtn.visible = true;
+					game.combatUI.runBtn.visible = true;
+					game.combatUI.devourBtn.visible = true;
+					game.combatUI.surrenderBtn.visible = true;
+					game.combatUI.skillsBtn.gotoAndStop(1);
+					hideBtnArray();
+					
+					main.setText(main.combatText);
+					game.mainUI.scrollBar.scrollPosition = game.mainUI.scrollBar.maxScrollPosition;
+					game.mainUI.scrollBar.update();
 					break;
 				default :
 					state = "skills";
@@ -1361,6 +1459,7 @@ package
 					game.btnsUI.btn1.btnText.text = "Unequip";
 					break;
 				case "inventory" :
+				case "combatInventory" :
 					menuItemSelected = true;
 					selectedItem = main.player.getItemFromInventory(ItemDefinitions.getItem(selection));
 					main.setText(selectedItem.name + " -- " + selectedItem.count + "x\n\n" + selectedItem.short + " " + selectedItem.long);
@@ -1419,17 +1518,24 @@ package
 					displayAppearance();
 					break;
 				case "inventory" :
+				case "combatInventory" :
 					var item:Item = object as Item;
 					
 					menuItemSelected = false;
 					if (selection == 0) {
 						main.drop(item, 1);
+						displayInventory();
 					} else if (selection == 1) {
-						if (!main.useItem(item))
-							return;
+						if (state == "inventory") {
+							if (!main.useItem(item))
+								return;
+							displayInventory();
+						} else {
+							if (!main.combat.turn("inventory", item))
+								return;
+							openInventory();
+						}
 					}
-					
-					displayInventory();
 					break;
 				case "shop" :
 					if (selection == -1) {
@@ -1643,8 +1749,9 @@ package
 			state = "combat";
 			hideBtnArray();
 			game.optionsBtn.visible = false;
-			game.menuUI.visible = false;
+			//game.menuUI.visible = false;
 			game.combatUI.visible = true;
+			updateMenuBtns();
 			
 			if (enemy.name.length <= 15)
 				game.combatUI.enemyLabel.text = "\n" + enemy.name;
@@ -1657,7 +1764,7 @@ package
 		public function hideCombat():void {
 			state = "navigate";
 			game.optionsBtn.visible = true;
-			game.menuUI.visible = true;
+			//game.menuUI.visible = true;
 			updateMenuBtns();
 			updateNavBtns();
 			main.setText(main.mainText);

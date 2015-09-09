@@ -15,7 +15,7 @@
 		public var loot:Array = new Array();
 		public var moves:Array = new Array();
 
-		public function Enemy(properties:Object) {
+		public function Enemy(properties:Object = null) {
 			for (var name:String in properties) {
 				if (this.hasOwnProperty(name)) {
 					this[name] = properties[name];

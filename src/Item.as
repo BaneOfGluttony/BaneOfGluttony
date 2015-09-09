@@ -18,7 +18,9 @@
 		public var shield:Boolean = false;
 		public var weapon:Boolean = false;
 		
-		public var health:int = 0;
+		public var effect:Effect = new Effect();
+		
+		/*public var health:int = 0;
 		public var mana:int = 0;
 		public var energy:int = 0;
 		public var capacity:int = 0;
@@ -44,7 +46,7 @@
 		public var vitScale:Number = 0;
 		public var dexScale:Number = 0;
 		public var intScale:Number = 0;
-		public var vorScale:Number = 0;
+		public var vorScale:Number = 0;*/
 		
 		//public var effect:Status = new Status({});
 
@@ -54,6 +56,28 @@
 					this[name] = properties[name];
 				}
 			}
+		}
+		
+		public function procEffects(main:Main, player:Player):void {
+			main.addResource("Health", effect.health, 0);
+			main.addResource("Mana", effect.mana, 0);
+			main.addResource("Energy", effect.energy, 0);
+			main.addResource("Capacity", effect.capacity, 0);
+			main.addFat(0.05 * effect.capacity);
+			
+			main.addStat("str", effect.strFlat);
+			main.addStat("agi", effect.agiFlat);
+			main.addStat("vit", effect.vitFlat);
+			main.addStat("int", effect.intFlat);
+			main.addStat("dex", effect.dexFlat);
+			main.addStat("vor", effect.vorFlat);
+			
+			/*main.addStat("str", Math.round(player.stats["str"] * effect.strScale));
+			main.addStat("agi", Math.round(player.stats["agi"] * effect.agiScale));
+			main.addStat("vit", Math.round(player.stats["vit"] * effect.vitScale));
+			main.addStat("int", Math.round(player.stats["int"] * effect.intScale));
+			main.addStat("dex", Math.round(player.stats["dex"] * effect.dexScale));
+			main.addStat("vor", Math.round(player.stats["vor"] * effect.vorScale));*/
 		}
 		
 		public function toString():String {

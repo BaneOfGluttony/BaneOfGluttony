@@ -22,6 +22,8 @@
 		
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
+		flash.net.registerClassAlias("Effect", Effect);
+		
 		public var player:Player = new Player();
 		public var combat:Combat;
 		
@@ -32,6 +34,7 @@
 		public var inventoryText:String = "Inventory";
 		public var skillsText:String = "Skills\n\nTo be implemented.";
 		public var questsText:String = "Quests\n\nTo be implemented.";
+		public var combatText:String = "Combat";
 		
 		public var credits:Array = ["PowersNDark", "Mysticmightg", "Sinwraith", "Serule", "Kazan.K"];
 		
@@ -59,7 +62,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
@@ -100,7 +103,7 @@
 			setStat("vor", 26);
 			setFat(86);
 			setGold(245);
-			addExp(196);*/
+			addExp(196);
 			
 			startCombat(EnemyDefinitions.definitions["Slime"]);
 		}
@@ -124,19 +127,31 @@
 		}
 		
 		public function addText(txt:String):void {
-			if (txt != "") {
-				mainMC.game.mainUI.textField.appendText("\n\n" + txt);
-				mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.maxScrollPosition;
-				mainMC.game.mainUI.scrollBar.update();
+			if (txt == "")
+				return;
+			
+			switch (mainMC.state) {
+				/*case "combat" :
+					combatText += "\n\n" + txt;
+					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
+					
+					break;*/
+				default :
+					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
+					break;
 			}
+			
+			mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.maxScrollPosition;
+			mainMC.game.mainUI.scrollBar.update();
 		}
 		
 		public function setText(txt:String):void {
-			if (txt != "") {
-				mainMC.game.mainUI.textField.text = txt;
-				mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.minScrollPosition;
-				mainMC.game.mainUI.scrollBar.update();
-			}
+			if (txt == "")
+				return;
+			
+			mainMC.game.mainUI.textField.text = txt;
+			mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.minScrollPosition;
+			mainMC.game.mainUI.scrollBar.update();
 		}
 		
 		public function saveGame():void {
@@ -496,13 +511,13 @@
 			
 			for each (var item:Object in player.equipment) {
 				if (item != null) {
-					player.derivedStats["atk"] += item.atk;
-					player.derivedStats["matk"] += item.matk;
-					player.derivedStats["def"] += item.def;
-					player.derivedStats["mdef"] += item.mdef;
-					player.derivedStats["acc"] += item.acc;
-					player.derivedStats["dodge"] += item.dodge;
-					player.derivedStats["cap"] += item.cap;
+					player.derivedStats["atk"] += item.effect["atk"];
+					player.derivedStats["matk"] += item.effect["matk"];
+					player.derivedStats["def"] += item.effect["def"];
+					player.derivedStats["mdef"] += item.effect["mdef"];
+					player.derivedStats["acc"] += item.effect["acc"];
+					player.derivedStats["dodge"] += item.effect["dodge"];
+					player.derivedStats["cap"] += item.effect["cap"];
 				}
 			}
 			
@@ -656,25 +671,7 @@
 				} 
 			}
 			
-			addResource("Health", item.health, 0);
-			addResource("Mana", item.mana, 0);
-			addResource("Energy", item.energy, 0);
-			addResource("Capacity", item.capacity, 0);
-			addFat(0.05 * item.capacity);
-			
-			addStat("str", item.strFlat);
-			addStat("agi", item.agiFlat);
-			addStat("vit", item.vitFlat);
-			addStat("int", item.intFlat);
-			addStat("dex", item.dexFlat);
-			addStat("vor", item.vorFlat);
-			
-			addStat("str", Math.round(player.stats["str"] * item.strScale));
-			addStat("agi", Math.round(player.stats["agi"] * item.agiScale));
-			addStat("vit", Math.round(player.stats["vit"] * item.vitScale));
-			addStat("int", Math.round(player.stats["int"] * item.intScale));
-			addStat("dex", Math.round(player.stats["dex"] * item.dexScale));
-			addStat("vor", Math.round(player.stats["vor"] * item.vorScale));
+			item.procEffects(this, player);
 			
 			var index:int = player.indexOfInventory(item);
 			
@@ -787,6 +784,7 @@
 		public function writeInventory():String {			
 			switch (mainMC.state) {
 				case "inventory" :
+				case "combatInventory" :
 					inventoryText = "Inventory\n\n";
 					
 					if (player.inventory.length == 0) {
@@ -802,9 +800,8 @@
 					if (player.inventory.length == 0) {
 						inventoryText += "You have nothing to sell.";
 					} else {
-						for each (var sell:Item in player.inventory) {
+						for each (var sell:Item in player.inventory)
 							inventoryText += sell.name + " x" + sell.count + " -- " + Math.round(0.5 * sell.value) + " gold ea.\n" + sell.short + "\n\n";
-						}
 					}
 					break;
 				default :
@@ -835,17 +832,19 @@
 			mainMC.displayCombat(enemy);
 		}
 		
-		public function endCombat():void {
-			mainMC.game.combatUI.visible = false;
-			mainMC.game.btnsUI.btn8.visible = true;
-			mainMC.game.btnsUI.btn8.btnText.text = "Continue";
-			
-			addText(combat.enemy.endText);
-			for each (var item:Item in combat.enemy.loot) {
-				loot(item, 1);
+		public function endCombat(win:Boolean):void {
+			if (win) {
+				mainMC.game.combatUI.visible = false;
+				mainMC.game.btnsUI.btn8.visible = true;
+				mainMC.game.btnsUI.btn8.btnText.text = "Continue";
+				
+				addText(combat.enemy.endText);
+				for each (var item:Item in combat.enemy.loot) {
+					loot(item, 1);
+				}
+				addGold(combat.enemy.gold);
+				addExp(combat.enemy.exp);
 			}
-			addGold(combat.enemy.gold);
-			addExp(combat.enemy.exp);
 		}
 		
 		public function gameOver(cause:int):void {
@@ -857,9 +856,10 @@
 			mainMC.game.btnsUI.downBtn.visible = false;
 			mainMC.updateMenuBtns();
 			
-			if (cause == 0)
+			if (cause == 0) {
 				addText("You have been slain.");
-			else if (cause == 1)
+				endCombat(false);
+			} else if (cause == 1)
 				addText("You have eaten yourself into a food coma.");
 			else if (cause == 2)
 				addText("You have collapsed from exhaustion.");

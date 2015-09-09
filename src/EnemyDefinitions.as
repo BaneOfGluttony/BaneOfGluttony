@@ -5,12 +5,12 @@
 			"Slime"				: new Enemy( {	name		: "Slime",
 												startText	: "This is a test enemy.",
 												endText		: "You have defeated the slime.",
-												atkText		: "The slime springs into the air, landing on you with a jiggly thud.",
+												atkText		: "The slime springs into the air, landing on you with a jiggly thud before reeling back to prepare its next strike.",
 												loot		: [ItemDefinitions.getItem("Red Potion")],
 												maxHP		: 30,
-												atk			: 10,
+												atk			: 30,
 												def			: 2,
-												agi			: 100,
+												agi			: 7,
 												exp			: 10,
 												gold		: 5})
 		};
