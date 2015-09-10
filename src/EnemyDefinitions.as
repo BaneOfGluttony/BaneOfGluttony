@@ -10,7 +10,7 @@
 												maxHP		: 30,
 												atk			: 30,
 												def			: 2,
-												agi			: 7,
+												agi			: 1,
 												exp			: 10,
 												gold		: 5})
 		};

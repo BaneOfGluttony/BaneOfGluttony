@@ -48,8 +48,10 @@
 				case "inventory" :
 					if (player.stats["agi"] > enemy.agi) {
 						ret = useItem(item);
-						if (enemyIsAlive)
-							enemyTurn();
+						if (ret) {
+							if (enemyIsAlive)
+								enemyTurn();
+						}
 					} else if (player.stats["agi"] < enemy.agi) {
 						enemyTurn();
 						if (playerIsAlive)
@@ -61,8 +63,10 @@
 								ret = useItem(item);
 						} else {
 							ret = useItem(item);
-							if (enemyIsAlive)
-								enemyTurn();
+							if (ret) {
+								if (enemyIsAlive)
+									enemyTurn();
+							}
 						}
 					}
 					break;
@@ -104,18 +108,18 @@
 		public function useItem(item:Item):Boolean {
 			var used:Boolean = main.useItem(item);
 			
-			if (item.equip) {
-				main.combatText += "\nYou equip a " + item.name + ".";
+			if (used) {
+				if (item.equip) {
+					main.combatText += "\nYou equip a " + item.name + ".";
+				} else {
+					main.combatText += "\nYou use a " + item.name + ".";
+					main.combatText += "\n" + item.effect.listEffects();
+				}
+				
+				main.combatText += "\n-----";
+				main.setText(main.combatText);
 			} else {
-				main.combatText += "\nYou use a " + item.name + ".";
-				main.combatText += "\n" + item.effect.listEffects();
-			}
-			
-			main.combatText += "\n-----";
-			main.setText(main.combatText);
-			
-			if (!used) {
-				main.gameOver(1);
+				//main.gameOver(1);
 				playerIsAlive = false;
 			}
 			

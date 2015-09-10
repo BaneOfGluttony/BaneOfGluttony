@@ -309,6 +309,9 @@
 		}
 		
 		public function setResource(resource:String, curr:int, max:int):void { //use a separate takeDamage/feed method that uses this
+			if (max < 0)
+				max = player.resources["max" + resource];
+			
 			player.resources["max" + resource] = max;
 			player.resources["curr" + resource] = curr;
 			
@@ -868,18 +871,20 @@
 			mainMC.game.btnsUI.upBtn.visible = false;
 			mainMC.game.btnsUI.downBtn.visible = false;
 			mainMC.updateMenuBtns();
+			setResource("Health", 0, -1);
 			
 			if (cause == 0) {
-				addText("You have been slain.");
+				addText("----------\n\nYou have been slain.");
 				endCombat(false);
-			} else if (cause == 1)
-				addText("You have eaten yourself into a food coma.");
-			else if (cause == 2)
-				addText("You have collapsed from exhaustion.");
+			} else if (cause == 1) {
+				addText("----------\n\nYou have eaten yourself into a food coma.");
+				endCombat(false);
+			} else if (cause == 2)
+				addText("----------\n\nYou have collapsed from exhaustion.");
 			else if (cause == 3)
-				addText("You have been devoured.");
+				addText("----------\n\nYou have been devoured.");
 			else
-				addText("You died.");
+				addText("----------\n\nYou died.");
 			
 			addText("Load your last saved state.");
 		}
