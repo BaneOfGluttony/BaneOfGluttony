@@ -1,4 +1,5 @@
 ﻿package  {
+	import flash.geom.Point;
 	
 	public class Item {
 		public var name:String = "Item";
@@ -19,6 +20,9 @@
 		public var weapon:Boolean = false;
 		
 		public var effect:Effect = new Effect();
+		public var effectSP:Array;						// array of functions that determine added stats
+		
+		public var addedStats:Array = [];				// keep track of added derived stats (and use when unproccing)
 		
 		/*public var health:int = 0;
 		public var mana:int = 0;
@@ -49,8 +53,8 @@
 		public var vorScale:Number = 0;*/
 		
 		//public var effect:Status = new Status({});
-
-		public function Item(properties:Object = null) {
+		
+		public function Item(properties:Object) {			
 			for (var name:String in properties) {
 				if (this.hasOwnProperty(name)) {
 					this[name] = properties[name];
@@ -58,7 +62,7 @@
 			}
 		}
 		
-		public function procEffects(main:Main, player:Player):void {
+		public function procEffects(main:Main, player:Player):void {				
 			main.addResource("Health", effect.health, 0);
 			main.addResource("Mana", effect.mana, 0);
 			main.addResource("Energy", effect.energy, 0);
@@ -78,6 +82,40 @@
 			main.addStat("int", Math.round(player.stats["int"] * effect.intScale));
 			main.addStat("dex", Math.round(player.stats["dex"] * effect.dexScale));
 			main.addStat("vor", Math.round(player.stats["vor"] * effect.vorScale));*/
+			
+			// proc special effects
+			if (effectSP != null && effectSP.length > 0) {
+				addedStats = [];
+				//trace("[Item] " + name + " has special effects!");
+				for each (var f:Function in effectSP) {
+					var special:Array = f();		// special will be ["nameOfStat", statValueAsInteger]
+					//trace("[Item] " + name + " procs special effect for " + special[0] + " with value " + special[1]);
+					changeStat(main, special[0], special[1]);
+					addedStats.push([special[0], special[1]]);
+				}
+				//trace("[Item] " + name + " finished adding special effects.");
+			}
+		}
+		
+		public function deprocEffects(main:Main):void
+		{
+			if (addedStats.length == 0)
+				return;
+			//trace("[Item] " + name + " is deproccing.");
+			for (var i:int = 0; i < addedStats.length; i++ ) {
+				changeStat(main, addedStats[i][0], -addedStats[i][1]);
+				//trace("[Item] " + name + " undoes special effect for " + addedStats[i][0] + " with value " + addedStats[i][1]);
+			}
+			//trace("[Item] " + name + " finished deproccing.");
+		}
+		
+		private function changeStat(main:Main, stat:String, amount:int):void
+		{
+			switch (stat) {
+				case "maxHealth":		main.addResource("Health", 0, amount);		return;
+				// TODO add more cases
+				default:				trace("[Item] " + name + " WARNING: " + stat + " not found.");
+			}
 		}
 		
 		public function toString():String {
