@@ -36,6 +36,16 @@
 			return -1;
 		}
 		
+		public function getStat(stat:String):int {
+			switch (stat) {
+				case "int":				return stats["int"];
+				case "manaMax":			return resources["maxMana"];
+				// TODO more
+			}
+			trace("WARNING: Player.getStat(" + stat + ") is not valid!");
+			return 0;
+		}
+		
 		public function levelUp():int {
 			var overflow:int = currExp - maxExp;
 			level++;

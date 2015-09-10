@@ -43,6 +43,7 @@
 		public function Main(_runner:Runner) {
 			runner = _runner;
 			mainMC = new MainGameUI(this);
+			ItemDefinitions.main = this;
 		}
 		
 		// called by MainGameUI after it is added to the Stage
@@ -62,8 +63,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			loot(ItemDefinitions.getItem("Sword"), 2);
-			loot(ItemDefinitions.getItem("Sword"), 1);
+			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -75,7 +75,6 @@
 			loot(ItemDefinitions.getItem("Knife"), 4);
 			loot(ItemDefinitions.getItem("Lance"), 1);
 			loot(ItemDefinitions.getItem("Axe"), 2);
-			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Cotton Shirt"), 1);
 			loot(ItemDefinitions.getItem("Denim Pants"), 1);
 			loot(ItemDefinitions.getItem("Shoes"), 1);
@@ -84,14 +83,17 @@
 			loot(ItemDefinitions.getItem("Roast Chicken"), 1);
 			loot(ItemDefinitions.getItem("Falchion"), 1);
 			loot(ItemDefinitions.getItem("Rapier"), 1);
-			loot(ItemDefinitions.getItem("Sabre"), 1);
 			loot(ItemDefinitions.getItem("Cutlass"), 1);
 			loot(ItemDefinitions.getItem("Katana"), 1);
 			loot(ItemDefinitions.getItem("Flamberge"), 1);
 			loot(ItemDefinitions.getItem("Flail"), 1);
-			loot(ItemDefinitions.getItem("Halberd"), 1);
+			loot(ItemDefinitions.getItem("Halberd"), 1);*/
+			loot(ItemDefinitions.getItem("Cerulean Hat"), 1);
+			loot(ItemDefinitions.getItem("Hat"), 1);
+			loot(ItemDefinitions.getItem("Sword"), 1);
+			loot(ItemDefinitions.getItem("Sabre"), 1);
 			
-			setResource("Health", 56, 100);
+			setResource("Health", 100, 100);
 			setResource("Mana", 21, 100);
 			setResource("Energy", 84, 100);
 			setResource("Capacity", 93, 100);
@@ -628,28 +630,26 @@
 		}
 
 		public function useItem(item:Item):Boolean {
-			if (item.equip) {
-				var itemCopy:Item = ItemDefinitions.getItem(item.name);
-				
+			if (item.equip) {				
 				if (item.head) {
 					if (player.equipment["head"] != null)
 						unequip(player.equipment["head"]);
-					player.equipment["head"] = itemCopy;
+					player.equipment["head"] = item;
 					trace(player.equipment["head"].name + " equipped.");
 				} else if (item.torso) {
 					if (player.equipment["torso"] != null)
 						unequip(player.equipment["torso"]);
-					player.equipment["torso"] = itemCopy;
+					player.equipment["torso"] = item;
 					trace(player.equipment["torso"].name + " equipped.");
 				} else if (item.legs) {
 					if (player.equipment["legs"] != null)
 						unequip(player.equipment["legs"]);
-					player.equipment["legs"] = itemCopy;
+					player.equipment["legs"] = item;
 					trace(player.equipment["legs"].name + " equipped.");
 				} else if (item.feet) {
 					if (player.equipment["feet"] != null)
 						unequip(player.equipment["feet"]);
-					player.equipment["feet"] = itemCopy;
+					player.equipment["feet"] = item;
 					trace(player.equipment["feet"].name + " equipped.");
 				} else if (item.weapon) {
 					if (item.twoHanded && player.equipment["shield"] != null) {
@@ -658,14 +658,14 @@
 					} else {
 						if (player.equipment["weapon"] != null)
 							unequip(player.equipment["weapon"]);
-						player.equipment["weapon"] = itemCopy;
+						player.equipment["weapon"] = item;
 						trace(player.equipment["weapon"].name + " equipped.");
 					}
 				} else if (item.shield) {
 					if (player.equipment["weapon"] == null || !player.equipment["weapon"].twoHanded) {
 						if (player.equipment["shield"] != null)
 							unequip(player.equipment["shield"]);
-						player.equipment["shield"] = itemCopy;
+						player.equipment["shield"] = item;
 						trace(player.equipment["shield"].name + " equipped.");
 					} else {
 						addText("You can't equip a shield with a two-handed weapon.");
@@ -696,7 +696,8 @@
 		}
 
 		public function unequip(item:Item):void {
-			trace(item.name);
+			trace("Unequipping " + item.name);
+			item.deprocEffects(this);		// remove special effects of old item
 			if (item.head)
 				player.equipment["head"] = null;
 			else if (item.torso)
