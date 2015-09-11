@@ -1452,7 +1452,8 @@ package
 				case "appearance" :
 					menuItemSelected = true;
 					selectedItem = ItemDefinitions.getItem(selection);
-					main.setText(selectedItem.name + "\n\n" + selectedItem.short + " " + selectedItem.long);
+					main.setText(selectedItem.toString("appearanceSelected"));
+					//main.setText(selectedItem.name + "\n\n" + selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);
 					
 					hideBtnArray();
 					game.btnsUI.btn1.visible = true;
@@ -1462,7 +1463,9 @@ package
 				case "combatInventory" :
 					menuItemSelected = true;
 					selectedItem = main.player.getItemFromInventory(ItemDefinitions.getItem(selection));
-					main.setText(selectedItem.name + " -- " + selectedItem.count + "x\n\n" + selectedItem.short + " " + selectedItem.long);
+					main.setText(selectedItem.toString("inventorySelected"));
+					/*main.setText(selectedItem.name + " -- " + selectedItem.count + "x\n\n" +
+						selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);*/
 					
 					hideBtnArray();
 					game.btnsUI.upBtn.visible = false;
@@ -1478,8 +1481,9 @@ package
 				case "buying" :
 					menuItemSelected = true;
 					selectedItem = ItemDefinitions.getItem(selection);
-					main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea.\n\n" +
-						selectedItem.short + " " + selectedItem.long);
+					main.setText(selectedItem.toString("buyingSelected"));
+					/*main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea.\n\n" +
+						selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);*/
 					
 					hideBtnArray();
 					game.btnsUI.upBtn.visible = false;
@@ -1490,8 +1494,9 @@ package
 				case "selling" :
 					menuItemSelected = true;
 					selectedItem = main.player.getItemFromInventory(ItemDefinitions.getItem(selection));
-					main.setText(selectedItem.name + " -- " + Math.round(0.5 * selectedItem.value) + " gold ea.\n\n" +
-						selectedItem.short + " " + selectedItem.long);
+					main.setText(selectedItem.toString("sellingSelected"));
+					/*main.setText(selectedItem.name + " -- " + Math.round(0.5 * selectedItem.value) + " gold ea.\n\n" +
+						selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);*/
 					
 					hideBtnArray();
 					game.btnsUI.upBtn.visible = false;

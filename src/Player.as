@@ -38,12 +38,28 @@
 		
 		public function getStat(stat:String):int {
 			switch (stat) {
-				case "int":				return stats["int"];
-				case "manaMax":			return resources["maxMana"];
-				// TODO more
+				case "currHealth" :
+				case "maxHealth" :
+				case "currMana" :
+				case "maxMana" :
+				case "currEnergy" :
+				case "maxEnergy" :
+				case "currCapacity" :
+				case "maxCapacity" :
+					return resources[stat];
+					
+				case "str" :
+				case "agi" :
+				case "vit" :
+				case "int" :
+				case "dex" :
+				case "vor" :
+					return stats[stat];
+					
+				default :
+					trace("WARNING: Player.getStat(" + stat + ") is not valid!");
+					return -1;
 			}
-			trace("WARNING: Player.getStat(" + stat + ") is not valid!");
-			return 0;
 		}
 		
 		public function levelUp():int {

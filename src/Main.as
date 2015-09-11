@@ -514,7 +514,7 @@
 			player.derivedStats["cap"] = player.resources["maxCapacity"] + player.stats["vor"];
 			player.derivedStats["weight"] = 2.2 * (50 + 2.3 * (player.height - 60)) + 0.5 * player.stats["str"] + player.fat + 0.03 * player.resources["currCapacity"];
 			
-			for each (var item:Object in player.equipment) {
+			/*for each (var item:Object in player.equipment) {
 				if (item != null) {
 					player.derivedStats["atk"] += item.effect["atk"];
 					player.derivedStats["matk"] += item.effect["matk"];
@@ -524,7 +524,7 @@
 					player.derivedStats["dodge"] += item.effect["dodge"];
 					player.derivedStats["cap"] += item.effect["cap"];
 				}
-			}
+			}*/
 			
 			/*trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
@@ -558,6 +558,9 @@
 			}
 			
 			addText(retString);
+			
+			ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason.
+			item.writeEffects(this, player);
 		}
 		
 		public function drop(item:Item, x:int):void {
@@ -755,27 +758,33 @@
 			appearanceText += "\n\n";
 			var isEmpty:Boolean = true;
 			if (player.equipment["head"] != null) {
-				appearanceText += "Head:\n" + player.equipment["head"].name + " - " + player.equipment["head"].short + " " + player.equipment["head"].long + "\n\n";
+				appearanceText += "Head:\n" + player.equipment["head"].toString("appearance") + "\n\n";
+				//appearanceText += "Head:\n" + player.equipment["head"].name + " - " + player.equipment["head"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["torso"] != null) {
-				appearanceText += "Torso:\n" + player.equipment["torso"].name + " - " + player.equipment["torso"].short + " " + player.equipment["torso"].long + "\n\n";
+				appearanceText += "Torso:\n" + player.equipment["torso"].toString("appearance") + "\n\n";
+				//appearanceText += "Torso:\n" + player.equipment["torso"].name + " - " + player.equipment["torso"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["legs"] != null) {
-				appearanceText += "Legs:\n" + player.equipment["legs"].name + " - " + player.equipment["legs"].short + " " + player.equipment["legs"].long + "\n\n";
+				appearanceText += "Legs:\n" + player.equipment["legs"].toString("appearance") + "\n\n";
+				//appearanceText += "Legs:\n" + player.equipment["legs"].name + " - " + player.equipment["legs"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["feet"] != null) {
-				appearanceText += "Feet:\n" + player.equipment["feet"].name + " - " + player.equipment["feet"].short + " " + player.equipment["feet"].long + "\n\n";
+				appearanceText += "Feet:\n" + player.equipment["feet"].toString("appearance") + "\n\n";
+				//appearanceText += "Feet:\n" + player.equipment["feet"].name + " - " + player.equipment["feet"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["weapon"] != null) {
-				appearanceText += "Weapon:\n" + player.equipment["weapon"].name + " - " + player.equipment["weapon"].short + " " + player.equipment["weapon"].long + "\n\n";
+				appearanceText += "Weapon:\n" + player.equipment["weapon"].toString("appearance") + "\n\n";
+				//appearanceText += "Weapon:\n" + player.equipment["weapon"].name + " - " + player.equipment["weapon"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["shield"] != null) {
-				appearanceText += "Shield:\n" + player.equipment["shield"].name + " - " + player.equipment["shield"].short + " " + player.equipment["shield"].long + "\n\n";
+				appearanceText += "Shield:\n" + player.equipment["shield"].toString("appearance") + "\n\n";
+				//appearanceText += "Shield:\n" + player.equipment["shield"].name + " - " + player.equipment["shield"].short + "\n\n";
 				isEmpty = false;
 			}
 			
@@ -794,8 +803,13 @@
 					if (player.inventory.length == 0) {
 						inventoryText += "Your inventory is empty.";
 					} else {
-						for each (var item:Item in player.inventory)
-							inventoryText += item.name + " x" + item.count + "\n" + item.short + "\n\n";
+						for each (var item:Item in player.inventory) {
+							inventoryText += item.toString("inventory") + "\n\n";
+							/*if (item.effectsText == "")
+								inventoryText += item.name + " x" + item.count + "\n" + item.short + "\n\n";
+							else
+								inventoryText += item.name + " x" + item.count + "\n" + item.effectsText + "\n" + item.short + "\n\n";*/
+						}
 					}
 					break;
 				case "selling" :
@@ -804,8 +818,15 @@
 					if (player.inventory.length == 0) {
 						inventoryText += "You have nothing to sell.";
 					} else {
-						for each (var sell:Item in player.inventory)
-							inventoryText += sell.name + " x" + sell.count + " -- " + Math.round(0.5 * sell.value) + " gold ea.\n" + sell.short + "\n\n";
+						for each (var sell:Item in player.inventory) {
+							inventoryText += sell.toString("selling") + "\n\n";
+							/*if (sell.effectsText == "")
+								inventoryText += sell.name + " x" + sell.count + " -- " + Math.round(0.5 * sell.value) + " gold ea.\n" +
+									sell.short + "\n\n";
+							else
+								inventoryText += sell.name + " x" + sell.count + " -- " + Math.round(0.5 * sell.value) + " gold ea.\n" +
+									item.effectsText + "\n" + sell.short + "\n\n";*/
+						}
 					}
 					break;
 				default :
@@ -825,7 +846,11 @@
 				else
 					text += "0";
 				
-				text += " in inventory\n" + item.short + "\n\n";
+				text += item.toString("buying") + "\n\n";
+				/*if (item.effectsText == "")
+					text += " in inventory\n" + item.short + "\n\n";
+				else
+					text += " in inventory\n" + item.effectsText + "\n" + item.short + "\n\n";*/
 			}
 			
 			return text;

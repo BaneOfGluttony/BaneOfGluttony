@@ -9,24 +9,24 @@
 		/**
 		 * Short for "get stat" - gets the given player stat, resource, etc.
 		 */
-		public static function gs(stat:String):int {
-			if (!main || !main.player) {
-				trace("WARNING: Main or Player not found when trying to call ItemDefinitions.gs!");
-				return 0;
+		public static function getStat(stat:String):int {
+			if (main == null || main.player == null) {
+				trace("WARNING: Main or Player not found when trying to call ItemDefinitions.gs()!");
+				return -1;
 			}
 			return main.player.getStat(stat);
 		}
 		
 		// TODO replace things like !HP in short with the associated effectSP
 		
-		public static const definitions:Object = {											
+		public static const definitions:Object = {
 			"Cerulean Hat"		: {name		: "Cerulean Hat",
-										   	short		: "HP+!maxHealth\nA strange pointed wizard's hat.",
-											long		: "It's colored cerulean blue, and seems to give off a magical, other-worldly aura. Boosts max HP based on intelligence and maximum mana.",
+										   	short		: "A strange pointed wizard's hat.",
+											long		: "It's colored cerulean blue and seems to give off a magical, other-worldly aura. Increases max HP based on intelligence and maximum mana.",
 											value		: 42,
 											equip		: true,
 											head		: true,
-											effectSP	: [function():Array { return ["maxHealth", int(gs("int") * 3 + gs("manaMax") * .2)]; }
+											effectSP	: [function():Array { return ["maxHealth", Math.round(getStat("int") * 3 + getStat("maxMana") * .2) as int]; }
 														   ]
 											},
 			"Red Potion"		: {name		: "Red Potion",
