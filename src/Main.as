@@ -63,7 +63,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -87,7 +87,7 @@
 			loot(ItemDefinitions.getItem("Katana"), 1);
 			loot(ItemDefinitions.getItem("Flamberge"), 1);
 			loot(ItemDefinitions.getItem("Flail"), 1);
-			loot(ItemDefinitions.getItem("Halberd"), 1);*/
+			loot(ItemDefinitions.getItem("Halberd"), 1);
 			loot(ItemDefinitions.getItem("Cerulean Hat"), 1);
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
@@ -526,12 +526,12 @@
 				}
 			}*/
 			
-			/*trace("\natk = " + player.derivedStats["atk"]);
+			trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
 			trace("def = " + player.derivedStats["def"]);
 			trace("mdef = " + player.derivedStats["mdef"]);
 			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);*/
+			trace("dodge = " + player.derivedStats["dodge"]);
 		}
 		
 		public function loot(item:Item, x:int):void {
@@ -871,6 +871,7 @@
 				mainMC.game.btnsUI.btn8.visible = true;
 				mainMC.game.btnsUI.btn8.btnText.text = "Continue";
 				
+				addText("\n----------");
 				addText(combat.enemy.endText);
 				for each (var item:Item in combat.enemy.loot) {
 					loot(item, 1);
@@ -878,7 +879,6 @@
 				addGold(combat.enemy.gold);
 				addExp(combat.enemy.exp);
 			} else {
-				trace(mainMC.state);
 				mainMC.updateMenuBtns();
 				mainMC.game.combatUI.attackBtn.visible = false;
 				mainMC.game.combatUI.inventoryBtn.visible = false;
@@ -901,10 +901,8 @@
 			
 			if (cause == 0) {
 				addText("----------\n\nYou have been slain.");
-				endCombat(false);
 			} else if (cause == 1) {
 				addText("----------\n\nYou have eaten yourself into a food coma.");
-				endCombat(false);
 			} else if (cause == 2)
 				addText("----------\n\nYou have collapsed from exhaustion.");
 			else if (cause == 3)

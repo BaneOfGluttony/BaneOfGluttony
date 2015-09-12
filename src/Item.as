@@ -19,8 +19,8 @@
 		public var shield:Boolean = false;
 		public var weapon:Boolean = false;
 		
-		public var effect:Effect = new Effect();
-		public var effectSP:Array;						// array of functions that determine added stats
+		//public var effect:Effect = new Effect();
+		public var effects:Array;						// array of functions that determine added stats
 		public var addedStats:Array = [];				// keep track of added derived stats (and use when unproccing)
 		public var effectsText:String = "";
 		
@@ -84,10 +84,10 @@
 			main.addStat("vor", Math.round(player.stats["vor"] * effect.vorScale));*/
 			
 			// proc special effects
-			if (effectSP != null && effectSP.length > 0) {
+			if (effects != null && effects.length > 0) {
 				addedStats = [];
 				//trace("[Item] " + name + " has special effects!");
-				for each (var f:Function in effectSP) {
+				for each (var f:Function in effects) {
 					var special:Array = f();		// special will be ["nameOfStat", statValueAsInteger]
 					//trace("[Item] " + name + " procs special effect for " + special[0] + " with value " + special[1]);
 					changeStat(main, special[0], special[1]);
@@ -97,8 +97,7 @@
 			}
 		}
 		
-		public function deprocEffects(main:Main):void
-		{
+		public function deprocEffects(main:Main):void {
 			if (addedStats.length == 0)
 				return;
 			//trace("[Item] " + name + " is deproccing.");
@@ -109,8 +108,7 @@
 			//trace("[Item] " + name + " finished deproccing.");
 		}
 		
-		private function changeStat(main:Main, stat:String, amount:int):void
-		{
+		private function changeStat(main:Main, stat:String, amount:int):void {
 			switch (stat) {
 				case "currHealth" :
 					main.addResource("Health", amount, 0);
@@ -145,6 +143,20 @@
 				case "vor" :
 					main.addStat(stat, amount);
 					break;
+					
+				case "atk" :
+				case "matk" :
+				case "def" :
+				case "mdef" :
+				case "acc" :
+				case "dodge" :
+				case "cap" :
+					main.player.derivedStats[stat] += amount;
+					break;
+				
+				case "fat" :
+					main.addFat(amount);
+					break;
 				
 				default :
 					trace("[Item] " + name + " WARNING: " + stat + " not found.");
@@ -155,8 +167,8 @@
 		public function writeEffects(main:Main, player:Player):void {
 			effectsText = "";
 			
-			if (effectSP != null && effectSP.length > 0) {
-				for each (var f:Function in effectSP) {
+			if (effects != null && effects.length > 0) {
+				for each (var f:Function in effects) {
 					var special:Array = f();
 					
 					switch (special[0]) {
@@ -191,6 +203,14 @@
 						case "dex" :
 						case "int" :
 						case "vor" :
+						case "atk" :
+						case "matk" :
+						case "def" :
+						case "mdef" :
+						case "acc" :
+						case "dodge" :
+						case "cap" :
+						case "fat" :
 							effectsText += special[0].toUpperCase() + " + " + special[1] + ", ";
 							break;
 						

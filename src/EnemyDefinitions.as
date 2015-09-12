@@ -8,9 +8,10 @@
 												atkText		: "The slime springs into the air, landing on you with a jiggly thud before reeling back to prepare its next strike.",
 												loot		: [ItemDefinitions.getItem("Red Potion")],
 												maxHP		: 30,
-												atk			: 30,
+												atk			: 25,
 												def			: 2,
-												agi			: 1,
+												agi			: 5,
+												dex			: 3,
 												exp			: 10,
 												gold		: 5})
 		};

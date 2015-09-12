@@ -10,10 +10,12 @@
 		public var atk:int = 0;
 		public var def:int = 0;
 		public var agi:int = 0;
+		public var dex:int = 0;
+		public var vor:int = -1;
 		public var exp:int = 0;
 		public var gold:int = 0;
 		public var loot:Array = new Array();
-		public var moves:Array = new Array();
+		public var skills:Array = new Array();
 
 		public function Enemy(properties:Object = null) {
 			for (var name:String in properties) {

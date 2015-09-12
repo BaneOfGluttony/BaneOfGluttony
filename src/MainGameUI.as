@@ -887,11 +887,11 @@ package
 		}
 		
 		public function combatDevour(e:MouseEvent):void {
-			
+			main.addText("To be implemented.");
 		}
 		
 		public function combatSurrender(e:MouseEvent):void {
-			
+			main.addText("To be implemented.");
 		}
 		//}
 		

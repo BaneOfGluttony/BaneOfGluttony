@@ -3,7 +3,7 @@
 	public class Skill {
 		public var name:String = "Skill";
 		public var desc:String = "Description";
-		public var battleDesc:String = "Battle description";
+		public var atkText:String = "Battle description";
 		public var dmg:int = 0;
 		public var effect:Effect = new Effect();
 
@@ -15,7 +15,15 @@
 			}
 		}
 		
-		public function execute(player:Player):void {
+		public function useOnPlayer(player:Player):void {
+			
+		}
+		
+		public function useOnEnemy(enemy:Enemy):void {
+			
+		}
+		
+		public function useOutOfCombat(player:Player):void {
 			
 		}
 	}

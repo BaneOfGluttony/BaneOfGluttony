@@ -27,21 +27,29 @@
 				case "attack" :
 					if (player.stats["agi"] > enemy.agi) {
 						playerAttack();
-						if (enemyIsAlive)
+						if (enemyIsAlive) {
+							main.combatText += "\n-----";
 							enemyTurn();
+						}
 					} else if (player.stats["agi"] < enemy.agi) {
 						enemyTurn();
-						if (playerIsAlive)
+						if (playerIsAlive) {
+							main.combatText += "\n-----";
 							playerAttack();
+						}
 					} else if (player.stats["agi"] == enemy.agi) {
 						if (Math.random() < 0.5) {
 							enemyTurn();
-							if (playerIsAlive)
+							if (playerIsAlive) {
+								main.combatText += "\n-----";
 								playerAttack();
+							}
 						} else {
 							playerAttack();
-							if (enemyIsAlive)
+							if (enemyIsAlive) {
+								main.combatText += "\n-----";
 								enemyTurn();
+							}
 						}
 					}
 					break;
@@ -49,23 +57,39 @@
 					if (player.stats["agi"] > enemy.agi) {
 						ret = useItem(item);
 						if (ret) {
-							if (enemyIsAlive)
-								enemyTurn();
+							if (enemyIsAlive) {
+								main.combatText += "\n-----";
+								ret = enemyTurn();
+							}
 						}
 					} else if (player.stats["agi"] < enemy.agi) {
-						enemyTurn();
-						if (playerIsAlive)
+						ret = enemyTurn();
+						if (playerIsAlive) {
+							main.combatText += "\n-----";
 							ret = useItem(item);
+						} else {
+							ret = false;
+							main.endCombat(ret);
+							main.gameOver(0);
+						}
 					} else if (player.stats["agi"] == enemy.agi) {
 						if (Math.random() < 0.5) {
-							enemyTurn();
-							if (playerIsAlive)
+							ret = enemyTurn();
+							if (playerIsAlive) {
+								main.combatText += "\n-----";
 								ret = useItem(item);
+							} else {
+								ret = false;
+								main.endCombat(ret);
+								main.gameOver(0);
+							}
 						} else {
 							ret = useItem(item);
 							if (ret) {
-								if (enemyIsAlive)
-									enemyTurn();
+								if (enemyIsAlive) {
+									main.combatText += "\n-----";
+									ret = enemyTurn();
+								}
 							}
 						}
 					}
@@ -87,41 +111,50 @@
 			return ret;
 		}
 		
-		public function playerAttack():Boolean {
+		public function playerAttack():void {
 			main.combatText += "\n";
+				
 			var dmg:int = player.derivedStats["atk"] - enemy.def;
 			if (dmg < 0)
 				dmg = 0;
 			
 			if (player.equipment["weapon"] != null && player.equipment["weapon"].wpnText != "Weapon text")
-				main.combatText += player.equipment["weapon"].wpnText + " for " + dmg + " damage.";
+				main.combatText += player.equipment["weapon"].wpnText;
 			else
 				main.combatText += "You lunge at your foe with all your might.";
-			main.combatText += "\nYou deal " + dmg + " damage.";
-			main.combatText += "\n-----";
 			
-			main.setText(main.combatText);
-			
-			return enemyDmg(dmg);
+			if (didHit(player, enemy)) {
+				main.combatText += "\nYou deal " + dmg + " damage.";
+				if (enemyDmg(dmg))
+					main.setText(main.combatText);
+			} else {
+				main.combatText += "\nUnfortunately, your attack missed.";
+				main.setText(main.combatText);
+			}
+			//main.combatText += "\n-----";
+			//main.setText(main.combatText);
 		}
 		
 		public function useItem(item:Item):Boolean {
 			var used:Boolean = main.useItem(item);
 			
-			if (used) {
-				if (item.equip) {
-					main.combatText += "\nYou equip a " + item.name + ".";
-				} else {
-					main.combatText += "\nYou use a " + item.name + ".";
-					main.combatText += "\n" + item.effect.listEffects();
-				}
-				
-				main.combatText += "\n-----";
-				main.setText(main.combatText);
-			} else {
-				//main.gameOver(1);
+			if (item.equip)
+				main.combatText += "\nYou equip a " + item.name + ".";
+			else
+				main.combatText += "\nYou use a " + item.name + ".";
+			
+			if (used)
+				main.combatText += "\n" + item.effectsText;
+			else
 				playerIsAlive = false;
-			}
+			
+			//main.combatText += "\n-----";
+			main.setText(main.combatText);
+			
+			if (player.resources["currCapacity"] > player.derivedStats["cap"])
+				main.gameOver(1);
+			else if (player.resources["currHealth"] <= 0)
+				main.gameOver(0);
 			
 			return used;
 		}
@@ -130,7 +163,7 @@
 			main.combatText += "\n";
 			var dmg:int;
 			
-			if (enemy.moves.length > 0) {
+			if (enemy.skills.length > 0) {
 				var rand:Number = Math.random();
 				if (rand < 0.5) {
 					dmg = enemy.atk - player.derivedStats["def"];
@@ -139,7 +172,7 @@
 						
 					main.combatText += enemy.atkText + "\nYou take " + dmg + " damage.";
 				} else {
-					var randSkill:int = (Math.random() * enemy.moves.length) as int;
+					var randSkill:int = (Math.random() * enemy.skills.length) as int;
 					//useSkill(randSkill);
 				}
 			} else {
@@ -149,10 +182,25 @@
 					
 				main.combatText += enemy.atkText + "\nYou take " + dmg + " damage.";
 			}
-			main.combatText += "\n-----";
+			//main.combatText += "\n-----";
 			main.setText(main.combatText);
 			
 			return playerDmg(dmg);
+		}
+		
+		public function didHit(source:Object, target:Object):Boolean {
+			var sourceDex:int;
+			var targetAgi:int;
+			
+			if (source is Player) {
+				sourceDex = source.stats["dex"];
+				targetAgi = target.agi;
+			} else {
+				sourceDex = source.dex;
+				targetAgi = target.stats["agi"];
+			}
+			
+			return sourceDex > targetAgi;
 		}
 		
 		public function playerDmg(dmg:int):Boolean {
