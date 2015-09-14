@@ -91,7 +91,8 @@
 					var special:Array = f();		// special will be ["nameOfStat", statValueAsInteger]
 					//trace("[Item] " + name + " procs special effect for " + special[0] + " with value " + special[1]);
 					changeStat(main, special[0], special[1]);
-					addedStats.push([special[0], special[1]]);
+					if (addedStats.length < effects.length)
+						addedStats.push([special[0], special[1]]);
 				}
 				//trace("[Item] " + name + " finished adding special effects.");
 			}
@@ -101,8 +102,10 @@
 			if (addedStats.length == 0)
 				return;
 			//trace("[Item] " + name + " is deproccing.");
-			for (var i:int = 0; i < addedStats.length; i++ ) {
-				changeStat(main, addedStats[i][0], -addedStats[i][1]);
+			//for (var i:int = 0; i < addedStats.length; i++ ) {
+			for each (var special:Array in addedStats) {
+				changeStat(main, special[0], -special[1]);
+				addedStats.pop();
 				//trace("[Item] " + name + " undoes special effect for " + addedStats[i][0] + " with value " + addedStats[i][1]);
 			}
 			//trace("[Item] " + name + " finished deproccing.");

@@ -22,7 +22,7 @@
 		
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
-		flash.net.registerClassAlias("Effect", Effect);
+		//flash.net.registerClassAlias("Effect", Effect);
 		
 		public var player:Player = new Player();
 		public var combat:Combat;
@@ -47,8 +47,7 @@
 		}
 		
 		// called by MainGameUI after it is added to the Stage
-		public function firstInit():void
-		{
+		public function firstInit():void {
 			for each (var name:String in credits)
 				optionsText = optionsText.replace(name, '<u><a href="event:' + name + '">' + name + '</a></u>');
 			
@@ -63,6 +62,20 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
+			setResource("Health", 100, 100);
+			setResource("Mana", 21, 100);
+			setResource("Energy", 84, 100);
+			setResource("Capacity", 93, 100);
+			setStat("str", 9);
+			setStat("agi", 7);
+			setStat("vit", 14);
+			setStat("int", 3);
+			setStat("dex", 10);
+			setStat("vor", 26);
+			setFat(86);
+			setGold(245);
+			addExp(196);
+			
 			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
@@ -92,20 +105,6 @@
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
-			
-			setResource("Health", 100, 100);
-			setResource("Mana", 21, 100);
-			setResource("Energy", 84, 100);
-			setResource("Capacity", 93, 100);
-			setStat("str", 9);
-			setStat("agi", 7);
-			setStat("vit", 14);
-			setStat("int", 3);
-			setStat("dex", 10);
-			setStat("vor", 26);
-			setFat(86);
-			setGold(245);
-			addExp(196);
 			
 			startCombat(EnemyDefinitions.definitions["Slime"]);
 		}
@@ -213,23 +212,23 @@
 			}
 		}
 		
-		public function addResource(resource:String, curr:int, max:int):void { //use a separate takeDamage/feed method that uses this		
-			player.resources["max" + resource] += max;
-			player.resources["curr" + resource] += curr;
+		public function addResource(resource:String, deltaCurr:int, deltaMax:int):void { //use a separate takeDamage/feed method that uses this		
+			player.resources["max" + resource] += deltaMax;
+			player.resources["curr" + resource] += deltaCurr;
 			
 			if (player.resources["max" + resource] > 99999) {
 				player.resources["max" + resource] = 99999;
 				addText("Stat cap reached.\npls wat r u doing wit ur lyfe?");
 			} else if (player.resources["max" + resource] <= 0)
 				player.resources["max" + resource] = 1;
-			max = player.resources["max" + resource];
+			var max:int = player.resources["max" + resource];
 			
 			if (player.resources["curr" + resource] > 99999) {
 				player.resources["curr" + resource] = 99999;
 				addText("stahp wat hav u done?");
 			} else if (player.resources["curr" + resource] < 0)
 				player.resources["curr" + resource] = 0;
-			curr = player.resources["curr" + resource];
+			var curr:int = player.resources["curr" + resource];
 			
 			var colorTF:ColorTransform = new ColorTransform();
 			
@@ -304,32 +303,39 @@
 						mainMC.game.mainUI.capacityBar.scaleX = 1;
 						mainMC.game.mainUI.capacityLabel.text = "Danger";
 					}
+					player.derivedStats["cap"] += deltaMax;
+					player.derivedStats["weight"] += 0.03 * deltaCurr;
 					break;
 			}
 			
-			updateStats();
+			trace("\natk = " + player.derivedStats["atk"]);
+			trace("matk = " + player.derivedStats["matk"]);
+			trace("def = " + player.derivedStats["def"]);
+			trace("mdef = " + player.derivedStats["mdef"]);
+			trace("acc = " + player.derivedStats["acc"]);
+			trace("dodge = " + player.derivedStats["dodge"]);
 		}
 		
-		public function setResource(resource:String, curr:int, max:int):void { //use a separate takeDamage/feed method that uses this
-			if (max < 0)
-				max = player.resources["max" + resource];
+		public function setResource(resource:String, deltaCurr:int, deltaMax:int):void { //use a separate takeDamage/feed method that uses this
+			if (deltaMax < 0)
+				deltaMax = player.resources["max" + resource];
 			
-			player.resources["max" + resource] = max;
-			player.resources["curr" + resource] = curr;
+			player.resources["max" + resource] = deltaMax;
+			player.resources["curr" + resource] = deltaCurr;
 			
 			if (player.resources["max" + resource] > 99999) {
 				player.resources["max" + resource] = 99999;
 				addText("Stat cap reached.\npls wat r u doing wit ur lyfe?");
 			} else if (player.resources["max" + resource] <= 0)
 				player.resources["max" + resource] = 1;
-			max = player.resources["max" + resource];
+			var max:int = player.resources["max" + resource];
 			
 			if (player.resources["curr" + resource] > 99999) {
 				player.resources["curr" + resource] = 99999;
 				addText("stahp wat hav u done?");
 			} else if (player.resources["curr" + resource] < 0)
 				player.resources["curr" + resource] = 0;
-			curr = player.resources["curr" + resource];
+			var curr:int = player.resources["curr" + resource];
 			
 			var colorTF:ColorTransform = new ColorTransform();
 			
@@ -407,7 +413,7 @@
 					break;
 			}
 			
-			updateStats();
+			calcStats();
 		}
 		
 		public function addStat(stat:String, x:int):void {
@@ -418,33 +424,49 @@
 				addText("Stat cap reached.\npls wat r u doing wit ur lyfe?");
 			}
 			
-			x = player.stats[stat];
-			
 			switch (stat) {
 				case "str":
-					mainMC.game.mainUI.strLabel.text = x.toString();
+					mainMC.game.mainUI.strLabel.text = player.stats[stat].toString();
+					player.derivedStats["atk"] += x;
+					player.derivedStats["weight"] += 0.5 * x;
 					break;
 				case "agi":
-					mainMC.game.mainUI.agiLabel.text = x.toString();
+					mainMC.game.mainUI.agiLabel.text = player.stats[stat].toString();
+					player.derivedStats["dodge"] += x;
 					break;
 				case "vit":
-					mainMC.game.mainUI.vitLabel.text = x.toString();
+					mainMC.game.mainUI.vitLabel.text = player.stats[stat].toString();
+					player.derivedStats["def"] += x;
+					player.derivedStats["mdef"] += 0.3 * x;
 					break;
 				case "int":
-					mainMC.game.mainUI.intLabel.text = x.toString();
+					mainMC.game.mainUI.intLabel.text = player.stats[stat].toString();
+					player.derivedStats["matk"] += x;
+					player.derivedStats["mdef"] += 0.7 * x;
 					break;
 				case "dex":
-					mainMC.game.mainUI.dexLabel.text = x.toString();
+					mainMC.game.mainUI.dexLabel.text = player.stats[stat].toString();
+					player.derivedStats["acc"] += x;
+					player.derivedStats["dodge"] += 0.2 * x;
 					break;
 				case "vor":
-					mainMC.game.mainUI.vorLabel.text = x.toString();
+					mainMC.game.mainUI.vorLabel.text = player.stats[stat].toString();
+					player.derivedStats["cap"] += x;
 					break;
 			}
 			
-			updateStats();
+			trace("\natk = " + player.derivedStats["atk"]);
+			trace("matk = " + player.derivedStats["matk"]);
+			trace("def = " + player.derivedStats["def"]);
+			trace("mdef = " + player.derivedStats["mdef"]);
+			trace("acc = " + player.derivedStats["acc"]);
+			trace("dodge = " + player.derivedStats["dodge"]);
 		}
 		
 		public function setStat(stat:String, x:int):void {
+			if (x < 0)
+				x = player.stats[stat];
+			
 			player.stats[stat] = x;
 			
 			if (player.stats[stat] > 99999) {
@@ -475,7 +497,7 @@
 					break;
 			}
 			
-			updateStats();
+			calcStats();
 		}
 		
 		public function addFat(x:Number):void {
@@ -504,7 +526,42 @@
 			mainMC.game.mainUI.fatLabel.text = Math.round(player.fat);
 		}
 		
-		public function updateStats():void {
+		public function addGold(x:Number):void {
+			player.gold += x;
+			addText("You got " + x + " gold.");
+			
+			if (player.gold > 999999999999) {
+				player.gold = 999999999999;
+				addText("Max gold reached.\npls wat r u doing wit ur lyfe?");
+			}
+			
+			mainMC.game.mainUI.goldLabel.text = player.gold;
+		}
+		
+		public function setGold(x:Number):void {
+			player.gold = x;
+			
+			if (player.gold > 999999999999) {
+				player.gold = 999999999999;
+				addText("Max gold reached.\npls wat r u doing wit ur lyfe?");
+			}
+			
+			mainMC.game.mainUI.goldLabel.text = player.gold;
+		}
+		
+		public function addExp(x:int):void {
+			player.currExp += x;
+			mainMC.game.mainUI.expLabel.text = player.currExp + "/" + player.maxExp;
+			mainMC.game.mainUI.expBar.scaleX = player.currExp / player.maxExp;
+			
+			if (player.currExp > player.maxExp) {
+				var overflow:int = player.levelUp();
+				mainMC.game.mainUI.levelLabel.text = player.level.toString();
+				addExp(overflow);
+			}
+		}
+		
+		public function calcStats():void {
 			player.derivedStats["atk"] = player.stats["str"];
 			player.derivedStats["matk"] = player.stats["int"];
 			player.derivedStats["def"] = player.stats["vit"];
@@ -514,17 +571,39 @@
 			player.derivedStats["cap"] = player.resources["maxCapacity"] + player.stats["vor"];
 			player.derivedStats["weight"] = 2.2 * (50 + 2.3 * (player.height - 60)) + 0.5 * player.stats["str"] + player.fat + 0.03 * player.resources["currCapacity"];
 			
-			/*for each (var item:Object in player.equipment) {
+			trace("\natk = " + player.derivedStats["atk"]);
+			trace("matk = " + player.derivedStats["matk"]);
+			trace("def = " + player.derivedStats["def"]);
+			trace("mdef = " + player.derivedStats["mdef"]);
+			trace("acc = " + player.derivedStats["acc"]);
+			trace("dodge = " + player.derivedStats["dodge"]);
+		}
+		
+		public function updateStats():void {
+			player.derivedStats["atk"] += player.stats["str"];
+			player.derivedStats["matk"] += player.stats["int"];
+			player.derivedStats["def"] += player.stats["vit"];
+			player.derivedStats["mdef"] += 0.3 * player.stats["vit"] + 0.7 * player.stats["int"];
+			player.derivedStats["acc"] += 0.2 * player.stats["agi"] + player.stats["dex"];
+			player.derivedStats["dodge"] += player.stats["agi"] + 0.2 * player.stats["dex"];
+			player.derivedStats["cap"] += player.resources["maxCapacity"] + player.stats["vor"];
+			player.derivedStats["weight"] += 2.2 * (50 + 2.3 * (player.height - 60)) + 0.5 * player.stats["str"] + player.fat + 0.03 * player.resources["currCapacity"];
+			
+			trace("\natk = " + player.derivedStats["atk"]);
+			trace("matk = " + player.derivedStats["matk"]);
+			trace("def = " + player.derivedStats["def"]);
+			trace("mdef = " + player.derivedStats["mdef"]);
+			trace("acc = " + player.derivedStats["acc"]);
+			trace("dodge = " + player.derivedStats["dodge"]);
+		}
+		
+		public function addEquipBonuses():void {
+			for each (var item:Item in player.equipment) {
 				if (item != null) {
-					player.derivedStats["atk"] += item.effect["atk"];
-					player.derivedStats["matk"] += item.effect["matk"];
-					player.derivedStats["def"] += item.effect["def"];
-					player.derivedStats["mdef"] += item.effect["mdef"];
-					player.derivedStats["acc"] += item.effect["acc"];
-					player.derivedStats["dodge"] += item.effect["dodge"];
-					player.derivedStats["cap"] += item.effect["cap"];
+					item.deprocEffects(this);
+					item.procEffects(this, player);
 				}
-			}*/
+			}
 			
 			trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
@@ -559,7 +638,7 @@
 			
 			addText(retString);
 			
-			ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason.
+			ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
 			item.writeEffects(this, player);
 		}
 		
@@ -597,87 +676,55 @@
 			addText(retString);
 		}
 		
-		public function addGold(x:Number):void {
-			player.gold += x;
-			addText("You got " + x + " gold.");
-			
-			if (player.gold > 999999999999) {
-				player.gold = 999999999999;
-				addText("Max gold reached.\npls wat r u doing wit ur lyfe?");
-			}
-			
-			mainMC.game.mainUI.goldLabel.text = player.gold;
-		}
-		
-		public function setGold(x:Number):void {
-			player.gold = x;
-			
-			if (player.gold > 999999999999) {
-				player.gold = 999999999999;
-				addText("Max gold reached.\npls wat r u doing wit ur lyfe?");
-			}
-			
-			mainMC.game.mainUI.goldLabel.text = player.gold;
-		}
-		
-		public function addExp(x:int):void {
-			player.currExp += x;
-			mainMC.game.mainUI.expLabel.text = player.currExp + "/" + player.maxExp;
-			mainMC.game.mainUI.expBar.scaleX = player.currExp / player.maxExp;
-			
-			if (player.currExp > player.maxExp) {
-				var overflow:int = player.levelUp();
-				mainMC.game.mainUI.levelLabel.text = player.level.toString();
-				addExp(overflow);
-			}
-		}
-
 		public function useItem(item:Item):Boolean {
-			if (item.equip) {				
+			var itemCopy:Item = ItemDefinitions.getItem(item.name);
+			
+			if (item.equip) {
 				if (item.head) {
 					if (player.equipment["head"] != null)
 						unequip(player.equipment["head"]);
-					player.equipment["head"] = item;
+					player.equipment["head"] = itemCopy;
 					trace(player.equipment["head"].name + " equipped.");
 				} else if (item.torso) {
 					if (player.equipment["torso"] != null)
 						unequip(player.equipment["torso"]);
-					player.equipment["torso"] = item;
+					player.equipment["torso"] = itemCopy;
 					trace(player.equipment["torso"].name + " equipped.");
 				} else if (item.legs) {
 					if (player.equipment["legs"] != null)
 						unequip(player.equipment["legs"]);
-					player.equipment["legs"] = item;
+					player.equipment["legs"] = itemCopy;
 					trace(player.equipment["legs"].name + " equipped.");
 				} else if (item.feet) {
 					if (player.equipment["feet"] != null)
 						unequip(player.equipment["feet"]);
-					player.equipment["feet"] = item;
+					player.equipment["feet"] = itemCopy;
 					trace(player.equipment["feet"].name + " equipped.");
 				} else if (item.weapon) {
 					if (item.twoHanded && player.equipment["shield"] != null) {
-						addText("You can't equip a two-handed weapon with a shield.");
+						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
 						return false;
 					} else {
 						if (player.equipment["weapon"] != null)
 							unequip(player.equipment["weapon"]);
-						player.equipment["weapon"] = item;
+						player.equipment["weapon"] = itemCopy;
 						trace(player.equipment["weapon"].name + " equipped.");
 					}
 				} else if (item.shield) {
 					if (player.equipment["weapon"] == null || !player.equipment["weapon"].twoHanded) {
 						if (player.equipment["shield"] != null)
 							unequip(player.equipment["shield"]);
-						player.equipment["shield"] = item;
+						player.equipment["shield"] = itemCopy;
 						trace(player.equipment["shield"].name + " equipped.");
 					} else {
-						addText("You can't equip a shield with a two-handed weapon.");
+						addText("A two-handed weapon and a shield cannot be equipped simultaneously..");
 						return false;
 					}
-				} 
+				}
+				addEquipBonuses();
+			} else {
+				itemCopy.procEffects(this, player);
 			}
-			
-			item.procEffects(this, player);
 			
 			var index:int = player.indexOfInventory(item);
 			
@@ -693,7 +740,7 @@
 				return false;
 			}
 			
-			updateStats();
+			//updateStats();
 			
 			return true;
 		}
@@ -716,7 +763,7 @@
 			
 			item.count = 0;
 			loot(item, 1);
-			updateStats();
+			//updateStats();
 			trace(item.name + " unequipped.");
 		}
 
@@ -871,11 +918,12 @@
 				mainMC.game.btnsUI.btn8.visible = true;
 				mainMC.game.btnsUI.btn8.btnText.text = "Continue";
 				
-				addText("\n----------");
-				addText(combat.enemy.endText);
-				for each (var item:Item in combat.enemy.loot) {
+				combatText += "\n----------";
+				combatText += "\n\n" + combat.enemy.endText;
+				
+				for each (var item:Item in combat.enemy.loot)
 					loot(item, 1);
-				}
+				
 				addGold(combat.enemy.gold);
 				addExp(combat.enemy.exp);
 			} else {

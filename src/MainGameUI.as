@@ -306,7 +306,7 @@ package
 				main.addResource("Capacity", -capDrained, 0);
 			
 			main.addFat(0.03 * capDrained);
-			main.updateStats();
+			//main.updateStats();
 			updateQuests();
 		}
 
@@ -1542,7 +1542,6 @@ package
 							return;
 						}
 					}
-					displayInventory();
 					break;
 				case "shop" :
 					if (selection == -1) {

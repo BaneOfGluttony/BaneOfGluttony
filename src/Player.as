@@ -10,6 +10,7 @@
 		public var fat:Number = 0;
 		public var gold:Number = 50;
 		public var height:int = 70;
+		public var quests:Array = [];
 		public var inventory:Array = [];
 		public var equipment:Object = {head : null, torso : null, legs: null, feet : null, weapon : null, shield : null};
 		public var resources:Object = {
@@ -17,7 +18,6 @@
 			maxEnergy : 100, currEnergy : 0, maxCapacity : 100, currCapacity : 0};
 		public var stats:Object = {str : 5, agi : 5, vit : 5, "int" : 5, dex : 5, vor : 5};
 		public var derivedStats:Object = {atk : 0, matk : 0, def : 0, mdef : 0, acc : 0, dodge : 0, cap : 0, weight: 0};
-		public var quests:Array = [];
 		
 		public function Player() {
 			

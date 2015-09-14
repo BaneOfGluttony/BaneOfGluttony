@@ -125,28 +125,31 @@
 			
 			if (didHit(player, enemy)) {
 				main.combatText += "\nYou deal " + dmg + " damage.";
-				if (enemyDmg(dmg))
-					main.setText(main.combatText);
+				enemyDmg(dmg);
 			} else {
 				main.combatText += "\nUnfortunately, your attack missed.";
-				main.setText(main.combatText);
 			}
 			//main.combatText += "\n-----";
-			//main.setText(main.combatText);
+			main.setText(main.combatText);
 		}
 		
 		public function useItem(item:Item):Boolean {
 			var used:Boolean = main.useItem(item);
 			
-			if (item.equip)
+			if (used && item.equip) {
 				main.combatText += "\nYou equip a " + item.name + ".";
-			else
+			} else if (!used && item.equip) {
+				main.mainMC.openInventory();
+				main.setText(main.combatText);
+				main.addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+				return false;
+			} else if (!item.equip) {
 				main.combatText += "\nYou use a " + item.name + ".";
+				playerIsAlive = false;
+			}
 			
 			if (used)
 				main.combatText += "\n" + item.effectsText;
-			else
-				playerIsAlive = false;
 			
 			//main.combatText += "\n-----";
 			main.setText(main.combatText);

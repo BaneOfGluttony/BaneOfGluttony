@@ -25,7 +25,7 @@
 											value		: 42,
 											equip		: true,
 											head		: true,
-											effects		: [function():Array { return ["maxHealth", Math.round(getStat("int") * 3 + getStat("maxMana") * .2) as int]; }
+											effects		: [function():Array { return ["maxHealth", Math.round(getStat("int") * 3 + getStat("maxMana") * .2) as int] }
 														   ]
 											},
 			"Red Potion"		: {name		: "Red Potion",
@@ -69,7 +69,7 @@
 										   	short		: "An enormous cut of meat taken from below a sheep's entire rib cage.",
 										   	long		: "This heavily marbled slab of meat has been thick-cut and seasoned to perfection before being seared and grilled medium rare. Normally, the loin is a very lean cut. However, the current state of rampant vegetation has left the fields a veritable buffet for sheep and other livestock, leaving them fattened to absurd proportions.",
 										   	value		: 15,
-											effects		: [//function():Array { return ["atk", 5] },
+											effects		: [function():Array { return ["str", 10] },//function():Array { return ["atk", 5] },
 														   function():Array { return ["currCapacity", 50] }] },
 			"Roast Chicken"		: {name		: "Roast Chicken",
 										   	short		: "A whole roast chicken.",
