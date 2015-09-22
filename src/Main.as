@@ -44,6 +44,7 @@
 			runner = _runner;
 			mainMC = new MainGameUI(this);
 			ItemDefinitions.main = this;
+			SkillDefinitions.main = this;
 		}
 		
 		// called by MainGameUI after it is added to the Stage
@@ -124,7 +125,7 @@
 			mainMC.updateMenuBtns();
 			mainMC.updateNavBtns();
 			mainMC.updateMaps();
-			updateStats();
+			calcStats();
 		}
 		
 		public function addText(txt:String):void {
@@ -132,11 +133,10 @@
 				return;
 			
 			switch (mainMC.state) {
-				/*case "combat" :
+				case "combat" :
 					combatText += "\n\n" + txt;
-					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
-					
-					break;*/
+					setText(combatText);
+					break;
 				default :
 					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
 					break;
@@ -302,18 +302,21 @@
 						mainMC.game.mainUI.capacityBar.transform.colorTransform = colorTF;
 						mainMC.game.mainUI.capacityBar.scaleX = 1;
 						mainMC.game.mainUI.capacityLabel.text = "Danger";
+						if (player.resources["currCapacity"] > player.derivedStats["cap"])
+							gameOver(1);
 					}
 					player.derivedStats["cap"] += deltaMax;
 					player.derivedStats["weight"] += 0.03 * deltaCurr;
+					
 					break;
 			}
 			
-			trace("\natk = " + player.derivedStats["atk"]);
+			/*trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
 			trace("def = " + player.derivedStats["def"]);
 			trace("mdef = " + player.derivedStats["mdef"]);
 			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);
+			trace("dodge = " + player.derivedStats["dodge"]);*/
 		}
 		
 		public function setResource(resource:String, deltaCurr:int, deltaMax:int):void { //use a separate takeDamage/feed method that uses this
@@ -409,6 +412,8 @@
 						mainMC.game.mainUI.capacityBar.transform.colorTransform = colorTF;
 						mainMC.game.mainUI.capacityBar.scaleX = 1;
 						mainMC.game.mainUI.capacityLabel.text = "Danger";
+						if (player.resources["currCapacity"] > player.derivedStats["cap"])
+							gameOver(1);
 					}
 					break;
 			}
@@ -455,12 +460,12 @@
 					break;
 			}
 			
-			trace("\natk = " + player.derivedStats["atk"]);
+			/*trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
 			trace("def = " + player.derivedStats["def"]);
 			trace("mdef = " + player.derivedStats["mdef"]);
 			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);
+			trace("dodge = " + player.derivedStats["dodge"]);*/
 		}
 		
 		public function setStat(stat:String, x:int):void {
@@ -571,12 +576,12 @@
 			player.derivedStats["cap"] = player.resources["maxCapacity"] + player.stats["vor"];
 			player.derivedStats["weight"] = 2.2 * (50 + 2.3 * (player.height - 60)) + 0.5 * player.stats["str"] + player.fat + 0.03 * player.resources["currCapacity"];
 			
-			trace("\natk = " + player.derivedStats["atk"]);
+			/*trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
 			trace("def = " + player.derivedStats["def"]);
 			trace("mdef = " + player.derivedStats["mdef"]);
 			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);
+			trace("dodge = " + player.derivedStats["dodge"]);*/
 		}
 		
 		public function updateStats():void {
@@ -589,12 +594,12 @@
 			player.derivedStats["cap"] += player.resources["maxCapacity"] + player.stats["vor"];
 			player.derivedStats["weight"] += 2.2 * (50 + 2.3 * (player.height - 60)) + 0.5 * player.stats["str"] + player.fat + 0.03 * player.resources["currCapacity"];
 			
-			trace("\natk = " + player.derivedStats["atk"]);
+			/*trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
 			trace("def = " + player.derivedStats["def"]);
 			trace("mdef = " + player.derivedStats["mdef"]);
 			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);
+			trace("dodge = " + player.derivedStats["dodge"]);*/
 		}
 		
 		public function addEquipBonuses():void {
@@ -605,12 +610,12 @@
 				}
 			}
 			
-			trace("\natk = " + player.derivedStats["atk"]);
+			/*trace("\natk = " + player.derivedStats["atk"]);
 			trace("matk = " + player.derivedStats["matk"]);
 			trace("def = " + player.derivedStats["def"]);
 			trace("mdef = " + player.derivedStats["mdef"]);
 			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);
+			trace("dodge = " + player.derivedStats["dodge"]);*/
 		}
 		
 		public function loot(item:Item, x:int):void {
@@ -917,15 +922,6 @@
 				mainMC.game.combatUI.visible = false;
 				mainMC.game.btnsUI.btn8.visible = true;
 				mainMC.game.btnsUI.btn8.btnText.text = "Continue";
-				
-				combatText += "\n----------";
-				combatText += "\n\n" + combat.enemy.endText;
-				
-				for each (var item:Item in combat.enemy.loot)
-					loot(item, 1);
-				
-				addGold(combat.enemy.gold);
-				addExp(combat.enemy.exp);
 			} else {
 				mainMC.updateMenuBtns();
 				mainMC.game.combatUI.attackBtn.visible = false;
@@ -940,6 +936,7 @@
 		public function gameOver(cause:int):void {
 			mainMC.state = "gameover";
 			
+			player.isAlive = false;
 			mainMC.hideBtnArray();
 			mainMC.menuItemSelected = false;
 			mainMC.game.btnsUI.upBtn.visible = false;

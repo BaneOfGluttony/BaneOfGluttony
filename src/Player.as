@@ -2,6 +2,7 @@
 	
 	public class Player {
 		public var name:String = "Player Name";
+		public var isAlive:Boolean = true;
 		public var x:int = 4;
 		public var y:int = 4;
 		public var maxExp:int = 50;

@@ -883,7 +883,7 @@ package
 		}
 		
 		public function combatRun(e:MouseEvent):void {
-			
+			main.combat.turn("run");
 		}
 		
 		public function combatDevour(e:MouseEvent):void {
@@ -1539,8 +1539,9 @@ package
 							if (!main.combat.turn("inventory", item))
 								return;
 							openInventory();
-							return;
 						}
+					} else if (selection == -1) {
+						displayInventory();
 					}
 					break;
 				case "shop" :
