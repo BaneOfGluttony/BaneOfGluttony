@@ -133,10 +133,12 @@
 				return;
 			
 			switch (mainMC.state) {
-				case "combat" :
+				/*case "combat" :
+				case "combatInventory" :
+				case "combatSkills" :
 					combatText += "\n\n" + txt;
 					setText(combatText);
-					break;
+					break;*/
 				default :
 					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
 					break;
@@ -302,8 +304,8 @@
 						mainMC.game.mainUI.capacityBar.transform.colorTransform = colorTF;
 						mainMC.game.mainUI.capacityBar.scaleX = 1;
 						mainMC.game.mainUI.capacityLabel.text = "Danger";
-						if (player.resources["currCapacity"] > player.derivedStats["cap"])
-							gameOver(1);
+						/*if (player.resources["currCapacity"] > player.derivedStats["cap"])
+							gameOver(1);*/
 					}
 					player.derivedStats["cap"] += deltaMax;
 					player.derivedStats["weight"] += 0.03 * deltaCurr;
@@ -412,8 +414,8 @@
 						mainMC.game.mainUI.capacityBar.transform.colorTransform = colorTF;
 						mainMC.game.mainUI.capacityBar.scaleX = 1;
 						mainMC.game.mainUI.capacityLabel.text = "Danger";
-						if (player.resources["currCapacity"] > player.derivedStats["cap"])
-							gameOver(1);
+						/*if (player.resources["currCapacity"] > player.derivedStats["cap"])
+							gameOver(1);*/
 					}
 					break;
 			}
@@ -606,7 +608,7 @@
 			for each (var item:Item in player.equipment) {
 				if (item != null) {
 					item.deprocEffects(this);
-					item.procEffects(this, player);
+					item.procEffects(this);
 				}
 			}
 			
@@ -644,7 +646,7 @@
 			addText(retString);
 			
 			ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
-			item.writeEffects(this, player);
+			item.writeEffects(this);
 		}
 		
 		public function drop(item:Item, x:int):void {
@@ -728,7 +730,7 @@
 				}
 				addEquipBonuses();
 			} else {
-				itemCopy.procEffects(this, player);
+				itemCopy.procEffects(this);
 			}
 			
 			var index:int = player.indexOfInventory(item);
@@ -737,17 +739,18 @@
 			if (player.inventory[index].count <= 0)
 				player.inventory.splice(index, 1);
 			
-			if (player.resources["currCapacity"] > player.derivedStats["cap"]) {
+			/*if (player.resources["currCapacity"] > player.derivedStats["cap"]) {
 				gameOver(1);
 				return false;
 			} else if (player.resources["currHealth"] <= 0) {
 				gameOver(0);
 				return false;
-			}
+			}*/
 			
 			//updateStats();
 			
-			return true;
+			//return true;
+			return isPlayerAlive();
 		}
 
 		public function unequip(item:Item):void {
@@ -908,18 +911,38 @@
 			return text;
 		}
 		
+		public function isPlayerAlive():Boolean {
+			//player.isAlive = true;
+			
+			if (player.resources["currCapacity"] > player.derivedStats["cap"]) {
+				endCombat(false);
+				player.isAlive = false;
+				gameOver(1);
+			} else if (player.resources["currHealth"] <= 0) {
+				endCombat(false);
+				player.isAlive = false;
+				gameOver(0);
+			}
+			
+			return player.isAlive;
+		}
+		
 		public function startCombat(enemy:Enemy):void {
 			combat = new Combat(this, player, enemy);
 			mainMC.displayCombat(enemy);
 		}
 		
 		public function endCombat(win:Boolean):void {
+			if (mainMC.state != "combat" && mainMC.state != "combatInventory" && mainMC.state != "combatSkills")
+				return;
+			
 			mainMC.hideBtnArray();
 			mainMC.game.btnsUI.upBtn.visible = false;
 			mainMC.game.btnsUI.downBtn.visible = false;
 			
 			if (win) {
 				mainMC.game.combatUI.visible = false;
+				mainMC.game.menuUI.visible = false;
 				mainMC.game.btnsUI.btn8.visible = true;
 				mainMC.game.btnsUI.btn8.btnText.text = "Continue";
 			} else {

@@ -32,7 +32,7 @@
 			}
 		}
 		
-		public function procEffects(main:Main, player:Player):void {
+		public function procEffects(main:Main):void {
 			// proc special effects
 			if (effects != null && effects.length > 0) {
 				addedStats = [];
@@ -116,7 +116,7 @@
 			}
 		}
 		
-		public function writeEffects(main:Main, player:Player):void {
+		public function writeEffects(main:Main):void {
 			effectsText = "";
 			
 			if (effects != null && effects.length > 0) {

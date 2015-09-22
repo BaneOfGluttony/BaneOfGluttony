@@ -48,7 +48,7 @@
 				case "currCapacity" :
 				case "maxCapacity" :
 					return resources[stat];
-					
+				
 				case "str" :
 				case "agi" :
 				case "vit" :
@@ -56,7 +56,17 @@
 				case "dex" :
 				case "vor" :
 					return stats[stat];
-					
+				
+				case "atk" :
+				case "matk" :
+				case "def" :
+				case "mdef" :
+				case "acc" :
+				case "dodge" :
+				case "cap" :
+				case "weight" :
+					return derivedStats[stat];
+				
 				default :
 					trace("WARNING: Player.getStat(" + stat + ") is not valid!");
 					return -1;
