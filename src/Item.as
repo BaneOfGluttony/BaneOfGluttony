@@ -24,7 +24,7 @@
 		
 		//public var effect:Status = new Status({});
 		
-		public function Item(properties:Object) {			
+		public function Item(properties:Object = null) {			
 			for (var name:String in properties) {
 				if (this.hasOwnProperty(name)) {
 					this[name] = properties[name];

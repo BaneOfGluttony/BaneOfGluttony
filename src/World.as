@@ -137,7 +137,7 @@
 			world[6][1] = new Zone({name : "Wall"});
 			world[6][2] = new Zone({name : "Wall"});
 			world[6][3] = new Zone({name : "Armory"							, x : 6, y : 3, enter : true, 
-								   items : new Array("Knife", "Sword", "Axe", "Hat", "Cotton Shirt", "Denim Pants", "Shoes", "Guard"),
+								   items : new Array("Knife", "Sword", "Axe", "Hat", "Cotton Shirt", "Denim Pants", "Shoes", "Guard", "Falchion", "Sabre"),
 								   text : "Weapons and armor"});
 			world[6][4] = new Zone({name : "East Road"						, x : 6, y : 4, 
 								   text : "This road leads to the eastern gates."});

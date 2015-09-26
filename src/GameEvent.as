@@ -25,11 +25,12 @@
 				trace("Error in GameEvent loader: " + e);
 			}
 			
-			loader.load(new URLRequest("../src/XML/" + fileName));
+			loader.load(new URLRequest("src/XML/" + fileName));
 			loader.addEventListener(Event.COMPLETE, parseXML);
 			
 			name = fileName;
 			state = 0;
+			player.quests.push(this);
 			
 			trace("Quest added: " + name);
 		}
@@ -55,7 +56,9 @@
 		}
 		
 		public function finishQuest():void {
+			trace("Quest finished\n" + player.quests);
 			player.quests.splice(player.quests.indexOf(this), 1);
+			main.addText("Quest complete!");
 			trace("Quest finished\n" + player.quests);
 		}
 		

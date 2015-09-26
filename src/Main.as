@@ -22,6 +22,7 @@
 		
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
+		flash.net.registerClassAlias("GameEvent", GameEvent);
 		//flash.net.registerClassAlias("Effect", Effect);
 		
 		public var player:Player = new Player();
@@ -38,7 +39,7 @@
 		
 		public var credits:Array = ["PowersNDark", "Mysticmightg", "Sinwraith", "Serule", "Kazan.K"];
 		
-		//public var test:Test = new Test(this as MovieClip, player, "test.xml");
+		public var test:Test = new Test(this as MovieClip, player, "test.xml");
 		
 		public function Main(_runner:Runner) {
 			runner = _runner;
@@ -107,7 +108,8 @@
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
 			
-			startCombat(EnemyDefinitions.definitions["Slime"]);
+			//startCombat(EnemyDefinitions.definitions["Slime"]);
+			//var test:Test = new Test(this as MovieClip, player, "test.xml");
 		}
 		
 		public function reInit():void {
@@ -131,6 +133,8 @@
 		public function addText(txt:String):void {
 			if (txt == "")
 				return;
+			
+			mainText += "\n\n" + txt;
 			
 			switch (mainMC.state) {
 				/*case "combat" :
@@ -535,7 +539,10 @@
 		
 		public function addGold(x:Number):void {
 			player.gold += x;
-			addText("You got " + x + " gold.");
+			if (x > 0)
+				addText("You got " + x + " gold.");
+			else
+				addText("You lost " + -x + " gold.");
 			
 			if (player.gold > 999999999999) {
 				player.gold = 999999999999;
@@ -651,15 +658,15 @@
 		
 		public function drop(item:Item, x:int):void {
 			var index:int = player.indexOfInventory(item);
-			var retString:String = "";
+			var retString:String = "\n\n";
 			if (item.canDrop && index != -1) {
 				if (player.inventory[index].count >= x) {
 					player.inventory[index].count -= x;
 					
 					if (x == 1)
-						retString = "You dropped a " + item.name + ". ";
+						retString += "You lost a " + item.name + ". ";
 					else if (x > 1)
-						retString = "You dropped " + x + " " + item.name + "s. ";
+						retString += "You lost " + x + " " + item.name + "s. ";
 					
 					if (player.inventory[index].count <= 0) {
 						player.inventory.splice(index, 1);
@@ -677,10 +684,13 @@
             } else if (index == -1)
 				retString = "You don't have this item in your inventory.";
 			else if (!item.canDrop)
-				retString = "You can't drop this item.";
+				retString = "You can't discard this item.";
 			
-			
-			addText(retString);
+			if (mainMC.state == "selling" && mainMC.menuItemSelected)
+				retString = item.toString("sellingSelected") + retString;
+			else
+				retString = item.toString(mainMC.state) + retString;
+			setText(retString);
 		}
 		
 		public function useItem(item:Item):Boolean {
@@ -691,21 +701,25 @@
 					if (player.equipment["head"] != null)
 						unequip(player.equipment["head"]);
 					player.equipment["head"] = itemCopy;
+					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["head"].name + " equipped.");
 				} else if (item.torso) {
 					if (player.equipment["torso"] != null)
 						unequip(player.equipment["torso"]);
 					player.equipment["torso"] = itemCopy;
+					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["torso"].name + " equipped.");
 				} else if (item.legs) {
 					if (player.equipment["legs"] != null)
 						unequip(player.equipment["legs"]);
 					player.equipment["legs"] = itemCopy;
+					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["legs"].name + " equipped.");
 				} else if (item.feet) {
 					if (player.equipment["feet"] != null)
 						unequip(player.equipment["feet"]);
 					player.equipment["feet"] = itemCopy;
+					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["feet"].name + " equipped.");
 				} else if (item.weapon) {
 					if (item.twoHanded && player.equipment["shield"] != null) {
@@ -715,6 +729,7 @@
 						if (player.equipment["weapon"] != null)
 							unequip(player.equipment["weapon"]);
 						player.equipment["weapon"] = itemCopy;
+						addText("You equipped a " + item.name + ".\n" + item.effectsText);
 						trace(player.equipment["weapon"].name + " equipped.");
 					}
 				} else if (item.shield) {
@@ -722,6 +737,7 @@
 						if (player.equipment["shield"] != null)
 							unequip(player.equipment["shield"]);
 						player.equipment["shield"] = itemCopy;
+						addText("You equipped a " + item.name + ".\n" + item.effectsText);
 						trace(player.equipment["shield"].name + " equipped.");
 					} else {
 						addText("A two-handed weapon and a shield cannot be equipped simultaneously..");
@@ -731,6 +747,7 @@
 				addEquipBonuses();
 			} else {
 				itemCopy.procEffects(this);
+				addText("You used a " + item.name + ".\n" + item.effectsText);
 			}
 			
 			var index:int = player.indexOfInventory(item);
@@ -786,7 +803,7 @@
 		}
 		
 		public function sell(item:Item):Boolean {
-			if (item.canDrop) {
+			if (item.canDrop && player.indexOfInventory(item) != -1) {
 				drop(item, 1);
 				addGold(Math.round(0.5 * item.value));
 				return true;
@@ -901,7 +918,7 @@
 				else
 					text += "0";
 				
-				text += item.toString("buying") + "\n\n";
+				text += item.toString("buying");
 				/*if (item.effectsText == "")
 					text += " in inventory\n" + item.short + "\n\n";
 				else
@@ -912,8 +929,6 @@
 		}
 		
 		public function isPlayerAlive():Boolean {
-			//player.isAlive = true;
-			
 			if (player.resources["currCapacity"] > player.derivedStats["cap"]) {
 				endCombat(false);
 				player.isAlive = false;

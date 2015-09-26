@@ -540,10 +540,10 @@ package
 		
 		//{ Keyboard handlers
 		public function keyReleased(e:KeyboardEvent):void {
-			/*if (e.keyCode == Keyboard.C)
-				test.getChoice(0);
+			if (e.keyCode == Keyboard.C)
+				main.test.getChoice(0);
 			else if (e.keyCode == Keyboard.V)
-				test.getChoice(1);*/
+				main.test.getChoice(1);
 			
 			//{ Menus
 			if (e.keyCode == Keyboard.ESCAPE && game.optionsBtn.visible)
@@ -591,8 +591,8 @@ package
 					case "buying" :
 					case "selling" :
 						menuConfirm(selectedItem, -1);
-						game.btnsUI.upBtn.visible = false;
-						game.btnsUI.downBtn.visible = false;
+						//game.btnsUI.upBtn.visible = false;
+						//game.btnsUI.downBtn.visible = false;
 						scrollIndex = 0;
 						break;
 				}
@@ -875,7 +875,7 @@ package
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
 		}
 
-		public function clickLoad(e:MouseEvent):void {
+		public function clickLoad(e:MouseEvent):void {	//Make sure to change keyboard handler for backspace too
 			switch (state) {
 				case "gameover" :
 				case "navigate" :
@@ -908,8 +908,8 @@ package
 				case "buying" :
 				case "selling" :
 					menuConfirm(selectedItem, -1);
-					game.btnsUI.upBtn.visible = false;
-					game.btnsUI.downBtn.visible = false;
+					//game.btnsUI.upBtn.visible = false;
+					//game.btnsUI.downBtn.visible = false;
 					scrollIndex = 0;
 					break;
 			}
@@ -1762,31 +1762,35 @@ package
 					}
 					break;
 				case "buying" :
+					var buy:Item = object as Item;
+					
 					if (selection == -1) {
 						if (menuItemSelected) {
 							menuItemSelected = false;
 							displayBuying();
 						} else {
-							state = "shop";
 							enterShop(World.world[main.player.x][main.player.y]);
 						}
 					} else {
-						if (!main.buy(selectedItem))
+						if (!main.buy(buy))
 							main.addText("You don't have enough gold to buy that.");
 					}
 					break;
 				case "selling" :
+					var sell:Item = object as Item;
+					
 					if (selection == -1) {
 						if (menuItemSelected) {
 							menuItemSelected = false;
 							displaySelling();
 						} else {
-							state = "shop";
 							enterShop(World.world[main.player.x][main.player.y]);
 						}
 					} else {
-						if (!main.sell(selectedItem))
+						if (!main.sell(sell))
 							main.addText("You can't sell that.");
+						if (main.player.indexOfInventory(selectedItem) == -1)
+							displaySelling();
 					}
 					break;
 				default :
@@ -1922,6 +1926,8 @@ package
 			updateMenuBtns();
 			
 			hideBtnArray();
+			game.btnsUI.upBtn.visible = false;
+			game.btnsUI.downBtn.visible = false;
 			game.btnsUI.btn1.visible = true;
 			game.btnsUI.btn1.btnText.text = "Buy";
 			game.btnsUI.btn3.visible = true;

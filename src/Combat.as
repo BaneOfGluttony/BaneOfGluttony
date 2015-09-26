@@ -171,7 +171,7 @@
 			var used:Boolean = main.useItem(item);
 			
 			if (used && item.equip) {
-				main.combatText += "\nYou equip a " + item.name + ".";
+				main.combatText += "\nYou equipped a " + item.name + ".";
 			} else if (!used && item.equip) {
 				main.mainMC.openInventory();
 				main.setText(main.combatText);
