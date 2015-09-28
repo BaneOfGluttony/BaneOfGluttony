@@ -8,7 +8,7 @@
 		public var main:MovieClip;
 		public var player:Player;
 		public var xml:XML;
-		public var currChild:XMLList;
+		//public var currDialog:XMLList;
 		public var loader:URLLoader;
 		
 		public var name:String;
@@ -18,6 +18,7 @@
 		public function GameEvent(main:MovieClip, player:Player, fileName:String) {
 			this.main = main;
 			this.player = player;
+			state = 0;
 			
 			try {
 				loader = new URLLoader();
@@ -27,51 +28,149 @@
 			
 			loader.load(new URLRequest("src/XML/" + fileName));
 			loader.addEventListener(Event.COMPLETE, parseXML);
-			
-			name = fileName;
-			state = 0;
-			player.quests.push(this);
-			
-			trace("Quest added: " + name);
 		}
 		
 		public function parseXML(e:Event):void {
 			xml = new XML(e.target.data)
 			text = xml.text;
-			main.addText(text);
-			currChild = xml.child("choices");
+			main.addText(text);	
+			name = xml.@name;
+			player.quests.push(this);
+			trace("Quest added: " + name);
+			
+			setDialog(0);
+		}
+		
+		public function setDialog(x:int):void {	
+			var dialog:XMLList = xml.dialog.(@id == x);
+			var options:XMLList = dialog.options;
+			state = x;
+			
+			for each (var text:XML in dialog.text) {
+				if (check(text)) {
+					main.mainMC.state = "dialog";
+					main.mainMC.hideBtnArray();
+					main.mainMC.game.menuUI.visible = false;
+					
+					if (text == dialog.text[0])
+						main.setText(text);
+					else
+						main.addText(text);
+					
+					if (dialog.@end == "true") {
+						main.mainMC.btnArray[8].btnText.text = "Continue";
+						main.mainMC.btnArray[8].visible = true;
+						main.event = null;
+					} else {
+						var i:int = 0;
+						for each (var option:XML in options.option) {
+							main.mainMC.btnArray[i].btnText.text = option;
+							main.mainMC.btnArray[i].visible = true;
+							i++;
+						}
+						main.event = this;
+					}
+				}
+			}
 		}
 	
-		public function getChoice(i:int):void {
-			if (currChild.choice[i] == null)
+		public function setOption(i:int):void {
+			var option:XML = xml.dialog.(@id == state).options.option[i];
+			if (option == null)
 				return;
+			
+			setDialog(option.@id);
+		}
+		
+		public function check(node:XML):Boolean {
+			var succ:Boolean = true;
+			var raw:String = node.@check;
+
+			if (raw != "") {
+				var checks:Array = raw.split(";");
+				var i:int = 0;
 				
-			text = currChild.choice[i].text;
-			currChild = currChild.choice[i].child("choices");
-			trace(text);
+				for each (var check:String in checks) {
+					checks[i] = check.split(":");
+					var str:String = checks[i][0];
+					var min:Number = 0;
+					var max:Number = Number.MAX_VALUE;
+					
+					var temp:Array = checks[i][1].split(",");
+					min = temp[0]
+					if (temp.length > 1)
+						max = temp[1]
+					
+					if (str == "loc") {
+						succ = checkLoc(min, max);
+					} else if (player.resources.hasOwnProperty(str)) {
+						succ = checkResource(str, min, max);
+					} else if (player.stats.hasOwnProperty(str)) {
+						succ = checkStat(str, min, max);
+					} else if (str == "fat") {
+						succ = checkFat(min, max);
+					} else if (str == "gold") {
+						succ = checkGold(min, max);
+					} else if (str == "items") {
+						var vals:String = checks[i][1];
+						var items:Array = vals.split(",");
+						var j:int = 0;
+						
+						for each (var item:String in items) {
+							items[j] = item.split("-");
+							var tempItem:Item = ItemDefinitions.getItem(items[j][0]);
+							tempItem.count = items[j][1];
+							items[j] = tempItem;
+							
+							j++;
+						}
+						
+						succ = checkItems(items);
+					}
+					
+					i++;
+					if (!succ)
+						return succ;
+				}
+			}
+			
+			return succ;
 		}
 		
 		public function checkState():int {
 			return -1;	//override
 		}
 		
-		public function finishQuest():void {
-			trace("Quest finished\n" + player.quests);
+		public function finishEvent():void {
 			player.quests.splice(player.quests.indexOf(this), 1);
 			main.addText("Quest complete!");
 			trace("Quest finished\n" + player.quests);
 		}
 		
-		public function checkResource(resource:String, x:Number):Boolean {
-			return (player.resources["min" + resource] / player.resources["max" + resource]) >= x;
+		public function checkLoc(x:int, y:int):Boolean {
+			return player.x == x && player.y == y;
 		}
 		
-		public function checkStat(stat:String, x:int):Boolean {
-			return player.stats[stat] >= x;
+		public function checkResource(resource:String, min:Number, max:Number):Boolean {
+			return (player.resources["min" + resource] / player.resources["max" + resource]) >= min &&
+				(player.resources["min" + resource] / player.resources["max" + resource]) <= max;
 		}
 		
-		public function checkItem(items:Array):Boolean {
-			var itemFound:Boolean = false;
+		public function checkStat(stat:String, min:int, max:int):Boolean {
+			return player.stats[stat] >= min && player.stats[stat] <= max;
+		}
+		
+		public function checkFat(min:Number, max:Number):Boolean {
+			return player.fat >= min && player.fat <= max;
+		}
+		
+		public function checkGold(min:Number, max:Number):Boolean {
+			return player.gold >= min && player.gold <= max;
+		}
+		
+		public function checkItems(items:Array):Boolean {
+			if (player.inventory.length == 0)
+				return false;
 			
 			for each (var item:Item in items) {
 				for each (var inventoryItem:Item in player.inventory) {
@@ -83,8 +182,6 @@
 					} else {
 						if (inventoryItem == player.inventory[player.inventory.length - 1])
 							return false;
-						else
-							continue;
 					}
 				}
 			}

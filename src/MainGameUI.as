@@ -28,6 +28,7 @@ package
 		public var menuIndex:int = 0;
 
 		public var state:String = "navigate";
+		public var oldState:String = state;
 
 		public var menuItemSelected:Boolean = false;
 		public var selectedItem:Item = null;
@@ -324,7 +325,7 @@ package
 
 		public function updateQuests():void {
 			for each (var quest:GameEvent in main.player.quests) {
-				quest.checkState();
+				quest.setDialog(quest.state);
 			}
 		}
 
@@ -540,10 +541,10 @@ package
 		
 		//{ Keyboard handlers
 		public function keyReleased(e:KeyboardEvent):void {
-			if (e.keyCode == Keyboard.C)
-				main.test.getChoice(0);
+			/*if (e.keyCode == Keyboard.C)
+				main.test.setOption(0);
 			else if (e.keyCode == Keyboard.V)
-				main.test.getChoice(1);
+				main.test.setOption(1);*/
 			
 			//{ Menus
 			if (e.keyCode == Keyboard.ESCAPE && game.optionsBtn.visible)
@@ -637,6 +638,9 @@ package
 					case "shop" :
 						displayBuying();
 						break;
+					case "dialog" :
+						main.event.setOption(0);
+						break;
 					default	:
 						break;
 				}
@@ -653,6 +657,9 @@ package
 					case "buying" :
 					case "selling" :
 						menuSelect(1);
+						break;
+					case "dialog" :
+						main.event.setOption(1);
 						break;
 					default	:
 						break;
@@ -675,6 +682,9 @@ package
 						break;
 					case "shop" :
 						displaySelling();
+					case "dialog" :
+						main.event.setOption(2);
+						break;
 					default	:
 						break;
 				}
@@ -692,6 +702,9 @@ package
 					case "selling" :
 						menuSelect(3);
 						break;
+					case "dialog" :
+						main.event.setOption(3);
+						break;
 					default	:
 						break;
 				}
@@ -707,6 +720,9 @@ package
 					case "buying" :
 					case "selling" :
 						menuSelect(4);
+						break;
+					case "dialog" :
+						main.event.setOption(4);
 						break;
 					default	:
 						break;
@@ -724,6 +740,9 @@ package
 					case "buying" :
 					case "selling" :
 						menuSelect(5);
+						break;
+					case "dialog" :
+						main.event.setOption(5);
 						break;
 					default	:
 						break;
@@ -745,6 +764,9 @@ package
 						state = "navigate";
 						updateNavBtns();
 						break;
+					case "dialog" :
+						main.event.setOption(6);
+						break;
 					default	:
 						break;
 				}
@@ -762,8 +784,8 @@ package
 					case "selling" :
 						menuSelect(7);
 						break;
-					case "combat" :
-						hideCombat();
+					case "dialog" :
+						main.event.setOption(7);
 						break;
 					default	:
 						break;
@@ -782,6 +804,15 @@ package
 					case "selling" :
 						menuSelect(8);
 						break;
+					case "combat" :
+						hideCombat();
+						break;
+					case "dialog" :
+						updateNavBtns();
+						updateMenuBtns();
+						main.setText(main.mainText);
+						state = "navigate";
+					break;
 					default	:
 						break;
 				}
@@ -1054,6 +1085,9 @@ package
 				case "shop" :
 					displayBuying();
 					break;
+				case "dialog" :
+					main.event.setOption(0);
+					break;
 				default :
 					break;
 			}
@@ -1080,6 +1114,9 @@ package
 					break;
 				case "appearance" :
 					menuSelect(1);
+					break;
+				case "dialog" :
+					main.event.setOption(1);
 					break;
 				default :
 					break;
@@ -1111,6 +1148,9 @@ package
 				case "shop" :
 					displaySelling();
 					break;
+				case "dialog" :
+					main.event.setOption(2);
+					break;
 				default :
 					break;
 			}
@@ -1137,6 +1177,9 @@ package
 					break;
 				case "appearance" :
 					menuSelect(3);
+					break;
+				case "dialog" :
+					main.event.setOption(3);
 					break;
 				default :
 					break;
@@ -1165,6 +1208,9 @@ package
 				case "appearance" :
 					menuSelect(4);
 					break;
+				case "dialog" :
+					main.event.setOption(4);
+					break;
 				default :
 					break;
 			}
@@ -1191,6 +1237,9 @@ package
 					break;
 				case "appearance" :
 					menuSelect(5);
+					break;
+				case "dialog" :
+					main.event.setOption(5);
 					break;
 				default :
 					break;
@@ -1220,6 +1269,9 @@ package
 					state = "navigate";
 					updateNavBtns();
 					break;
+				case "dialog" :
+					main.event.setOption(6);
+					break;
 				default :
 					break;
 			}
@@ -1247,8 +1299,8 @@ package
 				case "appearance" :
 					menuSelect(7);
 					break;
-				case "combat" :
-					hideCombat();
+				case "dialog" :
+					main.event.setOption(7);
 					break;
 				default :
 					break;
@@ -1276,6 +1328,15 @@ package
 					break;
 				case "appearance" :
 					menuSelect(8);
+					break;
+				case "combat" :
+					hideCombat();
+					break;
+				case "dialog" :
+					updateNavBtns();
+					updateMenuBtns();
+					main.setText(main.mainText);
+					state = "navigate";
 					break;
 				default :
 					break;

@@ -27,6 +27,7 @@
 		
 		public var player:Player = new Player();
 		public var combat:Combat;
+		public var event:GameEvent;
 		
 		//Text
 		public var optionsText:String = "Options\n\nTo be implemented.\n\nControls should be self-explanatory. In addition to using the mouse, keyboard control is also possible for most functions:\nWASD/Arrow Keys/Numpad - Navigation (numpad can move diagonally)\nU - Open appearance\nI - Open inventory\nJ - Open quests\nK - Open skills\nM - Toggle map\nEnter - Enter a particular area\nBackspace - Go back one menu\nPage Up/Down - Scroll through button menus\nEsc - Options\n\nCredits (FurAffinity usernames unless otherwise noted)\n\nIntroduction Text - PowersNDark\nIdeas - Mysticmightg, Anonymous\nSome Weapon Text - Sinwraith\nAS3 Advisor - Serule\nEverything Else - Kazan.K";
@@ -38,8 +39,6 @@
 		public var combatText:String = "Combat";
 		
 		public var credits:Array = ["PowersNDark", "Mysticmightg", "Sinwraith", "Serule", "Kazan.K"];
-		
-		public var test:Test = new Test(this as MovieClip, player, "test.xml");
 		
 		public function Main(_runner:Runner) {
 			runner = _runner;
@@ -78,7 +77,7 @@
 			setGold(245);
 			addExp(196);
 			
-			loot(ItemDefinitions.getItem("Sword"), 2);
+			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -106,10 +105,10 @@
 			loot(ItemDefinitions.getItem("Cerulean Hat"), 1);
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
-			loot(ItemDefinitions.getItem("Sabre"), 1);
+			loot(ItemDefinitions.getItem("Sabre"), 1);*/
 			
 			//startCombat(EnemyDefinitions.definitions["Slime"]);
-			//var test:Test = new Test(this as MovieClip, player, "test.xml");
+			var test:Test = new Test(this as MovieClip, player, "test.xml");
 		}
 		
 		public function reInit():void {
@@ -134,8 +133,6 @@
 			if (txt == "")
 				return;
 			
-			mainText += "\n\n" + txt;
-			
 			switch (mainMC.state) {
 				/*case "combat" :
 				case "combatInventory" :
@@ -143,6 +140,8 @@
 					combatText += "\n\n" + txt;
 					setText(combatText);
 					break;*/
+				case "navigate" :
+					mainText += "\n\n" + txt;
 				default :
 					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
 					break;
@@ -156,7 +155,14 @@
 			if (txt == "")
 				return;
 			
-			mainMC.game.mainUI.textField.text = txt;
+			switch (mainMC.state) {
+				case "navigate" :
+					mainText = txt;
+				default :
+					mainMC.game.mainUI.textField.text = txt;
+					break;
+			}
+			
 			mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.minScrollPosition;
 			mainMC.game.mainUI.scrollBar.update();
 		}
@@ -629,6 +635,7 @@
 		
 		public function loot(item:Item, x:int):void {
 			var retString:String = "";
+			
 			if (x == 1)
 				retString = "You got a " + item.name + ". ";
 			else if (x > 1)
@@ -640,8 +647,9 @@
 					player.inventory.push(item);
 					index = player.indexOfInventory(item);
 				}
-					
-				player.inventory[index].count += x;
+				
+				item = player.inventory[index];
+				item.count += x;
 				
 				retString += "You now have " + player.inventory[index].count + " " + item.name;
 				if (player.inventory[index].count > 1)
@@ -694,6 +702,7 @@
 		}
 		
 		public function useItem(item:Item):Boolean {
+			item = player.getItemFromInventory(item);
 			var itemCopy:Item = ItemDefinitions.getItem(item.name);
 			
 			if (item.equip) {
@@ -958,8 +967,8 @@
 			if (win) {
 				mainMC.game.combatUI.visible = false;
 				mainMC.game.menuUI.visible = false;
-				mainMC.game.btnsUI.btn8.visible = true;
-				mainMC.game.btnsUI.btn8.btnText.text = "Continue";
+				mainMC.btnArray[8].btnText.text = "Continue";
+				mainMC.btnArray[8].visible = true;
 			} else {
 				mainMC.updateMenuBtns();
 				mainMC.game.combatUI.attackBtn.visible = false;
