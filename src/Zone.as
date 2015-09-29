@@ -10,6 +10,7 @@
 		
 		public var items:Array = null;
 		public var stock:Array = new Array();
+		public var events:Array = null;
 
 		public function Zone(properties:Object) {
 			for (var name:String in properties) {

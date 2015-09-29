@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <event name="Test">
 	<dialog id="0">
 		<text check="loc:7,1">This is a test quest.</text>
@@ -11,7 +11,7 @@
 	<dialog id="1">
 		<text>Do the thing?</text>
 		<options>
-			<option id="2" check="str:5;agi:5;items:Roast Chicken-1,Mutton Loin-1">Yes</option>
+			<option id="2" check="str:5;agi:5;item:Roast Chicken-1,Mutton Loin-1">Yes</option>
 			<option id="3">No</option>
 		</options>
 	</dialog>

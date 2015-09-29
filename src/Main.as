@@ -108,7 +108,7 @@
 			loot(ItemDefinitions.getItem("Sabre"), 1);*/
 			
 			//startCombat(EnemyDefinitions.definitions["Slime"]);
-			var test:Test = new Test(this as MovieClip, player, "test.xml");
+			//var test:Test = new Test(this as MovieClip, player, "test");
 		}
 		
 		public function reInit():void {
@@ -530,7 +530,7 @@
 			mainMC.game.mainUI.fatLabel.text = Math.round(player.fat);
 		}
 		
-		public function setFat(x:int):void {
+		public function setFat(x:Number):void {
 			player.fat = x;
 			
 			if (player.fat < 0) {
@@ -553,17 +553,26 @@
 			if (player.gold > 999999999999) {
 				player.gold = 999999999999;
 				addText("Max gold reached.\npls wat r u doing wit ur lyfe?");
+			} else if (player.gold < 0) {
+				player.gold = 0;
 			}
 			
 			mainMC.game.mainUI.goldLabel.text = player.gold;
 		}
 		
 		public function setGold(x:Number):void {
+			var diff:Number = x - player.gold;
 			player.gold = x;
+			if (diff > 0)
+				addText("You got " + diff + " gold.");
+			else
+				addText("You lost " + -diff + " gold.");
 			
 			if (player.gold > 999999999999) {
 				player.gold = 999999999999;
 				addText("Max gold reached.\npls wat r u doing wit ur lyfe?");
+			} else if (player.gold < 0) {
+				player.gold = 0;
 			}
 			
 			mainMC.game.mainUI.goldLabel.text = player.gold;

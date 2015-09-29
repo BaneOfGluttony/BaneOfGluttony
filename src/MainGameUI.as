@@ -324,8 +324,19 @@ package
 		}
 
 		public function updateQuests():void {
+			var existingEvent:Boolean = false;
+			var currLoc:Zone = World.world[main.player.x][main.player.y];
+			
 			for each (var quest:GameEvent in main.player.quests) {
-				quest.setDialog(quest.state);
+				existingEvent = quest.setDialog(quest.state);
+			}
+			
+			if (!existingEvent && currLoc.events != null) {
+				for each (var event:Array in currLoc.events) {
+					if (event[2] && Math.random() < event[1])
+						var exec:GameEvent = new GameEvent(main, main.player, event[0]);
+						event[2] = false;
+				}
 			}
 		}
 
@@ -541,11 +552,6 @@ package
 		
 		//{ Keyboard handlers
 		public function keyReleased(e:KeyboardEvent):void {
-			/*if (e.keyCode == Keyboard.C)
-				main.test.setOption(0);
-			else if (e.keyCode == Keyboard.V)
-				main.test.setOption(1);*/
-			
 			//{ Menus
 			if (e.keyCode == Keyboard.ESCAPE && game.optionsBtn.visible)
 				openOptions();
