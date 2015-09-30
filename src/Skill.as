@@ -27,7 +27,7 @@
 			this.target = target;
 			
 			writeEffects(main);
-			main.combatText += useText + "\n\n" + effectsText;
+			main.addText(useText + "\n\n" + effectsText);
 			
 			if (source is Enemy && target is Player) {
 				// proc special effects
@@ -106,7 +106,7 @@
 				switch (stat) {
 					case "currHP" :
 						//main.mainMC.updateEnemyHealth();
-						main.combat.enemyDmg(amount);
+						main.combat.enemyDmg(-amount);
 						break;
 					case "atk" :
 					case "def" :

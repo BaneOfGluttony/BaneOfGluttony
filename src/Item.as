@@ -30,6 +30,7 @@
 					this[name] = properties[name];
 				}
 			}
+			writeEffects();
 		}
 		
 		public function procEffects(main:Main):void {
@@ -116,7 +117,7 @@
 			}
 		}
 		
-		public function writeEffects(main:Main):void {
+		public function writeEffects():void {
 			effectsText = "";
 			
 			if (effects != null && effects.length > 0) {
@@ -176,6 +177,8 @@
 		}
 		
 		public function toString(state:String):String {
+			writeEffects();
+			
 			switch (state) {
 				case "appearance" :
 					if (effectsText != "")
@@ -206,9 +209,9 @@
 						return " in inventory\n" + short + "\n\n";
 				case "buyingSelected" :
 					if (effectsText != "")
-						return name + " -- " + value + " gold ea.\n\n" + effectsText + "\n" + short;
+						return name + " -- " + value + " gold ea. -- " + count + " in inventory\n\n" + effectsText + "\n" + short + " " + long + "\n\n";
 					else
-						return name + " -- " + value + " gold ea.\n\n" + effectsText + "\n" + short + " " + long;
+						return name + " -- " + value + " gold ea. -- " + count + " in inventory\n\n" + short + " " + long + "\n\n";
 				default :
 					return "";
 			}

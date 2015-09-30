@@ -9,7 +9,7 @@
 		public var currExp:int = 0;
 		public var level:int = 1;
 		public var fat:Number = 0;
-		public var gold:Number = 50;
+		public var gold:Number = 25;
 		public var height:int = 70;
 		public var quests:Array = [];
 		public var inventory:Array = [];

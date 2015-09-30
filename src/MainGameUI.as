@@ -28,7 +28,6 @@ package
 		public var menuIndex:int = 0;
 
 		public var state:String = "navigate";
-		public var oldState:String = state;
 
 		public var menuItemSelected:Boolean = false;
 		public var selectedItem:Item = null;
@@ -288,25 +287,32 @@ package
 			updateNavBtns();
 			updateMaps();
 			
-			if (main.player.resources["currCapacity"] <= 0) {
-				main.addResource("Health", -0.05 * main.player.resources["maxHealth"], 0);
-				if (main.player.resources["currHealth"] <= 0)
-					main.gameOver(2);
+			var enemy:Enemy = checkEnemy();
+			if (enemy != null) {
+				main.startCombat(enemy);
+			} else {
+				if (main.player.resources["currCapacity"] <= 0) {
+					main.addResource("Health", -0.05 * main.player.resources["maxHealth"], 0);
+					if (main.player.resources["currHealth"] <= 0)
+						main.gameOver(2);
+				}
+				
+				var capDrained:int;
+				if (main.player.stats["vit"] <= 0.8 * main.player.resources["maxCapacity"])
+					capDrained = Math.round(0.03 * (main.player.resources["maxCapacity"] - main.player.stats["vit"]));
+				else
+					capDrained = Math.round(0.01 * main.player.resources["maxCapacity"]);
+				
+				if (capDrained > main.player.resources["currCapacity"]) {
+					capDrained = main.player.resources["currCapacity"];
+					main.setResource("Capacity", 0, -1);
+				} else
+					main.addResource("Capacity", -capDrained, 0);
+				
+				main.addFat(0.03 * capDrained);
 			}
 			
-			var capDrained:int;
-			if (main.player.stats["vit"] <= 0.8 * main.player.resources["maxCapacity"])
-				capDrained = Math.round(0.05 * (main.player.resources["maxCapacity"] - main.player.stats["vit"]));
-			else
-				capDrained = Math.round(0.01 * main.player.resources["maxCapacity"]);
 			
-			if (capDrained > main.player.resources["currCapacity"]) {
-				capDrained = main.player.resources["currCapacity"] - capDrained;
-				main.setResource("Capacity", 0, main.player.resources["maxCapacity"]);
-			} else
-				main.addResource("Capacity", -capDrained, 0);
-			
-			main.addFat(0.03 * capDrained);
 			//main.updateStats();
 			updateQuests();
 		}
@@ -335,9 +341,33 @@ package
 				for each (var event:Array in currLoc.events) {
 					if (event[2] && Math.random() < event[1])
 						var exec:GameEvent = new GameEvent(main, main.player, event[0]);
-						event[2] = false;
+						//event[2] = false;
 				}
 			}
+		}
+		
+		public function checkEnemy():Enemy {
+			var ret:Enemy = null;
+			var enemies:Array = World.world[main.player.x][main.player.y].enemies;
+			
+			if (enemies != null) {
+				var possibleEnemites:Array = [];
+				var probs:Array = [];
+				for each (var enemy:Array in enemies) {
+					var prob:Number = Math.random();
+					if (prob < enemy[1]) {
+						enemy[1] = prob;
+						possibleEnemites.push(EnemyDefinitions.getEnemy(enemy[0]));
+						probs.push(prob);
+					}
+				}
+				
+				var min:Number = Math.min.apply(null, probs);
+				var minIndex:int = probs.indexOf(min);
+				ret = possibleEnemites[minIndex];
+			}
+			
+			return ret;
 		}
 
 		public function updateMenuBtns():void {
@@ -408,6 +438,10 @@ package
 				case "shop" :
 				case "buying" :
 				case "selling" :
+					game.menuUI.appearanceBtn.visible = false;
+					game.menuUI.inventoryBtn.visible = false;
+					game.menuUI.questsBtn.visible = false;
+					game.menuUI.skillsBtn.visible = false;
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
@@ -688,6 +722,7 @@ package
 						break;
 					case "shop" :
 						displaySelling();
+						break;
 					case "dialog" :
 						main.event.setOption(2);
 						break;
@@ -818,7 +853,7 @@ package
 						updateMenuBtns();
 						main.setText(main.mainText);
 						state = "navigate";
-					break;
+						break;
 					default	:
 						break;
 				}
@@ -832,6 +867,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		//}
 
@@ -850,6 +886,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickAppearance(e:MouseEvent):void {
@@ -862,6 +899,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickInventory(e:MouseEvent):void {
@@ -874,6 +912,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickSkills(e:MouseEvent):void {
@@ -886,6 +925,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickQuests(e:MouseEvent):void {
@@ -898,6 +938,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickSave(e:MouseEvent):void {
@@ -910,6 +951,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickLoad(e:MouseEvent):void {	//Make sure to change keyboard handler for backspace too
@@ -945,8 +987,6 @@ package
 				case "buying" :
 				case "selling" :
 					menuConfirm(selectedItem, -1);
-					//game.btnsUI.upBtn.visible = false;
-					//game.btnsUI.downBtn.visible = false;
 					scrollIndex = 0;
 					break;
 			}
@@ -958,6 +998,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickMap(e:MouseEvent):void {
@@ -970,6 +1011,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickUpBtn(e:MouseEvent):void {
@@ -982,6 +1024,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			
 		}
 
 		public function clickDownBtn(e:MouseEvent):void {
@@ -994,6 +1037,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		
 		public function combatAttack(e:MouseEvent):void {
@@ -1006,6 +1050,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		
 		public function combatInventory(e:MouseEvent):void {
@@ -1018,6 +1063,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		
 		public function combatSkills(e:MouseEvent):void {
@@ -1030,6 +1076,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		
 		public function combatRun(e:MouseEvent):void {
@@ -1042,6 +1089,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		
 		public function combatDevour(e:MouseEvent):void {
@@ -1054,6 +1102,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		
 		public function combatSurrender(e:MouseEvent):void {
@@ -1066,6 +1115,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		//}
 		
@@ -1105,6 +1155,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickN(e:MouseEvent):void {
@@ -1135,6 +1186,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickNE(e:MouseEvent):void {
@@ -1168,6 +1220,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickW(e:MouseEvent):void {
@@ -1198,6 +1251,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickCenter(e:MouseEvent):void {
@@ -1228,6 +1282,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickE(e:MouseEvent):void {
@@ -1258,6 +1313,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickSW(e:MouseEvent):void {
@@ -1289,6 +1345,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickS(e:MouseEvent):void {
@@ -1319,6 +1376,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 
 		public function clickSE(e:MouseEvent):void {
@@ -1355,6 +1413,7 @@ package
 			trace("acc = " + main.player.derivedStats["acc"]);
 			trace("dodge = " + main.player.derivedStats["dodge"]);
 			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
 		}
 		//}
 		//}
@@ -1685,7 +1744,7 @@ package
 					hideBtnArray();
 					
 					updateMenuBtns();
-					main.setText(main.questsText);
+					main.setText(main.writeQuests());
 					break;
 			}
 		}
@@ -1758,8 +1817,13 @@ package
 					menuItemSelected = true;
 					selectedItem = ItemDefinitions.getItem(selection);
 					main.setText(selectedItem.toString("buyingSelected"));
-					/*main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea.\n\n" +
-						selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);*/
+					/*if (main.player.indexOfInventory(selectedItem) != -1) {
+						main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea. -- " +
+							main.player.getItemFromInventory(selectedItem).count + selectedItem.toString("buyingSelected"));
+					} else {
+						main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea. -- 0" +
+							selectedItem.toString("buyingSelected"));
+					}*/
 					
 					hideBtnArray();
 					game.btnsUI.upBtn.visible = false;
@@ -1802,7 +1866,6 @@ package
 				case "combatInventory" :
 					var item:Item = object as Item;
 					
-					menuItemSelected = false;
 					if (selection == 0) {
 						main.drop(item, 1);
 						displayInventory();
@@ -1819,6 +1882,7 @@ package
 					} else if (selection == -1) {
 						displayInventory();
 					}
+					menuItemSelected = false;
 					break;
 				case "shop" :
 					if (selection == -1) {
@@ -2040,6 +2104,15 @@ package
 			game.optionsBtn.visible = false;
 			//game.menuUI.visible = false;
 			game.combatUI.visible = true;
+			game.combatUI.enemyLabel.visible = true;
+			game.combatUI.healthLabel.visible = true;
+			game.combatUI.healthBar.visible = true;
+			game.combatUI.attackBtn.visible = true;
+			game.combatUI.inventoryBtn.visible = true;
+			game.combatUI.skillsBtn.visible = true;
+			game.combatUI.runBtn.visible = true;
+			game.combatUI.devourBtn.visible = true;
+			game.combatUI.surrenderBtn.visible = true;
 			updateMenuBtns();
 			
 			if (enemy.name.length <= 15)

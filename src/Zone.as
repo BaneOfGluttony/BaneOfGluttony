@@ -8,6 +8,7 @@
 		public var enter:Boolean = false;
 		public var save:Boolean = false;
 		
+		public var enemies:Array = null;
 		public var items:Array = null;
 		public var stock:Array = new Array();
 		public var events:Array = null;

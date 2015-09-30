@@ -31,7 +31,7 @@
 		
 		//Text
 		public var optionsText:String = "Options\n\nTo be implemented.\n\nControls should be self-explanatory. In addition to using the mouse, keyboard control is also possible for most functions:\nWASD/Arrow Keys/Numpad - Navigation (numpad can move diagonally)\nU - Open appearance\nI - Open inventory\nJ - Open quests\nK - Open skills\nM - Toggle map\nEnter - Enter a particular area\nBackspace - Go back one menu\nPage Up/Down - Scroll through button menus\nEsc - Options\n\nCredits (FurAffinity usernames unless otherwise noted)\n\nIntroduction Text - PowersNDark\nIdeas - Mysticmightg, Anonymous\nSome Weapon Text - Sinwraith\nAS3 Advisor - Serule\nEverything Else - Kazan.K";
-		public var mainText:String = "While time is the great keeper of all, there will always remain the events and artifacts that even he cannot keep eternal. Expunged from the very world they tried to conquer, the earliest civilizations of [WORLD NAME] were lost to the ravages of time, and the plague that struck down their people has long since been forgotten. Despite being erased from history itself, the aftermath of this great catastrophe still surfaces and ripples far into the future of generations to come. Unbeknownst to any, the cause of this calamity lives on, trapped in a seal containing the very essence of this powerful force. However, through malicious intent or an unfortunate accident, this seal has been broken.\n\nEvil has spread across the land, contaminating the earth, the water, and everything in its path. Although, perhaps not in the most obvious of ways. Rich and fertile fields, once known for their bountiful crops, had changed in a matter of weeks. Now, seen simply as a miracle by the gods, the soil promotes nothing short of rampant growth in anything it feeds. Never before have forests been more dense and lush, hills and mountains been so overgrown with vegetation, and livestock been fattened to more than double their weight. The boundless abundance of mother nature has seen to it that even the poorest of farmers have begun producing enough to appease the exploding appetites of entire villages.\n\nWhile crops flourish and civilization and wildlife alike gorge upon this newfound bounty, the essence of the ancient seal continues its march across [WORLD NAME]. The inhabitants of this land are falling prey to this new evil while those afflicted slowly find their world becoming muted and dull as baser instincts take hold of their minds. An insatiable hunger for food will overwhelm them. The unrelenting desires of hedonistic gluttony will drive them to consume all that lie before them – only to leave themselves famished and starving for more, trapped in an endless cycle of ravenous greed.";
+		public var mainText:String = "While time is the great keeper of all, there will always remain the events and artifacts that even he cannot keep eternal. Expunged from the very world they tried to conquer, the earliest civilizations of Karthund were lost to the ravages of time, and the plague that struck down their people has long since been forgotten. Despite being erased from history itself, the aftermath of this great catastrophe still surfaces and ripples far into the future of generations to come. Unbeknownst to any, the cause of this calamity lives on, trapped in a seal containing the very essence of this powerful force. However, through malicious intent or an unfortunate accident, this seal has been broken.\n\nEvil has spread across the land, contaminating the earth, the water, and everything in its path. Although, perhaps not in the most obvious of ways. Rich and fertile fields, once known for their bountiful crops, had changed in a matter of weeks. Now, seen simply as a miracle by the gods, the soil promotes nothing short of rampant growth in anything it feeds. Never before have forests been more dense and lush, hills and mountains been so overgrown with vegetation, and livestock been fattened to more than double their weight. The boundless abundance of mother nature has seen to it that even the poorest of farmers have begun producing enough to appease the exploding appetites of entire villages.\n\nWhile crops flourish and civilization and wildlife alike gorge upon this newfound bounty, the essence of the ancient seal continues its march across Karthund. The inhabitants of this land are falling prey to this new evil while those afflicted slowly find their world becoming muted and dull as baser instincts take hold of their minds. An insatiable hunger for food will overwhelm them. The unrelenting desires of hedonistic gluttony will drive them to consume all that lie before them – only to leave themselves famished and starving for more, trapped in an endless cycle of ravenous greed.";
 		public var appearanceText:String = "Appearance";
 		public var inventoryText:String = "Inventory";
 		public var skillsText:String = "Skills\n\nTo be implemented.";
@@ -56,14 +56,12 @@
 			addResource("Mana", 100, 0);
 			addResource("Energy", 100, 0);
 			addResource("Capacity", 50, 0);
-			
 			addExp(0);
-			setGold(500);
 			
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			setResource("Health", 100, 100);
+			/*setResource("Health", 100, 100);
 			setResource("Mana", 21, 100);
 			setResource("Energy", 84, 100);
 			setResource("Capacity", 93, 100);
@@ -74,8 +72,8 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			setGold(245);
-			addExp(196);
+			setGold(500);
+			addExp(196);*/
 			
 			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
@@ -107,7 +105,7 @@
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);*/
 			
-			//startCombat(EnemyDefinitions.definitions["Slime"]);
+			//startCombat(EnemyDefinitions.getEnemy("Slime"));
 			//var test:Test = new Test(this as MovieClip, player, "test");
 		}
 		
@@ -117,6 +115,7 @@
 			
 			mainMC.game.btnsUI.upBtn.visible = false;
 			mainMC.game.btnsUI.downBtn.visible = false;
+			mainMC.game.combatUI.visible = false;
 			mainMC.game.optionsBtn.gotoAndStop(1);
 			mainMC.game.menuUI.appearanceBtn.gotoAndStop(1);
 			mainMC.game.menuUI.inventoryBtn.gotoAndStop(1);
@@ -134,12 +133,12 @@
 				return;
 			
 			switch (mainMC.state) {
-				/*case "combat" :
+				case "combat" :
 				case "combatInventory" :
 				case "combatSkills" :
-					combatText += "\n\n" + txt;
+					combatText += "\n" + txt;
 					setText(combatText);
-					break;*/
+					break;
 				case "navigate" :
 					mainText += "\n\n" + txt;
 				default :
@@ -588,6 +587,9 @@
 				mainMC.game.mainUI.levelLabel.text = player.level.toString();
 				addExp(overflow);
 			}
+			
+			if (x > 0)
+				addText("You gained " + x + " experience.");
 		}
 		
 		public function calcStats():void {
@@ -667,10 +669,14 @@
 					retString += ".";
 			}
 			
-			addText(retString);
+			//addText(retString);
 			
-			ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
-			item.writeEffects(this);
+			//ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
+			if (mainMC.state == "buying" && mainMC.menuItemSelected)
+				retString = item.toString("buyingSelected") + retString;
+			else
+				retString = item.toString(mainMC.state) + retString;
+			addText(retString);
 		}
 		
 		public function drop(item:Item, x:int):void {
@@ -742,7 +748,7 @@
 				} else if (item.weapon) {
 					if (item.twoHanded && player.equipment["shield"] != null) {
 						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
-						return false;
+						return true;
 					} else {
 						if (player.equipment["weapon"] != null)
 							unequip(player.equipment["weapon"]);
@@ -758,8 +764,8 @@
 						addText("You equipped a " + item.name + ".\n" + item.effectsText);
 						trace(player.equipment["shield"].name + " equipped.");
 					} else {
-						addText("A two-handed weapon and a shield cannot be equipped simultaneously..");
-						return false;
+						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+						return true;
 					}
 				}
 				addEquipBonuses();
@@ -848,32 +854,32 @@
 			appearanceText += "\n\n";
 			var isEmpty:Boolean = true;
 			if (player.equipment["head"] != null) {
-				appearanceText += "Head:\n" + player.equipment["head"].toString("appearance") + "\n\n";
+				appearanceText += "Head: " + player.equipment["head"].toString("appearance") + "\n\n";
 				//appearanceText += "Head:\n" + player.equipment["head"].name + " - " + player.equipment["head"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["torso"] != null) {
-				appearanceText += "Torso:\n" + player.equipment["torso"].toString("appearance") + "\n\n";
+				appearanceText += "Torso: " + player.equipment["torso"].toString("appearance") + "\n\n";
 				//appearanceText += "Torso:\n" + player.equipment["torso"].name + " - " + player.equipment["torso"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["legs"] != null) {
-				appearanceText += "Legs:\n" + player.equipment["legs"].toString("appearance") + "\n\n";
+				appearanceText += "Legs: " + player.equipment["legs"].toString("appearance") + "\n\n";
 				//appearanceText += "Legs:\n" + player.equipment["legs"].name + " - " + player.equipment["legs"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["feet"] != null) {
-				appearanceText += "Feet:\n" + player.equipment["feet"].toString("appearance") + "\n\n";
+				appearanceText += "Feet: " + player.equipment["feet"].toString("appearance") + "\n\n";
 				//appearanceText += "Feet:\n" + player.equipment["feet"].name + " - " + player.equipment["feet"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["weapon"] != null) {
-				appearanceText += "Weapon:\n" + player.equipment["weapon"].toString("appearance") + "\n\n";
+				appearanceText += "Weapon: " + player.equipment["weapon"].toString("appearance") + "\n\n";
 				//appearanceText += "Weapon:\n" + player.equipment["weapon"].name + " - " + player.equipment["weapon"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (player.equipment["shield"] != null) {
-				appearanceText += "Shield:\n" + player.equipment["shield"].toString("appearance") + "\n\n";
+				appearanceText += "Shield: " + player.equipment["shield"].toString("appearance") + "\n\n";
 				//appearanceText += "Shield:\n" + player.equipment["shield"].name + " - " + player.equipment["shield"].short + "\n\n";
 				isEmpty = false;
 			}
@@ -924,6 +930,20 @@
 			}
 			
 			return inventoryText;
+		}
+		
+		public function writeQuests():String {
+			questsText = "Quests\n\n";
+			
+			if (player.quests.length == 0) {
+				questsText += "You currently have no quests.";
+			} else {
+				for each (var quest:GameEvent in player.quests) {
+					questsText += quest.name + "\n" + quest.text + "\n\n";
+				}
+			}
+			
+			return questsText;
 		}
 		
 		public function writeStock():String {

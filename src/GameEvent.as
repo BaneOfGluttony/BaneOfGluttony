@@ -52,7 +52,7 @@
 					main.mainMC.hideBtnArray();
 					main.mainMC.game.menuUI.visible = false;
 					
-					if (text == dialog.text[0])
+					if (text == dialog.text[0] || text.@override == "true")
 						main.setText(text);
 					else
 						main.addText(text);
@@ -62,7 +62,7 @@
 						main.mainMC.btnArray[8].visible = true;
 						
 						if (dialog.@goto != "") {
-							
+							state = dialog.@goto;
 							main.event = this;
 						} else {
 							main.event = null;
