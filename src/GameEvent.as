@@ -3,6 +3,9 @@
 	import flash.net.URLRequest;
 	import flash.events.Event;
 	import flash.display.MovieClip;
+	import flash.utils.IDataInput;
+	import flash.utils.IDataOutput;
+	import flash.utils.IExternalizable;
 	
 	public class GameEvent {
 		public var main:MovieClip;
@@ -12,13 +15,20 @@
 		public var loader:URLLoader;
 		
 		public var name:String;
+		//public var available:Boolean;
+		public var repeatable:Boolean;
 		public var state:int;
-		public var text:String;
+		public var log:String;
 
-		public function GameEvent(main:MovieClip, player:Player, fileName:String) {
+		public function GameEvent(main:MovieClip = null, player:Player = null, fileName:String = "") {
 			this.main = main;
 			this.player = player;
+			name = fileName;
+			//available = true;
 			state = 0;
+			
+			var regex:RegExp = /[\s\r\n]+/gim;
+			fileName = fileName.replace(regex, '');
 			
 			try {
 				loader = new URLLoader();
@@ -26,18 +36,47 @@
 				trace("Error in GameEvent loader: " + e);
 			}
 			
-			loader.load(new URLRequest("src/XML/" + fileName + ".xml"));
-			loader.addEventListener(Event.COMPLETE, parseXML);
+			if (fileName != "") {
+				loader.load(new URLRequest("src/XML/" + fileName + ".xml"));
+				loader.addEventListener(Event.COMPLETE, parseXML);
+			}
 		}
 		
 		public function parseXML(e:Event):void {
 			xml = new XML(e.target.data)
-			text = xml.text;
-			main.addText(text);	
-			name = xml.@name;
+			
+			if (xml.@name != "")
+				name = xml.@name;
+			
+			if (xml.@repeatable == "true") {
+				repeatable = true;
+			} else
+				repeatable = false;
 			
 			setDialog(0);
 		}
+		
+		/*public function writeExternal(output:IDataOutput):void {
+			output.writeObject(main);
+			output.writeObject(player);
+			output.writeObject(xml);
+			//output.writeObject(loader);
+			output.writeUTF(name);
+			output.writeBoolean(repeatable);
+			output.writeInt(state);
+			output.writeUTF(log);
+		}
+		
+		public function readExternal(input:IDataInput):void {
+			main = input.readObject();
+			player = input.readObject();
+			xml = input.readObject();
+			//loader = input.readObject();
+			name = input.readUTF();
+			repeatable = input.readBoolean();
+			state = input.readInt();
+			log = input.readUTF();
+		}*/
 		
 		public function setDialog(x:int):Boolean {
 			var ret:Boolean = false;
@@ -46,7 +85,7 @@
 			state = x;
 			
 			for each (var text:XML in dialog.text) {
-				if (check(text)) {
+				if (check(text)) {					
 					ret = true;
 					main.mainMC.state = "dialog";
 					main.mainMC.hideBtnArray();
@@ -63,9 +102,9 @@
 						
 						if (dialog.@goto != "") {
 							state = dialog.@goto;
-							main.event = this;
+							main.currEvent = this;
 						} else {
-							main.event = null;
+							main.currEvent = null;
 						}
 					} else {
 						var i:int = 0;
@@ -74,10 +113,15 @@
 							main.mainMC.btnArray[i].visible = true;
 							i++;
 						}
-						main.event = this;
+						main.currEvent = this;
 					}
+					
+					doActions(text);
 				}
 			}
+			
+			if (dialog.log.length())
+				log = dialog.log;
 			
 			return ret;
 		}
@@ -161,8 +205,9 @@
 						val = actions[i][1];
 					
 					if (str == "addQuest") {
-						player.quests.push(this);
-						trace("Quest added: " + this.name);
+						addQuest();
+					} else if (str == "rmvQuest") {
+						rmvQuest();
 					} else if (player.resources.hasOwnProperty(str)) {
 						if (val.charAt(0) == "+")			//add percentage
 							main.addResource(str, val.substring(1) * player.resources["max" + str], 0);
@@ -178,7 +223,9 @@
 							main.addGold(val.substring(1));
 						else if (val.charAt(0) == "*")		//scale gold
 							main.setGold(val.substring(1) * player.gold);
-					} else if (str == "item") {
+					} else if (str == "exp") {
+						main.addExp(actions[i][1], false);			//add exp
+					} else if (str == "lootItem") {
 						var vals:String = actions[i][1];
 						var items:Array = vals.split(",");
 						var j:int = 0;
@@ -187,7 +234,17 @@
 							items[j] = item.split("-");
 							var tempItem:Item = ItemDefinitions.getItem(items[j][0]);
 							main.loot(tempItem, items[j][1]);
-							
+							j++;
+						}
+					} else if (str == "dropItem") {
+						var vals:String = actions[i][1];
+						var items:Array = vals.split(",");
+						var j:int = 0;
+						
+						for each (var item:String in items) {
+							items[j] = item.split("-");
+							var tempItem:Item = ItemDefinitions.getItem(items[j][0]);
+							main.drop(tempItem, items[j][1]);
 							j++;
 						}
 					}
@@ -201,10 +258,20 @@
 			return -1;	//override
 		}
 		
-		public function finishEvent():void {
+		public function addQuest():void {
+			player.quests.push(this);
+			main.addText("Quests added: " + name);
+			trace("Quest added: " + name);
+		}
+		
+		public function rmvQuest():void {
+			/*if (!repeatable)
+				available = false;*/
+			
 			player.quests.splice(player.quests.indexOf(this), 1);
-			main.addText("Quest complete!");
-			trace("Quest finished\n" + player.quests);
+			player.eventRecord[name] = repeatable;
+			main.addText("Quest complete: " + name);
+			trace("Quest complete: " + name);
 		}
 		
 		public function checkLoc(x:int, y:int):Boolean {

@@ -12,6 +12,7 @@
 		public var gold:Number = 25;
 		public var height:int = 70;
 		public var quests:Array = [];
+		public var eventRecord:Object = {};
 		public var inventory:Array = [];
 		public var equipment:Object = {head : null, torso : null, legs: null, feet : null, weapon : null, shield : null};
 		public var resources:Object = {

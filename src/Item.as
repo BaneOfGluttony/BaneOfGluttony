@@ -2,6 +2,7 @@
 	
 	public class Item {
 		public var name:String = "Item";
+		public var plural:String = "Items";
 		public var short:String = "Short description";
 		public var long:String = "Long description";
 		public var wpnText:String = "Weapon text";

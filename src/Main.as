@@ -23,11 +23,11 @@
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
 		flash.net.registerClassAlias("GameEvent", GameEvent);
-		//flash.net.registerClassAlias("Effect", Effect);
+		//flash.net.registerClassAlias("Main", Main);
 		
 		public var player:Player = new Player();
 		public var combat:Combat;
-		public var event:GameEvent;
+		public var currEvent:GameEvent;
 		
 		//Text
 		public var optionsText:String = "Options\n\nTo be implemented.\n\nControls should be self-explanatory. In addition to using the mouse, keyboard control is also possible for most functions:\nWASD/Arrow Keys/Numpad - Navigation (numpad can move diagonally)\nU - Open appearance\nI - Open inventory\nJ - Open quests\nK - Open skills\nM - Toggle map\nEnter - Enter a particular area\nBackspace - Go back one menu\nPage Up/Down - Scroll through button menus\nEsc - Options\n\nCredits (FurAffinity usernames unless otherwise noted)\n\nIntroduction Text - PowersNDark\nIdeas - Mysticmightg, Anonymous\nSome Weapon Text - Sinwraith\nAS3 Advisor - Serule\nEverything Else - Kazan.K";
@@ -43,8 +43,9 @@
 		public function Main(_runner:Runner) {
 			runner = _runner;
 			mainMC = new MainGameUI(this);
-			ItemDefinitions.main = this;
-			SkillDefinitions.main = this;
+			//ItemDefinitions.main = this;
+			//SkillDefinitions.main = this;
+			//EventDefinitions.main = this;
 		}
 		
 		// called by MainGameUI after it is added to the Stage
@@ -52,11 +53,14 @@
 			for each (var name:String in credits)
 				optionsText = optionsText.replace(name, '<u><a href="event:' + name + '">' + name + '</a></u>');
 			
+			ItemDefinitions.main = this;
+			SkillDefinitions.main = this;
+			
 			addResource("Health", 100, 0);
 			addResource("Mana", 100, 0);
 			addResource("Energy", 100, 0);
 			addResource("Capacity", 50, 0);
-			addExp(0);
+			addExp(0, false);
 			
 			reInit();
 			
@@ -75,7 +79,7 @@
 			setGold(500);
 			addExp(196);*/
 			
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -103,7 +107,8 @@
 			loot(ItemDefinitions.getItem("Cerulean Hat"), 1);
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
-			loot(ItemDefinitions.getItem("Sabre"), 1);*/
+			loot(ItemDefinitions.getItem("Sabre"), 1);
+			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
 			
 			//startCombat(EnemyDefinitions.getEnemy("Slime"));
 			//var test:Test = new Test(this as MovieClip, player, "test");
@@ -139,14 +144,18 @@
 					combatText += "\n" + txt;
 					setText(combatText);
 					break;
+				case "dialog" :
+					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
+					mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.minScrollPosition;
+					break;
 				case "navigate" :
 					mainText += "\n\n" + txt;
 				default :
 					mainMC.game.mainUI.textField.appendText("\n\n" + txt);
+					mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.maxScrollPosition;
 					break;
 			}
 			
-			mainMC.game.mainUI.scrollBar.scrollPosition = mainMC.game.mainUI.scrollBar.maxScrollPosition;
 			mainMC.game.mainUI.scrollBar.update();
 		}
 		
@@ -171,10 +180,13 @@
 				var saveFile:SharedObject = SharedObject.getLocal("GameFile");
 				var playerData:ByteArray = new ByteArray();
 				var equipmentData:ByteArray = new ByteArray();
+				var questsData:ByteArray = new ByteArray();
 				playerData.writeObject(player);
 				equipmentData.writeObject(player.equipment);
+				questsData.writeObject(player.quests);
 				saveFile.data.playerData = playerData;
 				saveFile.data.equipmentData = equipmentData;
+				saveFile.data.questsData = questsData;
 				
 				saveFile.flush();
 				trace("Game saved");
@@ -190,10 +202,13 @@
 				var saveFile:SharedObject = SharedObject.getLocal("GameFile");
 				var playerData:ByteArray = saveFile.data.playerData as ByteArray;
 				var equipmentData:ByteArray = saveFile.data.equipmentData as ByteArray;
+				var questsData:ByteArray = saveFile.data.questsData as ByteArray;
 				playerData.position = 0;
 				player = playerData.readObject() as Player;
 				equipmentData.position = 0;
 				player.equipment = equipmentData.readObject() as Object;
+				questsData.position = 0;
+				player.quests = questsData.readObject() as Array;
 				
 				setResource("Health", player.resources["currHealth"], player.resources["maxHealth"]);
 				setResource("Mana", player.resources["currMana"], player.resources["maxMana"]);
@@ -577,19 +592,20 @@
 			mainMC.game.mainUI.goldLabel.text = player.gold;
 		}
 		
-		public function addExp(x:int):void {
+		public function addExp(x:int, levelup:Boolean):void {
 			player.currExp += x;
 			mainMC.game.mainUI.expLabel.text = player.currExp + "/" + player.maxExp;
 			mainMC.game.mainUI.expBar.scaleX = player.currExp / player.maxExp;
 			
-			if (player.currExp > player.maxExp) {
-				var overflow:int = player.levelUp();
-				mainMC.game.mainUI.levelLabel.text = player.level.toString();
-				addExp(overflow);
-			}
-			
-			if (x > 0)
+			if (x > 0 && !levelup)
 				addText("You gained " + x + " experience.");
+			
+			if (player.currExp >= player.maxExp) {
+				var overflow:int = player.levelUp();
+				addText("Level up!");
+				mainMC.game.mainUI.levelLabel.text = player.level.toString();
+				addExp(overflow, true);
+			}
 		}
 		
 		public function calcStats():void {
@@ -650,7 +666,7 @@
 			if (x == 1)
 				retString = "You got a " + item.name + ". ";
 			else if (x > 1)
-				retString = "You got " + x + " " + item.name + "s. ";
+				retString = "You got " + x + " " + item.plural + ". ";
 			
 			if (x > 0) {
 				var index:int = player.indexOfInventory(item);
@@ -662,16 +678,15 @@
 				item = player.inventory[index];
 				item.count += x;
 				
-				retString += "You now have " + player.inventory[index].count + " " + item.name;
+				retString += "You now have " + player.inventory[index].count + " ";
 				if (player.inventory[index].count > 1)
-					retString += "s.";
+					retString += item.plural + ".";
 				else
-					retString += ".";
+					retString += item.name + ".";
 			}
 			
-			//addText(retString);
-			
 			//ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
+			
 			if (mainMC.state == "buying" && mainMC.menuItemSelected)
 				retString = item.toString("buyingSelected") + retString;
 			else
@@ -681,7 +696,7 @@
 		
 		public function drop(item:Item, x:int):void {
 			var index:int = player.indexOfInventory(item);
-			var retString:String = "\n\n";
+			var retString:String = "";
 			if (item.canDrop && index != -1) {
 				if (player.inventory[index].count >= x) {
 					player.inventory[index].count -= x;
@@ -689,21 +704,21 @@
 					if (x == 1)
 						retString += "You lost a " + item.name + ". ";
 					else if (x > 1)
-						retString += "You lost " + x + " " + item.name + "s. ";
+						retString += "You lost " + x + " " + item.plural + ". ";
 					
 					if (player.inventory[index].count <= 0) {
 						player.inventory.splice(index, 1);
-						retString += "You no longer have any " + item.name + "s.";
+						retString += "You no longer have any " + item.plural + ".";
 					} else {
-						retString += "You now have " + player.inventory[index].count + " " + item.name;
+						retString += "You now have " + player.inventory[index].count + " ";
 						
 						if (player.inventory[index].count > 1)
-							retString += "s.";
+							retString += item.plural + ".";
 						else
-							retString += ".";
+							retString += item.name + ".";
 					}
 				} else
-					retString = "You don't have that many " + item.name + "s.";
+					retString = "You don't have that many " + item.plural + ".";
             } else if (index == -1)
 				retString = "You don't have this item in your inventory.";
 			else if (!item.canDrop)
@@ -713,7 +728,8 @@
 				retString = item.toString("sellingSelected") + retString;
 			else
 				retString = item.toString(mainMC.state) + retString;
-			setText(retString);
+			
+			addText(retString);
 		}
 		
 		public function useItem(item:Item):Boolean {
@@ -939,7 +955,7 @@
 				questsText += "You currently have no quests.";
 			} else {
 				for each (var quest:GameEvent in player.quests) {
-					questsText += quest.name + "\n" + quest.text + "\n\n";
+					questsText += quest.name + "\n" + quest.log + "\n\n";
 				}
 			}
 			

@@ -339,9 +339,11 @@ package
 			
 			if (!existingEvent && currLoc.events != null) {
 				for each (var event:Array in currLoc.events) {
-					if (event[2] && Math.random() < event[1])
+					/*if (EventDefinitions.definitions[event[0]].available && Math.random() < event[1])
+						EventDefinitions.startEvent(event[0]);*/
+					trace(event[0] in main.player.eventRecord);
+					if (!(event[0] in main.player.eventRecord) || main.player.eventRecord[event[0]] == true)
 						var exec:GameEvent = new GameEvent(main, main.player, event[0]);
-						//event[2] = false;
 				}
 			}
 		}
@@ -387,8 +389,8 @@ package
 					} else {
 						game.menuUI.saveBtn.visible = false;
 						game.menuUI.loadBtn.visible = true;
-						game.menuUI.loadBtn.btnText.text = "Load";
 					}
+					game.menuUI.loadBtn.btnText.text = "Load";
 					break;
 				case "options" :
 					game.menuUI.appearanceBtn.visible = false;
@@ -679,7 +681,7 @@ package
 						displayBuying();
 						break;
 					case "dialog" :
-						main.event.setOption(0);
+						main.currEvent.setOption(0);
 						break;
 					default	:
 						break;
@@ -699,7 +701,7 @@ package
 						menuSelect(1);
 						break;
 					case "dialog" :
-						main.event.setOption(1);
+						main.currEvent.setOption(1);
 						break;
 					default	:
 						break;
@@ -724,7 +726,7 @@ package
 						displaySelling();
 						break;
 					case "dialog" :
-						main.event.setOption(2);
+						main.currEvent.setOption(2);
 						break;
 					default	:
 						break;
@@ -744,7 +746,7 @@ package
 						menuSelect(3);
 						break;
 					case "dialog" :
-						main.event.setOption(3);
+						main.currEvent.setOption(3);
 						break;
 					default	:
 						break;
@@ -763,7 +765,7 @@ package
 						menuSelect(4);
 						break;
 					case "dialog" :
-						main.event.setOption(4);
+						main.currEvent.setOption(4);
 						break;
 					default	:
 						break;
@@ -783,7 +785,7 @@ package
 						menuSelect(5);
 						break;
 					case "dialog" :
-						main.event.setOption(5);
+						main.currEvent.setOption(5);
 						break;
 					default	:
 						break;
@@ -806,7 +808,7 @@ package
 						updateNavBtns();
 						break;
 					case "dialog" :
-						main.event.setOption(6);
+						main.currEvent.setOption(6);
 						break;
 					default	:
 						break;
@@ -826,7 +828,7 @@ package
 						menuSelect(7);
 						break;
 					case "dialog" :
-						main.event.setOption(7);
+						main.currEvent.setOption(7);
 						break;
 					default	:
 						break;
@@ -849,10 +851,14 @@ package
 						hideCombat();
 						break;
 					case "dialog" :
-						updateNavBtns();
-						updateMenuBtns();
-						main.setText(main.mainText);
-						state = "navigate";
+						if (game.btnsUI.btn9.btnText.text == "Continue") {
+							updateNavBtns();
+							updateMenuBtns();
+							main.setText(main.mainText);
+							state = "navigate";
+						} else {
+							main.currEvent.setOption(8);
+						}
 						break;
 					default	:
 						break;
@@ -1142,7 +1148,7 @@ package
 					displayBuying();
 					break;
 				case "dialog" :
-					main.event.setOption(0);
+					main.currEvent.setOption(0);
 					break;
 				default :
 					break;
@@ -1173,7 +1179,7 @@ package
 					menuSelect(1);
 					break;
 				case "dialog" :
-					main.event.setOption(1);
+					main.currEvent.setOption(1);
 					break;
 				default :
 					break;
@@ -1207,7 +1213,7 @@ package
 					displaySelling();
 					break;
 				case "dialog" :
-					main.event.setOption(2);
+					main.currEvent.setOption(2);
 					break;
 				default :
 					break;
@@ -1238,7 +1244,7 @@ package
 					menuSelect(3);
 					break;
 				case "dialog" :
-					main.event.setOption(3);
+					main.currEvent.setOption(3);
 					break;
 				default :
 					break;
@@ -1269,7 +1275,7 @@ package
 					menuSelect(4);
 					break;
 				case "dialog" :
-					main.event.setOption(4);
+					main.currEvent.setOption(4);
 					break;
 				default :
 					break;
@@ -1300,7 +1306,7 @@ package
 					menuSelect(5);
 					break;
 				case "dialog" :
-					main.event.setOption(5);
+					main.currEvent.setOption(5);
 					break;
 				default :
 					break;
@@ -1332,7 +1338,7 @@ package
 					updateNavBtns();
 					break;
 				case "dialog" :
-					main.event.setOption(6);
+					main.currEvent.setOption(6);
 					break;
 				default :
 					break;
@@ -1363,7 +1369,7 @@ package
 					menuSelect(7);
 					break;
 				case "dialog" :
-					main.event.setOption(7);
+					main.currEvent.setOption(7);
 					break;
 				default :
 					break;
@@ -1397,10 +1403,14 @@ package
 					hideCombat();
 					break;
 				case "dialog" :
-					updateNavBtns();
-					updateMenuBtns();
-					main.setText(main.mainText);
-					state = "navigate";
+					if (game.btnsUI.btn9.btnText.text == "Continue") {
+						updateNavBtns();
+						updateMenuBtns();
+						main.setText(main.mainText);
+						state = "navigate";
+					} else {
+						main.currEvent.setOption(7);
+					}
 					break;
 				default :
 					break;

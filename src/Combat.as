@@ -157,12 +157,12 @@
 			if (didHit(player, enemy)) {
 				var dmg:int = calcDmg(player, enemy);
 				text += "\n\nYou deal " + dmg + " damage.";
+				main.addText(text);
 				enemyDmg(dmg);
 			} else {
 				text += "\n\nYour attack missed.";
+				main.addText(text);
 			}
-			
-			main.addText(text);
 		}
 		
 		public function useItem(item:Item):Boolean {
@@ -335,7 +335,7 @@
 					main.loot(item, 1);
 				
 				main.addGold(enemy.gold);
-				main.addExp(enemy.exp);
+				main.addExp(enemy.exp, false);
 				main.endCombat(true);
 				//return false;
 			} else {
