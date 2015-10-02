@@ -1,7 +1,4 @@
 ﻿package  {
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.events.Event;
 	import flash.display.MovieClip;
 	import flash.utils.IDataInput;
 	import flash.utils.IDataOutput;
@@ -12,7 +9,6 @@
 		public var player:Player;
 		public var xml:XML;
 		//public var currDialog:XMLList;
-		public var loader:URLLoader;
 		
 		public var name:String;
 		//public var available:Boolean;
@@ -27,23 +23,10 @@
 			//available = true;
 			state = 0;
 			
-			var regex:RegExp = /[\s\r\n]+/gim;
-			fileName = fileName.replace(regex, '');
+			fileName = fileName.replace(/ /g, "_");
+			fileName = fileName.toUpperCase();
 			
-			try {
-				loader = new URLLoader();
-			} catch (e:Error) {
-				trace("Error in GameEvent loader: " + e);
-			}
-			
-			if (fileName != "") {
-				loader.load(new URLRequest("src/XML/" + fileName + ".xml"));
-				loader.addEventListener(Event.COMPLETE, parseXML);
-			}
-		}
-		
-		public function parseXML(e:Event):void {
-			xml = new XML(e.target.data)
+			xml = EventDefinitions[fileName];
 			
 			if (xml.@name != "")
 				name = xml.@name;
@@ -55,6 +38,20 @@
 			
 			setDialog(0);
 		}
+		
+		/*public function parseXML(e:Event):void {
+			xml = new XML(e.target.data);
+			
+			if (xml.@name != "")
+				name = xml.@name;
+			
+			if (xml.@repeatable == "true") {
+				repeatable = true;
+			} else
+				repeatable = false;
+			
+			setDialog(0);
+		}*/
 		
 		/*public function writeExternal(output:IDataOutput):void {
 			output.writeObject(main);
@@ -100,8 +97,8 @@
 						main.mainMC.btnArray[8].btnText.text = "Continue";
 						main.mainMC.btnArray[8].visible = true;
 						
-						if (dialog.@goto != "") {
-							state = dialog.@goto;
+						if (text.@goto != "") {
+							state = text.@goto;
 							main.currEvent = this;
 						} else {
 							main.currEvent = null;

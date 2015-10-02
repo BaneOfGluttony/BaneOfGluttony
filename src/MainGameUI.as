@@ -342,7 +342,7 @@ package
 					/*if (EventDefinitions.definitions[event[0]].available && Math.random() < event[1])
 						EventDefinitions.startEvent(event[0]);*/
 					trace(event[0] in main.player.eventRecord);
-					if (!(event[0] in main.player.eventRecord) || main.player.eventRecord[event[0]] == true)
+					if ((!(event[0] in main.player.eventRecord) || main.player.eventRecord[event[0]] == true) && Math.random() < event[1])
 						var exec:GameEvent = new GameEvent(main, main.player, event[0]);
 				}
 			}

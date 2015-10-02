@@ -20,8 +20,8 @@ Do you accept?
 			<option id="4">No</option>
 		</options>
 	</dialog>
-	<dialog id="2" end="true" goto="5">
-		<text check="loc:2,3">
+	<dialog id="2" end="true">
+		<text check="loc:2,3" goto="5">
 She shakes your hand, thanking you heartily, the various fatty bits of her jiggling furiously as she does so. "Oh... I’m Shara, by the way." She blushes slightly before offering you a handful of gold pieces. "The blacksmith is on the [direction] side of town, just [direction] of the [location]. This should be enough to buy a simple weapon to help you hunt. Thanks again!"
 		</text>
 		<log>Shara's been loitering by the restaurant, starving, and apparently unable to afford any food for herself, but she gave you some gold to buy a weapon and hunt 5 pork haunches for her. Head over to the blacksmith and arm yourself against the wild boars outside town.</log>
@@ -38,7 +38,7 @@ She looks rather forlorn, her stomach growling again as she clutches it. "Well, 
 	</dialog>
 	
 	<dialog id="5" end="true">
-		<text check="loc:2,3">
+		<text check="loc:2,3" goto="5">
 As you walk around a corner you come across Shara, still quietly sobbing and holding her stomach, even as she eats what must not be her first meal of today. She whimpers a little as she notices you, but tries to smile, hopeful.
 You really should go back to finding those haunches for her.
 		</text>

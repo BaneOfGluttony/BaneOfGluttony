@@ -29,7 +29,7 @@
 		public var combat:Combat;
 		public var currEvent:GameEvent;
 		
-		//Text
+		//{ Text
 		public var optionsText:String = "Options\n\nTo be implemented.\n\nControls should be self-explanatory. In addition to using the mouse, keyboard control is also possible for most functions:\nWASD/Arrow Keys/Numpad - Navigation (numpad can move diagonally)\nU - Open appearance\nI - Open inventory\nJ - Open quests\nK - Open skills\nM - Toggle map\nEnter - Enter a particular area\nBackspace - Go back one menu\nPage Up/Down - Scroll through button menus\nEsc - Options\n\nCredits (FurAffinity usernames unless otherwise noted)\n\nIntroduction Text - PowersNDark\nIdeas - Mysticmightg, Anonymous\nSome Weapon Text - Sinwraith\nAS3 Advisor - Serule\nEverything Else - Kazan.K";
 		public var mainText:String = "While time is the great keeper of all, there will always remain the events and artifacts that even he cannot keep eternal. Expunged from the very world they tried to conquer, the earliest civilizations of Karthund were lost to the ravages of time, and the plague that struck down their people has long since been forgotten. Despite being erased from history itself, the aftermath of this great catastrophe still surfaces and ripples far into the future of generations to come. Unbeknownst to any, the cause of this calamity lives on, trapped in a seal containing the very essence of this powerful force. However, through malicious intent or an unfortunate accident, this seal has been broken.\n\nEvil has spread across the land, contaminating the earth, the water, and everything in its path. Although, perhaps not in the most obvious of ways. Rich and fertile fields, once known for their bountiful crops, had changed in a matter of weeks. Now, seen simply as a miracle by the gods, the soil promotes nothing short of rampant growth in anything it feeds. Never before have forests been more dense and lush, hills and mountains been so overgrown with vegetation, and livestock been fattened to more than double their weight. The boundless abundance of mother nature has seen to it that even the poorest of farmers have begun producing enough to appease the exploding appetites of entire villages.\n\nWhile crops flourish and civilization and wildlife alike gorge upon this newfound bounty, the essence of the ancient seal continues its march across Karthund. The inhabitants of this land are falling prey to this new evil while those afflicted slowly find their world becoming muted and dull as baser instincts take hold of their minds. An insatiable hunger for food will overwhelm them. The unrelenting desires of hedonistic gluttony will drive them to consume all that lie before them – only to leave themselves famished and starving for more, trapped in an endless cycle of ravenous greed.";
 		public var appearanceText:String = "Appearance";
@@ -37,6 +37,7 @@
 		public var skillsText:String = "Skills\n\nTo be implemented.";
 		public var questsText:String = "Quests\n\nTo be implemented.";
 		public var combatText:String = "Combat";
+		//}
 		
 		public var credits:Array = ["PowersNDark", "Mysticmightg", "Sinwraith", "Serule", "Kazan.K"];
 		
