@@ -42,7 +42,7 @@
     <option linkReport="" />
     <option loadExterns="" />
     <option staticLinkRSL="True" />
-    <option additional="" />
+    <option additional="-swf-version=18" />
     <option compilerConstants="" />
     <option minorVersion="" />
   </build>
@@ -84,7 +84,7 @@
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->
   <options>
-    <option showHiddenPaths="False" />
+    <option showHiddenPaths="True" />
     <option testMovie="Default" />
     <option testMovieCommand="" />
   </options>

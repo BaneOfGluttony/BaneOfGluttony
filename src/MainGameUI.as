@@ -19,6 +19,7 @@ package
 	{
 		public var game:MovieClip;		// MainGame.swc
 		public var main:Main;			// Main.as
+		public var debug:Boolean = true;
 		
 		public const WIDTH:int = 800;
 		public const HEIGHT:int = 600;
@@ -43,6 +44,8 @@ package
 
 			game.addEventListener(Event.ADDED_TO_STAGE, init);
 			main.runner.addChild(game);
+			
+			game.mainUI.debugConsole.visible = debug;
 		}
 		
 		private function init(e:Event):void {
@@ -346,6 +349,8 @@ package
 						var exec:GameEvent = new GameEvent(main, main.player, event[0]);
 				}
 			}
+			var o:Object;
+			o.fap();
 		}
 		
 		public function checkEnemy():Enemy {
@@ -949,6 +954,7 @@ package
 
 		public function clickSave(e:MouseEvent):void {
 			main.saveGame();
+			//main.addText("Saving and loading are disabled.");
 			
 			trace("\natk = " + main.player.derivedStats["atk"]);
 			trace("matk = " + main.player.derivedStats["matk"]);
@@ -965,6 +971,7 @@ package
 				case "gameover" :
 				case "navigate" :
 					main.loadGame();
+					//main.addText("Saving and loading are disabled.");
 					break;
 				case "options" :
 					openOptions();

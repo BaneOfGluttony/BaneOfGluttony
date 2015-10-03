@@ -53,5 +53,24 @@ Wandering through the streets of the city, it takes some time, and a bit of aski
 	</dialog>
 </event>
 		//}
+		
+		//{ Ano 1
+		public static const ANO_1:XML =
+<event name="Ano 1" repeatable="false">
+	<dialog id="0">
+		<text check="loc:3,6" end="true">
+As you make your way along the side streets of Staphshire you are perturbed by a ruckus in a nearby shop.
+"Stop! Thief!" an old man screams as a definetively shady character jumps out of an open window.
+Landing right in front of you, the accused thief is covered in a long dark cloak, which seems to hide several bulky objects, and dons a mask that makes clear to everyone his profession.
+"Someone catch that ruffian!" the old man screams again, to which the thief responds by immediately scampering into an alley.
+		</text>
+		<options>
+			<option id="1">Follow him</option>
+			<option id="2">Talk to the man</option>
+			<option id="3">Mind your own business</option>
+		</options>
+	</dialog>
+</event>
+		//}
 	}
 }

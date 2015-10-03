@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<event name="Ano 1" repeatable="false">
+	<dialog id="0">
+		<text check="loc:3,6" end="true">
+As you make your way along the side streets of Staphshire you are perturbed by a ruckus in a nearby shop.
+"Stop! Thief!" an old man screams as a definetively shady character jumps out of an open window.
+Landing right in front of you, the accused thief is covered in a long dark cloak, which seems to hide several bulky objects, and dons a mask that makes clear to everyone his profession.
+"Someone catch that ruffian!" the old man screams again, to which the thief responds by immediately scampering into an alley.
+		</text>
+		<options>
+			<option id="1">Follow him</option>
+			<option id="x">Talk to the man</option>
+			<option id="y">Mind your own business</option>
+		</options>
+	</dialog>
+	<dialog id="1">
+		<text>
+You quickly dash around the alleyway, jumping over crates and barreling through pedestrians as you make your way in hot pursuit of the thief. He soon notices your chase and leaves his reasonably inconspicuous jog in exchange for a mad run for his dear life.
+		</text>
+		<options>
+			<option id="2">Keep chasing</option>
+			<option id="3">Give up</option>
+		</options>
+	</dialog>
+	<dialog id="2">
+		<text></text>
+	</dialog>
+</event>

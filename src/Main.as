@@ -195,6 +195,7 @@
 			} catch (e:Error) {
 				trace("Game save error: " + e.getStackTrace());
 				addText("Could not write save file.");
+				mainMC.game.mainUI.debugConsole.text += "\n" + e.message + "\n" + e.getStackTrace();
 			}
 		}
 		
@@ -235,6 +236,7 @@
 			} catch (e:Error) {
 				trace("Could not load save file.\n" + e.getStackTrace());
 				addText("Could not load save file.");
+				mainMC.game.mainUI.debugConsole.text += "\n" + e.message + "\n" + e.getStackTrace();
 				return;
 			}
 		}

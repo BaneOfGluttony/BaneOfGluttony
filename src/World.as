@@ -101,7 +101,8 @@
 			world[3][5] = new Zone({name	: "SW Pavilion"					, x : 3, y : 5, 
 									text	: "The southwestern pavilion."});
 			world[3][6] = new Zone({name	: "Test"							, x : 3, y : 6, 
-									text	: "This is a test zone."});
+									text	: "This is a test zone.",
+									events	: [["Ano 1", 1]]});
 			world[3][7] = new Zone({name	: "Wall"});
 			world[3][8] = new Zone({name	: "Field"							, x : 3, y : 8, 
 									text	: "This is a test zone.",

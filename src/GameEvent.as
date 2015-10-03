@@ -205,6 +205,9 @@
 						addQuest();
 					} else if (str == "rmvQuest") {
 						rmvQuest();
+					} else if (str == "loc") {
+						var temp:Array = val.split(",");
+						main.mainMC.travel(temp[0], temp[1]);
 					} else if (player.resources.hasOwnProperty(str)) {
 						if (val.charAt(0) == "+")			//add percentage
 							main.addResource(str, val.substring(1) * player.resources["max" + str], 0);
