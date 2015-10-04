@@ -46,7 +46,6 @@
 			mainMC = new MainGameUI(this);
 			//ItemDefinitions.main = this;
 			//SkillDefinitions.main = this;
-			//EventDefinitions.main = this;
 		}
 		
 		// called by MainGameUI after it is added to the Stage
@@ -57,16 +56,10 @@
 			ItemDefinitions.main = this;
 			SkillDefinitions.main = this;
 			
-			addResource("Health", 100, 0);
-			addResource("Mana", 100, 0);
-			addResource("Energy", 100, 0);
-			addResource("Capacity", 50, 0);
-			addExp(0, false);
-			
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			setResource("Health", 100, 100);
+			/*setResource("Health", 100, 100);
 			setResource("Mana", 21, 100);
 			setResource("Energy", 84, 100);
 			setResource("Capacity", 93, 100);
@@ -78,9 +71,9 @@
 			setStat("vor", 26);
 			setFat(86);
 			setGold(500);
-			addExp(196, false);
+			addExp(196, false);*/
 			
-			loot(ItemDefinitions.getItem("Sword"), 2);
+			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -109,13 +102,27 @@
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
-			//loot(ItemDefinitions.getItem("Pork Haunch"), 5);
+			loot(ItemDefinitions.getItem("Pork Haunch"), 5);*/
 			
 			//startCombat(EnemyDefinitions.getEnemy("Slime"));
 			//var test:Test = new Test(this as MovieClip, player, "test");
 		}
 		
 		public function reInit():void {
+			setResource("Health", player.resources["currHealth"], player.resources["maxHealth"]);
+			setResource("Mana", player.resources["currMana"], player.resources["maxMana"]);
+			setResource("Energy", player.resources["currEnergy"], player.resources["maxEnergy"]);
+			setResource("Capacity", player.resources["currCapacity"], player.resources["maxCapacity"]);
+			addExp(0, false);
+			setStat("str", player.stats["str"]);
+			setStat("agi", player.stats["agi"]);
+			setStat("vit", player.stats["vit"]);
+			setStat("int", player.stats["int"]);
+			setStat("dex", player.stats["dex"]);
+			setStat("vor", player.stats["vor"]);
+			setFat(player.fat);
+			setGold(player.gold);
+			
 			mainMC.state = "navigate";
 			mainMC.menuItemSelected = false;
 			
@@ -582,7 +589,7 @@
 			player.gold = x;
 			if (diff > 0)
 				addText("You got " + diff + " gold.");
-			else
+			else if (diff < 0)
 				addText("You lost " + -diff + " gold.");
 			
 			if (player.gold > 999999999999) {

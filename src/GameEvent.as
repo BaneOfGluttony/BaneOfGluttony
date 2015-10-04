@@ -146,8 +146,8 @@
 				for each (var check:String in checks) {
 					checks[i] = check.split(":");
 					var str:String = checks[i][0];
-					var min:int = 0;
-					var max:int = int.MAX_VALUE;
+					var min:Number = 0;
+					var max:Number = Number.MAX_VALUE;
 					
 					var temp:Array = checks[i][1].split(",");
 					min = temp[0]
@@ -206,6 +206,8 @@
 						addQuest();
 					} else if (str == "rmvQuest") {
 						rmvQuest();
+					} else if (str == "endEvent") {
+						endEvent();
 					} else if (str == "loc") {
 						var temp:Array = val.split(",");
 						main.mainMC.travel(temp[0], temp[1]);
@@ -273,24 +275,29 @@
 			trace("Quest complete: " + name);
 		}
 		
-		public function checkLoc(x:int, y:int):Boolean {
+		public function endEvent():void {
+			main.currEvent = null;
+			player.eventRecord[name] = repeatable;
+		}
+		
+		public function checkLoc(x:Number, y:Number):Boolean {
 			return player.x == x && player.y == y;
 		}
 		
-		public function checkResource(resource:String, min:int, max:int):Boolean {
+		public function checkResource(resource:String, min:Number, max:Number):Boolean {
 			return (player.resources["min" + resource] / player.resources["max" + resource]) >= min &&
 				(player.resources["min" + resource] / player.resources["max" + resource]) <= max;
 		}
 		
-		public function checkStat(stat:String, min:int, max:int):Boolean {
+		public function checkStat(stat:String, min:Number, max:Number):Boolean {
 			return player.stats[stat] >= min && player.stats[stat] <= max;
 		}
 		
-		public function checkFat(min:int, max:int):Boolean {
+		public function checkFat(min:Number, max:Number):Boolean {
 			return player.fat >= min && player.fat <= max;
 		}
 		
-		public function checkGold(min:int, max:int):Boolean {
+		public function checkGold(min:Number, max:Number):Boolean {
 			return player.gold >= min && player.gold <= max;
 		}
 		

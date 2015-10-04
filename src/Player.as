@@ -8,7 +8,7 @@
 		public var maxExp:int = 50;
 		public var currExp:int = 0;
 		public var level:int = 1;
-		public var fat:Number = 0;
+		public var fat:Number = 15;
 		public var gold:Number = 25;
 		public var height:int = 70;
 		public var quests:Array = [];
@@ -16,8 +16,8 @@
 		public var inventory:Array = [];
 		public var equipment:Object = {head : null, torso : null, legs: null, feet : null, weapon : null, shield : null};
 		public var resources:Object = {
-			maxHealth : 100, currHealth : 0, maxMana : 100, currMana : 0, 
-			maxEnergy : 100, currEnergy : 0, maxCapacity : 100, currCapacity : 0};
+			maxHealth : 100, currHealth : 100, maxMana : 100, currMana : 100, 
+			maxEnergy : 100, currEnergy : 100, maxCapacity : 100, currCapacity : 50};
 		public var stats:Object = {str : 5, agi : 5, vit : 5, "int" : 5, dex : 5, vor : 5};
 		public var derivedStats:Object = {atk : 0, matk : 0, def : 0, mdef : 0, acc : 0, dodge : 0, cap : 0, weight: 0};
 		

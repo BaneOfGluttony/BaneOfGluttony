@@ -66,7 +66,7 @@ Landing right in front of you, the accused thief is covered in a long dark cloak
 		<options>
 			<option id="1" action="loc:4,6">Follow him</option>
 			<option id="5">Talk to the man</option>
-			<option id="y">Mind your own business</option>
+			<option id="6">Mind your own business</option>
 		</options>
 	</dialog>
 	<dialog id="1">
@@ -80,14 +80,14 @@ You quickly dash around the alleyway, jumping over crates and barreling through 
 	</dialog>
 	<dialog id="2">
 		<text check="agi:0,19" goto="3"></text>
-		<text check="agi:20" action="loc:6,5" end="true">
+		<text check="agi:20" action="endEvent;loc:6,5" end="true">
 You give the masked rogue a good chase, going through boltholes and narrow passageways that no one but the darkest individuals would ever know existed in the streets of Staphshire. Finally, the crook seems to escape by swinging from a clothesline into the loft of a very, very startled woman, leaving you to stare at his daring escape from the rooftop across. Too bad for you that it’s garbage day, and the bins are all full of foodstuffs waiting collection. You mutter a swear under your breath as you plummet two stories into the fetid, partially eaten food.
 With only your eyes showing through a helmet that is a half-eaten watermelon, you wait in silence for the criminal to make his way out the front doors of the building before you. As he leaves, as inconspicuously as he can, you notice several loaves of bread stuffed inside his cloak. He moves toward the end of the street and knocks one, two, three times on the back door of a very suspicious establishment before being let in. Above said door reads "Greater Future Society" in big capital letters.
 		</text>
 	</dialog>
 	<dialog id="3" end="true">
 		<text action="loc:5,6">
-Try as you might you soon feel yourself falling behind in this chase. At every corner, the thief seems to escape further and further away from you, disappearing into the crowds of multicolored fur. Finally, he vanishes over a fence with an acrobatic feat you are certainly in no physical condition to replicate. Maybe you should give up  and hope for better next time.
+Try as you might you soon feel yourself falling behind in this chase. At every corner, the thief seems to escape further and further away from you, disappearing into the crowds of multicolored fur. Finally, he vanishes over a fence with an acrobatic feat you are certainly in no physical condition to replicate. Maybe you should come to terms that you're just too slow and and hope for better next time.
 		</text>
 	</dialog>
 	<dialog id="4" end="true">
@@ -105,11 +105,16 @@ You try to calm the old man and make sure to call for guards. While you wait wit
 You try to understand the marks on the clipboard, but your feeble mind cannot begin to make heads or tails of them. Numbers and foreign names just roll off your mind like water on a very, very clueless duck. The old man's calligraphy is not helping either. You just look at the chicken scratch and nod, trying not to let the bulldog notice you have no idea what you are doing.
 As you hear the guards approaching, you let out a sigh of relief and quietly slink out of the bakery while nobody is looking in order to save yourself any further embarrassment.
 		</text>
-		<text check="int:20" action="lootItem:Doughnut-10">
+		<text check="int:20" action="endEvent;lootItem:Doughnut-10">
 You take the clipboard and begin counting. Bagels, croissants, muffins, cupcakes and eclairs. This bakery seems to specialize in diversity as it seems to hold an exquisite selection in incredible amounts. You almost cannot make sense of everything, but eventually you tally all the contents of the display. You notice something strange, but just as you are about to say something, the guards arrive.
 Out of breath and sweating through their mail, the guards ask the old man for his story but seem to place far less attention on him than on the sweets in the display. "Don't worry, old man Jenkins! We’ll get to the bottom of this! How else would we get through the day without one of our daily donuts? About them... could we have a few more for the guys at the quarters?"
 "Of course, lad," said old Jenkins heartely. "Always glad to help the law around these parts. Just make sure they reach the quarters this time. And this," he hands you a few bags as well, "is for being such a nice lad. We need more kids like you these days."
 He waves you and the guards goodbye, and you make your way back into the crowded streets. As you walk along, you go back to pondering on what you found out. There we no items missing from the inventory; there was extra.
+		</text>
+	</dialog>
+	<dialog id="6" end="true">
+		<text>
+You continue along your way as if nothing is happening. Sometimes it’s best not to meddle in others’ problems, lest they become your own.
 		</text>
 	</dialog>
 </event>

@@ -24,7 +24,7 @@
 									loot		: [ItemDefinitions.getItem("Pork Haunch")],
 									maxHP		: 50,
 									atk			: 15,
-									def			: 5,
+									def			: 4,
 									agi			: 7,
 									dex			: 3,
 									exp			: 20,

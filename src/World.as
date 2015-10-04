@@ -74,7 +74,7 @@
 			world[2][2] = new Zone({name	: "Wall"});
 			world[2][3] = new Zone({name	: "Test"						, x : 2, y : 3, 
 									text	: "This is a test zone.",
-									events	: [["Blade and Belly", 0.25]]});
+									events	: [["Blade and Belly", 0.5]]});
 			world[2][4] = new Zone({name	: "West Road"						, x : 2, y : 4, 
 									text	: "This road leads to the western gates."});
 			world[2][5] = new Zone({name	: "Home"							, x : 2, y : 5, save : true,
@@ -102,7 +102,7 @@
 									text	: "The southwestern pavilion."});
 			world[3][6] = new Zone({name	: "Test"							, x : 3, y : 6, 
 									text	: "This is a test zone.",
-									events	: [["Ano 1", 1]]});
+									events	: [["Ano 1", 0.25]]});
 			world[3][7] = new Zone({name	: "Wall"});
 			world[3][8] = new Zone({name	: "Field"							, x : 3, y : 8, 
 									text	: "This is a test zone.",

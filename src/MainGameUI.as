@@ -312,7 +312,7 @@ package
 				} else
 					main.addResource("Capacity", -capDrained, 0);
 				
-				main.addFat(0.03 * capDrained);
+				main.addFat(0.1 * capDrained);
 			}
 			
 			

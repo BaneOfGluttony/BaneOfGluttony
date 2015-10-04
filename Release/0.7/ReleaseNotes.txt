@@ -1,0 +1,43 @@
+[b][u]Disclaimer:[/u][/b] This is sort of an early access release. This has not been posted to FA yet and will not be for a few more days. The purpose of this is to fix any potential bugs (it’s probably riddled with bugs I’m not aware of) that may pop up during play-testing (more on that in a bit). This post will be updated as relatively minor additions/changes/fixes are made, so keep an eye out for updates. Again, mind that all content, numbers, text, etc. are all subject to change and balance, so take everything with a grain of salt.
+
+Hello everyone! Sorry for the relative radio silence as of late. Our staff has been going through a number of personal issues over the last few weeks, but we have also been hard at work under the hood writing and coding the next release of Bane of Gluttony! The most notable changes are the inclusion of quests/events and combat, but let’s get down to the nitty gritty right away. What’s new in this release?
+
+We have introduced:
+
+[ul type="disc"][li]Quest/Events
+[ul type="square"]
+[li]A quest and an event have been added to the test spaces in (2, 3) and (3, 6). These events do not proc 100% of the time: (2, 3) is 50% and (3, 6) is 25%. After completion (declining or giving up does not count as completion), these events are not repeatable, but repeatable events are possible.[/li]
+[li]The system in charge of events should be robust enough for what we need and can also define new behaviors when needed. This also makes it much easier to focus on what an event actually does rather worrying about how to code specific behaviors for each event.[/li][/ul][/li]
+[li]Combat
+[ul type="square"]
+[li]Despite how long it's taken to get this working, it's still in a very basic state.[/li]
+[li]Two simple test enemies have been added which can be randomly encountered outside the city: a slime and a boar.[/li]
+[li]The slime is exactly what you would expect out of a slime. It can attack you via force feeding as well as do normal attacks. You can also surrender to a slime to ingest it completely.[/li]
+[li]The boar is a very basic enemy that really doesn't do anything special but drop an item for the test quest.[/li][/ul][/li]
+[li]Experience/Leveling Up
+[ul type="square"]
+[li]This has actually been in the game the whole time. You just couldn't tell it worked because there was no way to gain experience.[/li]
+[li]Leveling up, however, doesn't actually do anything yet. There isn't a way to increase stats yet. For now, the only way to make yourself stronger is through equipment.[/li][/ul][/li]
+[li]Death
+[ul type="square"]
+[li]Death is finally implemented but with a few things to note:
+[ol type="decimal"]
+[li]Exhaustion has been removed for now because it's just a pain to deal with. It may or may not be a thing in the future. Your capacity will still drain as you travel (to digest/gain fat), but you will not start losing health once your capacity reaches 0%.[/li]
+[li]In addition to being killed in combat, [b]you now can and will die from overeating too much.[/b][/li]
+[li]Dying is gameover, and you are forced to reload your last save file. However, the addition of quests has broken saving and loading, so [b]saving and loading have been temporarily disabled.[/b][/li][/ol][/li][/ul][/li][/ul]
+
+And a number of fun things under the hood! One of these things is the ability for the game to spout off some nonsense at you if you manage to cause an error that the program recognizes. If you find one, please copy whatever nonsense that gets printed in the fancy new debug console and either post a reply here or PM it to @admin with as much information about the bug’s circumstances as possible so the code monkey can fix it!
+
+Now, what can you expect in the [i]next[/i] update of BoG? We plan on providing the following, but things may be pushed back or brought in as the game is developed:
+
+[ul type="disc"][li]100 x 100[/li]
+[li]Main story/plot[/li]
+[li]More content! (Quests, locations, items, skills, etc.)[/li][/ul]
+
+We’re very excited moving forward on this project and hope you are too! Be sure to keep writing in your submissions to be added to the game! This isn’t just our game, it’s yours too! 
+
+Well. Now that we have the “words” out of the way, I am proud to present to you the next version of Bane of Gluttony! You should find the file attached at the bottom of this post. To run it, all you have to do it download it and drag it onto an open browser window. 
+
+And with that, I hope you enjoy!
+
+Happy hunting!
