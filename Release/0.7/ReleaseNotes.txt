@@ -21,12 +21,9 @@ We have introduced:
 [li]Death
 [ul type="square"]
 [li]Death is finally implemented but with a few things to note:
-[ol type="decimal"]
-[li]Exhaustion has been removed for now because it's just a pain to deal with. It may or may not be a thing in the future. Your capacity will still drain as you travel (to digest/gain fat), but you will not start losing health once your capacity reaches 0%.[/li]
-[li]In addition to being killed in combat, [b]you now can and will die from overeating too much.[/b][/li]
-[li]Dying is gameover, and you are forced to reload your last save file. However, the addition of quests has broken saving and loading, so [b]saving and loading have been temporarily disabled.[/b][/li][/ol][/li][/ul][/li][/ul]
+[ol type="decimal"][li]Exhaustion has been removed for now because it's just a pain to deal with. It may or may not be a thing in the future. Your capacity will still drain as you travel (to digest/gain fat), but you will not start losing health once your capacity reaches 0%.[/li][li]In addition to being killed in combat, [b]you now can and will die from overeating too much.[/b][/li][li]Dying is gameover, and you are forced to reload your last save file. However, the addition of quests has broken saving and loading, so [b]saving and loading have been temporarily disabled.[/b][/li][/ol][/li][/ul][/li][/ul]
 
-And a number of fun things under the hood! One of these things is the ability for the game to spout off some nonsense at you if you manage to cause an error that the program recognizes. If you find one, please copy whatever nonsense that gets printed in the fancy new debug console and either post a reply here or PM it to @admin with as much information about the bug’s circumstances as possible so the code monkey can fix it!
+And a number of fun things under the hood! One of these things is the ability for the game to spout off some nonsense at you if you manage to cause an error that the program recognizes. If you find one, please copy whatever nonsense that gets printed in the fancy new debug console and either post a reply here or PM me with as much information about the bug’s circumstances as possible so the code monkey can fix it! Preferably, post it as a reply here so other people can see if a particular bug has already been reported.
 
 Now, what can you expect in the [i]next[/i] update of BoG? We plan on providing the following, but things may be pushed back or brought in as the game is developed:
 
@@ -36,7 +33,11 @@ Now, what can you expect in the [i]next[/i] update of BoG? We plan on providing 
 
 We’re very excited moving forward on this project and hope you are too! Be sure to keep writing in your submissions to be added to the game! This isn’t just our game, it’s yours too! 
 
-Well. Now that we have the “words” out of the way, I am proud to present to you the next version of Bane of Gluttony! You should find the file attached at the bottom of this post. To run it, all you have to do it download it and drag it onto an open browser window. 
+Well. Now that we have the “words” out of the way, I am proud to present to you the next version of Bane of Gluttony!
+
+[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/blob/master/Release/0.7/BaneOfGluttony.swf?raw=true"][font size="6"][b]Download here![/b][/font][/a]
+
+To run it, all you have to do it download it and drag it onto an open browser window. 
 
 And with that, I hope you enjoy!
 
