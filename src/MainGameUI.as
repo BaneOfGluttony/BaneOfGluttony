@@ -294,11 +294,11 @@ package
 			if (enemy != null) {
 				main.startCombat(enemy);
 			} else {
-				if (main.player.resources["currCapacity"] <= 0) {
+				/*if (main.player.resources["currCapacity"] <= 0) {
 					main.addResource("Health", -0.05 * main.player.resources["maxHealth"], 0);
 					if (main.player.resources["currHealth"] <= 0)
 						main.gameOver(2);
-				}
+				}*/
 				
 				var capDrained:int;
 				if (main.player.stats["vit"] <= 0.8 * main.player.resources["maxCapacity"])
@@ -349,8 +349,6 @@ package
 						var exec:GameEvent = new GameEvent(main, main.player, event[0]);
 				}
 			}
-			var o:Object;
-			o.fap();
 		}
 		
 		public function checkEnemy():Enemy {
@@ -385,6 +383,8 @@ package
 			game.menuUI.inventoryBtn.visible = true;
 			game.menuUI.skillsBtn.visible = true;
 			game.menuUI.questsBtn.visible = true;
+			game.menuUI.saveBtn.visible = true;
+			game.menuUI.loadBtn.visible = true;
 			
 			switch (state) {
 				case "navigate" :
@@ -857,10 +857,10 @@ package
 						break;
 					case "dialog" :
 						if (game.btnsUI.btn9.btnText.text == "Continue") {
+							state = "navigate";
 							updateNavBtns();
 							updateMenuBtns();
-							main.setText(main.mainText);
-							state = "navigate";
+							travel(main.player.x, main.player.y);
 						} else {
 							main.currEvent.setOption(8);
 						}
@@ -953,8 +953,8 @@ package
 		}
 
 		public function clickSave(e:MouseEvent):void {
-			main.saveGame();
-			//main.addText("Saving and loading are disabled.");
+			//main.saveGame();
+			main.addText("Saving and loading are disabled.");
 			
 			trace("\natk = " + main.player.derivedStats["atk"]);
 			trace("matk = " + main.player.derivedStats["matk"]);
@@ -970,8 +970,8 @@ package
 			switch (state) {
 				case "gameover" :
 				case "navigate" :
-					main.loadGame();
-					//main.addText("Saving and loading are disabled.");
+					//main.loadGame();
+					main.addText("Saving and loading are disabled.");
 					break;
 				case "options" :
 					openOptions();
@@ -1411,10 +1411,10 @@ package
 					break;
 				case "dialog" :
 					if (game.btnsUI.btn9.btnText.text == "Continue") {
+						state = "navigate";
 						updateNavBtns();
 						updateMenuBtns();
-						main.setText(main.mainText);
-						state = "navigate";
+						travel(main.player.x, main.player.y);
 					} else {
 						main.currEvent.setOption(7);
 					}
@@ -1950,19 +1950,21 @@ package
 		
 		//{ Navigation
 		public function travel(x:int, y:int):void {
-			var oldX:int = main.player.x;
-			var oldY:int = main.player.y;
+			//var oldX:int = main.player.x;
+			//var oldY:int = main.player.y;
 			
 			main.player.x = x;
 			main.player.y = y;
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
-			
-			main.setText(main.mainText);
-			updateMenuBtns();
-			updateNavBtns();
 			updateMaps();
+			
+			if (state == "navigate") {
+				main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
+					World.world[main.player.x][main.player.y].name + "\n" +
+					World.world[main.player.x][main.player.y].text;
+				main.setText(main.mainText);
+				updateMenuBtns();
+				updateNavBtns();
+			}
 		}
 
 		public function moveNW():void {

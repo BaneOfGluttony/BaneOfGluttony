@@ -66,19 +66,19 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*setResource("Health", 100, 100);
+			setResource("Health", 100, 100);
 			setResource("Mana", 21, 100);
 			setResource("Energy", 84, 100);
 			setResource("Capacity", 93, 100);
 			setStat("str", 9);
-			setStat("agi", 7);
+			setStat("agi", 20);
 			setStat("vit", 14);
-			setStat("int", 3);
+			setStat("int", 20);
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
 			setGold(500);
-			addExp(196);*/
+			addExp(196, false);
 			
 			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
@@ -109,7 +109,7 @@
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
-			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
+			//loot(ItemDefinitions.getItem("Pork Haunch"), 5);
 			
 			//startCombat(EnemyDefinitions.getEnemy("Slime"));
 			//var test:Test = new Test(this as MovieClip, player, "test");
@@ -131,7 +131,7 @@
 			mainMC.updateMenuBtns();
 			mainMC.updateNavBtns();
 			mainMC.updateMaps();
-			calcStats();
+			calcStats(true);
 		}
 		
 		public function addText(txt:String):void {
@@ -447,7 +447,7 @@
 					break;
 			}
 			
-			calcStats();
+			calcStats(true);
 		}
 		
 		public function addStat(stat:String, x:int):void {
@@ -531,7 +531,7 @@
 					break;
 			}
 			
-			calcStats();
+			calcStats(true);
 		}
 		
 		public function addFat(x:Number):void {
@@ -611,7 +611,10 @@
 			}
 		}
 		
-		public function calcStats():void {
+		public function calcStats(flag:Boolean = false):void {
+			if (flag)
+				removeEquipBonuses();
+			
 			player.derivedStats["atk"] = player.stats["str"];
 			player.derivedStats["matk"] = player.stats["int"];
 			player.derivedStats["def"] = player.stats["vit"];
@@ -621,12 +624,8 @@
 			player.derivedStats["cap"] = player.resources["maxCapacity"] + player.stats["vor"];
 			player.derivedStats["weight"] = 2.2 * (50 + 2.3 * (player.height - 60)) + 0.5 * player.stats["str"] + player.fat + 0.03 * player.resources["currCapacity"];
 			
-			/*trace("\natk = " + player.derivedStats["atk"]);
-			trace("matk = " + player.derivedStats["matk"]);
-			trace("def = " + player.derivedStats["def"]);
-			trace("mdef = " + player.derivedStats["mdef"]);
-			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);*/
+			if (flag)
+				addEquipBonuses();
 		}
 		
 		public function updateStats():void {
@@ -638,29 +637,22 @@
 			player.derivedStats["dodge"] += player.stats["agi"] + 0.2 * player.stats["dex"];
 			player.derivedStats["cap"] += player.resources["maxCapacity"] + player.stats["vor"];
 			player.derivedStats["weight"] += 2.2 * (50 + 2.3 * (player.height - 60)) + 0.5 * player.stats["str"] + player.fat + 0.03 * player.resources["currCapacity"];
-			
-			/*trace("\natk = " + player.derivedStats["atk"]);
-			trace("matk = " + player.derivedStats["matk"]);
-			trace("def = " + player.derivedStats["def"]);
-			trace("mdef = " + player.derivedStats["mdef"]);
-			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);*/
 		}
 		
 		public function addEquipBonuses():void {
 			for each (var item:Item in player.equipment) {
 				if (item != null) {
-					item.deprocEffects(this);
+					//item.deprocEffects(this);
 					item.procEffects(this);
 				}
 			}
-			
-			/*trace("\natk = " + player.derivedStats["atk"]);
-			trace("matk = " + player.derivedStats["matk"]);
-			trace("def = " + player.derivedStats["def"]);
-			trace("mdef = " + player.derivedStats["mdef"]);
-			trace("acc = " + player.derivedStats["acc"]);
-			trace("dodge = " + player.derivedStats["dodge"]);*/
+		}
+		
+		public function removeEquipBonuses():void {
+			for each (var item:Item in player.equipment) {
+				if (item != null)
+					item.deprocEffects(this);
+			}
 		}
 		
 		public function loot(item:Item, x:int):void {
@@ -694,7 +686,9 @@
 				retString = item.toString("buyingSelected") + retString;
 			else
 				retString = item.toString(mainMC.state) + retString;
-			addText(retString);
+			
+			if (mainMC.state != "buying" && mainMC.state != "selling")
+				addText(retString);
 		}
 		
 		public function drop(item:Item, x:int):void {
@@ -732,7 +726,8 @@
 			else
 				retString = item.toString(mainMC.state) + retString;
 			
-			addText(retString);
+			if (mainMC.state != "buying" && mainMC.state != "selling")
+				addText(retString);
 		}
 		
 		public function useItem(item:Item):Boolean {
@@ -847,8 +842,11 @@
 		
 		public function sell(item:Item):Boolean {
 			if (item.canDrop && player.indexOfInventory(item) != -1) {
-				drop(item, 1);
 				addGold(Math.round(0.5 * item.value));
+				drop(item, 1);
+				if (player.indexOfInventory(item) == -1)
+					mainMC.menuItemSelected = false;
+				
 				return true;
 			} else {
 				return false;

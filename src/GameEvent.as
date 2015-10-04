@@ -28,7 +28,7 @@
 			
 			xml = EventDefinitions[fileName];
 			
-			if (xml.@name != "")
+			if ("@name" in xml)
 				name = xml.@name;
 			
 			if (xml.@repeatable == "true") {
@@ -42,7 +42,7 @@
 		/*public function parseXML(e:Event):void {
 			xml = new XML(e.target.data);
 			
-			if (xml.@name != "")
+			if ("@name" in xml)
 				name = xml.@name;
 			
 			if (xml.@repeatable == "true") {
@@ -93,16 +93,9 @@
 					else
 						main.addText(text);
 					
-					if (dialog.@end == "true") {
+					if (dialog.@end == "true" || text.@end == "true") {
 						main.mainMC.btnArray[8].btnText.text = "Continue";
 						main.mainMC.btnArray[8].visible = true;
-						
-						if (text.@goto != "") {
-							state = text.@goto;
-							main.currEvent = this;
-						} else {
-							main.currEvent = null;
-						}
 					} else {
 						var i:int = 0;
 						for each (var option:XML in options.option) {
@@ -110,10 +103,21 @@
 							main.mainMC.btnArray[i].visible = true;
 							i++;
 						}
-						main.currEvent = this;
 					}
 					
+					if ("@state" in text)
+						state = text.@state;
+					
+					if ("@goto" in text) {
+						state = text.@goto;
+						setDialog(state);
+						break;
+					} /*else {
+						main.currEvent = null;
+					}*/
+					
 					doActions(text);
+					main.currEvent = this;
 				}
 			}
 			
@@ -134,17 +138,16 @@
 		
 		public function check(node:XML):Boolean {
 			var succ:Boolean = true;
-			var raw:String = node.@check;
-
-			if (raw != "") {
-				var checks:Array = raw.split(";");
+			
+			if ("@check" in node) {
+				var checks:Array = node.@check.split(";");
 				var i:int = 0;
 				
 				for each (var check:String in checks) {
 					checks[i] = check.split(":");
 					var str:String = checks[i][0];
-					var min:Number = 0;
-					var max:Number = Number.MAX_VALUE;
+					var min:int = 0;
+					var max:int = int.MAX_VALUE;
 					
 					var temp:Array = checks[i][1].split(",");
 					min = temp[0]
@@ -188,10 +191,8 @@
 		}
 		
 		public function doActions(node:XML):void {
-			var raw:String = node.@action;
-
-			if (raw != "") {
-				var actions:Array = raw.split(";");
+			if ("@action" in node) {
+				var actions:Array = node.@action.split(";");
 				var i:int = 0;
 				
 				for each (var action:String in actions) {
@@ -224,7 +225,7 @@
 						else if (val.charAt(0) == "*")		//scale gold
 							main.setGold(val.substring(1) * player.gold);
 					} else if (str == "exp") {
-						main.addExp(actions[i][1], false);			//add exp
+						main.addExp(actions[i][1], false);	//add exp
 					} else if (str == "lootItem") {
 						var vals:String = actions[i][1];
 						var items:Array = vals.split(",");
@@ -265,9 +266,7 @@
 		}
 		
 		public function rmvQuest():void {
-			/*if (!repeatable)
-				available = false;*/
-			
+			main.currEvent = null;
 			player.quests.splice(player.quests.indexOf(this), 1);
 			player.eventRecord[name] = repeatable;
 			main.addText("Quest complete: " + name);
@@ -278,7 +277,7 @@
 			return player.x == x && player.y == y;
 		}
 		
-		public function checkResource(resource:String, min:Number, max:Number):Boolean {
+		public function checkResource(resource:String, min:int, max:int):Boolean {
 			return (player.resources["min" + resource] / player.resources["max" + resource]) >= min &&
 				(player.resources["min" + resource] / player.resources["max" + resource]) <= max;
 		}
@@ -287,11 +286,11 @@
 			return player.stats[stat] >= min && player.stats[stat] <= max;
 		}
 		
-		public function checkFat(min:Number, max:Number):Boolean {
+		public function checkFat(min:int, max:int):Boolean {
 			return player.fat >= min && player.fat <= max;
 		}
 		
-		public function checkGold(min:Number, max:Number):Boolean {
+		public function checkGold(min:int, max:int):Boolean {
 			return player.gold >= min && player.gold <= max;
 		}
 		
