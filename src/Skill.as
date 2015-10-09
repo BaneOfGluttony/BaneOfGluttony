@@ -100,8 +100,13 @@
 					case "fat" :
 						main.addFat(amount);
 						break;
+						
+					case "suicide" :
+						main.setResource("Health", 0, -1);
+						main.player.isAlive = false;
+						break;
 				}
-				main.isPlayerAlive();
+				//main.isPlayerAlive();
 			} else if (subject is Enemy) {
 				switch (stat) {
 					case "currHP" :
@@ -115,6 +120,12 @@
 						subject[stat] += amount;
 						if (subject[stat] < 0)
 							subject[stat] = 0;
+						break;
+						
+					case "suicide" :
+						main.combat.enemy.currHP = 0;
+						main.mainMC.updateEnemyHealth();
+						main.combat.enemyIsAlive = false;
 						break;
 				}
 			}

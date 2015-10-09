@@ -16,7 +16,7 @@ As you step over the rough cobblestone, you hear a quiet sobbing from around the
 	<dialog id="1">
 		<text check="loc:2,3">
 Whoever it is that is crying, they need help. You rush around the corner and nearly collide with a rather plump mouse as you do so. She gasps momentarily, before ducking her head down and wiping the tears from her snout.
-"Please forgive my good [sir/madam]," she starts, "It’s just... I’m so hungry. I have had nothing to eat since second lunch, and I fear I may die of hunger!" Looking over the woman, you note that she isn’t wasting away in any sense of the word. Rather, she appears to be quite overweight! Her hips are starting to fray the fabric of her plain dress, her belly seems to be stretching the threads to their limit, as you can see the downy white fur peaking through the strained garment. Finally, it appears that her breasts have made an impromptu window of the woman’s torso. "If it isn’t too much trouble... could you bring me some food? I don’t have money for the restaurant, but I have just enough for you to buy a simple weapon. There are an enormous number of boars that have cropped up just to the east of the city. If you could bring me five haunches of pork, I’d be ever so grateful!" Her stomach grumbles, and she adds, "The faster, the better!"
+"Please forgive my good [sir/madam]," she starts, "It’s just... I’m so hungry. I have had nothing to eat since second lunch, and I fear I may die of hunger!" Looking over the woman, you note that she isn’t wasting away in any sense of the word. Rather, she appears to be quite overweight! Her hips are starting to fray the fabric of her plain dress, her belly stretching the threads to their limit, as you can see the downy white fur peaking through the strained garment. Finally, it appears that her breasts have made an impromptu window of the woman’s torso. "If it isn’t too much trouble... could you bring me some food? I don’t have money for the restaurant, but I have just enough for you to buy a simple weapon at the armory. There are an enormous number of boars that have cropped up just outside of the city. If you could bring me five haunches of pork, I’d be ever so grateful!" Her stomach grumbles, and she adds, "The faster, the better!"
 Do you accept?
 		</text>
 		<options>
@@ -59,7 +59,7 @@ Wandering through the streets of the city, it takes some time, and a bit of aski
 	<dialog id="0">
 		<text check="loc:3,6">
 As you make your way along the side streets of Staphshire you are perturbed by a ruckus in a nearby shop.
-"Stop! Thief!" an old man screams as a definetively shady character jumps out of an open window.
+"Stop! Thief!" an old man screams as a definitively shady character jumps out of an open window.
 Landing right in front of you, the accused thief is covered in a long dark cloak, which seems to hide several bulky objects, and dons a mask that makes clear to everyone his profession.
 "Someone catch that ruffian!" the old man screams again, to which the thief responds by immediately scampering into an alley.
 		</text>
@@ -87,7 +87,7 @@ With only your eyes showing through a helmet that is a half-eaten watermelon, yo
 	</dialog>
 	<dialog id="3" end="true">
 		<text action="loc:5,6">
-Try as you might you soon feel yourself falling behind in this chase. At every corner, the thief seems to escape further and further away from you, disappearing into the crowds of multicolored fur. Finally, he vanishes over a fence with an acrobatic feat you are certainly in no physical condition to replicate. Maybe you should come to terms that you're just too slow and and hope for better next time.
+Try as you might you soon feel yourself falling behind in this chase. At every corner, the thief seems to escape further and further away from you, disappearing into the crowds of multicolored fur. Finally, he vanishes over a fence with an acrobatic feat you are certainly in no physical condition to replicate. Maybe you should come to terms that you're just too slow and hope for better next time.
 		</text>
 	</dialog>
 	<dialog id="4" end="true">
@@ -99,14 +99,14 @@ Panting to catch your breath, you double over and rest your paws on your knees. 
 		<text>
 You talk to the frantic man and ask what happened as you try to calm him down. The old bulldog mutters to himself about being way too old for this kind of thing, which the sagging folds of his face seem to agree with.
 "One can't even have a snack break these days!" complains the old man exasperatedly. "Here was I, going to the backroom of the bakery for five minutes of relaxation and a couple of sweets," he says as he takes a seat and pats his bulging gut which suggests to you that he might have had much more than a couple and for much longer than 5 minutes, "and when I come back, I see this devilish rogue, masked and caped and all, messing with my bread display and running off with what seems a whole batch snuck inside his coat pocket!"
-You try to calm the old man and make sure to call for guards. While you wait with the old coot, you ask the man what has to be done and he points toward a clipboard by the strongbox. "There is the inventory. We have to find out exactly how much that devil stole, so we can punish him accordingly! The kids these day have no discipline. One year for each eclair is what I will demand!"
+You try to calm the old dog and make sure to call for guards. While you wait with the old coot, you ask him what has to be done, and he points toward a clipboard by the strongbox. "There is the inventory. We have to find out exactly how much that devil stole, so we can punish him accordingly! The kids these day have no discipline. One year for each eclair is what I will demand!"
 		</text>
 		<text check="int:0,19">
 You try to understand the marks on the clipboard, but your feeble mind cannot begin to make heads or tails of them. Numbers and foreign names just roll off your mind like water on a very, very clueless duck. The old man's calligraphy is not helping either. You just look at the chicken scratch and nod, trying not to let the bulldog notice you have no idea what you are doing.
 As you hear the guards approaching, you let out a sigh of relief and quietly slink out of the bakery while nobody is looking in order to save yourself any further embarrassment.
 		</text>
 		<text check="int:20" action="endEvent;lootItem:Doughnut-10">
-You take the clipboard and begin counting. Bagels, croissants, muffins, cupcakes and eclairs. This bakery seems to specialize in diversity as it seems to hold an exquisite selection in incredible amounts. You almost cannot make sense of everything, but eventually you tally all the contents of the display. You notice something strange, but just as you are about to say something, the guards arrive.
+You take the clipboard and begin counting. Bagels, croissants, muffins, cupcakes and eclairs. This bakery seems to specialize in diversity as it holds an exquisite selection in incredible amounts. You almost cannot make sense of everything, but eventually you tally all the contents of the display. You notice something strange, but just as you are about to say something, the guards arrive.
 Out of breath and sweating through their mail, the guards ask the old man for his story but seem to place far less attention on him than on the sweets in the display. "Don't worry, old man Jenkins! We’ll get to the bottom of this! How else would we get through the day without one of our daily donuts? About them... could we have a few more for the guys at the quarters?"
 "Of course, lad," said old Jenkins heartely. "Always glad to help the law around these parts. Just make sure they reach the quarters this time. And this," he hands you a few bags as well, "is for being such a nice lad. We need more kids like you these days."
 He waves you and the guards goodbye, and you make your way back into the crowded streets. As you walk along, you go back to pondering on what you found out. There we no items missing from the inventory; there was extra.

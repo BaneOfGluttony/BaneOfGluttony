@@ -138,7 +138,7 @@
 					
 					break;
 				case "surrender" :
-					
+					surrender();
 					break;
 			}
 			
@@ -166,8 +166,8 @@
 		}
 		
 		public function useItem(item:Item):Boolean {
-			/*var used:Boolean = main.useItem(item);
-			var text:String = "";
+			var used:Boolean = main.useItem(item);
+			/*var text:String = "";
 			
 			if (used && item.equip) {
 				text += "You equipped a " + item.name + ".";
@@ -184,8 +184,14 @@
 			main.addText(text);
 			
 			main.isPlayerAlive();*/
+			if (used) {
+				if (item.equip)
+					main.addText("You equipped a " + item.name + ".\n" + item.effectsText);
+				else
+					main.addText("You used a " + item.name + ".\n" + item.effectsText);
+			}
 			
-			return main.useItem(item);
+			return used;
 		}
 		
 		public function run():Boolean {
@@ -210,12 +216,13 @@
 			
 			if (enemy.surrType != 0) {
 				enemy.skills[0].useSkill(main, enemy, player);
+				main.isPlayerAlive();
 			} else {
+				main.addText("You gave up the fight.");
 				main.gameOver(0);
 			}
 			
 			//main.setText(main.combatText);
-			main.isPlayerAlive();
 		}
 		
 		public function enemyTurn():Boolean {
@@ -300,13 +307,13 @@
 				targetAgi = target.stats["agi"];
 			}
 			
-			var ratio:Number = sourceDex / enemy.agi;
+			var ratio:Number = sourceDex / targetAgi;
 			if (ratio < 0.5)
 				ratio = 0.5;
 			else if (ratio > 1)
 				ratio = 1;
 			
-			var dmg:Number = ratio * sourceAtk + Math.random() * (1 - ratio) * sourceAtk;
+			var dmg:Number = sourceAtk * (ratio + Math.random() * (1 - ratio));
 			dmg -= targetDef;
 			
 			if (dmg < 0)

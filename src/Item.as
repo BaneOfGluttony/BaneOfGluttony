@@ -192,13 +192,11 @@
 					else
 						return name + "\n" + short + " " + long;
 				case "inventory" :
-				case "selling" :
 					if (effectsText != "")
 						return name + " -- x" + count + "\n" + effectsText + "\n" + short;
 					else
 						return name + " -- x" + count + "\n" + short;
 				case "inventorySelected" :
-				case "sellingSelected" :
 					if (effectsText != "")
 						return name + " -- x" + count + "\n\n" + effectsText + "\n" + short + " " + long;
 					else
@@ -209,6 +207,16 @@
 					else
 						return " in inventory\n" + short + "\n\n";
 				case "buyingSelected" :
+					if (effectsText != "")
+						return name + " -- " + value + " gold ea. -- " + count + " in inventory\n\n" + effectsText + "\n" + short + " " + long + "\n\n";
+					else
+						return name + " -- " + value + " gold ea. -- " + count + " in inventory\n\n" + short + " " + long + "\n\n";
+				case "selling" :
+					if (effectsText != "")
+						return name + " -- " + Math.round(0.5 * value) + " gold ea. -- " + count + " in inventory\n\n" + effectsText + "\n" + short;
+					else
+						return name + " -- " + Math.round(0.5 * value) + " gold ea. -- " + count + " in inventory\n\n" + short;
+				case "sellingSelected" :
 					if (effectsText != "")
 						return name + " -- " + value + " gold ea. -- " + count + " in inventory\n\n" + effectsText + "\n" + short + " " + long + "\n\n";
 					else

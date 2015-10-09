@@ -29,6 +29,15 @@
 			return inventory[indexOfInventory(item)];
 		}
 		
+		public function getItemFromEquipment(itemName:String):Item {
+			for each (var equip:Item in equipment) {
+				if (equip != null && itemName == equip.name)
+					return equip;
+			}
+			
+			return null;
+		}
+		
 		public function indexOfInventory(item:Item):int {
 			for (var i:int = 0; i < inventory.length; i++) {
 				if (inventory[i].name == item.name)

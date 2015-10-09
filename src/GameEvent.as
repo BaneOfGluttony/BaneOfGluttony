@@ -80,6 +80,7 @@
 			var dialog:XMLList = xml.dialog.(@id == x);
 			var options:XMLList = dialog.options;
 			state = x;
+			main.mainMC.game.optionsBtn.visible = false;
 			
 			for each (var text:XML in dialog.text) {
 				if (check(text)) {					

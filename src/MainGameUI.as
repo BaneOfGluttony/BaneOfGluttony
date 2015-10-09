@@ -445,6 +445,7 @@ package
 				case "shop" :
 				case "buying" :
 				case "selling" :
+					game.optionsBtn.visible = false;
 					game.menuUI.appearanceBtn.visible = false;
 					game.menuUI.inventoryBtn.visible = false;
 					game.menuUI.questsBtn.visible = false;
@@ -454,6 +455,7 @@ package
 					game.menuUI.loadBtn.btnText.text = "Back";
 					break;
 				case "map" :
+					game.optionsBtn.visible = false;
 					game.menuUI.appearanceBtn.visible = false;
 					game.menuUI.inventoryBtn.visible = false;
 					game.menuUI.skillsBtn.visible = false;
@@ -1119,7 +1121,7 @@ package
 		}
 		
 		public function combatSurrender(e:MouseEvent):void {
-			main.combat.surrender();
+			main.combat.turn("surrender");
 			
 			trace("\natk = " + main.player.derivedStats["atk"]);
 			trace("matk = " + main.player.derivedStats["matk"]);
@@ -1203,6 +1205,7 @@ package
 		}
 
 		public function clickNE(e:MouseEvent):void {
+			trace("state = " + state);
 			switch (state) {
 				case "navigate" :
 					moveNE();
@@ -1803,7 +1806,7 @@ package
 			switch (state) {
 				case "appearance" :
 					menuItemSelected = true;
-					selectedItem = ItemDefinitions.getItem(selection);
+					selectedItem = main.player.getItemFromEquipment(selection);
 					main.setText(selectedItem.toString("appearanceSelected"));
 					//main.setText(selectedItem.name + "\n\n" + selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);
 					
@@ -1833,6 +1836,9 @@ package
 				case "buying" :
 					menuItemSelected = true;
 					selectedItem = ItemDefinitions.getItem(selection);
+					if (main.player.indexOfInventory(selectedItem) != -1)
+						selectedItem = main.player.getItemFromInventory(selectedItem);
+					
 					main.setText(selectedItem.toString("buyingSelected"));
 					/*if (main.player.indexOfInventory(selectedItem) != -1) {
 						main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea. -- " +
@@ -1885,12 +1891,13 @@ package
 					
 					if (selection == 0) {
 						main.drop(item, 1);
-						displayInventory();
+						//displayInventory();
 					} else if (selection == 1) {
 						if (state == "inventory") {
-							if (!main.useItem(item))
+							/*if (!main.useItem(item))
 								return;
-							displayInventory();
+							displayInventory();*/
+							main.useItem(item)
 						} else {
 							if (!main.combat.turn("inventory", item))
 								return;
@@ -1898,8 +1905,9 @@ package
 						}
 					} else if (selection == -1) {
 						displayInventory();
+						menuItemSelected = false;
 					}
-					menuItemSelected = false;
+					//menuItemSelected = false;
 					break;
 				case "shop" :
 					if (selection == -1) {
@@ -2134,10 +2142,12 @@ package
 			game.combatUI.surrenderBtn.visible = true;
 			updateMenuBtns();
 			
+			var name:String = enemy.name.charAt().toUpperCase() + enemy.name.substring(1);
+			
 			if (enemy.name.length <= 15)
-				game.combatUI.enemyLabel.text = "\n" + enemy.name;
+				game.combatUI.enemyLabel.text = "\n" + name;
 			else
-				game.combatUI.enemyLabel.text = enemy.name;
+				game.combatUI.enemyLabel.text = name;
 			
 			updateEnemyHealth();
 		}

@@ -59,10 +59,10 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*setResource("Health", 100, 100);
-			setResource("Mana", 21, 100);
-			setResource("Energy", 84, 100);
-			setResource("Capacity", 93, 100);
+			/*setResource("Health", 100, -1);
+			setResource("Mana", 21, -1);
+			setResource("Energy", 84, -1);
+			setResource("Capacity", 93, -1);
 			setStat("str", 9);
 			setStat("agi", 20);
 			setStat("vit", 14);
@@ -70,8 +70,8 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			setGold(500);
-			addExp(196, false);*/
+			addExp(196, false);
+			setGold(500);*/
 			
 			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
@@ -139,6 +139,15 @@
 			mainMC.updateNavBtns();
 			mainMC.updateMaps();
 			calcStats(true);
+			
+			trace("\natk = " + player.derivedStats["atk"]);
+			trace("matk = " + player.derivedStats["matk"]);
+			trace("def = " + player.derivedStats["def"]);
+			trace("mdef = " + player.derivedStats["mdef"]);
+			trace("acc = " + player.derivedStats["acc"]);
+			trace("dodge = " + player.derivedStats["dodge"]);
+			trace("cap = " + player.resources["currCapacity"] + " / " + player.resources["maxCapacity"] + " (" + player.derivedStats["cap"] + ")");
+			trace("state = " + mainMC.state);
 		}
 		
 		public function addText(txt:String):void {
@@ -614,6 +623,9 @@
 				var overflow:int = player.levelUp();
 				addText("Level up!");
 				mainMC.game.mainUI.levelLabel.text = player.level.toString();
+				setResource("Health", player.resources["maxHealth"], -1);
+				setResource("Mana", player.resources["maxMana"], -1);
+				setResource("Energy", player.resources["maxEnergy"], -1);
 				addExp(overflow, true);
 			}
 		}
@@ -649,7 +661,7 @@
 		public function addEquipBonuses():void {
 			for each (var item:Item in player.equipment) {
 				if (item != null) {
-					//item.deprocEffects(this);
+					item.deprocEffects(this);
 					item.procEffects(this);
 				}
 			}
@@ -689,18 +701,24 @@
 			
 			//ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
 			
-			if (mainMC.state == "buying" && mainMC.menuItemSelected)
+			if (mainMC.state == "buying" && mainMC.menuItemSelected) {
 				retString = item.toString("buyingSelected") + retString;
-			else
+				setText(retString);
+			} else {
 				retString = item.toString(mainMC.state) + retString;
-			
-			if (mainMC.state != "buying" && mainMC.state != "selling")
 				addText(retString);
+			} 
+			
+			//if (mainMC.state != "buying" && mainMC.state != "selling")
+				//addText(retString);
 		}
 		
 		public function drop(item:Item, x:int):void {
 			var index:int = player.indexOfInventory(item);
 			var retString:String = "";
+			if (mainMC.state == "inventory")
+				retString = "\n\n";
+			
 			if (item.canDrop && index != -1) {
 				if (player.inventory[index].count >= x) {
 					player.inventory[index].count -= x;
@@ -712,7 +730,7 @@
 					
 					if (player.inventory[index].count <= 0) {
 						player.inventory.splice(index, 1);
-						retString += "You no longer have any " + item.plural + ".";
+						retString += "You don't have any more " + item.plural + ".";
 					} else {
 						retString += "You now have " + player.inventory[index].count + " ";
 						
@@ -722,22 +740,33 @@
 							retString += item.name + ".";
 					}
 				} else
-					retString = "You don't have that many " + item.plural + ".";
+					retString += "You don't have that many " + item.plural + ".";
             } else if (index == -1)
-				retString = "You don't have this item in your inventory.";
+				retString += "You don't have any more " + item.plural + ".";
 			else if (!item.canDrop)
-				retString = "You can't discard this item.";
+				retString += "You can't discard this item.";
 			
-			if (mainMC.state == "selling" && mainMC.menuItemSelected)
+			if (mainMC.state == "selling" && mainMC.menuItemSelected) {
 				retString = item.toString("sellingSelected") + retString;
-			else
+				setText(retString);
+			} else if (mainMC.state == "inventory" && mainMC.menuItemSelected) {
+				retString = item.toString("inventorySelected") + retString;
+				setText(retString);
+			} else {
 				retString = item.toString(mainMC.state) + retString;
-			
-			if (mainMC.state != "buying" && mainMC.state != "selling")
 				addText(retString);
+			}
+			
+			//if (mainMC.state != "buying" && mainMC.state != "selling")
+				//addText(retString);
 		}
 		
 		public function useItem(item:Item):Boolean {
+			if (player.getItemFromInventory(item) == null) {
+				setText(item.toString("inventorySelected") + "\n\nYou don't have any more " + item.plural + ".");
+				return false;
+			}
+			
 			item = player.getItemFromInventory(item);
 			var itemCopy:Item = ItemDefinitions.getItem(item.name);
 			
@@ -746,35 +775,30 @@
 					if (player.equipment["head"] != null)
 						unequip(player.equipment["head"]);
 					player.equipment["head"] = itemCopy;
-					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["head"].name + " equipped.");
 				} else if (item.torso) {
 					if (player.equipment["torso"] != null)
 						unequip(player.equipment["torso"]);
 					player.equipment["torso"] = itemCopy;
-					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["torso"].name + " equipped.");
 				} else if (item.legs) {
 					if (player.equipment["legs"] != null)
 						unequip(player.equipment["legs"]);
 					player.equipment["legs"] = itemCopy;
-					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["legs"].name + " equipped.");
 				} else if (item.feet) {
 					if (player.equipment["feet"] != null)
 						unequip(player.equipment["feet"]);
 					player.equipment["feet"] = itemCopy;
-					addText("You equipped a " + item.name + ".\n" + item.effectsText);
 					trace(player.equipment["feet"].name + " equipped.");
 				} else if (item.weapon) {
 					if (item.twoHanded && player.equipment["shield"] != null) {
-						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+						setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
 						return true;
 					} else {
 						if (player.equipment["weapon"] != null)
 							unequip(player.equipment["weapon"]);
 						player.equipment["weapon"] = itemCopy;
-						addText("You equipped a " + item.name + ".\n" + item.effectsText);
 						trace(player.equipment["weapon"].name + " equipped.");
 					}
 				} else if (item.shield) {
@@ -782,17 +806,16 @@
 						if (player.equipment["shield"] != null)
 							unequip(player.equipment["shield"]);
 						player.equipment["shield"] = itemCopy;
-						addText("You equipped a " + item.name + ".\n" + item.effectsText);
 						trace(player.equipment["shield"].name + " equipped.");
 					} else {
-						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+						setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
 						return true;
 					}
 				}
 				addEquipBonuses();
 			} else {
 				itemCopy.procEffects(this);
-				addText("You used a " + item.name + ".\n" + item.effectsText);
+				trace(item.name + " used.");
 			}
 			
 			var index:int = player.indexOfInventory(item);
@@ -801,17 +824,11 @@
 			if (player.inventory[index].count <= 0)
 				player.inventory.splice(index, 1);
 			
-			/*if (player.resources["currCapacity"] > player.derivedStats["cap"]) {
-				gameOver(1);
-				return false;
-			} else if (player.resources["currHealth"] <= 0) {
-				gameOver(0);
-				return false;
-			}*/
+			if (item.equip)
+				setText(item.toString("inventorySelected") + "\n\nYou equipped a " + item.name + ".");
+			else
+				setText(item.toString("inventorySelected") + "\n\nYou used a " + item.name + ".");
 			
-			//updateStats();
-			
-			//return true;
 			return isPlayerAlive();
 		}
 
@@ -849,11 +866,10 @@
 		
 		public function sell(item:Item):Boolean {
 			if (item.canDrop && player.indexOfInventory(item) != -1) {
-				addGold(Math.round(0.5 * item.value));
 				drop(item, 1);
 				if (player.indexOfInventory(item) == -1)
 					mainMC.menuItemSelected = false;
-				
+				addGold(Math.round(0.5 * item.value));
 				return true;
 			} else {
 				return false;
@@ -1044,18 +1060,21 @@
 			mainMC.updateMenuBtns();
 			setResource("Health", 0, -1);
 			
-			if (cause == 0) {
-				addText("----------\n\nYou have been slain.");
-			} else if (cause == 1) {
-				addText("----------\n\nYou have eaten yourself into a food coma.");
-			} else if (cause == 2)
-				addText("----------\n\nYou have collapsed from exhaustion.");
-			else if (cause == 3)
-				addText("----------\n\nYou have been devoured.");
-			else
-				addText("----------\n\nYou died.");
+			if (mainMC.game.mainUI.textField.text.substring(mainMC.game.mainUI.textField.text.length - 27) != "Load your last saved state.") {
+				if (cause == 0)
+					addText("----------\n\nYou have been slain.");
+				else if (cause == 1)
+					addText("----------\n\nYou have eaten yourself into a food coma.");
+				else if (cause == 2)
+					addText("----------\n\nYou have collapsed from exhaustion.");
+				else if (cause == 3)
+					addText("----------\n\nYou have been devoured.");
+				else
+					addText("----------\n\nYou died.");
+				
+				addText("Load your last saved state.");
+			}
 			
-			addText("Load your last saved state.");
 		}
 	}
 }

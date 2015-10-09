@@ -3,7 +3,7 @@
 	<dialog id="0">
 		<text check="loc:3,6">
 As you make your way along the side streets of Staphshire you are perturbed by a ruckus in a nearby shop.
-"Stop! Thief!" an old man screams as a definetively shady character jumps out of an open window.
+"Stop! Thief!" an old man screams as a definitively shady character jumps out of an open window.
 Landing right in front of you, the accused thief is covered in a long dark cloak, which seems to hide several bulky objects, and dons a mask that makes clear to everyone his profession.
 "Someone catch that ruffian!" the old man screams again, to which the thief responds by immediately scampering into an alley.
 		</text>
@@ -31,7 +31,7 @@ With only your eyes showing through a helmet that is a half-eaten watermelon, yo
 	</dialog>
 	<dialog id="3" end="true">
 		<text action="loc:5,6">
-Try as you might you soon feel yourself falling behind in this chase. At every corner, the thief seems to escape further and further away from you, disappearing into the crowds of multicolored fur. Finally, he vanishes over a fence with an acrobatic feat you are certainly in no physical condition to replicate. Maybe you should come to terms that you're just too slow and and hope for better next time.
+Try as you might you soon feel yourself falling behind in this chase. At every corner, the thief seems to escape further and further away from you, disappearing into the crowds of multicolored fur. Finally, he vanishes over a fence with an acrobatic feat you are certainly in no physical condition to replicate. Maybe you should come to terms that you're just too slow and hope for better next time.
 		</text>
 	</dialog>
 	<dialog id="4" end="true">
@@ -43,14 +43,14 @@ Panting to catch your breath, you double over and rest your paws on your knees. 
 		<text>
 You talk to the frantic man and ask what happened as you try to calm him down. The old bulldog mutters to himself about being way too old for this kind of thing, which the sagging folds of his face seem to agree with.
 "One can't even have a snack break these days!" complains the old man exasperatedly. "Here was I, going to the backroom of the bakery for five minutes of relaxation and a couple of sweets," he says as he takes a seat and pats his bulging gut which suggests to you that he might have had much more than a couple and for much longer than 5 minutes, "and when I come back, I see this devilish rogue, masked and caped and all, messing with my bread display and running off with what seems a whole batch snuck inside his coat pocket!"
-You try to calm the old man and make sure to call for guards. While you wait with the old coot, you ask the man what has to be done and he points toward a clipboard by the strongbox. "There is the inventory. We have to find out exactly how much that devil stole, so we can punish him accordingly! The kids these day have no discipline. One year for each eclair is what I will demand!"
+You try to calm the old dog and make sure to call for guards. While you wait with the old coot, you ask him what has to be done, and he points toward a clipboard by the strongbox. "There is the inventory. We have to find out exactly how much that devil stole, so we can punish him accordingly! The kids these day have no discipline. One year for each eclair is what I will demand!"
 		</text>
 		<text check="int:0,19">
 You try to understand the marks on the clipboard, but your feeble mind cannot begin to make heads or tails of them. Numbers and foreign names just roll off your mind like water on a very, very clueless duck. The old man's calligraphy is not helping either. You just look at the chicken scratch and nod, trying not to let the bulldog notice you have no idea what you are doing.
 As you hear the guards approaching, you let out a sigh of relief and quietly slink out of the bakery while nobody is looking in order to save yourself any further embarrassment.
 		</text>
 		<text check="int:20" action="endEvent;lootItem:Doughnut-10">
-You take the clipboard and begin counting. Bagels, croissants, muffins, cupcakes and eclairs. This bakery seems to specialize in diversity as it seems to hold an exquisite selection in incredible amounts. You almost cannot make sense of everything, but eventually you tally all the contents of the display. You notice something strange, but just as you are about to say something, the guards arrive.
+You take the clipboard and begin counting. Bagels, croissants, muffins, cupcakes and eclairs. This bakery seems to specialize in diversity as it holds an exquisite selection in incredible amounts. You almost cannot make sense of everything, but eventually you tally all the contents of the display. You notice something strange, but just as you are about to say something, the guards arrive.
 Out of breath and sweating through their mail, the guards ask the old man for his story but seem to place far less attention on him than on the sweets in the display. "Don't worry, old man Jenkins! We’ll get to the bottom of this! How else would we get through the day without one of our daily donuts? About them... could we have a few more for the guys at the quarters?"
 "Of course, lad," said old Jenkins heartely. "Always glad to help the law around these parts. Just make sure they reach the quarters this time. And this," he hands you a few bags as well, "is for being such a nice lad. We need more kids like you these days."
 He waves you and the guards goodbye, and you make your way back into the crowded streets. As you walk along, you go back to pondering on what you found out. There we no items missing from the inventory; there was extra.

@@ -35,10 +35,23 @@ We’re very excited moving forward on this project and hope you are too! Be sure 
 
 Well. Now that we have the “words” out of the way, I am proud to present to you the next version of Bane of Gluttony!
 
-[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/blob/master/Release/0.7/BaneOfGluttony.swf?raw=true"][font size="6"][b]Download here![/b][/font][/a]
+[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.7.0/BaneOfGluttony.v0.7.0.swf"][font size="6"][b]Download here![/b][/font][/a]
 
 To run it, all you have to do it download it and drag it onto an open browser window. 
 
 And with that, I hope you enjoy!
 
 Happy hunting!
+
+
+--------------------------------------------------
+
+
+[b][i]v0.7.1[/i][/b]
+
+[ul type="disc"][li]Fixed bugs relating to the option menu. I forgot to disable the options button in certain contexts.[/li]
+[li]Fixed equipment stat stacking. Stats were not being removed/updated properly upon equipping/unequipping items.[/li]
+[li]Fixed buying/selling texts to better and more consistently reflect inventory count and prices.[/li]
+[li]Fixed item specific text pages in inventory to explicitly state when an item has been used/equipped/discarded.[/li]
+[li]Fixed gameover text from being printed multiple times.[/li]
+[li]Leveling up now restores your health, mana, and energy.[/li][/ul]
