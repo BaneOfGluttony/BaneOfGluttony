@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<event name="Blade and Belly" repeatable="false">
+<event name="Blade and Belly" repeatable="true">
 	<dialog id="0">
 		<text check="loc:2,3">
 As you step over the rough cobblestone, you hear a quiet sobbing from around the corner. Do you approach the voice?
@@ -43,7 +43,7 @@ You really should go back to finding those haunches for her.
 		</text>
 		<text check="loc:2,3;item:Pork Haunch-5" action="dropItem:Pork Haunch-5;gold:+3;exp:25;rmvQuest" override="true">
 Wandering through the streets of the city, it takes some time, and a bit of asking after her, but you finally find Shara as she is resting on a bench, next to the street. She perks up as she sees you, her eyes drawn to your bulging pack. She jumps up, rushing forward to greet you.
-"Oh, welcome back!" She smiles, her face lighting up, though one hand seems to be constantly on her expansive gut. Her smile only widens as you give her the haunches of pork. "You’re a life saver, [sir/madam]." She suddenly lurches forward, wrapping her soft arms around you and pulling you into a warm hug. "Unfortunately, I can only offer you my friendship and a few more gold pieces, but thank you! If I see you again, maybe I can hire you again! I’ve been so hungry these last few weeks, I wonder why..." She looks concerned for a moment before the bloody smell of the haunches reach her. "Whatever it is, I need to get these cooked! Have a good day!" Quickly handing you another handful of gold, the rotund mouse ambles off, the haunches weighing her weak frame down as she hobbles away, her wide hips sashaying pleasantly as she does so.
+"Oh, welcome back!" She smiles, her face lighting up, though one hand seems to be constantly on her expansive gut. Her smile only widens as you give her the haunches of pork. "You’re a life saver, [sir/madam]." She suddenly lurches forward, wrapping her soft arms around you and pulling you into a warm hug. "Unfortunately, I can only offer you my friendship and a few more gold pieces, but thank you! If I see you again, maybe I can hire you another time! I’ve been so hungry these last few weeks, I wonder why..." She looks concerned for a moment before the bloody smell of the haunches reach her. "Whatever it is, I need to get these cooked! Have a good day!" Quickly handing you another handful of gold, the rotund mouse ambles off, the haunches weighing her weak frame down as she hobbles away, her wide hips sashaying pleasantly as she does so.
 		</text>
 	</dialog>
 </event>

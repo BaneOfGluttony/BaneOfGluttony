@@ -3,7 +3,7 @@ package  {
 	public class EventDefinitions {
 		//{ Blade and Belly
 		public static const BLADE_AND_BELLY:XML =
-<event name="Blade and Belly" repeatable="false">
+<event name="Blade and Belly" repeatable="true">
 	<dialog id="0">
 		<text check="loc:2,3">
 As you step over the rough cobblestone, you hear a quiet sobbing from around the corner. Do you approach the voice?
@@ -47,7 +47,7 @@ You really should go back to finding those haunches for her.
 		</text>
 		<text check="loc:2,3;item:Pork Haunch-5" action="dropItem:Pork Haunch-5;gold:+3;exp:25;rmvQuest" override="true">
 Wandering through the streets of the city, it takes some time, and a bit of asking after her, but you finally find Shara as she is resting on a bench, next to the street. She perks up as she sees you, her eyes drawn to your bulging pack. She jumps up, rushing forward to greet you.
-"Oh, welcome back!" She smiles, her face lighting up, though one hand seems to be constantly on her expansive gut. Her smile only widens as you give her the haunches of pork. "You’re a life saver, [sir/madam]." She suddenly lurches forward, wrapping her soft arms around you and pulling you into a warm hug. "Unfortunately, I can only offer you my friendship and a few more gold pieces, but thank you! If I see you again, maybe I can hire you again! I’ve been so hungry these last few weeks, I wonder why..." She looks concerned for a moment before the bloody smell of the haunches reach her. "Whatever it is, I need to get these cooked! Have a good day!" Quickly handing you another handful of gold, the rotund mouse ambles off, the haunches weighing her weak frame down as she hobbles away, her wide hips sashaying pleasantly as she does so.
+"Oh, welcome back!" She smiles, her face lighting up, though one hand seems to be constantly on her expansive gut. Her smile only widens as you give her the haunches of pork. "You’re a life saver, [sir/madam]." She suddenly lurches forward, wrapping her soft arms around you and pulling you into a warm hug. "Unfortunately, I can only offer you my friendship and a few more gold pieces, but thank you! If I see you again, maybe I can hire you another time! I’ve been so hungry these last few weeks, I wonder why..." She looks concerned for a moment before the bloody smell of the haunches reach her. "Whatever it is, I need to get these cooked! Have a good day!" Quickly handing you another handful of gold, the rotund mouse ambles off, the haunches weighing her weak frame down as she hobbles away, her wide hips sashaying pleasantly as she does so.
 		</text>
 	</dialog>
 </event>
@@ -80,9 +80,9 @@ You quickly dash around the alleyway, jumping over crates and barreling through 
 	</dialog>
 	<dialog id="2">
 		<text check="agi:0,19" goto="3"></text>
-		<text check="agi:20" action="endEvent;loc:6,5" end="true">
+		<text check="agi:20" action="endEvent;loc:6,5;exp:50" end="true">
 You give the masked rogue a good chase, going through boltholes and narrow passageways that no one but the darkest individuals would ever know existed in the streets of Staphshire. Finally, the crook seems to escape by swinging from a clothesline into the loft of a very, very startled woman, leaving you to stare at his daring escape from the rooftop across. Too bad for you that it’s garbage day, and the bins are all full of foodstuffs waiting collection. You mutter a swear under your breath as you plummet two stories into the fetid, partially eaten food.
-With only your eyes showing through a helmet that is a half-eaten watermelon, you wait in silence for the criminal to make his way out the front doors of the building before you. As he leaves, as inconspicuously as he can, you notice several loaves of bread stuffed inside his cloak. He moves toward the end of the street and knocks one, two, three times on the back door of a very suspicious establishment before being let in. Above said door reads "Greater Future Society" in big capital letters.
+With only your eyes showing through a helmet that is a half-eaten watermelon, you wait in silence for the criminal to make his way out the front doors of the building before you. As he leaves, as inconspicuously as he can, you notice several loaves of bread stuffed inside his cloak. He moves toward the end of the street and knocks one, two, three times in a pattern you can't quite make out on the back door of a very suspicious establishment before being let in. Above said door reads "Greater Future Society" in big capital letters. It would be wise to end your hunt here. You do not know what might await you behind those doors...
 		</text>
 	</dialog>
 	<dialog id="3" end="true">
@@ -105,7 +105,7 @@ You try to calm the old dog and make sure to call for guards. While you wait wit
 You try to understand the marks on the clipboard, but your feeble mind cannot begin to make heads or tails of them. Numbers and foreign names just roll off your mind like water on a very, very clueless duck. The old man's calligraphy is not helping either. You just look at the chicken scratch and nod, trying not to let the bulldog notice you have no idea what you are doing.
 As you hear the guards approaching, you let out a sigh of relief and quietly slink out of the bakery while nobody is looking in order to save yourself any further embarrassment.
 		</text>
-		<text check="int:20" action="endEvent;lootItem:Doughnut-10">
+		<text check="int:20" action="endEvent;lootItem:Doughnut-10;exp:50">
 You take the clipboard and begin counting. Bagels, croissants, muffins, cupcakes and eclairs. This bakery seems to specialize in diversity as it holds an exquisite selection in incredible amounts. You almost cannot make sense of everything, but eventually you tally all the contents of the display. You notice something strange, but just as you are about to say something, the guards arrive.
 Out of breath and sweating through their mail, the guards ask the old man for his story but seem to place far less attention on him than on the sweets in the display. "Don't worry, old man Jenkins! We’ll get to the bottom of this! How else would we get through the day without one of our daily donuts? About them... could we have a few more for the guys at the quarters?"
 "Of course, lad," said old Jenkins heartely. "Always glad to help the law around these parts. Just make sure they reach the quarters this time. And this," he hands you a few bags as well, "is for being such a nice lad. We need more kids like you these days."

@@ -69,11 +69,11 @@
 			setStat("int", 20);
 			setStat("dex", 10);
 			setStat("vor", 26);
-			setFat(86);
+			setFat(86);*/
 			addExp(196, false);
-			setGold(500);*/
+			setGold(500);
 			
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -102,7 +102,7 @@
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
-			loot(ItemDefinitions.getItem("Pork Haunch"), 5);*/
+			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
 			
 			//startCombat(EnemyDefinitions.getEnemy("Slime"));
 			//var test:Test = new Test(this as MovieClip, player, "test");
@@ -623,9 +623,13 @@
 				var overflow:int = player.levelUp();
 				addText("Level up!");
 				mainMC.game.mainUI.levelLabel.text = player.level.toString();
+				mainMC.game.lvlupUI.ptsLabel.text = player.statPoints;
+				mainMC.game.lvlupUI.visible = true;
+				
 				setResource("Health", player.resources["maxHealth"], -1);
 				setResource("Mana", player.resources["maxMana"], -1);
 				setResource("Energy", player.resources["maxEnergy"], -1);
+				
 				addExp(overflow, true);
 			}
 		}
@@ -867,8 +871,6 @@
 		public function sell(item:Item):Boolean {
 			if (item.canDrop && player.indexOfInventory(item) != -1) {
 				drop(item, 1);
-				if (player.indexOfInventory(item) == -1)
-					mainMC.menuItemSelected = false;
 				addGold(Math.round(0.5 * item.value));
 				return true;
 			} else {
@@ -949,7 +951,7 @@
 					}
 					break;
 				case "selling" :
-					inventoryText = "Selling\n\n";
+					inventoryText = "Selling\n\n--------------------------------------------------\n\n";
 					
 					if (player.inventory.length == 0) {
 						inventoryText += "You have nothing to sell.";
@@ -987,7 +989,7 @@
 		}
 		
 		public function writeStock():String {
-			var text:String = "Buying\n\n";
+			var text:String = "Buying\n\n--------------------------------------------------\n\n";
 			for each (var item:Item in World.world[player.x][player.y].stock) {
 				text += item.name + " -- " + item.value + " gold ea. -- ";
 				

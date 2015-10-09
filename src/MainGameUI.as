@@ -56,7 +56,8 @@ package
 			btnArray = new Array(game.btnsUI.btn1, game.btnsUI.btn2, game.btnsUI.btn3,
 							     game.btnsUI.btn4, game.btnsUI.btn5, game.btnsUI.btn6,
 								 game.btnsUI.btn7, game.btnsUI.btn8, game.btnsUI.btn9);
-
+			
+			game.lvlupUI.visible = false;
 			game.mainUI.bigMap.visible = false;		
 			game.mainUI.bigMarker.visible = false;	
 			game.btnsUI.upBtn.visible = false;
@@ -230,7 +231,44 @@ package
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.combatUI.surrenderBtn); });
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.combatUI.surrenderBtn); });
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.combatUI.surrenderBtn); });
-
+			
+			//Level up
+			game.lvlupUI.strBtn.buttonMode = true;
+			game.lvlupUI.strBtn.mouseChildren = false;
+			game.lvlupUI.strBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.lvlupUI.strBtn); });
+			game.lvlupUI.strBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.lvlupUI.strBtn); });
+			game.lvlupUI.strBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.lvlupUI.strBtn); } );
+			
+			game.lvlupUI.agiBtn.buttonMode = true;
+			game.lvlupUI.agiBtn.mouseChildren = false;
+			game.lvlupUI.agiBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.lvlupUI.agiBtn); });
+			game.lvlupUI.agiBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.lvlupUI.agiBtn); });
+			game.lvlupUI.agiBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.lvlupUI.agiBtn); } );
+			
+			game.lvlupUI.vitBtn.buttonMode = true;
+			game.lvlupUI.vitBtn.mouseChildren = false;
+			game.lvlupUI.vitBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.lvlupUI.vitBtn); });
+			game.lvlupUI.vitBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.lvlupUI.vitBtn); });
+			game.lvlupUI.vitBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.lvlupUI.vitBtn); } );
+			
+			game.lvlupUI.intBtn.buttonMode = true;
+			game.lvlupUI.intBtn.mouseChildren = false;
+			game.lvlupUI.intBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.lvlupUI.intBtn); });
+			game.lvlupUI.intBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.lvlupUI.intBtn); });
+			game.lvlupUI.intBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.lvlupUI.intBtn); } );
+			
+			game.lvlupUI.dexBtn.buttonMode = true;
+			game.lvlupUI.dexBtn.mouseChildren = false;
+			game.lvlupUI.dexBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.lvlupUI.dexBtn); });
+			game.lvlupUI.dexBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.lvlupUI.dexBtn); });
+			game.lvlupUI.dexBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.lvlupUI.dexBtn); } );
+			
+			game.lvlupUI.vorBtn.buttonMode = true;
+			game.lvlupUI.vorBtn.mouseChildren = false;
+			game.lvlupUI.vorBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.lvlupUI.vorBtn); });
+			game.lvlupUI.vorBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.lvlupUI.vorBtn); });
+			game.lvlupUI.vorBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.lvlupUI.vorBtn); });
+			
 			//Listeners
 			game.mainUI.textField.addEventListener(TextEvent.LINK, linkClicked);
 			game.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyReleased);
@@ -262,6 +300,13 @@ package
 			game.combatUI.runBtn.addEventListener(MouseEvent.CLICK, combatRun);
 			game.combatUI.devourBtn.addEventListener(MouseEvent.CLICK, combatDevour);
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.CLICK, combatSurrender);
+			
+			game.lvlupUI.strBtn.addEventListener(MouseEvent.CLICK, incStat("str"));
+			game.lvlupUI.agiBtn.addEventListener(MouseEvent.CLICK, incStat("agi"));
+			game.lvlupUI.vitBtn.addEventListener(MouseEvent.CLICK, incStat("vit"));
+			game.lvlupUI.intBtn.addEventListener(MouseEvent.CLICK, incStat("int"));
+			game.lvlupUI.dexBtn.addEventListener(MouseEvent.CLICK, incStat("dex"));
+			game.lvlupUI.vorBtn.addEventListener(MouseEvent.CLICK, incStat("vor"));
 			
 			// now allow Main to finish initalizing
 			if (!main.mainMC)
@@ -1943,10 +1988,12 @@ package
 							enterShop(World.world[main.player.x][main.player.y]);
 						}
 					} else {
-						if (!main.sell(sell))
-							main.addText("You can't sell that.");
-						if (main.player.indexOfInventory(selectedItem) == -1)
-							displaySelling();
+						if (!main.sell(sell)) {
+							if (!sell.canDrop)
+								main.addText("You can't sell that.");
+							else
+								main.addText("You don't have any more to sell.");
+						}
 					}
 					break;
 				default :
@@ -2129,7 +2176,7 @@ package
 			state = "combat";
 			hideBtnArray();
 			game.optionsBtn.visible = false;
-			//game.menuUI.visible = false;
+			game.lvlupUI.visible = false;
 			game.combatUI.visible = true;
 			game.combatUI.enemyLabel.visible = true;
 			game.combatUI.healthLabel.visible = true;
@@ -2155,7 +2202,9 @@ package
 		public function hideCombat():void {
 			state = "navigate";
 			game.optionsBtn.visible = true;
-			//game.menuUI.visible = true;
+			if (main.player.statPoints > 0)
+				game.lvlupUI.visible = true;
+			
 			updateMenuBtns();
 			updateNavBtns();
 			main.setText(main.mainText);
@@ -2178,5 +2227,16 @@ package
 			}
 		}
 		//}
+		
+		public function incStat(stat:String):Function {
+			return function(e:MouseEvent):void {
+				main.addStat(stat, 1);
+				main.player.statPoints--;
+				game.lvlupUI.ptsLabel.text = main.player.statPoints;
+				
+				if (main.player.statPoints <= 0)
+					game.lvlupUI.visible = false;
+			}
+		}
 	}
 }

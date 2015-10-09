@@ -56,3 +56,13 @@ Fixed all the bugs that @Soluce had pointed out. Hopefully I didn't miss/break a
 [li]Fixed item specific text pages in inventory to explicitly state when an item has been used/equipped/discarded.[/li]
 [li]Fixed gameover text from being printed multiple times.[/li]
 [li]Leveling up now restores your health, mana, and energy.[/li][/ul]
+
+
+--------------------------------------------------
+
+
+[b][i]v0.7.2[/i][/b]
+
+You can now increase stats upon leveling up. This also means you can actually finish the bakery quest.
+[ul type="disc"][li]Fixed bug where selecting an item to sell displays its purchase value instead of selling value[/li]
+[li][/li][/ul]

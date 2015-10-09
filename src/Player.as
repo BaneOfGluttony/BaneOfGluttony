@@ -8,6 +8,7 @@
 		public var maxExp:int = 50;
 		public var currExp:int = 0;
 		public var level:int = 1;
+		public var statPoints:int = 0;
 		public var fat:Number = 15;
 		public var gold:Number = 25;
 		public var height:int = 70;
@@ -88,6 +89,7 @@
 			level++;
 			maxExp *= 1.2;
 			currExp = 0;
+			statPoints += 5;
 			
 			return overflow;
 		}
