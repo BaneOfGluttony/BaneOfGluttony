@@ -344,6 +344,11 @@ package
 					if (main.player.resources["currHealth"] <= 0)
 						main.gameOver(2);
 				}*/
+				if (main.player.resources["currCapacity"] > main.player.resources["maxCapacity"]) {
+					var overflow:int = main.player.resources["currCapacity"] - main.player.resources["maxCapacity"];
+					main.addResource("Capacity", 0, 0.5 * overflow);
+					main.addText("Clutching your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
+				}
 				
 				var capDrained:int;
 				if (main.player.stats["vit"] <= 0.8 * main.player.resources["maxCapacity"])

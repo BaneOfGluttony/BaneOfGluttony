@@ -64,9 +64,9 @@
 			setResource("Energy", 84, -1);
 			setResource("Capacity", 93, -1);
 			setStat("str", 9);
-			setStat("agi", 20);
+			setStat("agi", 4);
 			setStat("vit", 14);
-			setStat("int", 20);
+			setStat("int", 6);
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
@@ -254,7 +254,7 @@
 			}
 		}
 		
-		public function addResource(resource:String, deltaCurr:int, deltaMax:int):void { //use a separate takeDamage/feed method that uses this		
+		public function addResource(resource:String, deltaCurr:Number, deltaMax:Number):void { //use a separate takeDamage/feed method that uses this		
 			player.resources["max" + resource] += deltaMax;
 			player.resources["curr" + resource] += deltaCurr;
 			
@@ -361,7 +361,7 @@
 			trace("dodge = " + player.derivedStats["dodge"]);*/
 		}
 		
-		public function setResource(resource:String, deltaCurr:int, deltaMax:int):void { //use a separate takeDamage/feed method that uses this
+		public function setResource(resource:String, deltaCurr:Number, deltaMax:Number):void { //use a separate takeDamage/feed method that uses this
 			if (deltaMax < 0)
 				deltaMax = player.resources["max" + resource];
 			

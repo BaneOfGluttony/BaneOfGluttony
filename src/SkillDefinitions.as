@@ -20,9 +20,9 @@
 									sourceEffects	: [function():Array { return ["suicide", -1] }],
 									targetEffects	: [function():Array { return ["currCapacity", Math.round(100 * (main.combat.enemy.currHP / main.combat.enemy.maxHP))] }] },
 			"Slime Feed"		: {	name			: "Slime Feed",
-									useText			: "The slime lurches for your face, prying your muzzle open and forcing itself in your mouth. It tastes of an oddly fruity flavor, but you can't quite put your tongue on what it is. While you're distracted figuring out what it is, the amorphous blob pumps a portion of itself down your throat before dropping to the ground and reeling back. You feel the glob of slime land heavily in the pit of your stomach with a loud, wobbling gurgle.",
-									sourceEffects	: [function():Array { return ["currHP", Math.round(-0.5 * (EnemyDefinitions.getEnemy("Slime").atk * 0.5 * EnemyDefinitions.getEnemy("Slime").maxHP * 0.2 - Math.max(0, getStat("str") + getStat("def")))) as int] }],
-									targetEffects	: [function():Array { return ["currCapacity", Math.round(EnemyDefinitions.getEnemy("Slime").atk * 0.5 * EnemyDefinitions.getEnemy("Slime").maxHP * 0.2 - Math.max(0, getStat("str") + getStat("def"))) as int] }] }
+									useText			: "The slime lurches for your face, prying your muzzle open and forcing itself in your mouth. It tastes of an oddly fruity flavor, but you can't quite put your tongue on what it is. While you're distracted figuring out what it is, the amorphous blob tries to pump a portion of itself down your throat but not without you fighting back. Either satisfied or giving up for now, it drops to the ground and reeling back. You feel a glob of slime land heavily in the pit of your stomach with a loud, wobbling gurgle.",
+									sourceEffects	: [function():Array { return ["currHP", -Math.max(0, Math.round(0.5 * (main.combat.enemy.atk * 0.5 * main.combat.enemy.maxHP * 0.2 - (getStat("str") + getStat("def")))) as int)] }],
+									targetEffects	: [function():Array { return ["currCapacity", Math.max(0, Math.round(main.combat.enemy.atk * 0.5 * main.combat.enemy.maxHP * 0.2 - (getStat("str") + getStat("def"))) as int)] }] }
 		};
 		
 		public static function getSkill(name:String):Skill {
