@@ -908,6 +908,8 @@ package
 							updateNavBtns();
 							updateMenuBtns();
 							travel(main.player.x, main.player.y);
+							if (main.player.statPoints > 0)
+								game.lvlupUI.visible = true;
 						} else {
 							main.currEvent.setOption(8);
 						}
@@ -1463,6 +1465,8 @@ package
 						updateNavBtns();
 						updateMenuBtns();
 						travel(main.player.x, main.player.y);
+						if (main.player.statPoints > 0)
+							game.lvlupUI.visible = true;
 					} else {
 						main.currEvent.setOption(7);
 					}
@@ -1504,7 +1508,7 @@ package
 					break;
 			}
 		}
-
+		
 		public function scrollDown():void {
 			scrollIndex++;
 			btnIndex = 0;
@@ -1524,7 +1528,7 @@ package
 					break;
 			}
 		}
-
+		
 		public function displayInventory():void {
 			main.setText(main.writeInventory());
 			
@@ -1546,7 +1550,7 @@ package
 			if (main.player.inventory.length > (scrollIndex  + 1) * 9)
 				game.btnsUI.downBtn.visible = true;
 		}
-
+		
 		public function displayAppearance():void {
 			main.setText(main.writeAppearance());
 			hideBtnArray();
@@ -1580,7 +1584,7 @@ package
 				game.btnsUI.btn6.btnText.text = main.player.equipment["shield"].name;
 			}
 		}
-
+		
 		public function openOptions():void {
 			switch (state) {
 				case "gameover" :
@@ -1589,6 +1593,8 @@ package
 				case "options" :
 					state = "navigate";
 					
+					if (main.player.statPoints > 0)
+						game.lvlupUI.visible = true;	
 					game.optionsBtn.gotoAndStop(1);
 					main.setText(main.mainText);
 					updateMenuBtns();
@@ -1597,6 +1603,7 @@ package
 				default :
 					state = "options";
 					
+					game.lvlupUI.visible = false;
 					game.menuUI.loadBtn.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
@@ -1612,7 +1619,7 @@ package
 					break;
 			}
 		}
-
+		
 		public function openAppearance():void {
 			switch (state) {
 				case "map" :
@@ -1620,6 +1627,8 @@ package
 				case "appearance" :
 					state = "navigate";
 					
+					if (main.player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.menuUI.appearanceBtn.gotoAndStop(1);
 					main.setText(main.mainText);
 					updateMenuBtns();
@@ -1628,6 +1637,7 @@ package
 				default :
 					state = "appearance";
 					
+					game.lvlupUI.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1642,7 +1652,7 @@ package
 					break;
 			}
 		}
-
+		
 		public function openInventory():void {
 			switch (state) {
 				case "map" :
@@ -1653,6 +1663,8 @@ package
 					menuIndex = 0;
 					scrollIndex = 0;
 					
+					if (main.player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.menuUI.inventoryBtn.gotoAndStop(1);
@@ -1701,6 +1713,7 @@ package
 				default :
 					state = "inventory";
 					
+					game.lvlupUI.visible = false;
 					game.optionsBtn.gotoAndStop(1);
 					game.menuUI.appearanceBtn.gotoAndStop(1);
 					game.menuUI.inventoryBtn.gotoAndStop(2);
@@ -1715,7 +1728,7 @@ package
 					break;
 			}
 		}
-
+		
 		public function openSkills():void {	//Needs to work like inventory
 			switch (state) {
 				case "map" :
@@ -1723,6 +1736,8 @@ package
 				case "skills" :
 					state = "navigate";
 					
+					if (main.player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.menuUI.skillsBtn.gotoAndStop(1);
 					updateMenuBtns();
 					updateNavBtns();
@@ -1769,6 +1784,7 @@ package
 				default :
 					state = "skills";
 					
+					game.lvlupUI.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1783,7 +1799,7 @@ package
 					break;
 			}
 		}
-
+		
 		public function openQuests():void {
 			switch (state) {
 				case "map" :
@@ -1791,6 +1807,8 @@ package
 				case "quests" :
 					state = "navigate";
 					
+					if (main.player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.menuUI.questsBtn.gotoAndStop(1);
 					updateMenuBtns();
 					updateNavBtns();
@@ -1799,6 +1817,7 @@ package
 				default :
 					state = "quests"
 					
+					game.lvlupUI.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1813,12 +1832,14 @@ package
 					break;
 			}
 		}
-
+		
 		public function toggleMap():void {
 			switch (state) {
 				case "map" :
 					state = "navigate"
 					
+					if (main.player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.optionsBtn.visible = true;
 					game.mainUI.bigMap.visible = false;
 					game.mainUI.bigMarker.visible = false;
@@ -1830,6 +1851,7 @@ package
 				case "navigate" :
 					state = "map";
 					
+					game.lvlupUI.visible = false;
 					game.optionsBtn.visible = false;
 					game.mainUI.bigMap.visible = true;
 					game.mainUI.bigMarker.visible = true;
@@ -1844,7 +1866,7 @@ package
 					break;
 			}
 		}
-
+		
 		public function menuSelect(x:int):void {
 			var selection:String = btnArray[x].btnText.text;
 			
@@ -1917,7 +1939,7 @@ package
 			}
 			updateMenuBtns();
 		}
-
+		
 		public function menuConfirm(object:Object, selection:int):void {
 			switch (state) {
 				case "appearance" :
@@ -1960,6 +1982,8 @@ package
 						main.setText(main.mainText);
 						updateMenuBtns();
 						updateNavBtns();
+						if (main.player.statPoints > 0)
+							game.lvlupUI.visible = true;
 					}
 					break;
 				case "buying" :
@@ -2131,6 +2155,7 @@ package
 			updateMenuBtns();
 			
 			hideBtnArray();
+			game.lvlupUI.visible = false;
 			game.btnsUI.upBtn.visible = false;
 			game.btnsUI.downBtn.visible = false;
 			game.btnsUI.btn1.visible = true;
@@ -2236,6 +2261,15 @@ package
 				
 				if (main.player.statPoints <= 0)
 					game.lvlupUI.visible = false;
+				
+				trace("\natk = " + main.player.derivedStats["atk"]);
+				trace("matk = " + main.player.derivedStats["matk"]);
+				trace("def = " + main.player.derivedStats["def"]);
+				trace("mdef = " + main.player.derivedStats["mdef"]);
+				trace("acc = " + main.player.derivedStats["acc"]);
+				trace("dodge = " + main.player.derivedStats["dodge"]);
+				trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+				trace("state = " + state);
 			}
 		}
 	}

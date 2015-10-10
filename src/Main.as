@@ -69,11 +69,11 @@
 			setStat("int", 20);
 			setStat("dex", 10);
 			setStat("vor", 26);
-			setFat(86);*/
+			setFat(86);
 			addExp(196, false);
-			setGold(500);
+			setGold(500);*/
 			
-			loot(ItemDefinitions.getItem("Sword"), 2);
+			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -102,10 +102,7 @@
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
-			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
-			
-			//startCombat(EnemyDefinitions.getEnemy("Slime"));
-			//var test:Test = new Test(this as MovieClip, player, "test");
+			loot(ItemDefinitions.getItem("Pork Haunch"), 5);*/
 		}
 		
 		public function reInit():void {

@@ -216,7 +216,9 @@
 			
 			if (enemy.surrType != 0) {
 				enemy.skills[0].useSkill(main, enemy, player);
-				main.isPlayerAlive();
+				enemyDmg(0);
+				/*if (main.isPlayerAlive())
+					main.endCombat(true);*/
 			} else {
 				main.addText("You gave up the fight.");
 				main.gameOver(0);
@@ -271,6 +273,17 @@
 			
 			return isAlive;
 		}
+		/*public function isEnemyAlive():Boolean {
+			if (main.isPlayerAlive() && enemy.currHP <= 0) {
+				//main.mainMC.updateEnemyHealth();
+				enemyIsAlive = false;
+				
+				main.addText("\n----------");
+				main.addText("\n" + enemy.endText + " You have defeated the " + enemy.name + ".\n");
+			}
+			
+			return enemyIsAlive;
+		}*/
 		
 		public function didHit(source:Object, target:Object):Boolean {
 			var sourceDex:int;
@@ -330,9 +343,9 @@
 		
 		public function enemyDmg(dmg:int):void {		
 			enemy.currHP -= dmg;
+			main.mainMC.updateEnemyHealth();
 			
 			if (main.isPlayerAlive() && enemy.currHP <= 0) {
-				main.mainMC.updateEnemyHealth();
 				enemyIsAlive = false;
 				
 				main.addText("\n----------");

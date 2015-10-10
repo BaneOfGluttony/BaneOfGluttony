@@ -80,7 +80,6 @@
 			var dialog:XMLList = xml.dialog.(@id == x);
 			var options:XMLList = dialog.options;
 			state = x;
-			main.mainMC.game.optionsBtn.visible = false;
 			
 			for each (var text:XML in dialog.text) {
 				if (check(text)) {					
@@ -88,6 +87,8 @@
 					main.mainMC.state = "dialog";
 					main.mainMC.hideBtnArray();
 					main.mainMC.game.menuUI.visible = false;
+					main.mainMC.game.optionsBtn.visible = false;
+					main.mainMC.game.lvlupUI.visible = false;
 					
 					if (text == dialog.text[0] || text.@override == "true")
 						main.setText(text);
