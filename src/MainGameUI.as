@@ -314,6 +314,22 @@ package
 			main.firstInit();
 		}
 
+		public function debugTrace():void {
+			trace("\n" + Clock.toString());
+			trace("atk = " + main.player.derivedStats["atk"]);
+			trace("matk = " + main.player.derivedStats["matk"]);
+			trace("def = " + main.player.derivedStats["def"]);
+			trace("mdef = " + main.player.derivedStats["mdef"]);
+			trace("acc = " + main.player.derivedStats["acc"]);
+			trace("dodge = " + main.player.derivedStats["dodge"]);
+			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
+			trace("state = " + state);
+			if (selectedItem != null)
+				trace("selectedItem = " + selectedItem.name);
+			else
+				trace("selectedItem = null");
+		}
+		
 		public function down(btn:MovieClip):void {
 			btn.scaleX = 0.9;
 			btn.scaleY = 0.9;
@@ -925,14 +941,7 @@ package
 			}
 			//}
 			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		//}
 
@@ -943,81 +952,33 @@ package
 		//{ Menus
 		public function clickOptions(e:MouseEvent):void {
 			openOptions();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickAppearance(e:MouseEvent):void {
 			openAppearance();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickInventory(e:MouseEvent):void {
 			openInventory();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickSkills(e:MouseEvent):void {
 			openSkills();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickQuests(e:MouseEvent):void {
 			openQuests();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickSave(e:MouseEvent):void {
 			//main.saveGame();
 			main.addText("Saving and loading are disabled.");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickLoad(e:MouseEvent):void {	//Make sure to change keyboard handler for backspace too
@@ -1057,132 +1018,52 @@ package
 					scrollIndex = 0;
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickMap(e:MouseEvent):void {
 			toggleMap();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickUpBtn(e:MouseEvent):void {
 			scrollUp();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			
+			debugTrace();
 		}
 
 		public function clickDownBtn(e:MouseEvent):void {
 			scrollDown();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
 		public function combatAttack(e:MouseEvent):void {
 			main.combat.turn("attack");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
 		public function combatInventory(e:MouseEvent):void {
 			openInventory();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
 		public function combatSkills(e:MouseEvent):void {
 			openSkills();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
 		public function combatRun(e:MouseEvent):void {
 			main.combat.turn("run");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
 		public function combatDevour(e:MouseEvent):void {
 			main.addText("To be implemented.");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
 		public function combatSurrender(e:MouseEvent):void {
 			main.combat.turn("surrender");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		//}
 		
@@ -1214,15 +1095,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickN(e:MouseEvent):void {
@@ -1245,15 +1118,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickNE(e:MouseEvent):void {
@@ -1280,15 +1145,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickW(e:MouseEvent):void {
@@ -1311,15 +1168,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickCenter(e:MouseEvent):void {
@@ -1342,15 +1191,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickE(e:MouseEvent):void {
@@ -1373,15 +1214,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickSW(e:MouseEvent):void {
@@ -1405,15 +1238,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickS(e:MouseEvent):void {
@@ -1436,15 +1261,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
 		public function clickSE(e:MouseEvent):void {
@@ -1479,15 +1296,7 @@ package
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		//}
 		//}
@@ -1631,6 +1440,8 @@ package
 					break;
 				case "appearance" :
 					state = "navigate";
+					menuItemSelected = false;
+					selectedItem = null;
 					
 					if (main.player.statPoints > 0)
 						game.lvlupUI.visible = true;
@@ -1664,6 +1475,8 @@ package
 					break;
 				case "inventory" :
 					state = "navigate";
+					menuItemSelected = false;
+					selectedItem = null;
 					btnIndex = 0;
 					menuIndex = 0;
 					scrollIndex = 0;
@@ -1955,6 +1768,7 @@ package
 					}
 					
 					menuItemSelected = false;
+					selectedItem = null;
 					displayAppearance();
 					break;
 				case "inventory" :
@@ -1978,6 +1792,7 @@ package
 					} else if (selection == -1) {
 						displayInventory();
 						menuItemSelected = false;
+						selectedItem = null;
 					}
 					//menuItemSelected = false;
 					break;
@@ -1997,6 +1812,7 @@ package
 					if (selection == -1) {
 						if (menuItemSelected) {
 							menuItemSelected = false;
+							selectedItem = null;
 							displayBuying();
 						} else {
 							enterShop(World.world[main.player.x][main.player.y]);
@@ -2012,6 +1828,7 @@ package
 					if (selection == -1) {
 						if (menuItemSelected) {
 							menuItemSelected = false;
+							selectedItem = null;
 							displaySelling();
 						} else {
 							enterShop(World.world[main.player.x][main.player.y]);
@@ -2034,9 +1851,8 @@ package
 		
 		//{ Navigation
 		public function travel(x:int, y:int):void {
-			//var oldX:int = main.player.x;
-			//var oldY:int = main.player.y;
-			
+			var dist:Number = Math.sqrt(Math.pow(main.player.x - x, 2) + Math.pow(main.player.y - y, 2));
+			Clock.advTime(main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"], dist);
 			main.player.x = x;
 			main.player.y = y;
 			updateMaps();
@@ -2052,6 +1868,7 @@ package
 		}
 
 		public function moveNW():void {
+			Clock.advTime(Math.sqrt(2), main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.x--;
 			main.player.y--;
 			
@@ -2064,6 +1881,7 @@ package
 		}
 
 		public function moveN():void {
+			Clock.advTime(1, main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.y--;
 
 			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
@@ -2075,6 +1893,7 @@ package
 		}
 
 		public function moveNE():void {
+			Clock.advTime(Math.sqrt(2), main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.x++;
 			main.player.y--;
 			
@@ -2087,6 +1906,7 @@ package
 		}
 
 		public function moveW():void {
+			Clock.advTime(1, main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.x--;
 
 			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
@@ -2106,6 +1926,7 @@ package
 		}
 
 		public function moveE():void {
+			Clock.advTime(1, main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.x++;
 
 			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
@@ -2117,6 +1938,7 @@ package
 		}
 		
 		public function moveSW():void {
+			Clock.advTime(Math.sqrt(2), main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.x--;
 			main.player.y++;
 			
@@ -2129,6 +1951,7 @@ package
 		}
 		
 		public function moveS():void {
+			Clock.advTime(1, main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.y++;
 			
 			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
@@ -2140,6 +1963,7 @@ package
 		}
 
 		public function moveSE():void {
+			Clock.advTime(Math.sqrt(2), main.player.stats["str"], main.player.stats["agi"], main.player.derivedStats["weight"]);
 			main.player.x++;
 			main.player.y++;
 			
@@ -2267,14 +2091,7 @@ package
 				if (main.player.statPoints <= 0)
 					game.lvlupUI.visible = false;
 				
-				trace("\natk = " + main.player.derivedStats["atk"]);
-				trace("matk = " + main.player.derivedStats["matk"]);
-				trace("def = " + main.player.derivedStats["def"]);
-				trace("mdef = " + main.player.derivedStats["mdef"]);
-				trace("acc = " + main.player.derivedStats["acc"]);
-				trace("dodge = " + main.player.derivedStats["dodge"]);
-				trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-				trace("state = " + state);
+				debugTrace();
 			}
 		}
 	}

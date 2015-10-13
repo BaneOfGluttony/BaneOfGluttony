@@ -196,7 +196,7 @@
 		
 		public function run():Boolean {
 			var x:Number = player.stats["agi"] / enemy.agi;
-			var y:Number = Math.pow(x, 2) / -3 + 1.5 * x - 2 / 3;
+			var y:Number = Math.pow(x, 2) / -3 + 1.5 * x - 2 / 3;	//0.674063 ln(2.56896x - 0.5)
 			var rand:Number = Math.random();
 			var success:Boolean = rand < y;
 			
