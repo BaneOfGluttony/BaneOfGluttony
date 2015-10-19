@@ -149,7 +149,7 @@
 			"Katana" 			: {	name		: "Katana",
 									plural		: "Katanas",
 									short		: "A long curved blade with an exquisitely fine edge.",
-									long		: "Originating from the far east, the katana requires extensive study in order utilize effectively. Legend has it that only the most skilled warriors, tempered and disciplined by a lifetime of grueling training, were allowed to even wield this weapon.",
+									long		: "Originating from the far east, the katana requires extensive study in order utilize effectively. Legend has it that only the most skilled of warriors, tempered and disciplined by a lifetime of grueling training, were allowed to even wield this weapon.",
 									value		: 140,
 									equip		: true,
 									weapon		: true,
