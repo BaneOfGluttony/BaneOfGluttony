@@ -4,6 +4,7 @@
 		public var name:String = "Zone";
 		public var x:int = -1;
 		public var y:int = -1;
+		public var region:String = "Region";
 		public var text:String = "Text"
 		public var enter:Boolean = false;
 		public var save:Boolean = false;

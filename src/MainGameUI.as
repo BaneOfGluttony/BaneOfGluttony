@@ -387,7 +387,7 @@ package
 		}
 
 		public function checkBounds(x:int, y:int):Boolean {
-			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1) {
+			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1 || World.world[x][y] == null) {
 				//main.addText("Edge of the world.");
 				return false;
 			} else if (World.world[x][y].name == "Wall") {

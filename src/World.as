@@ -1,13 +1,132 @@
 ﻿package  {
+	import flash.events.Event;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	
 	public class World {
-		public static var rows:int = 9;
-		public static var cols:int = 9;
+		//public static var main:Main;
+		
+		public static var rows:int = 100;
+		public static var cols:int = 100;
 		public static var world:Array = new Array(rows);
-		createWorld();
+		//createWorld();
+		
+		public static var textLoader:URLLoader;
+		//textLoader.addEventListener(Event.COMPLETE, parse);
+		//textLoader.load(new URLRequest("map.txt"));
 		
 		public function World() {
+			for (var y:int = 0; y < rows; y++) {
+				world[y] = new Array(cols);
+				for (var x:int = 0; x < cols; x++)
+					world[y][x] = new Zone({});
+			}
 			
+			//this.main = main;
+			textLoader = new URLLoader();
+			textLoader.addEventListener(Event.COMPLETE, parse);
+			textLoader.load(new URLRequest("map.txt"));
+		}
+		
+		public static function parse(e:Event):void {
+			var out:String = "";
+			var lines:Array = e.target.data.split("\n");
+			
+			for (var y:int = 0; y < rows; y++)
+				world[y] = new Array(cols);
+			
+			for (var i:int = 0; i < rows; i++) {
+				//world[i] = new Array(cols);
+				var cell:Array = lines[i].split("\t");
+				
+				for (var j:int = 0; j < cols; j++) {
+					//out += cell[j] + "\t";
+					
+					var data:Array = cell[j].split(" - ");	//Do NOT use hyphens in map text
+					var name:String = data[0];
+					var region:String = "";
+					var text:String = data[1];
+					
+					if (name == "St")
+						region = "Staphshire";
+					else if (name == "Di")
+						region = "Diraq";
+					else if (name == "Ta")
+						region = "Tarboro";
+					else if (name == "E")
+						region = "Elyndar";
+					else if (name == "Di")
+						region = "Diraq";
+					else if (name == "Ar")
+						region = "Aroshar";
+					else if (name == "P")
+						region = "Plains";
+					else if (name == "Fa")
+						region = "Farmlands";
+					else if (name == "F")
+						region = "Forest";
+					else if (name == "My")
+						region = "Myseer Islands";
+					else if (name == "H")
+						region = "Hills";
+					else if (name == "D")
+						region = "Desert";
+					else if (name == "M")
+						region = "Mountains";
+					else if (name == "Ro")
+						region = "Road";
+					else if (name == "R")
+						region = "River";
+					else if (name == "L")
+						region = "Lake";
+					else if (name == "Br")
+						region = "Bridge";
+					else if (name == "S")
+						region = "Sea";
+					else if (name == "Sa")
+						region = "Savannah";
+					else if (name == "Mo")
+						region = "Monastery";
+					else if (name == "O")
+						region = "Oasis";
+					else if (name == "Cl")
+						region = "Clearing";
+					else if (name == "Sw")
+						region = "Swamp";
+					else if (name == "Po")
+						region = "Port";
+					else if (name == "Ga")
+						region = "Gaians";
+					else if (name == "Ws")
+						region = "Wyrmstead";
+					else if (name == "Or")
+						region = "Ori";
+					else if (name == "B")
+						region = "Beach";
+					
+					name = region;
+					world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text } );
+					
+					//out += "(" + i + "," + j + ")" + name + "\t";
+				}
+				//trace(out);
+				//out += "\n";
+			}
+			//trace(out);
+			
+			//main.mainMC.updateNavBtns();
+		}
+		
+		public static function test():void {
+			for (var y:int = 0; y < rows; y++) {
+				world[y] = new Array(cols);
+				for (var x:int = 0; x < cols; x++)
+					world[x][y] = new Zone({});
+			}
+			
+			var textLoader:URLLoader = new URLLoader();
+			textLoader.addEventListener(Event.COMPLETE, parse);
+			textLoader.load(new URLRequest("map.txt"));
 		}
 		
 		public static function createWorld():void {

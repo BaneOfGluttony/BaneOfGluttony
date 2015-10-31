@@ -6,7 +6,7 @@
 	import flash.net.SharedObject;
 	import flash.utils.ByteArray;
 	
-	import Quests.*;
+	//import Quests.*;
 	
 		
 	/**
@@ -56,11 +56,11 @@
 			ItemDefinitions.main = this;
 			SkillDefinitions.main = this;
 			new Clock();
-			
+			new World();
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			setResource("Health", 100, -1);
+			/*setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
 			setResource("Energy", 84, -1);
 			setResource("Capacity", 93, -1);
@@ -72,7 +72,7 @@
 			setStat("vor", 26);
 			setFat(86);
 			addExp(196, false);
-			setGold(500);/**/
+			setGold(500);*/
 			
 			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
