@@ -2,92 +2,90 @@
 	import flash.globalization.StringTools;
 	
 	public class Combat {
-		public var main:Main;
-		public var player:Player;
+		//public var main:Main;
+		//public var Player:Player;
 		public var enemy:Enemy;
 		public var text:String;
 		public var enemyIsAlive:Boolean = true;
-		//public var playerisAlive:Boolean = true;
+		//public var PlayerisAlive:Boolean = true;
 		
-		public function Combat(main:Main, player:Player, enemy:Enemy) {
-			this.main = main;
-			this.player = player;
+		public function Combat(enemy:Enemy) {
 			this.enemy = enemy;
-			main.mainMC.state = "combat";
+			MainGameUI.state = "combat";
 			text = enemy.startText + "\n\n--------------------------------------------------\n"
-			main.combatText = text;
-			main.setText(main.combatText);
+			Main.combatText = text;
+			Main.setText(Main.combatText);
 		}
 		
 		public function turn(cmd:String, item:Item = null, skill:Skill = null):Boolean {
 			var ret:Boolean = true;
-			main.combatText = text;
+			Main.combatText = text;
 			
 			switch (cmd) {
 				case "attack" :
-					if (player.stats["agi"] > enemy.agi) {
-						playerAttack();
-						if (player.isAlive && enemyIsAlive) {
-							main.addText("\n-----\n");
+					if (Player.stats["agi"] > enemy.agi) {
+						PlayerAttack();
+						if (Player.isAlive && enemyIsAlive) {
+							Main.addText("\n-----\n");
 							enemyTurn();
 						}
-					} else if (player.stats["agi"] < enemy.agi) {
+					} else if (Player.stats["agi"] < enemy.agi) {
 						enemyTurn();
-						if (player.isAlive && enemyIsAlive) {
-							main.addText("\n-----\n");
-							playerAttack();
+						if (Player.isAlive && enemyIsAlive) {
+							Main.addText("\n-----\n");
+							PlayerAttack();
 						}
-					} else if (player.stats["agi"] == enemy.agi) {
+					} else if (Player.stats["agi"] == enemy.agi) {
 						if (Math.random() < 0.5) {
 							enemyTurn();
-							if (player.isAlive && enemyIsAlive) {
-								main.addText("\n-----\n");
-								playerAttack();
+							if (Player.isAlive && enemyIsAlive) {
+								Main.addText("\n-----\n");
+								PlayerAttack();
 							}
 						} else {
-							playerAttack();
-							if (player.isAlive && enemyIsAlive) {
-								main.addText("\n-----\n");
+							PlayerAttack();
+							if (Player.isAlive && enemyIsAlive) {
+								Main.addText("\n-----\n");
 								enemyTurn();
 							}
 						}
 					}
 					break;
 				case "inventory" :
-					if (player.stats["agi"] > enemy.agi) {
+					if (Player.stats["agi"] > enemy.agi) {
 						ret = useItem(item);
 						if (ret) {
-							if (player.isAlive && enemyIsAlive) {
-								main.addText("\n-----\n");
+							if (Player.isAlive && enemyIsAlive) {
+								Main.addText("\n-----\n");
 								ret = enemyTurn();
 							}
 						}
-					} else if (player.stats["agi"] < enemy.agi) {
+					} else if (Player.stats["agi"] < enemy.agi) {
 						ret = enemyTurn();
 						if (ret) {
-							main.addText("\n-----\n");
+							Main.addText("\n-----\n");
 							ret = useItem(item);
 						} /*else {
 							ret = false;
-							main.endCombat(false);
-							main.gameOver(0);
+							Main.endCombat(false);
+							Main.gameOver(0);
 						}*/
-					} else if (player.stats["agi"] == enemy.agi) {
+					} else if (Player.stats["agi"] == enemy.agi) {
 						if (Math.random() < 0.5) {
 							ret = enemyTurn();
 							if (ret) {
-								main.addText("\n-----\n");
+								Main.addText("\n-----\n");
 								ret = useItem(item);
 							} /*else {
 								ret = false;
-								main.endCombat(false);
-								main.gameOver(0);
+								Main.endCombat(false);
+								Main.gameOver(0);
 							}*/
 						} else {
 							ret = useItem(item);
 							if (ret) {
-								if (player.isAlive && enemyIsAlive) {
-									main.addText("\n-----\n");
+								if (Player.isAlive && enemyIsAlive) {
+									Main.addText("\n-----\n");
 									ret = enemyTurn();
 								}
 							}
@@ -98,37 +96,37 @@
 					
 					break;
 				case "run" :
-					if (player.stats["agi"] > enemy.agi) {
+					if (Player.stats["agi"] > enemy.agi) {
 						ret = run();
 						if (ret) {
-							main.endCombat(true);
+							Main.endCombat(true);
 						} else {
-							main.addText("\n-----\n");
+							Main.addText("\n-----\n");
 							enemyTurn();
 						}
-					} else if (player.stats["agi"] < enemy.agi) {
+					} else if (Player.stats["agi"] < enemy.agi) {
 						enemyTurn();
-						if (player.isAlive && enemyIsAlive) {
-							main.addText("\n-----\n");
+						if (Player.isAlive && enemyIsAlive) {
+							Main.addText("\n-----\n");
 							ret = run();
 							if (ret)
-								main.endCombat(true);
+								Main.endCombat(true);
 						}
-					} else if (player.stats["agi"] == enemy.agi) {
+					} else if (Player.stats["agi"] == enemy.agi) {
 						if (Math.random() < 0.5) {
 							enemyTurn();
-							if (player.isAlive && enemyIsAlive) {
-								main.addText("\n-----\n");
+							if (Player.isAlive && enemyIsAlive) {
+								Main.addText("\n-----\n");
 								ret = run();
 								if (ret)
-									main.endCombat(true);
+									Main.endCombat(true);
 							}
 						} else {
 							ret = run();
 							if (ret) {
-								main.endCombat(true);
+								Main.endCombat(true);
 							} else {
-								main.addText("\n-----\n");
+								Main.addText("\n-----\n");
 								enemyTurn();
 							}
 						}
@@ -145,35 +143,35 @@
 			return ret;
 		}
 		
-		public function playerAttack():void {
-			//main.combatText += "\n";
+		public function PlayerAttack():void {
+			//Main.combatText += "\n";
 			var text:String = "";
 			
-			if (player.equipment["weapon"] != null && player.equipment["weapon"].wpnText != "Weapon text")
-				text += player.equipment["weapon"].wpnText;
+			if (Player.equipment["weapon"] != null && Player.equipment["weapon"].wpnText != "Weapon text")
+				text += Player.equipment["weapon"].wpnText;
 			else
 				text += "You lunge at your foe with all your might.";
 			
-			if (didHit(player, enemy)) {
-				var dmg:int = calcDmg(player, enemy);
+			if (didHit(Player, enemy)) {
+				var dmg:int = calcDmg(Player, enemy);
 				text += "\n\nYou deal " + dmg + " damage.";
-				main.addText(text);
+				Main.addText(text);
 				enemyDmg(dmg);
 			} else {
 				text += "\n\nYour attack missed.";
-				main.addText(text);
+				Main.addText(text);
 			}
 		}
 		
 		public function useItem(item:Item):Boolean {
-			var used:Boolean = main.useItem(item);
+			var used:Boolean = Main.useItem(item);
 			/*var text:String = "";
 			
 			if (used && item.equip) {
 				text += "You equipped a " + item.name + ".";
 			} else if (!used && item.equip) {
-				main.mainMC.openInventory();
-				main.setText(main.combatText);
+				Main.MainMC.openInventory();
+				Main.setText(Main.combatText);
 				text += "A two-handed weapon and a shield cannot be equipped simultaneously.";
 				return false;
 			} else if (!item.equip) {
@@ -181,73 +179,73 @@
 			}
 			
 			text += "\n" + item.effectsText;
-			main.addText(text);
+			Main.addText(text);
 			
-			main.isPlayerAlive();*/
+			Main.isPlayerAlive();*/
 			if (used) {
 				if (item.equip)
-					main.addText("You equipped a " + item.name + ".\n" + item.effectsText);
+					Main.addText("You equipped a " + item.name + ".\n" + item.effectsText);
 				else
-					main.addText("You used a " + item.name + ".\n" + item.effectsText);
+					Main.addText("You used a " + item.name + ".\n" + item.effectsText);
 			}
 			
 			return used;
 		}
 		
 		public function run():Boolean {
-			var x:Number = player.stats["agi"] / enemy.agi;
+			var x:Number = Player.stats["agi"] / enemy.agi;
 			var y:Number = Math.pow(x, 2) / -3 + 1.5 * x - 2 / 3;	//0.674063 ln(2.56896x - 0.5)
 			var rand:Number = Math.random();
 			var success:Boolean = rand < y;
 			
-			//main.combatText += "\n";
+			//Main.combatText += "\n";
 			
 			if (enemy.canRun && success)
-				main.addText("You ran away from the fight.");
+				Main.addText("You ran away from the fight.");
 			else
-				main.addText("You couldn't run from the fight.");
+				Main.addText("You couldn't run from the fight.");
 			
-			//main.setText(main.combatText);
+			//Main.setText(Main.combatText);
 			return success;
 		}
 		
 		public function surrender():void {
-			//main.combatText += "\n";
+			//Main.combatText += "\n";
 			
 			if (enemy.surrType != 0) {
-				enemy.skills[0].useSkill(main, enemy, player);
+				enemy.skills[0].useSkill(enemy, Player);
 				enemyDmg(0);
-				/*if (main.isPlayerAlive())
-					main.endCombat(true);*/
+				/*if (Main.isPlayerAlive())
+					Main.endCombat(true);*/
 			} else {
-				main.addText("You gave up the fight.");
-				main.gameOver(0);
+				Main.addText("You gave up the fight.");
+				Main.gameOver(0);
 			}
 			
-			//main.setText(main.combatText);
+			//Main.setText(Main.combatText);
 		}
 		
 		public function enemyTurn():Boolean {
-			//main.combatText += "\n";
+			//Main.combatText += "\n";
 			var dmg:int = 0;
 			var text:String = "";
 			
 			if (enemy.skills.length > 1) {
 				var rand:Number = Math.random();
 				if (rand < 0.5) {
-					if (didHit(enemy, player)) {
-						dmg = calcDmg(enemy, player);
+					if (didHit(enemy, Player)) {
+						dmg = calcDmg(enemy, Player);
 						text += enemy.atkText + "\n\nYou take " + dmg + " damage.";
 					} else {
 						text += "The enemy's attack missed.";
 				}
 				} else {
 					var randSkill:int = (Math.random() * (enemy.skills.length - 1)) as int;
-					enemy.skills[1 + randSkill].useSkill(main, enemy, player);
+					enemy.skills[1 + randSkill].useSkill(enemy, Player);
 				}
 			} else {
-				if (didHit(enemy, player)) {
-					dmg = calcDmg(enemy, player);
+				if (didHit(enemy, Player)) {
+					dmg = calcDmg(enemy, Player);
 					text += enemy.atkText + "\n\nYou take " + dmg + " damage.";
 				} else {
 					text += "The enemy's attack missed.";
@@ -255,14 +253,14 @@
 				
 			}
 			
-			main.addText(text);
-			main.isPlayerAlive();
+			Main.addText(text);
+			Main.isPlayerAlive();
 			
 			if (enemy.currHP <= 0) {
 				enemyIsAlive = false;
 				return false;
 			} else {
-				return playerDmg(dmg);
+				return PlayerDmg(dmg);
 			}
 		}
 		
@@ -274,12 +272,12 @@
 			return isAlive;
 		}
 		/*public function isEnemyAlive():Boolean {
-			if (main.isPlayerAlive() && enemy.currHP <= 0) {
-				//main.mainMC.updateEnemyHealth();
+			if (Main.isPlayerAlive() && enemy.currHP <= 0) {
+				//MainGameUI.updateEnemyHealth();
 				enemyIsAlive = false;
 				
-				main.addText("\n----------");
-				main.addText("\n" + enemy.endText + " You have defeated the " + enemy.name + ".\n");
+				Main.addText("\n----------");
+				Main.addText("\n" + enemy.endText + " You have defeated the " + enemy.name + ".\n");
 			}
 			
 			return enemyIsAlive;
@@ -335,31 +333,31 @@
 			return Math.round(dmg);
 		}
 		
-		public function playerDmg(dmg:int):Boolean {
-			main.addResource("Health", -dmg, 0);
+		public function PlayerDmg(dmg:int):Boolean {
+			Main.addResource("Health", -dmg, 0);
 			
-			return main.isPlayerAlive();
+			return Main.isPlayerAlive();
 		}
 		
 		public function enemyDmg(dmg:int):void {		
 			enemy.currHP -= dmg;
-			main.mainMC.updateEnemyHealth();
+			MainGameUI.updateEnemyHealth();
 			
-			if (main.isPlayerAlive() && enemy.currHP <= 0) {
+			if (Main.isPlayerAlive() && enemy.currHP <= 0) {
 				enemyIsAlive = false;
 				
-				main.addText("\n----------");
-				main.addText("\n" + enemy.endText + " You have defeated the " + enemy.name + ".\n");
+				Main.addText("\n----------");
+				Main.addText("\n" + enemy.endText + " You have defeated the " + enemy.name + ".\n");
 				
 				for each (var item:Item in enemy.loot)
-					main.loot(item, 1);
+					Main.loot(item, 1);
 				
-				main.addGold(enemy.gold);
-				main.addExp(enemy.exp, false);
-				main.endCombat(true);
+				Main.addGold(enemy.gold);
+				Main.addExp(enemy.exp, false);
+				Main.endCombat(true);
 				//return false;
 			} else {
-				main.mainMC.updateEnemyHealth();
+				MainGameUI.updateEnemyHealth();
 			}
 			
 			//return true;

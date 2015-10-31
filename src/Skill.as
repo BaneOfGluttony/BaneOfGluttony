@@ -22,12 +22,12 @@
 			}
 		}
 		
-		public function useSkill(main:Main, source:Object, target:Object):void {
+		public function useSkill(source:Object, target:Object):void {
 			this.source = source;
 			this.target = target;
 			
-			writeEffects(main);
-			main.addText(useText + "\n\n" + effectsText);
+			writeEffects();
+			Main.addText(useText + "\n\n" + effectsText);
 			
 			if (source is Enemy && target is Player) {
 				// proc special effects
@@ -36,7 +36,7 @@
 					for each (var f:Function in targetEffects) {
 						var special:Array = f();		// special will be ["nameOfStat", statValueAsInteger]
 						//trace("[Item] " + name + " procs special effect for " + special[0] + " with value " + special[1]);
-						changeStat(main, target, special[0], special[1]);
+						changeStat(target, special[0], special[1]);
 					}
 					//trace("[Item] " + name + " finished adding special effects.");
 				}
@@ -44,38 +44,38 @@
 				if (sourceEffects != null && sourceEffects.length > 0) {
 					for each (var f:Function in sourceEffects) {
 						var special:Array = f();
-						changeStat(main, source, special[0], special[1]);
+						changeStat(source, special[0], special[1]);
 					}
 				}
 			}
 		}
 		
-		private function changeStat(main:Main, subject:Object, stat:String, amount:int):void {
+		private function changeStat(subject:Object, stat:String, amount:int):void {
 			if (subject is Player) {
 				switch (stat) {
 					case "currHealth" :
-						main.addResource("Health", amount, 0);
+						Main.addResource("Health", amount, 0);
 						break;
 					case "maxHealth" :
-						main.addResource("Health", 0, amount);
+						Main.addResource("Health", 0, amount);
 						break;
 					case "currMana" :
-						main.addResource("Mana", amount, 0);
+						Main.addResource("Mana", amount, 0);
 						break;
 					case "maxMana" :
-						main.addResource("Mana", 0, amount);
+						Main.addResource("Mana", 0, amount);
 						break;
 					case "currEnergy" :
-						main.addResource("Energy", amount, 0);
+						Main.addResource("Energy", amount, 0);
 						break;
 					case "maxEnergy" :
-						main.addResource("Energy", 0, amount);
+						Main.addResource("Energy", 0, amount);
 						break;
 					case "currCapacity" :
-						main.addResource("Capacity", amount, 0);
+						Main.addResource("Capacity", amount, 0);
 						break;
 					case "maxCapacity" :
-						main.addResource("Capacity", 0, amount);
+						Main.addResource("Capacity", 0, amount);
 						break;
 					
 					case "str" :
@@ -84,7 +84,7 @@
 					case "dex" :
 					case "int" :
 					case "vor" :
-						main.addStat(stat, amount);
+						Main.addStat(stat, amount);
 						break;
 						
 					case "atk" :
@@ -94,24 +94,24 @@
 					case "acc" :
 					case "dodge" :
 					case "cap" :
-						main.player.derivedStats[stat] += amount;
+						Player.derivedStats[stat] += amount;
 						break;
 					
 					case "fat" :
-						main.addFat(amount);
+						Main.addFat(amount);
 						break;
 						
 					case "suicide" :
-						main.setResource("Health", 0, -1);
-						main.player.isAlive = false;
+						Main.setResource("Health", 0, -1);
+						Player.isAlive = false;
 						break;
 				}
-				//main.isPlayerAlive();
+				//Main.isPlayerAlive();
 			} else if (subject is Enemy) {
 				switch (stat) {
 					case "currHP" :
-						//main.mainMC.updateEnemyHealth();
-						main.combat.enemyDmg(-amount);
+						//MainGamUI.updateEnemyHealth();
+						Main.combat.enemyDmg(-amount);
 						break;
 					case "atk" :
 					case "def" :
@@ -123,15 +123,15 @@
 						break;
 						
 					case "suicide" :
-						main.combat.enemy.currHP = 0;
-						main.mainMC.updateEnemyHealth();
-						main.combat.enemyIsAlive = false;
+						Main.combat.enemy.currHP = 0;
+						MainGameUI.updateEnemyHealth();
+						Main.combat.enemyIsAlive = false;
 						break;
 				}
 			}
 		}
 		
-		public function writeEffects(main:Main):void {
+		public function writeEffects():void {
 			effectsText = "";
 			
 			if (target is Player && targetEffects != null && targetEffects.length > 0) {
