@@ -3,8 +3,8 @@
 	public class Player {
 		public static var name:String = "Player Name";
 		public static var isAlive:Boolean = true;
-		public static var x:int = 4;
-		public static var y:int = 4;
+		public static var x:int = 49;
+		public static var y:int = 50;
 		public static var maxExp:int = 50;
 		public static var currExp:int = 0;
 		public static var level:int = 1;

@@ -387,7 +387,7 @@ package
 			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1 || World.world[x][y] == null) {
 				//Main.addText("Edge of the world.");
 				return false;
-			} else if (World.world[x][y].name == "Wall") {
+			} else if (World.world[x][y].name == "Wall" || World.world[x][y].text == "Block") {
 				//Main.addText("You can't go there");
 				return false;
 			} else {
