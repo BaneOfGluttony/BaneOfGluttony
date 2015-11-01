@@ -2,18 +2,13 @@
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import mx.utils.StringUtil;
 	
 	public class World {
-		//public static var main:Main;
-		
 		public static var rows:int = 100;
 		public static var cols:int = 100;
 		public static var world:Array = new Array(rows);
-		//createWorld();
-		
 		public static var textLoader:URLLoader;
-		//textLoader.addEventListener(Event.COMPLETE, parse);
-		//textLoader.load(new URLRequest("map.txt"));
 		
 		public function World() {
 			for (var y:int = 0; y < rows; y++) {
@@ -22,7 +17,6 @@
 					world[y][x] = new Zone({});
 			}
 			
-			//this.main = main;
 			textLoader = new URLLoader();
 			textLoader.addEventListener(Event.COMPLETE, parse);
 			textLoader.load(new URLRequest("map.txt"));
@@ -32,20 +26,15 @@
 			var out:String = "";
 			var lines:Array = e.target.data.split("\n");
 			
-			for (var y:int = 0; y < rows; y++)
-				world[y] = new Array(cols);
-			
 			for (var i:int = 0; i < rows; i++) {
-				//world[i] = new Array(cols);
 				var cell:Array = lines[i].split("\t");
-				
 				for (var j:int = 0; j < cols; j++) {
-					//out += cell[j] + "\t";
-					
 					var data:Array = cell[j].split(" - ");	//Do NOT use hyphens in map text
-					var name:String = data[0];
+					var name:String = StringUtil.trim(data[0]);
 					var region:String = "";
-					var text:String = data[1];
+					var text:String = "";
+					if (data[1] != null)
+						text = StringUtil.trim(data[1]);
 					
 					if (name == "St")
 						region = "Staphshire";
@@ -108,13 +97,14 @@
 					world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text } );
 					
 					//out += "(" + i + "," + j + ")" + name + "\t";
+					/*if (j == 99) {
+						world[j][i] = new Zone( { name : name, x : j, y : 99, region : region, text: text} );
+						trace("(" + i + "," + j + "): " + name);
+						trace(world[j][i].name);
+					}*/
 				}
-				//trace(out);
-				//out += "\n";
 			}
-			//trace(out);
-			
-			//main.mainMC.updateNavBtns();
+			MainGameUI.updateNavBtns();
 		}
 		
 		public static function test():void {
@@ -129,7 +119,7 @@
 			textLoader.load(new URLRequest("map.txt"));
 		}
 		
-		public static function createWorld():void {
+		/*public static function createWorld():void {
 			for (var x:int = 0; x < rows; x++)
 				world[x] = new Array(cols);
 			
@@ -343,6 +333,6 @@
 			world[8][8] = new Zone({name	: "Field"							, x : 8, y : 8, 
 									text	: "This is a test zone.",
 									enemies	: [["Boar", 0.25], ["Slime", 0.25]]});
-		}
+		}*/
 	}
 }

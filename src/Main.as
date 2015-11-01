@@ -25,7 +25,6 @@
 		flash.net.registerClassAlias("GameEvent", GameEvent);
 		//flash.net.registerClassAlias("Main", Main);
 		
-		//public static var Player:Player = new Player();
 		public static var combat:Combat;
 		public static var currEvent:GameEvent;
 		
@@ -44,7 +43,6 @@
 		public function Main(_runner:Runner) {
 			runner = _runner;
 			new MainGameUI();
-			//MainGameUI = new MainGameUI(this);
 			//ItemDefinitions.main = this;
 			//SkillDefinitions.main = this;
 		}

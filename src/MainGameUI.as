@@ -18,7 +18,6 @@ package
 	public class MainGameUI 
 	{
 		public static var game:MovieClip;		// MainGame.swc
-		//public static var main:Main;			// Main.as
 		public static var debug:Boolean = true;
 		
 		public static const WIDTH:int = 800;
