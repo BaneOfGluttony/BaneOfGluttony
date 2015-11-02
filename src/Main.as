@@ -139,14 +139,7 @@
 			MainGameUI.updateMaps();
 			calcStats(true);
 			
-			trace("\natk = " + Player.derivedStats["atk"]);
-			trace("matk = " + Player.derivedStats["matk"]);
-			trace("def = " + Player.derivedStats["def"]);
-			trace("mdef = " + Player.derivedStats["mdef"]);
-			trace("acc = " + Player.derivedStats["acc"]);
-			trace("dodge = " + Player.derivedStats["dodge"]);
-			trace("cap = " + Player.resources["currCapacity"] + " / " + Player.resources["maxCapacity"] + " (" + Player.derivedStats["cap"] + ")");
-			trace("state = " + MainGameUI.state);
+			MainGameUI.debugTrace();
 		}
 		
 		public static function addText(txt:String):void {

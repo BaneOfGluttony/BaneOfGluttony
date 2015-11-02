@@ -16,7 +16,7 @@ package  {
 		}
 		
 		public static function advTime(dist:Number, str:int, agi:int, weight:Number):void {
-			var rate:Number = 800 * (str + agi) / weight;
+			var rate:Number = 500 * (str + agi) / weight;
 			if (rate > 800)
 				rate = 800;
 			
