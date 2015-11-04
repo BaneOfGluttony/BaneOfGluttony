@@ -10,6 +10,7 @@ package
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
 	import Quests.Test;
+	import mx.utils.StringUtil;
 	
 	/**
 	 * All of the code that was previously on the Timeline
@@ -387,7 +388,7 @@ package
 			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1 || World.world[x][y] == null) {
 				//Main.addText("Edge of the world.");
 				return false;
-			} else if (World.world[x][y].name == "Wall" || World.world[x][y].text == "Block") {
+			} else if (StringUtil.trim(World.world[x][y].name) == "Wall" || StringUtil.trim(World.world[x][y].name) == "Block") {
 				//Main.addText("You can't go there");
 				return false;
 			} else {
@@ -2001,9 +2002,9 @@ package
 			game.btnsUI.downBtn.visible = false;
 			btnIndex = 0;
 			menuIndex = scrollIndex * 9;
-			for (var i:int = menuIndex; i < zone.stock.length && btnIndex < 9; i++) {
+			for (var i:int = menuIndex; i < zone.items.length && btnIndex < 9; i++) {
 				btnArray[btnIndex].visible = true;
-				btnArray[btnIndex].btnText.text = zone.stock[menuIndex].name;
+				btnArray[btnIndex].btnText.text = zone.items[menuIndex].name;
 				
 				btnIndex++;
 				menuIndex++;
@@ -2011,7 +2012,7 @@ package
 			
 			if (scrollIndex > 0)
 				game.btnsUI.upBtn.visible = true;
-			if (zone.stock.length > (scrollIndex  + 1) * 9)
+			if (zone.items.length > (scrollIndex  + 1) * 9)
 				game.btnsUI.downBtn.visible = true;
 		}
 

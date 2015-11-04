@@ -49,83 +49,168 @@
 			for (var i:int = 0; i < rows; i++) {
 				var cell:Array = lines[i].split("\t");
 				for (var j:int = 0; j < cols; j++) {
-					var data:Array = cell[j].split(" - ");	//Do NOT use hyphens in map text
-					var name:String = StringUtil.trim(data[0]);
-					var region:String = "";
+					//Region - Name - Text - Enter (false) - Save (false) - Enemies (null) - Items (null) - Events (null)
+					var data:Array = cell[j].split("-");	//Do NOT use hyphens in map text
+					var region:String = StringUtil.trim(data[0]);
+					var name:String = "";
 					var text:String = "";
-					if (data[1] != null)
-						text = StringUtil.trim(data[1]);
+					var enter:Boolean = false;
+					var save:Boolean = false;
+					var enemies:Array = new Array();
+					var items:Array = new Array();
+					var events:Array = new Array();
 					
-					if (name == "St")
-						region = "Staphshire";
-					else if (name == "Di")
-						region = "Diraq";
-					else if (name == "Ta")
-						region = "Tarboro";
-					else if (name == "E")
-						region = "Elyndar";
-					else if (name == "Di")
-						region = "Diraq";
-					else if (name == "Ar")
-						region = "Aroshar";
-					else if (name == "P")
-						region = "Plains";
-					else if (name == "Fa")
-						region = "Farmlands";
-					else if (name == "F")
-						region = "Forest";
-					else if (name == "My")
-						region = "Myseer Islands";
-					else if (name == "H")
-						region = "Hills";
-					else if (name == "D")
-						region = "Desert";
-					else if (name == "M")
-						region = "Mountains";
-					else if (name == "Ro")
-						region = "Road";
-					else if (name == "R")
-						region = "River";
-					else if (name == "L")
-						region = "Lake";
-					else if (name == "Br")
-						region = "Bridge";
-					else if (name == "S")
-						region = "Sea";
-					else if (name == "Sa")
-						region = "Savannah";
-					else if (name == "Mo")
-						region = "Monastery";
-					else if (name == "O")
-						region = "Oasis";
-					else if (name == "Cl")
-						region = "Clearing";
-					else if (name == "Sw")
-						region = "Swamp";
-					else if (name == "Po")
-						region = "Port";
-					else if (name == "Ga")
-						region = "Gaians";
-					else if (name == "Ws")
-						region = "Wyrmstead";
-					else if (name == "Or")
-						region = "Ori";
-					else if (name == "B")
-						region = "Beach";
+					switch (region) {
+						case "St":
+							region = "Staphshire";
+							break;
+						case "Di":
+							region = "Diraq";
+							break;
+						case "Ta":
+							region = "Tarboro";
+							break;
+						case "E":
+							region = "Elyndar";
+							break;
+						case "Di":
+							region = "Diraq";
+							break;
+						case "Ar":
+							region = "Aroshar";
+							break;
+						case "P":
+							region = "Plains";
+							break;
+						case "Fa":
+							region = "Farmlands";
+							break;
+						case "F":
+							region = "Forest";
+							break;
+						case "My":
+							region = "Myseer Islands";
+							break;
+						case "H":
+							region = "Hills";
+							break;
+						case "D":
+							region = "Desert";
+							break;
+						case "M":
+							region = "Mountains";
+							break;
+						case "Ro":
+							region = "Road";
+							break;
+						case "R":
+							region = "River";
+							break;
+						case "L":
+							region = "Lake";
+							break;
+						case "Br":
+							region = "Bridge";
+							break;
+						case "S":
+							region = "Sea";
+							break;
+						case "Sa":
+							region = "Savannah";
+							break;
+						case "Mo":
+							region = "Monastery";
+							break;
+						case "O":
+							region = "Oasis";
+							break;
+						case "Cl":
+							region = "Clearing";
+							break;
+						case "Sw":
+							region = "Swamp";
+							break;
+						case "Po":
+							region = "Port";
+							break;
+						case "Ga":
+							region = "Gaians";
+							break;
+						case "Ws":
+							region = "Wyrmstead";
+							break;
+						case "Or":
+							region = "Ori";
+							break;
+						case "B":
+							region = "Beach";
+							break;
+					}
 					
-					name = region;
-					world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text } );
+					if (data[1] != null && data[1] != "")
+						name = StringUtil.trim(data[1]);
 					
-					if (SAVEXML)
-						xml.appendChild(<cell name={name} x={j} y={i} region={region}>{text}</cell>);
+					if (data[2] != null && data[2] != "")
+						text = StringUtil.trim(data[2]);
+					
+					if (data[3] != null && data[3] != "") {
+						if (StringUtil.trim(data[3]) == "True" || StringUtil.trim(data[3]) == "true")
+							enter = true;
+					}
+					
+					if (data[4] != null && data[4] != "") {
+						if (StringUtil.trim(data[4]) == "True" || StringUtil.trim(data[4]) == "true")
+							save = true;
+					}
+					
+					if (data[5] != null && data[5] != "") {
+						var temp:Array = data[5].split(";");
+						var k:int = 0;
+						
+						for each (var enemy:String in temp) {
+							temp[k] = enemy.split(",");
+							var entry:Array = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
+							enemies.push(entry);
+							k++;
+						}
+					}
+					
+					if (data[6] != null && data[6] != "") {
+						items = StringUtil.trim(data[6]).split(",");
+						for each (var item:String in items)
+							item = StringUtil.trim(item);
+					}
+					
+					if (data[7] != null && data[7] != "") {
+						var temp:Array = data[7].split(";");
+						var entry:Array;
+						var k:int = 0;
+						
+						for each (var event:String in temp) {
+							temp[k] = event.split(",");
+							var entry:Array = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
+							events.push(entry);
+							k++;
+						}
+					}
+					
+					if (name == "")
+						name = region;
+					if (enter == "") {
+						
+					}
+					
+					world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text, enter : enter, save : save,
+												enemies : enemies, itemsText : items, events : events } );
+					
+					xml.appendChild( < cell name = { name } x = { j } y = { i } region = { region } enter = { enter } 
+									save = { save } enemies = { enemies } items = { items } events = { events } > { text }</cell>);
 				}
 			}
-			MainGameUI.updateNavBtns();
+			bytes.writeUTFBytes(xml);
+			file.save(bytes, "world.xml");
 			
-			if (SAVEXML) {
-				bytes.writeUTFBytes(xml);
-				file.save(bytes, "world.xml");
-			}
+			MainGameUI.updateNavBtns();
 		}
 		
 		public static function parseXML():void {
@@ -133,12 +218,20 @@
 			
 			for (var i:int = 0; i < children.length(); i++) {
 				var entry:XML = xml.cell[i];
-				var cell:Zone = world[i % cols][int(i / cols)];
+				world[i % cols][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
+												enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
+												itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+				/*var cell:Zone = world[i % cols][int(i / cols)];
 				cell.name = entry.@name;
 				cell.x = i / cols;
 				cell.y = i % cols;
 				cell.region = entry.@region;
 				cell.text = entry;
+				cell.enter = entry.@enter;
+				cell.save = entry.@save;
+				cell.enemies = entry.@enemies.split(",");
+				cell.items = entry.@items.split(",");
+				cell.events = entry.@events.split(",");*/
 			}
 		}
 		

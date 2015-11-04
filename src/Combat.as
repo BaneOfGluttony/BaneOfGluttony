@@ -288,11 +288,11 @@
 			var targetAgi:int;
 			
 			if (source is Player) {
-				sourceDex = source.stats["dex"];
+				sourceDex = Player.stats["dex"];
 				targetAgi = target.agi;
 			} else {
 				sourceDex = source.dex;
-				targetAgi = target.stats["agi"];
+				targetAgi = Player.stats["agi"];
 			}
 			
 			var prob:Number = 0.5 * Math.log(8.5 * sourceDex / targetAgi);

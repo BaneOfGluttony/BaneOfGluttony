@@ -103,8 +103,6 @@
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
 			loot(ItemDefinitions.getItem("Pork Haunch"), 5);*/
-			
-			//trace(Clock.toString());
 		}
 		
 		public static function reInit():void {
@@ -982,7 +980,7 @@
 		
 		public static function writeStock():String {
 			var text:String = "Buying\n\n--------------------------------------------------\n\n";
-			for each (var item:Item in World.world[Player.x][Player.y].stock) {
+			for each (var item:Item in World.world[Player.x][Player.y].items) {
 				text += item.name + " -- " + item.value + " gold ea. -- ";
 				
 				if (Player.indexOfInventory(item) != -1)
