@@ -1,17 +1,17 @@
 ﻿package  {
 	
 	public class ItemDefinitions {
-		public static var main:Main;
+		//public static var main:Main;
 		
 		/**
 		 * Short for "get stat" - gets the given player stat, resource, etc.
 		 */
 		public static function getStat(stat:String):int {
-			if (main == null || main.player == null) {
+			/*if (main == null || main.player == null) {
 				trace("WARNING: Main or Player not found when trying to call ItemDefinitions.gs()!");
 				return -1;
-			}
-			return main.player.getStat(stat);
+			}*/
+			return Player.getStat(stat);
 		}
 		
 		

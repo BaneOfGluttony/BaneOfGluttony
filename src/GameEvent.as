@@ -5,22 +5,16 @@
 	import flash.utils.IExternalizable;
 	
 	public class GameEvent {
-		public var main:MovieClip;
-		public var player:Player;
 		public var xml:XML;
-		//public var currDialog:XMLList;
 		
 		public var name:String;
-		//public var available:Boolean;
 		public var repeatable:Boolean;
 		public var state:int;
 		public var log:String;
+		public var loc:Array;
 
-		public function GameEvent(main:MovieClip = null, player:Player = null, fileName:String = "") {
-			this.main = main;
-			this.player = player;
+		public function GameEvent(fileName:String = "") {
 			name = fileName;
-			//available = true;
 			state = 0;
 			
 			fileName = fileName.replace(/ /g, "_");
@@ -31,9 +25,9 @@
 			if ("@name" in xml)
 				name = xml.@name;
 			
-			if (xml.@repeatable == "true") {
+			if (xml.@repeatable == "true")
 				repeatable = true;
-			} else
+			else
 				repeatable = false;
 			
 			setDialog(0);
@@ -55,7 +49,7 @@
 		
 		/*public function writeExternal(output:IDataOutput):void {
 			output.writeObject(main);
-			output.writeObject(player);
+			output.writeObject(Player);
 			output.writeObject(xml);
 			//output.writeObject(loader);
 			output.writeUTF(name);
@@ -66,7 +60,7 @@
 		
 		public function readExternal(input:IDataInput):void {
 			main = input.readObject();
-			player = input.readObject();
+			Player = input.readObject();
 			xml = input.readObject();
 			//loader = input.readObject();
 			name = input.readUTF();
@@ -84,25 +78,25 @@
 			for each (var text:XML in dialog.text) {
 				if (check(text)) {					
 					ret = true;
-					main.mainMC.state = "dialog";
-					main.mainMC.hideBtnArray();
-					main.mainMC.game.menuUI.visible = false;
-					main.mainMC.game.optionsBtn.visible = false;
-					main.mainMC.game.lvlupUI.visible = false;
+					MainGameUI.state = "dialog";
+					MainGameUI.hideBtnArray();
+					MainGameUI.game.menuUI.visible = false;
+					MainGameUI.game.optionsBtn.visible = false;
+					MainGameUI.game.lvlupUI.visible = false;
 					
 					if (text == dialog.text[0] || text.@override == "true")
-						main.setText(text);
+						Main.setText(text);
 					else
-						main.addText(text);
+						Main.addText(text);
 					
 					if (dialog.@end == "true" || text.@end == "true") {
-						main.mainMC.btnArray[8].btnText.text = "Continue";
-						main.mainMC.btnArray[8].visible = true;
+						MainGameUI.btnArray[8].btnText.text = "Continue";
+						MainGameUI.btnArray[8].visible = true;
 					} else {
 						var i:int = 0;
 						for each (var option:XML in options.option) {
-							main.mainMC.btnArray[i].btnText.text = option;
-							main.mainMC.btnArray[i].visible = true;
+							MainGameUI.btnArray[i].btnText.text = option;
+							MainGameUI.btnArray[i].visible = true;
 							i++;
 						}
 					}
@@ -114,12 +108,12 @@
 						state = text.@goto;
 						setDialog(state);
 						break;
-					} /*else {
-						main.currEvent = null;
-					}*/
+					}
 					
 					doActions(text);
-					main.currEvent = this;
+					Main.currEvent = this;
+				} else {
+					ret = false;
 				}
 			}
 			
@@ -157,10 +151,19 @@
 						max = temp[1]
 					
 					if (str == "loc") {
-						succ = checkLoc(min, max);
-					} else if (player.resources.hasOwnProperty(str)) {
+						if (min == -1 || max == -1) {
+							if (loc == null) {
+								loc = new Array(Player.x, Player.y);
+								succ = true;
+							} else {
+								succ = checkLoc(loc[0], loc[1]);
+							}
+						} else {
+							succ = checkLoc(min, max);
+						}
+					} else if (Player.resources.hasOwnProperty(str)) {
 						succ = checkResource(str, min, max);
-					} else if (player.stats.hasOwnProperty(str)) {
+					} else if (Player.stats.hasOwnProperty(str)) {
 						succ = checkStat(str, min, max);
 					} else if (str == "fat") {
 						succ = checkFat(min, max);
@@ -212,24 +215,24 @@
 						endEvent();
 					} else if (str == "loc") {
 						var temp:Array = val.split(",");
-						main.mainMC.travel(temp[0], temp[1]);
-					} else if (player.resources.hasOwnProperty(str)) {
+						MainGameUI.travel(temp[0], temp[1]);
+					} else if (Player.resources.hasOwnProperty(str)) {
 						if (val.charAt(0) == "+")			//add percentage
-							main.addResource(str, val.substring(1) * player.resources["max" + str], 0);
+							Main.addResource(str, val.substring(1) * Player.resources["max" + str], 0);
 						else if (val.charAt(0) == "*")		//set percentage
-							main.setResource(str, val.substring(1) * player.resources["max" + str], 0);
+							Main.setResource(str, val.substring(1) * Player.resources["max" + str], 0);
 					} else if (str == "fat") {
 						if (val.charAt(0) == "+")			//add fat
-							main.addFat(val.substring(1));
+							Main.addFat(val.substring(1));
 						else if (val.charAt(0) == "*")		//scale fat
-							main.setFat(val.substring(1) * player.fat);
+							Main.setFat(val.substring(1) * Player.fat);
 					} else if (str == "gold") {
 						if (val.charAt(0) == "+")			//add gold
-							main.addGold(val.substring(1));
+							Main.addGold(val.substring(1));
 						else if (val.charAt(0) == "*")		//scale gold
-							main.setGold(val.substring(1) * player.gold);
+							Main.setGold(val.substring(1) * Player.gold);
 					} else if (str == "exp") {
-						main.addExp(actions[i][1], false);	//add exp
+						Main.addExp(actions[i][1], false);	//add exp
 					} else if (str == "lootItem") {
 						var vals:String = actions[i][1];
 						var items:Array = vals.split(",");
@@ -238,7 +241,7 @@
 						for each (var item:String in items) {
 							items[j] = item.split("-");
 							var tempItem:Item = ItemDefinitions.getItem(items[j][0]);
-							main.loot(tempItem, items[j][1]);
+							Main.loot(tempItem, items[j][1]);
 							j++;
 						}
 					} else if (str == "dropItem") {
@@ -249,7 +252,7 @@
 						for each (var item:String in items) {
 							items[j] = item.split("-");
 							var tempItem:Item = ItemDefinitions.getItem(items[j][0]);
-							main.drop(tempItem, items[j][1]);
+							Main.drop(tempItem, items[j][1]);
 							j++;
 						}
 					}
@@ -264,58 +267,59 @@
 		}
 		
 		public function addQuest():void {
-			player.quests.push(this);
-			main.addText("Quests added: " + name);
+			Player.quests.push(this);
+			Player.eventRecord[name] = false;
+			Main.addText("Quests added: " + name);
 			trace("Quest added: " + name);
 		}
 		
 		public function rmvQuest():void {
-			main.currEvent = null;
-			player.quests.splice(player.quests.indexOf(this), 1);
-			player.eventRecord[name] = repeatable;
-			main.addText("Quest complete: " + name);
+			Main.currEvent = null;
+			Player.quests.splice(Player.quests.indexOf(this), 1);
+			Player.eventRecord[name] = repeatable;
+			Main.addText("Quest complete: " + name);
 			trace("Quest complete: " + name);
 		}
 		
 		public function endEvent():void {
-			main.currEvent = null;
-			player.eventRecord[name] = repeatable;
+			Main.currEvent = null;
+			Player.eventRecord[name] = repeatable;
 		}
 		
 		public function checkLoc(x:Number, y:Number):Boolean {
-			return player.x == x && player.y == y;
+			return Player.x == x && Player.y == y;
 		}
 		
 		public function checkResource(resource:String, min:Number, max:Number):Boolean {
-			return (player.resources["min" + resource] / player.resources["max" + resource]) >= min &&
-				(player.resources["min" + resource] / player.resources["max" + resource]) <= max;
+			return (Player.resources["min" + resource] / Player.resources["max" + resource]) >= min &&
+				(Player.resources["min" + resource] / Player.resources["max" + resource]) <= max;
 		}
 		
 		public function checkStat(stat:String, min:Number, max:Number):Boolean {
-			return player.stats[stat] >= min && player.stats[stat] <= max;
+			return Player.stats[stat] >= min && Player.stats[stat] <= max;
 		}
 		
 		public function checkFat(min:Number, max:Number):Boolean {
-			return player.fat >= min && player.fat <= max;
+			return Player.fat >= min && Player.fat <= max;
 		}
 		
 		public function checkGold(min:Number, max:Number):Boolean {
-			return player.gold >= min && player.gold <= max;
+			return Player.gold >= min && Player.gold <= max;
 		}
 		
 		public function checkItems(items:Array):Boolean {
-			if (player.inventory.length == 0)
+			if (Player.inventory.length == 0)
 				return false;
 			
 			for each (var item:Item in items) {
-				for each (var inventoryItem:Item in player.inventory) {
+				for each (var inventoryItem:Item in Player.inventory) {
 					if (inventoryItem.name == item.name) {
 						if (inventoryItem.count < item.count)
 							return false;
 						else
 							break;
 					} else {
-						if (inventoryItem == player.inventory[player.inventory.length - 1])
+						if (inventoryItem == Player.inventory[Player.inventory.length - 1])
 							return false;
 					}
 				}
