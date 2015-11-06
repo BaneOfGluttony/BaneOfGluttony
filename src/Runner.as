@@ -8,9 +8,11 @@ package
 	 * Entry point
 	 * @author Serule Blue
 	 */
-	[SWF(width="800", height="710", backgroundColor="#E2C38C", framerate="30")] //Height = 600
+	[SWF(width = "800", height = "710", backgroundColor = "#E2C38C", framerate = "30")] //Height = 600
+	//[Frame(factoryClass="Preloader")]
 	public class Runner extends Sprite {
 		private var mainGame:MovieClip;
+		public var container:MovieClip;
 		
 		public function Runner():void {
 			if (stage) init();
@@ -18,6 +20,8 @@ package
 		}
 		
 		private function init(e:Event = null):void {
+			new World();
+			
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("--------------------------------------------");
 			trace("[Runner] Creating mainGame.");

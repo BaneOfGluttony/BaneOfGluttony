@@ -4,12 +4,12 @@ package
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.events.ProgressEvent;
 	import flash.events.TextEvent;
 	import flash.geom.ColorTransform;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
-	import Quests.Test;
 	import mx.utils.StringUtil;
 	
 	/**
@@ -19,10 +19,7 @@ package
 	public class MainGameUI 
 	{
 		public static var game:MovieClip;		// MainGame.swc
-		public static var debug:Boolean = true;
-		
-		public static const WIDTH:int = 800;
-		public static const HEIGHT:int = 600;
+		public static var debug:Boolean = true;	//Show debug console
 		
 		public static var btnIndex:int = 0
 		public static var scrollIndex:int = 0;
@@ -39,14 +36,14 @@ package
 						
 		public function MainGameUI() {
 			game = new MainGame();
-
+			
 			game.addEventListener(Event.ADDED_TO_STAGE, init);
 			Main.runner.addChild(game);
 			
 			game.mainUI.debugConsole.visible = debug;
 		}
 		
-		private static function init(e:Event):void {
+		private static function init(event:Event):void {
 			game.removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			Main.runner.stage.showDefaultContextMenu = false;
@@ -310,9 +307,13 @@ package
 			/*if (!Main.mainMC)
 				Main.mainMC = this;*/
 			Main.firstInit();
+			//container.loadingScreen.visible = false;
 		}
 
 		public static function debugTrace():void {
+			if (!debug)
+				return;
+			
 			trace("\n" + Clock.toString());
 			trace("atk = " + Player.derivedStats["atk"]);
 			trace("matk = " + Player.derivedStats["matk"]);
@@ -385,15 +386,12 @@ package
 		}
 
 		public static function checkBounds(x:int, y:int):Boolean {
-			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1 || World.world[x][y] == null) {
-				//Main.addText("Edge of the world.");
+			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1 || World.world[x][y] == null)
 				return false;
-			} else if (StringUtil.trim(World.world[x][y].name) == "Wall" || StringUtil.trim(World.world[x][y].name) == "Block") {
-				//Main.addText("You can't go there");
+			else if (StringUtil.trim(World.world[x][y].name) == "Block" || StringUtil.trim(World.world[x][y].name) == "River")
 				return false;
-			} else {
+			else
 				return true;
-			}
 		}
 
 		public static function updateQuests():void {
@@ -401,15 +399,16 @@ package
 			var currLoc:Zone = World.world[Player.x][Player.y];
 			
 			for each (var quest:GameEvent in Player.quests) {
-				existingEvent = quest.setDialog(quest.state);
+				if (quest.setDialog(quest.state)) {
+					existingEvent = true;
+					break;
+				}
 			}
 			
-			if (!existingEvent && currLoc.events != null) {
+			if (!existingEvent && currLoc.events.length > 0) {
 				for each (var event:Array in currLoc.events) {
-					/*if (EventDefinitions.definitions[event[0]].available && Math.random() < event[1])
-						EventDefinitions.startEvent(event[0]);*/
-					trace(event[0] in Player.eventRecord);
-					if ((!(event[0] in Player.eventRecord) || Player.eventRecord[event[0]] == true) && Math.random() < event[1])
+					//trace(event[0] in Player.eventRecord);
+					if ((!(event[0] in Player.eventRecord) || Player.eventRecord[event[0]]) && Math.random() < event[1])
 						var exec:GameEvent = new GameEvent(event[0]);
 				}
 			}
@@ -417,12 +416,12 @@ package
 		
 		public static function checkEnemy():Enemy {
 			var ret:Enemy = null;
-			var enemies:Array = World.world[Player.x][Player.y].enemies;
+			var currLoc:Zone = World.world[Player.x][Player.y];
 			
-			if (enemies != null) {
+			if (currLoc.enemies.length > 0) {
 				var possibleEnemites:Array = [];
 				var probs:Array = [];
-				for each (var enemy:Array in enemies) {
+				for each (var enemy:Array in currLoc.enemies) {
 					var prob:Number = Math.random();
 					if (prob < enemy[1]) {
 						enemy[1] = prob;
@@ -1656,16 +1655,17 @@ package
 					
 					if (Player.statPoints > 0)
 						game.lvlupUI.visible = true;
-					game.optionsBtn.visible = true;
-					game.mainUI.bigMap.visible = false;
-					game.mainUI.bigMarker.visible = false;
-					game.mainUI.textField.visible = true;
-					game.mainUI.scrollBar.visible = true;
-					updateNavBtns();
-					updateMenuBtns()
-					break;
+						game.optionsBtn.visible = true;
+						game.mainUI.bigMap.visible = false;
+						game.mainUI.bigMarker.visible = false;
+						game.mainUI.textField.visible = true;
+						game.mainUI.scrollBar.visible = true;
+						updateNavBtns();
+						updateMenuBtns()
+						break;
 				case "navigate" :
-					state = "map";
+					Main.addText("Map is disabled.");
+					/*state = "map";
 					
 					game.lvlupUI.visible = false;
 					game.optionsBtn.visible = false;
@@ -1676,7 +1676,7 @@ package
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					updateMenuBtns();
-					hideBtnArray();
+					hideBtnArray();*/
 					break;
 				default :
 					break;
@@ -1918,7 +1918,7 @@ package
 		public static function moveCenter():void {
 			var zone:Zone = World.world[Player.x][Player.y];
 			
-			if (zone.items != null) {
+			if (zone.items.length > 0) {
 				enterShop(zone);
 			}
 		}

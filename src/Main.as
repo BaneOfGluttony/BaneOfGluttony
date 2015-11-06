@@ -6,9 +6,6 @@
 	import flash.net.SharedObject;
 	import flash.utils.ByteArray;
 	
-	//import Quests.*;
-	
-		
 	/**
 	 * ...
 	 * @author Kazan Fatzan, refactor by Serule Blue
@@ -19,6 +16,7 @@
 		
 		/// Reference to the main Runner class (use to access stage, etc.)
 		public static var runner:Runner;
+		//public static var loader:MovieClip;
 		
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
@@ -42,6 +40,10 @@
 		
 		public function Main(_runner:Runner) {
 			runner = _runner;
+			
+			//loader = new LoadScreen();
+			//runner.addChild(loader);
+			
 			new MainGameUI();
 			//ItemDefinitions.main = this;
 			//SkillDefinitions.main = this;
@@ -55,11 +57,11 @@
 			//ItemDefinitions.main = this;
 			//SkillDefinitions.main = this;
 			new Clock();
-			new World();
+			//new World();	//Now in Runner
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*setResource("Health", 100, -1);
+			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
 			setResource("Energy", 84, -1);
 			setResource("Capacity", 93, -1);
@@ -70,10 +72,10 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			addExp(196, false);
-			setGold(500);*/
+			addExp(500, false);
+			setGold(500);/**/
 			
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -102,7 +104,7 @@
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
-			loot(ItemDefinitions.getItem("Pork Haunch"), 5);*/
+			loot(ItemDefinitions.getItem("Pork Haunch"), 5);/**/
 		}
 		
 		public static function reInit():void {

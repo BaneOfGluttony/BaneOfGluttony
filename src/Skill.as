@@ -29,7 +29,7 @@
 			writeEffects();
 			Main.addText(useText + "\n\n" + effectsText);
 			
-			if (source is Enemy && target is Player) {
+			if (source is Enemy && target == Player) {
 				// proc special effects
 				if (targetEffects != null && targetEffects.length > 0) {
 					//trace("[Item] " + name + " has special effects!");
@@ -51,7 +51,7 @@
 		}
 		
 		private function changeStat(subject:Object, stat:String, amount:int):void {
-			if (subject is Player) {
+			if (subject == Player) {
 				switch (stat) {
 					case "currHealth" :
 						Main.addResource("Health", amount, 0);
@@ -134,7 +134,7 @@
 		public function writeEffects():void {
 			effectsText = "";
 			
-			if (target is Player && targetEffects != null && targetEffects.length > 0) {
+			if (target == Player && targetEffects != null && targetEffects.length > 0) {
 				for each (var f:Function in targetEffects) {
 					var special:Array = f();
 					

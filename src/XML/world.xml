@@ -2072,7 +2072,7 @@
   <cell name="Mountains" x="70" y="20" region="Mountains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Mountains" x="71" y="20" region="Mountains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Mountains" x="72" y="20" region="Mountains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Block" x="73" y="20" region="" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="73" y="20" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="74" y="20" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="75" y="20" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="76" y="20" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -2136,9 +2136,9 @@
   <cell name="Hills" x="34" y="21" region="Hills" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Hills" x="35" y="21" region="Hills" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Hills" x="36" y="21" region="Hills" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Hills" x="37" y="21" region="Hills" enter="false" save="false" enemies="" items="" events="">Animals walk in line. In their utter silence, you start noticing a rythim to their march. This is DEFINETIVELY not normal. It becomes even more obvious as wild predators start joining the procession, walking alongside prey and cattle. What on earth could be going on?</cell>
-  <cell name="Hills" x="38" y="21" region="Hills" enter="false" save="false" enemies="" items="" events="">Animals walk in line. In their utter silence, you start noticing a rythim to their march. This is DEFINETIVELY not normal. It becomes even more obvious as wild predators start joining the procession, walking alongside prey and cattle. What on earth could be going on?</cell>
-  <cell name="Hills" x="39" y="21" region="Hills" enter="false" save="false" enemies="" items="" events="">Animals walk in line. In their utter silence, you start noticing a rythim to their march. This is DEFINETIVELY not normal. It becomes even more obvious as wild predators start joining the procession, walking alongside prey and cattle. What on earth could be going on?</cell>
+  <cell name="Hills" x="37" y="21" region="Hills" enter="false" save="false" enemies="" items="" events="">Animals walk in line. In their utter silence, you start noticing a rythim to their march. This is DEFINITELY not normal. It becomes even more obvious as wild predators start joining the procession, walking alongside prey and cattle. What on earth could be going on?</cell>
+  <cell name="Hills" x="38" y="21" region="Hills" enter="false" save="false" enemies="" items="" events="">Animals walk in line. In their utter silence, you start noticing a rythim to their march. This is DEFINITELY not normal. It becomes even more obvious as wild predators start joining the procession, walking alongside prey and cattle. What on earth could be going on?</cell>
+  <cell name="Hills" x="39" y="21" region="Hills" enter="false" save="false" enemies="" items="" events="">Animals walk in line. In their utter silence, you start noticing a rythim to their march. This is DEFINITELY not normal. It becomes even more obvious as wild predators start joining the procession, walking alongside prey and cattle. What on earth could be going on?</cell>
   <cell name="Hills" x="40" y="21" region="Hills" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Hills" x="41" y="21" region="Hills" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="42" y="21" region="Mountains" enter="false" save="false" enemies="" items="" events=""/>
@@ -3720,7 +3720,7 @@
   <cell name="Savannah" x="18" y="37" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="19" y="37" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="20" y="37" region="River" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="21" y="37" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="21" y="37" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="22" y="37" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="23" y="37" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="24" y="37" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -4247,8 +4247,8 @@
   <cell name="Road" x="45" y="42" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="46" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="47" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Farmlands" x="48" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the</cell>
-  <cell name="Farmlands" x="49" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for t</cell>
+  <cell name="Farmlands" x="48" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
+  <cell name="Farmlands" x="49" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
   <cell name="Farmlands" x="50" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
   <cell name="Farmlands" x="51" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
   <cell name="Farmlands" x="52" y="42" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
@@ -4347,7 +4347,7 @@
   <cell name="Road" x="45" y="43" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="46" y="43" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="47" y="43" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Farmlands" x="48" y="43" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the</cell>
+  <cell name="Farmlands" x="48" y="43" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
   <cell name="Farmlands" x="49" y="43" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
   <cell name="Farmlands" x="50" y="43" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
   <cell name="Farmlands" x="51" y="43" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
@@ -4447,7 +4447,7 @@
   <cell name="Road" x="45" y="44" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="46" y="44" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="47" y="44" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Farmlands" x="48" y="44" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the</cell>
+  <cell name="Farmlands" x="48" y="44" region="Farmlands" enter="false" save="false" enemies="" items="" events="">You walk around miles of lazy farmland. Around you, fat sheep and cattle graze. Some of them are actually fat enough that they can no longer touch the ground, and just lay waiting in the sun and breeze for their herdsman to roll them back in for the night.</cell>
   <cell name="Farmlands" x="49" y="44" region="Farmlands" enter="false" save="false" enemies="" items="" events="">Along the wall of the city you see a collection of squat wooden buildings. Barns and stables you reckon. From withing, you can hear the content irregular bleat and whine of what must be the most pampered equines on the land.</cell>
   <cell name="Farmlands" x="50" y="44" region="Farmlands" enter="false" save="false" enemies="" items="" events="">Along the wall of the city you see a collection of squat wooden buildings. Barns and stables you reckon. From withing, you can hear the content irregular bleat and whine of what must be the most pampered equines on the land.</cell>
   <cell name="Block" x="51" y="44" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
@@ -5020,7 +5020,7 @@
   <cell name="Savannah" x="18" y="50" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="19" y="50" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="20" y="50" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Savannah" x="21" y="50" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="21" y="50" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="22" y="50" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="23" y="50" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="24" y="50" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -5045,9 +5045,9 @@
   <cell name="Farmlands" x="43" y="50" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="44" y="50" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="45" y="50" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="46" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="47" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="48" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Staphshire" x="46" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="47" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="48" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
   <cell name="Home" x="49" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="">Before you lies your house. It is not the most beautiful of houses, nor the bigger, but it is your's. It lays in that cozy place between the restaurant and a bakery and overlooks the river. Not a great house, but a nice one indeed.</cell>
   <cell name="River" x="50" y="50" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="51" y="50" region="River" enter="false" save="false" enemies="" items="" events=""/>
@@ -5120,8 +5120,8 @@
   <cell name="Road" x="18" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="19" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="20" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Road" x="21" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Bridge" x="22" y="51" region="Bridge" enter="false" save="false" enemies="" items="" events="">As you locate the crossing, the bridge is nowhere to be seen. From the force of the raging waters bellow, you must assume it was swept away by a recent flood. Either that or beaver strikes.</cell>
+  <cell name="Block" x="21" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Bridge" x="22" y="51" region="Bridge" enter="false" save="false" enemies="" items="" events="">As you locate the crossing, the bridge is nowhere to be seen. From the force of the raging waters bellow, you must assume it was swept away by a recent flood. Either that or beaver strikes. A stocky rhino stands guard just the west of the bridge, blocking the road. His intimidating stature and cold gaze in the heat of the savannah makes it obvious he is not one for fooling around. You'd best turn around.</cell>
   <cell name="Road" x="23" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="24" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="25" y="51" region="Road" enter="false" save="false" enemies="" items="" events=""/>
@@ -5145,12 +5145,12 @@
   <cell name="Farmlands" x="43" y="51" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="44" y="51" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="45" y="51" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="46" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="47" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="48" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="49" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Johon's Delight's" x="50" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events="">Johon's Delight's  stands proud before you. An old building, probably older than the town itself. From it whaft the sweetest smell of caramel and sugar cane. On the door a sign says: "Closed for re</cell>
-  <cell name="Staphshire" x="51" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Staphshire" x="46" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="47" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="48" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="49" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Johon's Delight's" x="50" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events="">Johon's Delight's  stands proud before you. An old building, probably older than the town itself. From it whaft the sweetest smell of caramel and sugar cane. On the door a sign says: "Closed for restock." You make a mental note to come back later.</cell>
+  <cell name="Staphshire" x="51" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
   <cell name="Bridge" x="52" y="51" region="Bridge" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Staphshire" x="53" y="51" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="54" y="51" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
@@ -5245,12 +5245,12 @@
   <cell name="Farmlands" x="43" y="52" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="44" y="52" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="45" y="52" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="46" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="47" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="48" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="49" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="50" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="51" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Staphshire" x="46" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="47" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="48" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="49" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="50" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Staphshire" x="51" y="52" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
   <cell name="River" x="52" y="52" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="53" y="52" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="54" y="52" region="River" enter="false" save="false" enemies="" items="" events=""/>
@@ -5346,9 +5346,9 @@
   <cell name="Farmlands" x="44" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="45" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="46" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="47" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="48" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Blacksmith" x="49" y="53" region="Staphshire" enter="true" save="false" enemies="," items="Falchion,Rapier,Sabre,Cutlass,Katana,Flamberge,Lance,Halberd" events=",">Forger of specilized and powerful weapons.</cell>
+  <cell name="Staphshire" x="47" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events="Ano 1,0.25"/>
+  <cell name="Staphshire" x="48" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.25"/>
+  <cell name="Blacksmith" x="49" y="53" region="Staphshire" enter="true" save="false" enemies="" items="Falchion,Rapier,Sabre,Cutlass,Katana,Flamberge,Lance,Halberd" events="">Forger of specilized and powerful weapons.</cell>
   <cell name="Staphshire" x="50" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="51" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="52" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
@@ -5450,7 +5450,7 @@
   <cell name="Block" x="48" y="54" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="49" y="54" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="50" y="54" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Fields" x="51" y="54" region="Farmlands" enter="false" save="false" enemies="Boar,0.25,Slime,0.25" items="" events=",">This is a test zone.</cell>
+  <cell name="Fields" x="51" y="54" region="Farmlands" enter="false" save="false" enemies="Boar,0.25,Slime,0.25" items="" events="">This is a test zone.</cell>
   <cell name="Farmlands" x="52" y="54" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="53" y="54" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="54" y="54" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
@@ -6517,7 +6517,7 @@
   <cell name="Savannah" x="15" y="65" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="16" y="65" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="17" y="65" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Savannah" x="18" y="65" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="18" y="65" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="19" y="65" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="20" y="65" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="21" y="65" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -6617,8 +6617,8 @@
   <cell name="Savannah" x="15" y="66" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="16" y="66" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="17" y="66" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Road" x="18" y="66" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Bridge" x="19" y="66" region="Bridge" enter="false" save="false" enemies="" items="" events="">As you locate the crossing, the bridge is nowhere to be seen. From the force of the raging waters bellow, you must assume it was swept away by a recent flood. Either that or beaver strikes.</cell>
+  <cell name="Block" x="18" y="66" region="Road" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Bridge" x="19" y="66" region="Bridge" enter="false" save="false" enemies="" items="" events="">As you locate the crossing, the bridge is nowhere to be seen. From the force of the raging waters bellow, you must assume it was swept away by a recent flood. Either that or beaver strikes. A stocky rhino stands guard just the west of the bridge, blocking the road. His intimidating stature and cold gaze in the heat of the savannah makes it obvious he is not one for fooling around. You'd best turn around.</cell>
   <cell name="Road" x="20" y="66" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="21" y="66" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="22" y="66" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -6717,7 +6717,7 @@
   <cell name="Savannah" x="15" y="67" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="16" y="67" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="17" y="67" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Savannah" x="18" y="67" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="18" y="67" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="19" y="67" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="20" y="67" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Road" x="21" y="67" region="Road" enter="false" save="false" enemies="" items="" events=""/>
@@ -6817,7 +6817,7 @@
   <cell name="Lake" x="15" y="68" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="16" y="68" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="17" y="68" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="18" y="68" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="18" y="68" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="19" y="68" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="20" y="68" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="21" y="68" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -6912,11 +6912,11 @@
   <cell name="Savannah" x="10" y="69" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Lake" x="11" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Lake" x="12" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="13" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="14" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="15" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="16" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="17" y="69" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="13" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="14" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="15" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="16" y="69" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="17" y="69" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="18" y="69" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="19" y="69" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="20" y="69" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -7011,10 +7011,10 @@
   <cell name="Savannah" x="9" y="70" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="10" y="70" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Lake" x="11" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="12" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="13" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="14" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="15" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="12" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="13" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="14" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="15" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Lake" x="16" y="70" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="17" y="70" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="18" y="70" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -7110,10 +7110,10 @@
   <cell name="Savannah" x="8" y="71" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="9" y="71" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="10" y="71" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="11" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="12" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="13" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Lake" x="14" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="11" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="12" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="13" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="14" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Lake" x="15" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Lake" x="16" y="71" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="17" y="71" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -7209,7 +7209,7 @@
   <cell name="Savannah" x="7" y="72" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="8" y="72" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="9" y="72" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="10" y="72" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="10" y="72" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="11" y="72" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Lake" x="12" y="72" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Lake" x="13" y="72" region="Lake" enter="false" save="false" enemies="" items="" events=""/>
@@ -7308,7 +7308,7 @@
   <cell name="Savannah" x="6" y="73" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="7" y="73" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="8" y="73" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="9" y="73" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="9" y="73" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="10" y="73" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="11" y="73" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="12" y="73" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -7319,18 +7319,18 @@
   <cell name="Savannah" x="17" y="73" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Plains" x="18" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="19" y="73" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
-  <cell name="Plains" x="20" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="21" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="22" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="23" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="24" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="25" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="26" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="27" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="28" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="29" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="30" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="31" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="20" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="21" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="22" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="23" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="24" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="25" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="26" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="27" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="28" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="29" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="30" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="31" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="32" y="73" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="33" y="73" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="34" y="73" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -7407,7 +7407,7 @@
   <cell name="Savannah" x="5" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="6" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="7" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="8" y="74" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="8" y="74" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="9" y="74" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="10" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="11" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -7416,10 +7416,10 @@
   <cell name="Savannah" x="14" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="15" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="16" y="74" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
-  <cell name="Plains" x="17" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="18" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="19" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="20" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="17" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="18" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="19" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="20" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="21" y="74" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="22" y="74" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="23" y="74" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -7430,8 +7430,8 @@
   <cell name="Forest" x="28" y="74" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="29" y="74" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="30" y="74" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="31" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="32" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="31" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="32" y="74" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="33" y="74" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="34" y="74" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="35" y="74" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
@@ -7507,7 +7507,7 @@
   <cell name="Savannah" x="5" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="6" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="7" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="8" y="75" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="8" y="75" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="9" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="10" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="11" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
@@ -7516,7 +7516,7 @@
   <cell name="Savannah" x="14" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="15" y="75" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Plains" x="16" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="17" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="17" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="18" y="75" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="19" y="75" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="20" y="75" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -7531,9 +7531,9 @@
   <cell name="Forest" x="29" y="75" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="30" y="75" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="31" y="75" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="32" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="33" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="34" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="32" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="33" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="34" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="35" y="75" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="36" y="75" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="37" y="75" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -7606,7 +7606,7 @@
   <cell name="Savannah" x="4" y="76" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="5" y="76" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="6" y="76" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="7" y="76" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="7" y="76" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="8" y="76" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="9" y="76" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="10" y="76" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
@@ -7615,8 +7615,8 @@
   <cell name="Savannah" x="13" y="76" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Plains" x="14" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="15" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="16" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="17" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="16" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="17" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="18" y="76" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="19" y="76" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="20" y="76" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -7633,8 +7633,8 @@
   <cell name="Forest" x="31" y="76" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="32" y="76" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="33" y="76" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="34" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="35" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="34" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="35" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="36" y="76" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="37" y="76" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="38" y="76" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
@@ -7706,16 +7706,16 @@
   <cell name="Savannah" x="4" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="5" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="6" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="7" y="77" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="7" y="77" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="8" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="9" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="10" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
   <cell name="Savannah" x="11" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
   <cell name="Savannah" x="12" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
   <cell name="Savannah" x="13" y="77" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
-  <cell name="Plains" x="14" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="15" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="16" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="14" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="15" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="16" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="17" y="77" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="18" y="77" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="19" y="77" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -7734,10 +7734,10 @@
   <cell name="Forest" x="32" y="77" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="33" y="77" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="34" y="77" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="35" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="36" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="37" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="38" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="35" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="36" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="37" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="38" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="39" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="40" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="41" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
@@ -7807,13 +7807,13 @@
   <cell name="Savannah" x="5" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="6" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="7" y="78" region="River" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="8" y="78" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="8" y="78" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="9" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="10" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
   <cell name="Savannah" x="11" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events="">You decide to walk into a hole full of assorted snakes. Before you start questioning your own sanity, you start taking a closer look at the pit. The snakes actually seem to be coming up from several holes bellow the pit itself, being pushed up by something. You notice they cannot escape the pit no matter how much they try. You also notice some snakes in the process of swallowing other, sometimes bigger snakes. Apparently in their exile they had no option but to resort to eating their brethen. Then, you finally notice something coming up your leg and scramble away from the hole faster than a coyote can say Roadrunner. THEN you start questioning your own sanity.</cell>
   <cell name="Savannah" x="12" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
-  <cell name="Savannah" x="13" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
-  <cell name="Savannah" x="14" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
+  <cell name="Block" x="13" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="14" y="78" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="15" y="78" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="16" y="78" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="17" y="78" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -7837,11 +7837,11 @@
   <cell name="Forest" x="35" y="78" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="36" y="78" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="37" y="78" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="38" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="39" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="40" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="41" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="42" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="38" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="39" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="40" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="41" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="42" y="78" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="43" y="78" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="44" y="78" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="45" y="78" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
@@ -7907,12 +7907,12 @@
   <cell name="Savannah" x="5" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="6" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="7" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="8" y="79" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="8" y="79" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="9" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="10" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
   <cell name="Savannah" x="11" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
   <cell name="Savannah" x="12" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events="">As you make your way around the savanna you trip and almost fall onto a sudden depression in the land. After barely escaping the fall, you notice a strange hissing coming from bellow. When you look, you notice the depression is actually full of the most varied snakes. From big to small, colorful to dark. Some actually look really bloated, and you cannot fathom what they could be eating in that lonely hole in the earth.</cell>
-  <cell name="Savannah" x="13" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
+  <cell name="Block" x="13" y="79" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="14" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="15" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="16" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -7938,15 +7938,15 @@
   <cell name="Forest" x="36" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="37" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="38" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="39" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="40" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="39" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="40" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="41" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="42" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="43" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="42" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="43" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="44" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="45" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="46" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="47" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="45" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="46" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="47" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="48" y="79" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="49" y="79" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="50" y="79" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
@@ -8008,11 +8008,11 @@
   <cell name="Savannah" x="6" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="7" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="8" y="80" region="River" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="9" y="80" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="9" y="80" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="10" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
   <cell name="Savannah" x="11" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
-  <cell name="Savannah" x="12" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
-  <cell name="Savannah" x="13" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
+  <cell name="Block" x="12" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="13" y="80" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="14" y="80" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="15" y="80" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="16" y="80" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -8042,17 +8042,17 @@
   <cell name="Forest" x="40" y="80" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="41" y="80" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="42" y="80" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="43" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="44" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="45" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="43" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="44" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="45" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="46" y="80" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="47" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="48" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="49" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="50" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="51" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="52" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="53" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="47" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="48" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="49" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="50" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="51" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="52" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="53" y="80" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="54" y="80" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Road" x="55" y="80" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="56" y="80" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
@@ -8108,10 +8108,10 @@
   <cell name="Savannah" x="6" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="7" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="8" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="9" y="81" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="9" y="81" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="10" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
-  <cell name="Savannah" x="11" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
-  <cell name="Savannah" x="12" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events="">The plains finally start to succumb to the arid environment of the desert, thining the grassland to sparse patches of green. Meanwhile, the nearby river fills the deep underground with nutrients, which only the strongest of trees can thrive on. The result is the most peculiar mix of desert and forest. Welcome to the Savanna.</cell>
+  <cell name="Block" x="11" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="12" y="81" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="13" y="81" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="14" y="81" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="15" y="81" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -8149,11 +8149,11 @@
   <cell name="Forest" x="47" y="81" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="48" y="81" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="49" y="81" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="50" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="51" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="50" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="51" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="52" y="81" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="53" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="54" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="53" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="54" y="81" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="55" y="81" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="56" y="81" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="57" y="81" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
@@ -8209,7 +8209,7 @@
   <cell name="Savannah" x="7" y="82" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Savannah" x="8" y="82" region="Savannah" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="9" y="82" region="River" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="River" x="10" y="82" region="River" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="10" y="82" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="11" y="82" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="12" y="82" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="13" y="82" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -8253,31 +8253,31 @@
   <cell name="Forest" x="51" y="82" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="52" y="82" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="53" y="82" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="54" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="54" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="55" y="82" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="56" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="57" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="58" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="59" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="60" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="61" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="62" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="63" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="64" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="65" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="56" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="57" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="58" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="59" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="60" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="61" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="62" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="63" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="64" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="65" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="66" y="82" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="67" y="82" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="68" y="82" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="69" y="82" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
-  <cell name="Plains" x="70" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="71" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="72" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="70" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="71" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="72" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="73" y="82" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
-  <cell name="Plains" x="74" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="75" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="76" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="77" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="78" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="74" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="75" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="76" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="77" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="78" y="82" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="79" y="82" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Sea" x="80" y="82" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Sea" x="81" y="82" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
@@ -8353,27 +8353,27 @@
   <cell name="Forest" x="51" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="52" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="53" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="54" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="54" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="55" y="83" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="56" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="56" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="57" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="58" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="59" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="60" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="61" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="61" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="62" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="63" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="64" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="65" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="66" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="67" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="68" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="69" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="70" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="65" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="66" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="67" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="68" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="69" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="70" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="71" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="72" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="73" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="74" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="72" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="73" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="74" y="83" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="75" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="76" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="77" y="83" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -8453,9 +8453,9 @@
   <cell name="Forest" x="51" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="52" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="53" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="54" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="55" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="56" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="54" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="55" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="56" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="57" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="58" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="59" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -8466,7 +8466,7 @@
   <cell name="Forest" x="64" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="65" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="66" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="67" y="84" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="67" y="84" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="68" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="69" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="70" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>

@@ -287,7 +287,7 @@
 			var sourceDex:int;
 			var targetAgi:int;
 			
-			if (source is Player) {
+			if (source == Player) {
 				sourceDex = Player.stats["dex"];
 				targetAgi = target.agi;
 			} else {
@@ -306,16 +306,16 @@
 			var targetDef:int;
 			var targetAgi:int;
 			
-			if (source is Player) {
-				sourceAtk = source.derivedStats["atk"];
-				sourceDex = source.stats["dex"];
+			if (source == Player) {
+				sourceAtk = Player.derivedStats["atk"];
+				sourceDex = Player.stats["dex"];
 				targetDef = target.def;
 				targetAgi = target.agi;
 			} else {
 				sourceAtk = source.atk;
 				sourceDex = source.dex;
-				targetDef = target.derivedStats["def"];
-				targetAgi = target.stats["agi"];
+				targetDef = Player.derivedStats["def"];
+				targetAgi = Player.stats["agi"];
 			}
 			
 			var ratio:Number = sourceDex / targetAgi;

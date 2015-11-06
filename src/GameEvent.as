@@ -5,22 +5,16 @@
 	import flash.utils.IExternalizable;
 	
 	public class GameEvent {
-		//public var main:MovieClip;
-		//public var Player:Player;
 		public var xml:XML;
-		//public var currDialog:XMLList;
 		
 		public var name:String;
-		//public var available:Boolean;
 		public var repeatable:Boolean;
 		public var state:int;
 		public var log:String;
+		public var loc:Array;
 
 		public function GameEvent(fileName:String = "") {
-			//this.main = main;
-			//this.Player = Player;
 			name = fileName;
-			//available = true;
 			state = 0;
 			
 			fileName = fileName.replace(/ /g, "_");
@@ -31,9 +25,9 @@
 			if ("@name" in xml)
 				name = xml.@name;
 			
-			if (xml.@repeatable == "true") {
+			if (xml.@repeatable == "true")
 				repeatable = true;
-			} else
+			else
 				repeatable = false;
 			
 			setDialog(0);
@@ -114,12 +108,12 @@
 						state = text.@goto;
 						setDialog(state);
 						break;
-					} /*else {
-						Main.currEvent = null;
-					}*/
+					}
 					
 					doActions(text);
 					Main.currEvent = this;
+				} else {
+					ret = false;
 				}
 			}
 			
@@ -157,7 +151,16 @@
 						max = temp[1]
 					
 					if (str == "loc") {
-						succ = checkLoc(min, max);
+						if (min == -1 || max == -1) {
+							if (loc == null) {
+								loc = new Array(Player.x, Player.y);
+								succ = true;
+							} else {
+								succ = checkLoc(loc[0], loc[1]);
+							}
+						} else {
+							succ = checkLoc(min, max);
+						}
 					} else if (Player.resources.hasOwnProperty(str)) {
 						succ = checkResource(str, min, max);
 					} else if (Player.stats.hasOwnProperty(str)) {
@@ -265,6 +268,7 @@
 		
 		public function addQuest():void {
 			Player.quests.push(this);
+			Player.eventRecord[name] = false;
 			Main.addText("Quests added: " + name);
 			trace("Quest added: " + name);
 		}

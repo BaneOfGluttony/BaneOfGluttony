@@ -54,6 +54,7 @@
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="swc\MainGame.swc" />
+    <element path="swc\LoadScreen.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

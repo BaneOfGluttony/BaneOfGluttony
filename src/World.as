@@ -50,8 +50,12 @@
 				var cell:Array = lines[i].split("\t");
 				for (var j:int = 0; j < cols; j++) {
 					//Region - Name - Text - Enter (false) - Save (false) - Enemies (null) - Items (null) - Events (null)
-					var data:Array = cell[j].split("-");	//Do NOT use hyphens in map text
-					var region:String = StringUtil.trim(data[0]);
+					var data:Array = cell[j].split("-");	//Do NOT use hyphens/dashes, commas, or semi-colons in map text
+					//var dataString:String = data.join("*");
+					//dataString = StringUtil.trimArrayElements(data.join("*"), "*");
+					data = (StringUtil.trimArrayElements(data.join("*"), "*")).split("*");
+					
+					var region:String = data[0];
 					var name:String = "";
 					var text:String = "";
 					var enter:Boolean = false;
@@ -146,7 +150,7 @@
 							region = "Beach";
 							break;
 					}
-					
+						
 					if (data[1] != null && data[1] != "")
 						name = StringUtil.trim(data[1]);
 					
@@ -188,7 +192,7 @@
 						
 						for each (var event:String in temp) {
 							temp[k] = event.split(",");
-							var entry:Array = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
+							var entry:Array = new Array(StringUtil.trim(temp[k][0]), Number(StringUtil.trim(temp[k][1])));
 							events.push(entry);
 							k++;
 						}
@@ -200,8 +204,8 @@
 						
 					}
 					
-					world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text, enter : enter, save : save,
-												enemies : enemies, itemsText : items, events : events } );
+					/*world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text, enter : enter, save : save,
+												enemies : enemies, itemsText : items, events : events } );*/
 					
 					xml.appendChild( < cell name = { name } x = { j } y = { i } region = { region } enter = { enter } 
 									save = { save } enemies = { enemies } items = { items } events = { events } > { text }</cell>);
@@ -209,7 +213,7 @@
 			}
 			bytes.writeUTFBytes(xml);
 			file.save(bytes, "world.xml");
-			
+			parseXML();
 			MainGameUI.updateNavBtns();
 		}
 		
@@ -221,17 +225,6 @@
 				world[i % cols][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
 												enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
 												itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
-				/*var cell:Zone = world[i % cols][int(i / cols)];
-				cell.name = entry.@name;
-				cell.x = i / cols;
-				cell.y = i % cols;
-				cell.region = entry.@region;
-				cell.text = entry;
-				cell.enter = entry.@enter;
-				cell.save = entry.@save;
-				cell.enemies = entry.@enemies.split(",");
-				cell.items = entry.@items.split(",");
-				cell.events = entry.@events.split(",");*/
 			}
 		}
 		
