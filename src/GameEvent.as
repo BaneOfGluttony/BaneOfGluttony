@@ -12,10 +12,12 @@
 		public var state:int;
 		public var log:String;
 		public var loc:Array;
-
+		public var cont:String;
+		
 		public function GameEvent(fileName:String = "") {
 			name = fileName;
 			state = 0;
+			cont = "";
 			
 			fileName = fileName.replace(/ /g, "_");
 			fileName = fileName.toUpperCase();
@@ -89,9 +91,13 @@
 					else
 						Main.addText(text);
 					
-					if (dialog.@end == "true" || text.@end == "true") {
+					if ("@cont" in dialog || "@cont" in text) {
 						MainGameUI.btnArray[8].btnText.text = "Continue";
 						MainGameUI.btnArray[8].visible = true;
+						if ("@cont" in dialog)
+							cont = dialog.@cont;
+						else
+							cont = text.@cont;
 					} else {
 						var i:int = 0;
 						for each (var option:XML in options.option) {
@@ -106,6 +112,7 @@
 					
 					if ("@goto" in text) {
 						state = text.@goto;
+						cont = "prog";
 						setDialog(state);
 						break;
 					}
@@ -213,6 +220,8 @@
 						rmvQuest();
 					} else if (str == "endEvent") {
 						endEvent();
+					} else if (str == "cmpltEvent") {
+						cmpltEvent();
 					} else if (str == "loc") {
 						var temp:Array = val.split(",");
 						MainGameUI.travel(temp[0], temp[1]);
@@ -282,6 +291,10 @@
 		}
 		
 		public function endEvent():void {
+			Main.currEvent = null;
+		}
+		
+		public function cmpltEvent():void {
 			Main.currEvent = null;
 			Player.eventRecord[name] = repeatable;
 		}

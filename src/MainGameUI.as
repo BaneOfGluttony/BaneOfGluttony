@@ -921,13 +921,15 @@ package
 						hideCombat();
 						break;
 					case "dialog" :
-						if (game.btnsUI.btn9.btnText.text == "Continue") {
+						if (Main.currEvent.cont == "end") {
 							state = "navigate";
 							updateNavBtns();
 							updateMenuBtns();
 							travel(Player.x, Player.y);
 							if (Player.statPoints > 0)
 								game.lvlupUI.visible = true;
+						} else if (Main.currEvent.cont == "prog") {
+							Main.currEvent.setDialog(Main.currEvent.state);	//may be problematic
 						} else {
 							Main.currEvent.setOption(8);
 						}
@@ -1279,15 +1281,17 @@ package
 					hideCombat();
 					break;
 				case "dialog" :
-					if (game.btnsUI.btn9.btnText.text == "Continue") {
+					if (Main.currEvent.cont == "end") {
 						state = "navigate";
 						updateNavBtns();
 						updateMenuBtns();
 						travel(Player.x, Player.y);
 						if (Player.statPoints > 0)
 							game.lvlupUI.visible = true;
+					} else if (Main.currEvent.cont == "prog") {
+						Main.currEvent.setDialog(Main.currEvent.state);	//may be problematic
 					} else {
-						Main.currEvent.setOption(7);
+						Main.currEvent.setOption(8);
 					}
 					break;
 				default :

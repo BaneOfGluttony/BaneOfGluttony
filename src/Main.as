@@ -154,7 +154,8 @@
 					setText(combatText);
 					break;
 				case "dialog" :
-					MainGameUI.game.mainUI.textField.appendText("\n\n" + txt);
+					MainGameUI.game.mainUI.textField.text += "\n\n" + txt;
+					setText(MainGameUI.game.mainUI.textField.text);
 					MainGameUI.game.mainUI.scrollBar.scrollPosition = MainGameUI.game.mainUI.scrollBar.minScrollPosition;
 					break;
 				case "navigate" :

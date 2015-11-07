@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<event name="PsychicImmortality" repeatable="false">
+	<dialog id="0">
+		<text>
+You stride through the woods, whistling a cheery tune, enjoying the scenery and calming sounds of the forest when you come across a wooden shack. The building, along with the trail leading up to it seems disheveled and abandoned, save for the fact that there is a well-tended vegetable garden just in front of the house. The garden seems out of place, but you don't feel that threatened by the tomatoes.
+		</text>
+		<options>
+			<option id="1">Investigate</option>
+			<option id="X">Leave</option>
+		</options>
+	</dialog>
+	<dialog id="1">
+		<text>
+Curiosity piqued, you move to the door. Noting the worn wood for a moment, you raise your paw to knock. You rap your knuckles against the wood, making a quick series of thunks.
+You're surprised when the door swings inwards immediately, revealing a rather muscular and unusually stocky ferret. He is dressed in what appears to be typical hunters' attire, bearing a smile that dwindles on the precipice of a friendly and unnerving exclamation. 
+"Well, hello!" he greets you, perhaps a little too warmly. He seems oddly thrilled to see you and continues in a disparate tone, "How wonderful it is to see you this day! Please, come in, come in! I have stew boiling for you on the stove, friend."
+Though you're pretty sure you're not familiar enough with this hunter to be called his "friend," and it's a bit odd that he seems to have been expecting you, the ferret seems amiable enough.
+		</text>
+		<options>
+			<option id="2">Enter</option>
+			<option id="Y">Leave</option>
+		</options>
+	</dialog>
+	<dialog id="2">
+		
+	</dialog>
+	<dialog id="Y">
+		<text check="agi:30" action="cmpltEvent;exp:100" cont="end">
+You quickly dodge the grasping hand and make a run for it, the ferret yelling and pleading for you to come back but without giving chase. Sprinting into the woods, you hear a door slam shut behind you, though you continue to run until you're sure you've reached safety. You take a moment to catch your breath before looking out into the forest once more.
+		</text>
+		<text check="str:30" action="cmpltEvent;exp:100" cont="end" override="true">
+Though the ferret catches your limb, you're able to tear yourself away from his grasp and make a run for it, the ferret yelling and pleading for you to come back but without giving chase. Sprinting into the woods, you hear a door slam shut behind you, though you continue to run until you're sure you’ve reached safety. You take a moment to catch your breath before looking out into the forest once more.
+		</text>
+		<text state="Z" cont="prog">
+Catching your limb, the ferret's smile turns sinister. "Come now, don't be shy! There's more than enough to share!" he insists. His tone betrays his mania as he pulls you into his house and to a flight of stairs leading downward. Your struggling seems to be completely ineffective against the hunter's strength, though it is enough to enrage him into striking your head, knocking you out cold.
+		</text>
+	</dialog>
+	<dialog id="Z">
+		
+	</dialog>
+	<dialog id="X" action="endEvent" cont="end">
+		<text>
+The oddly run-down shack seems rather suspicious, so you turn back the way you came, leaving with slightly quicker steps than you had arrived by. As the trees cut off your view of the building, you hear a creak from the direction of the shack, like a door being opened.
+		</text>
+	</dialog>
+</event>
