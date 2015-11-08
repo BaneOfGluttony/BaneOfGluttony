@@ -37,13 +37,13 @@ She looks rather forlorn, her stomach growling again as she clutches it. "Well, 
 		</text>
 	</dialog>
 	<dialog id="5">
-		<text check="loc:-1,-1" cont="end">
-As you walk around a corner you come across Shara, still quietly sobbing and holding her stomach, even as she eats what must not be her first meal of today. She whimpers a little as she notices you, but tries to smile, hopeful.
-You really should go back to finding those haunches for her.
-		</text>
 		<text check="loc:-1,-1;item:Pork Haunch-5" action="rmvQuest;dropItem:Pork Haunch-5;gold:+3;exp:25" override="true" cont="end">
 Wandering through the streets of the city, it takes some time, and a bit of asking after her, but you finally find Shara as she is resting on a bench, next to the street. She perks up as she sees you, her eyes drawn to your bulging pack. She jumps up, rushing forward to greet you.
 "Oh, welcome back!" She smiles, her face lighting up, though one hand seems to be constantly on her expansive gut. Her smile only widens as you give her the haunches of pork. "You’re a life saver, [sir/madam]." She suddenly lurches forward, wrapping her soft arms around you and pulling you into a warm hug. "Unfortunately, I can only offer you my friendship and a few more gold pieces, but thank you! If I see you again, maybe I can hire you another time! I’ve been so hungry these last few weeks, I wonder why..." She looks concerned for a moment before the bloody smell of the haunches reach her. "Whatever it is, I need to get these cooked! Have a good day!" Quickly handing you another handful of gold, the rotund mouse ambles off, the haunches weighing her weak frame down as she hobbles away, her wide hips sashaying pleasantly as she does so.
+		</text>
+		<text check="loc:-1,-1" cont="end">
+As you walk around a corner you come across Shara, still quietly sobbing and holding her stomach, even as she eats what must not be her first meal of today. She whimpers a little as she notices you, but tries to smile, hopeful.
+You really should go back to finding those haunches for her.
 		</text>
 	</dialog>
 </event>

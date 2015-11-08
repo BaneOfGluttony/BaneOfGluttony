@@ -78,7 +78,9 @@
 			state = x;
 			
 			for each (var text:XML in dialog.text) {
-				if (check(text)) {					
+				cont = "";
+				
+				if (check(text)) {
 					ret = true;
 					MainGameUI.state = "dialog";
 					MainGameUI.hideBtnArray();
@@ -119,6 +121,9 @@
 					
 					doActions(text);
 					Main.currEvent = this;
+					
+					if (cont != "")
+						break;
 				} else {
 					ret = false;
 				}
@@ -168,7 +173,11 @@
 						} else {
 							succ = checkLoc(min, max);
 						}
-					} else if (Player.resources.hasOwnProperty(str)) {
+					} else if (Player.resources.hasOwnProperty("curr" + str.charAt(0).toUpperCase() + str.substring(1))) {
+						str = str.charAt(0).toUpperCase() + str.substring(1);
+						if (str == "Capacity" && min == -1)
+							min = (Player.derivedStats["cap"] + 1) / Player.resources["maxCapacity"];
+						
 						succ = checkResource(str, min, max);
 					} else if (Player.stats.hasOwnProperty(str)) {
 						succ = checkStat(str, min, max);
@@ -225,11 +234,14 @@
 					} else if (str == "loc") {
 						var temp:Array = val.split(",");
 						MainGameUI.travel(temp[0], temp[1]);
-					} else if (Player.resources.hasOwnProperty(str)) {
-						if (val.charAt(0) == "+")			//add percentage
-							Main.addResource(str, val.substring(1) * Player.resources["max" + str], 0);
+					} else if (Player.resources.hasOwnProperty("curr" + str.charAt(0).toUpperCase() + str.substring(1))) {
+						str = str.charAt(0).toUpperCase() + str.substring(1);
+						if (val.charAt(0) == "+")			//add flat
+							Main.addResource(str, val.substring(1), 0);
+						else if (val.charAt(0) == "%")		//add percentage
+							Main.addResource(str, Math.round((val.substring(1) / 100) * Player.resources["max" + str]), 0);
 						else if (val.charAt(0) == "*")		//set percentage
-							Main.setResource(str, val.substring(1) * Player.resources["max" + str], 0);
+							Main.setResource(str, Math.round((val.substring(1) / 100) * Player.resources["max" + str]), -1);
 					} else if (str == "fat") {
 						if (val.charAt(0) == "+")			//add fat
 							Main.addFat(val.substring(1));
@@ -304,8 +316,8 @@
 		}
 		
 		public function checkResource(resource:String, min:Number, max:Number):Boolean {
-			return (Player.resources["min" + resource] / Player.resources["max" + resource]) >= min &&
-				(Player.resources["min" + resource] / Player.resources["max" + resource]) <= max;
+			return (Player.resources["curr" + resource] / Player.resources["max" + resource]) >= min &&
+				(Player.resources["curr" + resource] / Player.resources["max" + resource]) <= max;
 		}
 		
 		public function checkStat(stat:String, min:Number, max:Number):Boolean {

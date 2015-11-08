@@ -8454,7 +8454,7 @@
   <cell name="Forest" x="52" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="53" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="54" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Block" x="55" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Forest" x="55" y="84" region="Forest" enter="false" save="false" enemies="" items="" events="PsychicImmortality,1"/>
   <cell name="Block" x="56" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="57" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="58" y="84" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
@@ -8553,9 +8553,9 @@
   <cell name="Forest" x="51" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="52" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="53" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="54" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="55" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Forest" x="56" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="54" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="55" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="56" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="57" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="58" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Forest" x="59" y="85" region="Forest" enter="false" save="false" enemies="" items="" events=""/>

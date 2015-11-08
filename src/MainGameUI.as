@@ -362,7 +362,7 @@ package
 				if (Player.resources["currCapacity"] > Player.resources["maxCapacity"]) {
 					var overflow:int = Player.resources["currCapacity"] - Player.resources["maxCapacity"];
 					Main.addResource("Capacity", 0, 0.5 * overflow);
-					Main.addText("Clutching your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
+					Main.addText("Clutching onto your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
 				}
 				
 				var capDrained:int;

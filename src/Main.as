@@ -251,6 +251,8 @@
 		}
 		
 		public static function addResource(resource:String, deltaCurr:Number, deltaMax:Number):void { //use a separate takeDamage/feed method that uses this		
+			resource = resource.charAt(0).toUpperCase() + resource.substring(1);
+			
 			Player.resources["max" + resource] += deltaMax;
 			Player.resources["curr" + resource] += deltaCurr;
 			
@@ -358,6 +360,8 @@
 		}
 		
 		public static function setResource(resource:String, deltaCurr:Number, deltaMax:Number):void { //use a separate takeDamage/feed method that uses this
+			resource = resource.charAt(0).toUpperCase() + resource.substring(1);
+			
 			if (deltaMax < 0)
 				deltaMax = Player.resources["max" + resource];
 			
@@ -1003,13 +1007,19 @@
 		
 		public static function isPlayerAlive():Boolean {
 			if (Player.resources["currCapacity"] > Player.derivedStats["cap"]) {
-				endCombat(false);
 				Player.isAlive = false;
-				gameOver(1);
+				
+				if (MainGameUI.state == "combat") {
+					endCombat(false);
+					gameOver(1);
+				}
 			} else if (Player.resources["currHealth"] <= 0) {
-				endCombat(false);
 				Player.isAlive = false;
-				gameOver(0);
+				
+				if (MainGameUI.state == "combat") {
+					endCombat(false);
+					gameOver(0);
+				}
 			}
 			
 			return Player.isAlive;

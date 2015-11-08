@@ -12,7 +12,7 @@
 		public static var world:Array = new Array(rows);
 		public static var textLoader:URLLoader;
 		
-		private static const SAVEXML:Boolean = true;
+		private static const SAVEXML:Boolean = false;
 		private static var xml:XML;
 		if (!SAVEXML) {
 			[Embed(source = "XML/world.xml", mimeType = "application/octet-stream")]
