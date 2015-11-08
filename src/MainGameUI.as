@@ -41,6 +41,7 @@ package
 			Main.runner.addChild(game);
 			
 			game.mainUI.debugConsole.visible = debug;
+			game.mainUI.debugScrollbar.visible = debug;
 		}
 		
 		private static function init(event:Event):void {
@@ -419,20 +420,20 @@ package
 			var currLoc:Zone = World.world[Player.x][Player.y];
 			
 			if (currLoc.enemies.length > 0) {
-				var possibleEnemites:Array = [];
+				var possibleEnemies:Array = [];
 				var probs:Array = [];
 				for each (var enemy:Array in currLoc.enemies) {
 					var prob:Number = Math.random();
 					if (prob < enemy[1]) {
 						enemy[1] = prob;
-						possibleEnemites.push(EnemyDefinitions.getEnemy(enemy[0]));
+						possibleEnemies.push(EnemyDefinitions.getEnemy(enemy[0]));
 						probs.push(prob);
 					}
 				}
 				
 				var min:Number = Math.min.apply(null, probs);
 				var minIndex:int = probs.indexOf(min);
-				ret = possibleEnemites[minIndex];
+				ret = possibleEnemies[minIndex];
 			}
 			
 			return ret;

@@ -181,6 +181,7 @@
 					
 					if (data[6] != null && data[6] != "") {
 						items = StringUtil.trim(data[6]).split(",");
+						items = (StringUtil.trimArrayElements(items.join("*"), "*")).split("*");
 						for each (var item:String in items)
 							item = StringUtil.trim(item);
 					}

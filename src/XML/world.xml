@@ -4255,10 +4255,10 @@
   <cell name="Farmlands" x="53" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="54" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="55" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="56" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="57" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="58" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="59" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="56" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="57" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="58" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="59" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="60" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="61" y="42" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events="">You stand at the edge of the farmed land, as carefully plowed fields, and devoured praire becomes nothing but a sea of green plain.</cell>
   <cell name="Plains" x="62" y="42" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -4355,10 +4355,10 @@
   <cell name="Farmlands" x="53" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="54" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="55" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="56" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="57" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="58" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="59" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="56" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="57" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="58" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="59" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="60" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="61" y="43" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events="">You stand at the edge of the farmed land, as carefully plowed fields, and devoured praire becomes nothing but a sea of green plain.</cell>
   <cell name="Plains" x="62" y="43" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -4455,10 +4455,10 @@
   <cell name="Block" x="53" y="44" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="54" y="44" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="55" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="56" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="57" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="58" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="59" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="56" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="57" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="58" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="59" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="60" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="61" y="44" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events="">You stand at the edge of the farmed land, as carefully plowed fields, and devoured praire becomes nothing but a sea of green plain.</cell>
   <cell name="Plains" x="62" y="44" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -4848,7 +4848,7 @@
   <cell name="Staphshire" x="46" y="48" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Bridge" x="47" y="48" region="Bridge" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Staphshire" x="48" y="48" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="49" y="48" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Restaurant" x="49" y="48" region="Staphshire" enter="true" save="false" enemies="" items="Mutton Loin,Roast Chicken" events="">A place to fill your belly with some good ol' fashioned home cooking.</cell>
   <cell name="Staphshire" x="50" y="48" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Staphshire" x="51" y="48" region="Staphshire" enter="false" save="false" enemies="" items="" events="">The tall buildinds of Staphshire mark it as the most developed settlement in the land. It's lavish store fronts mark it as the best place to prosper. It's dark alleyways mark it as the hunting grounds to those who prey on the prosperity of others.</cell>
   <cell name="Staphshire" x="52" y="48" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
@@ -4950,7 +4950,7 @@
   <cell name="River" x="48" y="49" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="49" y="49" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="50" y="49" region="River" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Staphshire" x="51" y="49" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Apothecary" x="51" y="49" region="Staphshire" enter="true" save="false" enemies="" items="Red Potion,Orange Potion,Yellow Potion,White Potion,Blue Potion,Violet Potion" events="">Potions of all kinds.</cell>
   <cell name="Staphshire" x="52" y="49" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Staphshire" x="53" y="49" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="54" y="49" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
@@ -5048,7 +5048,7 @@
   <cell name="Staphshire" x="46" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.1"/>
   <cell name="Staphshire" x="47" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.1"/>
   <cell name="Staphshire" x="48" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.1"/>
-  <cell name="Home" x="49" y="50" region="Staphshire" enter="false" save="false" enemies="" items="" events="">Before you lies your house. It is not the most beautiful of houses, nor the bigger, but it is your's. It lays in that cozy place between the restaurant and a bakery and overlooks the river. Not a great house, but a nice one indeed.</cell>
+  <cell name="Home" x="49" y="50" region="Staphshire" enter="false" save="true" enemies="" items="" events="">Before you lies your house. It is not the most beautiful of houses, nor the bigger, but it is your's. It lays in that cozy place between the restaurant and a bakery and overlooks the river. Not a great house, but a nice one indeed.</cell>
   <cell name="River" x="50" y="50" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="51" y="50" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="52" y="50" region="River" enter="false" save="false" enemies="" items="" events=""/>
@@ -5347,7 +5347,7 @@
   <cell name="Block" x="45" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="46" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Staphshire" x="47" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events="Ano 1,0.25"/>
-  <cell name="Staphshire" x="48" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events="Blade and Belly,0.1"/>
+  <cell name="Armory" x="48" y="53" region="Staphshire" enter="true" save="false" enemies="" items="Knife,Sword,Axe,Hat,Cotton Shirt,Denim Pants,Shoes,Guard,Falchion,Sabre" events="">Weapons and armor</cell>
   <cell name="Blacksmith" x="49" y="53" region="Staphshire" enter="true" save="false" enemies="" items="Falchion,Rapier,Sabre,Cutlass,Katana,Flamberge,Lance,Halberd" events="">Forger of specilized and powerful weapons.</cell>
   <cell name="Staphshire" x="50" y="53" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="51" y="53" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>
@@ -5540,11 +5540,11 @@
   <cell name="Farmlands" x="38" y="55" region="Farmlands" enter="false" save="false" enemies="" items="" events="">As you walk about through the quiet farmlands, you notice your surroundings sound slightly more quiet than usual. You also notice that the usual overgrowth of vegetations seems weirdly barren of fruit and vegetables. As the suspicion start to mount within you, you finally hear a growl, coming from deep inside the vegetation.</cell>
   <cell name="Farmlands" x="39" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="40" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="41" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="42" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="43" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="44" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="45" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="41" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="42" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="43" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="44" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="45" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="46" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="47" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="48" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
@@ -5552,7 +5552,7 @@
   <cell name="Road" x="50" y="55" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="51" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="52" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="53" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="53" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="54" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="55" y="55" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="River" x="56" y="55" region="River" enter="false" save="false" enemies="" items="" events=""/>
@@ -5640,11 +5640,11 @@
   <cell name="Farmlands" x="38" y="56" region="Farmlands" enter="false" save="false" enemies="" items="" events="">As you walk about through the quiet farmlands, you notice your surroundings sound slightly more quiet than usual. You also notice that the usual overgrowth of vegetations seems weirdly barren of fruit and vegetables. As the suspicion start to mount within you, you finally hear a growl, coming from deep inside the vegetation.</cell>
   <cell name="Farmlands" x="39" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="40" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="41" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="42" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="43" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="44" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="45" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="41" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="42" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="43" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="44" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="45" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="46" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="47" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="48" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
@@ -5652,8 +5652,8 @@
   <cell name="Road" x="50" y="56" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="51" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="52" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="53" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="54" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="53" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="54" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="55" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="56" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="57" y="56" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
@@ -5740,11 +5740,11 @@
   <cell name="Farmlands" x="38" y="57" region="Farmlands" enter="false" save="false" enemies="" items="" events="">As you walk about through the quiet farmlands, you notice your surroundings sound slightly more quiet than usual. You also notice that the usual overgrowth of vegetations seems weirdly barren of fruit and vegetables. As the suspicion start to mount within you, you finally hear a growl, coming from deep inside the vegetation.</cell>
   <cell name="Farmlands" x="39" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="40" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="41" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="42" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="43" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="44" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="45" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="41" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="42" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="43" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="44" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="45" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="46" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="47" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="48" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
@@ -5752,9 +5752,9 @@
   <cell name="Farmlands" x="50" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Road" x="51" y="57" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="52" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="53" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="54" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="55" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="53" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="54" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="55" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="56" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="57" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="58" y="57" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
@@ -5853,9 +5853,9 @@
   <cell name="Road" x="51" y="58" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Farmlands" x="52" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="53" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="54" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="55" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
-  <cell name="Farmlands" x="56" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
+  <cell name="Farmlands" x="54" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="55" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
+  <cell name="Farmlands" x="56" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3,Giant Mole,0.15" items="" events=""/>
   <cell name="Farmlands" x="57" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="58" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
   <cell name="Farmlands" x="59" y="58" region="Farmlands" enter="false" save="false" enemies="Boar,0.2,Slime,0.3" items="" events=""/>
@@ -7638,7 +7638,7 @@
   <cell name="Plains" x="36" y="76" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="37" y="76" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="38" y="76" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
-  <cell name="Plains" x="39" y="76" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
+  <cell name="Plains" x="39" y="76" region="Plains" enter="false" save="false" enemies="Thug,0.5" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="40" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="41" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Plains" x="42" y="76" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -7738,9 +7738,9 @@
   <cell name="Block" x="36" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="37" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="38" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="39" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
-  <cell name="Plains" x="40" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
-  <cell name="Plains" x="41" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
+  <cell name="Plains" x="39" y="77" region="Plains" enter="false" save="false" enemies="Thug,0.5" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
+  <cell name="Plains" x="40" y="77" region="Plains" enter="false" save="false" enemies="Thug,0.5" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
+  <cell name="Plains" x="41" y="77" region="Plains" enter="false" save="false" enemies="Thug,0.5" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="42" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="43" y="77" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Plains" x="44" y="77" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
@@ -7943,7 +7943,7 @@
   <cell name="Forest" x="41" y="79" region="Forest" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="42" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="43" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Plains" x="44" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Plains" x="44" y="79" region="Plains" enter="false" save="false" enemies="" items="" events="">The plains start to gain a dreadfull atmosphere as the mists of the Hollow Wood's start obscuring much of the vision. To the south, the forest canopy towers omniously above you. The way back to safety suddenly starts looking very welcoming in comparison.</cell>
   <cell name="Block" x="45" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="46" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="47" y="79" region="Plains" enter="false" save="false" enemies="" items="" events=""/>

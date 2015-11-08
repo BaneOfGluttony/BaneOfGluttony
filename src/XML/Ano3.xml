@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<event name="Ano 3" repeatable="false">
+	<dialog id="0">
+		<text>
+As you walk along the riverbanks you find a squat otter swear madly as she waves her fishing rod at the skies. She must have once been a seafarer, because no other being would ever have come up with such eloquent ways of berating fish... and their forebearers... and inanimate objects...
+You consider asking what is wrong, but you fear having such a creative and angry mind turned at you for one reason or another. Do you approach the otter?
+		</text>
+		<options>
+			<option id="1">Approach her</option>
+			<option id="5">Leave her alone</option>
+		</options>
+	</dialog>
+	<dialog id="1">
+		<text state="2" cont="end">
+You make the least objectionable face possible and approach the woman, asking what is wrong.
+"The *$#@%@ fish, is what is wrong! For five years, I’ve been fishing here! Fish have always been plenty, but now the fish have grown too big, too fat, and they just hang about the bottom of the river and do... whatever it is fish do!" She huffs angrily and throws her fishing rod at the riverbank, nearly splitting it in two before removing the miniscule bait from the hook.
+She sighs as her anger seems to die down and descends to her knees, holding them tight. "I used to be a deep waters fisher, you know?" she says longingly, "Then that damn Red Pirate took my ship and left me stranded in this god forsaken place. Now these fat bastards are all I have." She spits on the ground, some of the anger rekindling inside of her. She remains like that for a few moments, then her gaze drifts to the bit of artificial bait lying motionless in the mud.
+"You know what we need?" she asks suddenly, brightening up a little, "Bigger bait. Think about it. Big fish eat small fish. If the fish get bigger, all you need is bigger bait. That’s what we need to attract those fat bastards." She rises up, turning to face you for the first time. "Hey, you over there. Help a girl in need will you? Hop over the port across town and get me some big, big feesh. Tell them mariner Dana sent you." She throws you something that looks awfully like a wooden doubloon with her winking face inscribed in it. "In the meantime, I think I have another plan."
+		</text>
+	</dialog>
+	<dialog id="2">
+		<text check="loc:SOMELOC">
+You make your way back to Dana's favored fishing spot. You are not able to find the otter, no matter how hard you search. Just as you are about to give up, you notice something brown very similar to, but not quite, an otter's tail blending with the mud and leaves on the ground, a fishing line tied to it. As you get closer, you see what appears to be a slumbering otter within said leaves. You poke her on the shoulder, startling her awake in an instant.
+"What?! Who?! When?! Oh, it's just you," she says, regaining some of her composure, "I had this idea that maybe the fish weren't catching because they learned to see me. I guess I must have dozed off below my cover." She yawns as she brushes a few leaves out of her ear. "So, let’s see. Have you got my feesh?" she asks, rummaging through your things before even giving you a chance to respond.
+		</text>
+		<text check="loc:SOMELOC;item:Feesh-1">
+"Aha! Thank you very much, unidentified person. Now, let us test this theory shall we?" She says as she grabs the fish from you and moves back down the bank.
+		</text>
+		<text check="loc:SOMELOC">
+"Apparently not. Well what are you waiting for?! Go on! These fish aren't going to catch, gut, AND prepare themselves!" She goes back under her leaf bed, and after a few moments, you hear a soft snoring as she returns to her slumber.
+		</text>
+	</dialog>
+</event>
