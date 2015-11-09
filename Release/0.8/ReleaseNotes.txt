@@ -15,7 +15,7 @@ We have introduced:
 [li]Bandits and giant moles have been added as enemies![/li][/ul][/li]
 [li]Map
 [ul type="square"]
-[li]Our 100x100 map has finally been added.[/li]
+[li]Our 100x100 map has finally been added. [b]NOTE: Given the enormous size (10000 cells) the game will need a moment or two to load and parse all the information in the map.[/b][/li]
 [li]We know it’s a bit difficult to navigate without a visual map, so we apologize for that. We're still waiting to get a new one drawn up! In the meantime, feel free to [a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.0/BoGmap.xlsx"]click here[/a] to download an Excel spreadsheet to use as a map.[/li]
 [li]For now you should be limited to the central area, and there isn't much very far outside of town, but it's all there![/li][/ul][/li]
 
@@ -23,7 +23,7 @@ Again, if you find any bugs, please copy whatever nonsense that gets printed in 
 
 We hope you continue to enjoy this game and are as excited as we are moving forward!
 
-[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.0/BaneOfGluttony.v0.8.0.swf"][font size="6"][b]Download v0.8 here![/b][/font][/a]
+[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.0/BaneOfGluttony.v0.8.0.debug.swf"][font size="6"][b]Download v0.8 here![/b][/font][/a]
 
 To run it, all you have to do it download it and drag it onto an open browser window. 
 
