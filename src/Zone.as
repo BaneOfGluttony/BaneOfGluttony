@@ -63,7 +63,7 @@
 			if (enemiesText != null) {
 				n = enemiesText.length;
 				if (n > 1)
-					for (i = 0; i < n; i++)
+					for (i = 0; i < n; i += 2)
 						enemies[l++] = [enemiesText[i], enemiesText[i + 1]];
 			}
 			
@@ -88,7 +88,7 @@
 				n = eventsText.length;
 				if (n > 1) {
 					l = 0;
-					for (i = 0; i < n; i++)
+					for (i = 0; i < n; i += 2)
 						events[l++] = [eventsText[i], eventsText[i + 1]];
 				}
 			}
