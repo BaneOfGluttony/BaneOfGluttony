@@ -35,7 +35,7 @@ We’re very excited moving forward on this project and hope you are too! Be sure 
 
 Well. Now that we have the “words” out of the way, I am proud to present to you the next version of Bane of Gluttony!
 
-[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.7.1/BaneOfGluttony.v0.7.1.swf"][font size="6"][b]Download v0.7 here![/b][/font][/a]
+[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.7.2/BaneOfGluttony.v0.7.2.swf"][font size="6"][b]Download v0.7 here![/b][/font][/a]
 
 To run it, all you have to do it download it and drag it onto an open browser window. 
 
@@ -63,6 +63,13 @@ Fixed all the bugs that @Soluce had pointed out. Hopefully I didn't miss/break a
 
 [b][i]v0.7.2[/i][/b]
 
-You can now increase stats upon leveling up. This also means you can actually finish the bakery quest.
-[ul type="disc"][li]Fixed bug where selecting an item to sell displays its purchase value instead of selling value[/li]
-[li][/li][/ul]
+Finally added a much needed feature from a playability standpoint that should've been there from the start. Turns out it was surprisingly easier to implement actual stat leveling than I thought it'd be... So, that means you can finally playtest and get some sense of progress.
+[ul type="disc"][li]Fixed bug where selecting an item to sell displays its purchase value instead of selling value.[/li]
+[li]Fixed bug where surrendering to a slime and surviving did not properly end the fight.[/li]
+[li]Fixed a bizarre bug that would cause the game to start printing a quest's rewards text a few characters before it finished printing the quest's end text.[/li]
+[li]Fixed a multiple bugs with the slime force feeding you.[/li]
+[li]Surrendering to a slime now properly fills you proportionally to its remaining health.[/li]
+[li]You can now increase stats upon leveling up. This also means you can actually finish the bakery quest. Yes, I know the placement of the stat points label is awful.[/li]
+[li]You should not be able to spend stat points while in any menu/quest/dialog/combat/etc. except when you initially gain experience/level up at the end of combat/quests.[/li]
+[li]Shara's quest is now repeatable like she implies upon completing the quest.[/li]
+[li]Your stomach capacity now increases when you move while over your max capacity (and still alive, of course).[/li][/ul]

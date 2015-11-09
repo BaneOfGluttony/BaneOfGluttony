@@ -4,12 +4,13 @@ package
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.events.ProgressEvent;
 	import flash.events.TextEvent;
 	import flash.geom.ColorTransform;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
-	import Quests.Test;
+	import mx.utils.StringUtil;
 	
 	/**
 	 * All of the code that was previously on the Timeline
@@ -17,41 +18,36 @@ package
 	 */
 	public class MainGameUI 
 	{
-		public var game:MovieClip;		// MainGame.swc
-		public var main:Main;			// Main.as
-		public var debug:Boolean = true;
+		public static var game:MovieClip;		// MainGame.swc
+		public static var debug:Boolean = true;	//Show debug console
 		
-		public const WIDTH:int = 800;
-		public const HEIGHT:int = 600;
+		public static var btnIndex:int = 0
+		public static var scrollIndex:int = 0;
+		public static var menuIndex:int = 0;
+
+		public static var state:String = "navigate";
+
+		public static var menuItemSelected:Boolean = false;
+		public static var selectedItem:Item = null;
+
+		public static var btnArray:Array;
 		
-		public var btnIndex:int = 0
-		public var scrollIndex:int = 0;
-		public var menuIndex:int = 0;
-
-		public var state:String = "navigate";
-
-		public var menuItemSelected:Boolean = false;
-		public var selectedItem:Item = null;
-
-		public var btnArray:Array;
-		
-		public const faURL:String = "http://www.furaffinity.net/user/";
+		public static const faURL:String = "http://www.furaffinity.net/user/";
 						
-		public function MainGameUI(_main:Main) {
-			main = _main;
-
+		public function MainGameUI() {
 			game = new MainGame();
-
+			
 			game.addEventListener(Event.ADDED_TO_STAGE, init);
-			main.runner.addChild(game);
+			Main.runner.addChild(game);
 			
 			game.mainUI.debugConsole.visible = debug;
+			game.mainUI.debugScrollbar.visible = debug;
 		}
 		
-		private function init(e:Event):void {
+		private static function init(event:Event):void {
 			game.removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			main.runner.stage.showDefaultContextMenu = false;
+			Main.runner.stage.showDefaultContextMenu = false;
 			
 			btnArray = new Array(game.btnsUI.btn1, game.btnsUI.btn2, game.btnsUI.btn3,
 							     game.btnsUI.btn4, game.btnsUI.btn5, game.btnsUI.btn6,
@@ -309,118 +305,141 @@ package
 			game.lvlupUI.vorBtn.addEventListener(MouseEvent.CLICK, incStat("vor"));
 			
 			// now allow Main to finish initalizing
-			if (!main.mainMC)
-				main.mainMC = this;
-			main.firstInit();
+			/*if (!Main.mainMC)
+				Main.mainMC = this;*/
+			Main.firstInit();
+			//container.loadingScreen.visible = false;
 		}
 
-		public function down(btn:MovieClip):void {
+		public static function debugTrace():void {
+			if (!debug)
+				return;
+			
+			trace("\n" + Clock.toString());
+			trace("atk = " + Player.derivedStats["atk"]);
+			trace("matk = " + Player.derivedStats["matk"]);
+			trace("def = " + Player.derivedStats["def"]);
+			trace("mdef = " + Player.derivedStats["mdef"]);
+			trace("acc = " + Player.derivedStats["acc"]);
+			trace("dodge = " + Player.derivedStats["dodge"]);
+			trace("cap = " + Player.resources["currCapacity"] + " / " + Player.resources["maxCapacity"] + " (" + Player.derivedStats["cap"] + ")");
+			trace("state = " + state);
+			if (selectedItem != null)
+				trace("selectedItem = " + selectedItem.name);
+			else
+				trace("selectedItem = null");
+		}
+		
+		public static function down(btn:MovieClip):void {
 			btn.scaleX = 0.9;
 			btn.scaleY = 0.9;
 		}
 
-		public function up(btn:MovieClip):void {
+		public static function up(btn:MovieClip):void {
 			btn.scaleX = 1;
 			btn.scaleY = 1;
 		}
 
-		public function hideBtnArray():void {
+		public static function hideBtnArray():void {
 			for each (var btn:MovieClip in btnArray)
 					btn.visible = false;
 		}
 
 		//{ Update functions
-		public function update():void {
+		public static function update():void {
 			updateMenuBtns();
 			updateNavBtns();
 			updateMaps();
 			
 			var enemy:Enemy = checkEnemy();
 			if (enemy != null) {
-				main.startCombat(enemy);
+				Main.startCombat(enemy);
 			} else {
-				/*if (main.player.resources["currCapacity"] <= 0) {
-					main.addResource("Health", -0.05 * main.player.resources["maxHealth"], 0);
-					if (main.player.resources["currHealth"] <= 0)
-						main.gameOver(2);
+				/*if (Player.resources["currCapacity"] <= 0) {
+					Main.addResource("Health", -0.05 * Player.resources["maxHealth"], 0);
+					if (Player.resources["currHealth"] <= 0)
+						Main.gameOver(2);
 				}*/
+				if (Player.resources["currCapacity"] > Player.resources["maxCapacity"]) {
+					var overflow:int = Player.resources["currCapacity"] - Player.resources["maxCapacity"];
+					Main.addResource("Capacity", 0, 0.5 * overflow);
+					Main.addText("Clutching onto your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
+				}
 				
 				var capDrained:int;
-				if (main.player.stats["vit"] <= 0.8 * main.player.resources["maxCapacity"])
-					capDrained = Math.round(0.03 * (main.player.resources["maxCapacity"] - main.player.stats["vit"]));
+				if (Player.stats["vit"] <= 0.8 * Player.resources["maxCapacity"])
+					capDrained = Math.round(0.03 * (Player.resources["maxCapacity"] - Player.stats["vit"]));
 				else
-					capDrained = Math.round(0.01 * main.player.resources["maxCapacity"]);
+					capDrained = Math.round(0.01 * Player.resources["maxCapacity"]);
 				
-				if (capDrained > main.player.resources["currCapacity"]) {
-					capDrained = main.player.resources["currCapacity"];
-					main.setResource("Capacity", 0, -1);
+				if (capDrained > Player.resources["currCapacity"]) {
+					capDrained = Player.resources["currCapacity"];
+					Main.setResource("Capacity", 0, -1);
 				} else
-					main.addResource("Capacity", -capDrained, 0);
+					Main.addResource("Capacity", -capDrained, 0);
 				
-				main.addFat(0.1 * capDrained);
+				Main.addFat(0.1 * capDrained);
 			}
 			
 			
-			//main.updateStats();
+			//Main.updateStats();
 			updateQuests();
 		}
 
-		public function checkBounds(x:int, y:int):Boolean {
-			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1) {
-				//main.addText("Edge of the world.");
+		public static function checkBounds(x:int, y:int):Boolean {
+			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1 || World.world[x][y] == null)
 				return false;
-			} else if (World.world[x][y].name == "Wall") {
-				//main.addText("You can't go there");
+			else if (StringUtil.trim(World.world[x][y].name) == "Block" || StringUtil.trim(World.world[x][y].name) == "River")
 				return false;
-			} else {
+			else
 				return true;
-			}
 		}
 
-		public function updateQuests():void {
+		public static function updateQuests():void {
 			var existingEvent:Boolean = false;
-			var currLoc:Zone = World.world[main.player.x][main.player.y];
+			var currLoc:Zone = World.world[Player.x][Player.y];
 			
-			for each (var quest:GameEvent in main.player.quests) {
-				existingEvent = quest.setDialog(quest.state);
+			for each (var quest:GameEvent in Player.quests) {
+				if (quest.setDialog(quest.state)) {
+					existingEvent = true;
+					break;
+				}
 			}
 			
-			if (!existingEvent && currLoc.events != null) {
+			if (!existingEvent && currLoc.events.length > 0) {
 				for each (var event:Array in currLoc.events) {
-					/*if (EventDefinitions.definitions[event[0]].available && Math.random() < event[1])
-						EventDefinitions.startEvent(event[0]);*/
-					trace(event[0] in main.player.eventRecord);
-					if ((!(event[0] in main.player.eventRecord) || main.player.eventRecord[event[0]] == true) && Math.random() < event[1])
-						var exec:GameEvent = new GameEvent(main, main.player, event[0]);
+					//trace(event[0] in Player.eventRecord);
+					if ((!(event[0] in Player.eventRecord) || Player.eventRecord[event[0]]) && Math.random() < event[1])
+						var exec:GameEvent = new GameEvent(event[0]);
 				}
 			}
 		}
 		
-		public function checkEnemy():Enemy {
+		public static function checkEnemy():Enemy {
 			var ret:Enemy = null;
-			var enemies:Array = World.world[main.player.x][main.player.y].enemies;
+			var currLoc:Zone = World.world[Player.x][Player.y];
 			
-			if (enemies != null) {
-				var possibleEnemites:Array = [];
+			if (currLoc.enemies.length > 0) {
+				var possibleEnemies:Array = [];
 				var probs:Array = [];
-				for each (var enemy:Array in enemies) {
+				for each (var enemy:Array in currLoc.enemies) {
 					var prob:Number = Math.random();
 					if (prob < enemy[1]) {
 						enemy[1] = prob;
-						possibleEnemites.push(EnemyDefinitions.getEnemy(enemy[0]));
+						possibleEnemies.push(EnemyDefinitions.getEnemy(enemy[0]));
 						probs.push(prob);
 					}
 				}
 				
 				var min:Number = Math.min.apply(null, probs);
 				var minIndex:int = probs.indexOf(min);
-				ret = possibleEnemites[minIndex];
+				ret = possibleEnemies[minIndex];
 			}
 			
 			return ret;
 		}
 
-		public function updateMenuBtns():void {
+		public static function updateMenuBtns():void {
 			//trace("state = " + state);
 			game.optionsBtn.visible = true;
 			game.menuUI.visible = true;
@@ -433,7 +452,7 @@ package
 			
 			switch (state) {
 				case "navigate" :
-					if (World.world[main.player.x][main.player.y].save) {
+					if (World.world[Player.x][Player.y].save) {
 						game.menuUI.saveBtn.visible = true;
 						game.menuUI.loadBtn.visible = true;
 					} else {
@@ -552,94 +571,94 @@ package
 			}
 		}
 
-		public function updateNavBtns():void {
-			var x:int = main.player.x;
-			var y:int = main.player.y;
+		public static function updateNavBtns():void {
+			var x:int = Player.x;
+			var y:int = Player.y;
 			
 			game.btnsUI.btn5.visible = false;
-			game.mainUI.zoneBtn.zoneName.text = World.world[main.player.x][main.player.y].name;
+			game.mainUI.zoneBtn.zoneName.text = World.world[Player.x][Player.y].name;
 			
-			if (!checkBounds(main.player.x - 1, main.player.y - 1) ||
-					World.world[main.player.x - 1][main.player.y - 1] == null) {
+			if (!checkBounds(Player.x - 1, Player.y - 1) ||
+					World.world[Player.x - 1][Player.y - 1] == null) {
 				game.btnsUI.btn1.visible = false;
 			} else {
 				game.btnsUI.btn1.visible = true;
-				game.btnsUI.btn1.btnText.text = World.world[main.player.x - 1][main.player.y - 1].name;
+				game.btnsUI.btn1.btnText.text = World.world[Player.x - 1][Player.y - 1].name;
 			}
 			
-			if (!checkBounds(main.player.x, main.player.y - 1) ||
-					World.world[main.player.x][main.player.y - 1] == null) {
+			if (!checkBounds(Player.x, Player.y - 1) ||
+					World.world[Player.x][Player.y - 1] == null) {
 				game.btnsUI.btn2.visible = false;
 			} else {
 				game.btnsUI.btn2.visible = true;
 				game.btnsUI.btn2.btnText.text = World.world[x][y - 1].name;
 			}
 			
-			if (!checkBounds(main.player.x + 1, main.player.y - 1) ||
-					World.world[main.player.x + 1][main.player.y - 1] == null) {
+			if (!checkBounds(Player.x + 1, Player.y - 1) ||
+					World.world[Player.x + 1][Player.y - 1] == null) {
 				game.btnsUI.btn3.visible = false;
 			} else {
 				game.btnsUI.btn3.visible = true;
-				game.btnsUI.btn3.btnText.text = World.world[main.player.x + 1][main.player.y - 1].name;
+				game.btnsUI.btn3.btnText.text = World.world[Player.x + 1][Player.y - 1].name;
 			}
 			
-			if (!checkBounds(main.player.x - 1, main.player.y) ||
-					World.world[main.player.x - 1][main.player.y] == null) {
+			if (!checkBounds(Player.x - 1, Player.y) ||
+					World.world[Player.x - 1][Player.y] == null) {
 				game.btnsUI.btn4.visible = false;
 			} else {
 				game.btnsUI.btn4.visible = true;
-				game.btnsUI.btn4.btnText.text = World.world[main.player.x - 1][main.player.y].name;
+				game.btnsUI.btn4.btnText.text = World.world[Player.x - 1][Player.y].name;
 			}
 			
-			if (World.world[main.player.x][main.player.y].enter) {
+			if (World.world[Player.x][Player.y].enter) {
 				game.btnsUI.btn5.visible = true;
 				game.btnsUI.btn5.btnText.text = "Enter";
 			}
 			
-			if (!checkBounds(main.player.x + 1, main.player.y) ||
-					World.world[main.player.x + 1][main.player.y] == null) {
+			if (!checkBounds(Player.x + 1, Player.y) ||
+					World.world[Player.x + 1][Player.y] == null) {
 				game.btnsUI.btn6.visible = false;
 			} else {
 				game.btnsUI.btn6.visible = true;
-				game.btnsUI.btn6.btnText.text = World.world[main.player.x + 1][main.player.y].name;
+				game.btnsUI.btn6.btnText.text = World.world[Player.x + 1][Player.y].name;
 			}
 			
-			if (!checkBounds(main.player.x - 1, main.player.y + 1) ||
-					World.world[main.player.x - 1][main.player.y + 1] == null) {
+			if (!checkBounds(Player.x - 1, Player.y + 1) ||
+					World.world[Player.x - 1][Player.y + 1] == null) {
 				game.btnsUI.btn7.visible = false;
 			} else {
 				game.btnsUI.btn7.visible = true;
-				game.btnsUI.btn7.btnText.text = World.world[main.player.x - 1][main.player.y + 1].name;
+				game.btnsUI.btn7.btnText.text = World.world[Player.x - 1][Player.y + 1].name;
 			}
 			
-			if (!checkBounds(main.player.x, main.player.y + 1) ||
-					World.world[main.player.x][main.player.y + 1] == null) {
+			if (!checkBounds(Player.x, Player.y + 1) ||
+					World.world[Player.x][Player.y + 1] == null) {
 				game.btnsUI.btn8.visible = false;
 			} else {
 				game.btnsUI.btn8.visible = true;
-				game.btnsUI.btn8.btnText.text = World.world[main.player.x][main.player.y + 1].name;
+				game.btnsUI.btn8.btnText.text = World.world[Player.x][Player.y + 1].name;
 			}
 			
-			if (!checkBounds(main.player.x + 1, main.player.y + 1) ||
-					World.world[main.player.x + 1][main.player.y + 1] == null) {
+			if (!checkBounds(Player.x + 1, Player.y + 1) ||
+					World.world[Player.x + 1][Player.y + 1] == null) {
 				game.btnsUI.btn9.visible = false;
 			} else {
 				game.btnsUI.btn9.visible = true;
-				game.btnsUI.btn9.btnText.text = World.world[main.player.x + 1][main.player.y + 1].name;
+				game.btnsUI.btn9.btnText.text = World.world[Player.x + 1][Player.y + 1].name;
 			}
 		}
 
-		public function updateMaps():void {
-			game.mainUI.miniMap.x = 350 + 70 - 35 * main.player.x;
-			game.mainUI.miniMap.y = 70 - 35 * main.player.y;
+		public static function updateMaps():void {
+			game.mainUI.miniMap.x = 350 + 70 - 35 * Player.x;
+			game.mainUI.miniMap.y = 70 - 35 * Player.y;
 			
-			game.mainUI.bigMarker.x = 552 + 62 * main.player.x;
-			game.mainUI.bigMarker.y = 62 * main.player.y;
+			game.mainUI.bigMarker.x = 552 + 62 * Player.x;
+			game.mainUI.bigMarker.y = 62 * Player.y;
 		}
 		//}
 		
 		//{ Keyboard handlers
-		public function keyReleased(e:KeyboardEvent):void {
+		public static function keyReleased(e:KeyboardEvent):void {
 			//{ Menus
 			if (e.keyCode == Keyboard.ESCAPE && game.optionsBtn.visible)
 				openOptions();
@@ -657,7 +676,7 @@ package
 				switch (state) {
 					case "gameover" :
 					case "navigate" :
-						main.loadGame();
+						Main.loadGame();
 						break;
 					case "options" :
 						openOptions();
@@ -713,7 +732,7 @@ package
 			else if (game.btnsUI.btn1.visible && e.keyCode == Keyboard.NUMPAD_7) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x - 1][main.player.y - 1] != null)
+						if (World.world[Player.x - 1][Player.y - 1] != null)
 							moveNW();
 						break;
 					case "appearance" :
@@ -733,7 +752,7 @@ package
 						displayBuying();
 						break;
 					case "dialog" :
-						main.currEvent.setOption(0);
+						Main.currEvent.setOption(0);
 						break;
 					default	:
 						break;
@@ -742,7 +761,7 @@ package
 			else if (game.btnsUI.btn2.visible && (e.keyCode == Keyboard.NUMPAD_8 || e.keyCode == Keyboard.UP || e.keyCode == Keyboard.W)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x][main.player.y - 1] != null)
+						if (World.world[Player.x][Player.y - 1] != null)
 							moveN();
 						break;
 					case "appearance" :
@@ -753,7 +772,7 @@ package
 						menuSelect(1);
 						break;
 					case "dialog" :
-						main.currEvent.setOption(1);
+						Main.currEvent.setOption(1);
 						break;
 					default	:
 						break;
@@ -762,7 +781,7 @@ package
 			else if (game.btnsUI.btn3.visible && e.keyCode == Keyboard.NUMPAD_9) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x + 1][main.player.y - 1] != null)
+						if (World.world[Player.x + 1][Player.y - 1] != null)
 							moveNE();
 						break;
 					case "inventory" :
@@ -778,7 +797,7 @@ package
 						displaySelling();
 						break;
 					case "dialog" :
-						main.currEvent.setOption(2);
+						Main.currEvent.setOption(2);
 						break;
 					default	:
 						break;
@@ -787,7 +806,7 @@ package
 			else if (game.btnsUI.btn4.visible && (e.keyCode == Keyboard.NUMPAD_4 || e.keyCode == Keyboard.LEFT || e.keyCode == Keyboard.A)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x - 1][main.player.y] != null)
+						if (World.world[Player.x - 1][Player.y] != null)
 							moveW();
 						break;
 					case "appearance" :
@@ -798,7 +817,7 @@ package
 						menuSelect(3);
 						break;
 					case "dialog" :
-						main.currEvent.setOption(3);
+						Main.currEvent.setOption(3);
 						break;
 					default	:
 						break;
@@ -817,7 +836,7 @@ package
 						menuSelect(4);
 						break;
 					case "dialog" :
-						main.currEvent.setOption(4);
+						Main.currEvent.setOption(4);
 						break;
 					default	:
 						break;
@@ -826,7 +845,7 @@ package
 			else if (game.btnsUI.btn6.visible && (e.keyCode == Keyboard.NUMPAD_6 || e.keyCode == Keyboard.RIGHT || e.keyCode == Keyboard.D)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x + 1][main.player.y] != null)
+						if (World.world[Player.x + 1][Player.y] != null)
 							moveE();
 						break;
 					case "appearance" :
@@ -837,7 +856,7 @@ package
 						menuSelect(5);
 						break;
 					case "dialog" :
-						main.currEvent.setOption(5);
+						Main.currEvent.setOption(5);
 						break;
 					default	:
 						break;
@@ -846,7 +865,7 @@ package
 			else if (game.btnsUI.btn7.visible && e.keyCode == Keyboard.NUMPAD_1) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x - 1][main.player.y + 1] != null)
+						if (World.world[Player.x - 1][Player.y + 1] != null)
 							moveSW();
 						break;
 					case "inventory" :
@@ -860,7 +879,7 @@ package
 						updateNavBtns();
 						break;
 					case "dialog" :
-						main.currEvent.setOption(6);
+						Main.currEvent.setOption(6);
 						break;
 					default	:
 						break;
@@ -869,7 +888,7 @@ package
 			else if (game.btnsUI.btn8.visible && (e.keyCode == Keyboard.NUMPAD_2 || e.keyCode == Keyboard.DOWN || e.keyCode == Keyboard.S)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x][main.player.y + 1] != null)
+						if (World.world[Player.x][Player.y + 1] != null)
 							moveS();
 						break;
 					case "appearance" :
@@ -880,7 +899,7 @@ package
 						menuSelect(7);
 						break;
 					case "dialog" :
-						main.currEvent.setOption(7);
+						Main.currEvent.setOption(7);
 						break;
 					default	:
 						break;
@@ -889,7 +908,7 @@ package
 			else if (game.btnsUI.btn9.visible && e.keyCode == Keyboard.NUMPAD_3) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[main.player.x + 1][main.player.y + 1] != null)
+						if (World.world[Player.x + 1][Player.y + 1] != null)
 							moveSE();
 						break;
 					case "appearance" :
@@ -903,13 +922,17 @@ package
 						hideCombat();
 						break;
 					case "dialog" :
-						if (game.btnsUI.btn9.btnText.text == "Continue") {
+						if (Main.currEvent.cont == "end") {
 							state = "navigate";
 							updateNavBtns();
 							updateMenuBtns();
-							travel(main.player.x, main.player.y);
+							travel(Player.x, Player.y);
+							if (Player.statPoints > 0)
+								game.lvlupUI.visible = true;
+						} else if (Main.currEvent.cont == "prog") {
+							Main.currEvent.setDialog(Main.currEvent.state);	//may be problematic
 						} else {
-							main.currEvent.setOption(8);
+							Main.currEvent.setOption(8);
 						}
 						break;
 					default	:
@@ -918,107 +941,52 @@ package
 			}
 			//}
 			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		//}
 
 		//{ Mouse handlers
-		public function linkClicked(e:TextEvent):void {
+		public static function linkClicked(e:TextEvent):void {
 			navigateToURL(new URLRequest(faURL + e.text), "_blank");
 		}
 		//{ Menus
-		public function clickOptions(e:MouseEvent):void {
+		public static function clickOptions(e:MouseEvent):void {
 			openOptions();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickAppearance(e:MouseEvent):void {
+		public static function clickAppearance(e:MouseEvent):void {
 			openAppearance();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickInventory(e:MouseEvent):void {
+		public static function clickInventory(e:MouseEvent):void {
 			openInventory();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickSkills(e:MouseEvent):void {
+		public static function clickSkills(e:MouseEvent):void {
 			openSkills();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickQuests(e:MouseEvent):void {
+		public static function clickQuests(e:MouseEvent):void {
 			openQuests();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickSave(e:MouseEvent):void {
-			//main.saveGame();
-			main.addText("Saving and loading are disabled.");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+		public static function clickSave(e:MouseEvent):void {
+			//Main.saveGame();
+			Main.addText("Saving and loading are disabled.");
+			debugTrace();
 		}
 
-		public function clickLoad(e:MouseEvent):void {	//Make sure to change keyboard handler for backspace too
+		public static function clickLoad(e:MouseEvent):void {	//Make sure to change keyboard handler for backspace too
 			switch (state) {
 				case "gameover" :
 				case "navigate" :
-					//main.loadGame();
-					main.addText("Saving and loading are disabled.");
+					//Main.loadGame();
+					Main.addText("Saving and loading are disabled.");
 					break;
 				case "options" :
 					openOptions();
@@ -1050,137 +1018,57 @@ package
 					scrollIndex = 0;
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickMap(e:MouseEvent):void {
+		public static function clickMap(e:MouseEvent):void {
 			toggleMap();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickUpBtn(e:MouseEvent):void {
+		public static function clickUpBtn(e:MouseEvent):void {
 			scrollUp();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			
+			debugTrace();
 		}
 
-		public function clickDownBtn(e:MouseEvent):void {
+		public static function clickDownBtn(e:MouseEvent):void {
 			scrollDown();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
-		public function combatAttack(e:MouseEvent):void {
-			main.combat.turn("attack");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+		public static function combatAttack(e:MouseEvent):void {
+			Main.combat.turn("attack");
+			debugTrace();
 		}
 		
-		public function combatInventory(e:MouseEvent):void {
+		public static function combatInventory(e:MouseEvent):void {
 			openInventory();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
-		public function combatSkills(e:MouseEvent):void {
+		public static function combatSkills(e:MouseEvent):void {
 			openSkills();
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		
-		public function combatRun(e:MouseEvent):void {
-			main.combat.turn("run");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+		public static function combatRun(e:MouseEvent):void {
+			Main.combat.turn("run");
+			debugTrace();
 		}
 		
-		public function combatDevour(e:MouseEvent):void {
-			main.addText("To be implemented.");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+		public static function combatDevour(e:MouseEvent):void {
+			Main.addText("To be implemented.");
+			debugTrace();
 		}
 		
-		public function combatSurrender(e:MouseEvent):void {
-			main.combat.turn("surrender");
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+		public static function combatSurrender(e:MouseEvent):void {
+			Main.combat.turn("surrender");
+			debugTrace();
 		}
 		//}
 		
 		//{ Movement
-		public function clickNW(e:MouseEvent):void {
+		public static function clickNW(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveNW();
@@ -1202,23 +1090,15 @@ package
 					displayBuying();
 					break;
 				case "dialog" :
-					main.currEvent.setOption(0);
+					Main.currEvent.setOption(0);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickN(e:MouseEvent):void {
+		public static function clickN(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveN();
@@ -1233,23 +1113,15 @@ package
 					menuSelect(1);
 					break;
 				case "dialog" :
-					main.currEvent.setOption(1);
+					Main.currEvent.setOption(1);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickNE(e:MouseEvent):void {
+		public static function clickNE(e:MouseEvent):void {
 			trace("state = " + state);
 			switch (state) {
 				case "navigate" :
@@ -1268,23 +1140,15 @@ package
 					displaySelling();
 					break;
 				case "dialog" :
-					main.currEvent.setOption(2);
+					Main.currEvent.setOption(2);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickW(e:MouseEvent):void {
+		public static function clickW(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveW();
@@ -1299,23 +1163,15 @@ package
 					menuSelect(3);
 					break;
 				case "dialog" :
-					main.currEvent.setOption(3);
+					Main.currEvent.setOption(3);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickCenter(e:MouseEvent):void {
+		public static function clickCenter(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveCenter();
@@ -1330,23 +1186,15 @@ package
 					menuSelect(4);
 					break;
 				case "dialog" :
-					main.currEvent.setOption(4);
+					Main.currEvent.setOption(4);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickE(e:MouseEvent):void {
+		public static function clickE(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveE();
@@ -1361,23 +1209,15 @@ package
 					menuSelect(5);
 					break;
 				case "dialog" :
-					main.currEvent.setOption(5);
+					Main.currEvent.setOption(5);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickSW(e:MouseEvent):void {
+		public static function clickSW(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveSW();
@@ -1393,23 +1233,15 @@ package
 					updateNavBtns();
 					break;
 				case "dialog" :
-					main.currEvent.setOption(6);
+					Main.currEvent.setOption(6);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickS(e:MouseEvent):void {
+		public static function clickS(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveS();
@@ -1424,23 +1256,15 @@ package
 					menuSelect(7);
 					break;
 				case "dialog" :
-					main.currEvent.setOption(7);
+					Main.currEvent.setOption(7);
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 
-		public function clickSE(e:MouseEvent):void {
+		public static function clickSE(e:MouseEvent):void {
 			switch (state) {
 				case "navigate" :
 					moveSE();
@@ -1458,33 +1282,29 @@ package
 					hideCombat();
 					break;
 				case "dialog" :
-					if (game.btnsUI.btn9.btnText.text == "Continue") {
+					if (Main.currEvent.cont == "end") {
 						state = "navigate";
 						updateNavBtns();
 						updateMenuBtns();
-						travel(main.player.x, main.player.y);
+						travel(Player.x, Player.y);
+						if (Player.statPoints > 0)
+							game.lvlupUI.visible = true;
+					} else if (Main.currEvent.cont == "prog") {
+						Main.currEvent.setDialog(Main.currEvent.state);	//may be problematic
 					} else {
-						main.currEvent.setOption(7);
+						Main.currEvent.setOption(8);
 					}
 					break;
 				default :
 					break;
 			}
-			
-			trace("\natk = " + main.player.derivedStats["atk"]);
-			trace("matk = " + main.player.derivedStats["matk"]);
-			trace("def = " + main.player.derivedStats["def"]);
-			trace("mdef = " + main.player.derivedStats["mdef"]);
-			trace("acc = " + main.player.derivedStats["acc"]);
-			trace("dodge = " + main.player.derivedStats["dodge"]);
-			trace("cap = " + main.player.resources["currCapacity"] + " / " + main.player.resources["maxCapacity"] + " (" + main.player.derivedStats["cap"] + ")");
-			trace("state = " + state);
+			debugTrace();
 		}
 		//}
 		//}
 		
 		//{ Menu function
-		public function scrollUp():void {
+		public static function scrollUp():void {
 			scrollIndex--;
 			menuIndex = scrollIndex * 9;
 			btnIndex = 0;
@@ -1504,8 +1324,8 @@ package
 					break;
 			}
 		}
-
-		public function scrollDown():void {
+		
+		public static function scrollDown():void {
 			scrollIndex++;
 			btnIndex = 0;
 			
@@ -1524,18 +1344,18 @@ package
 					break;
 			}
 		}
-
-		public function displayInventory():void {
-			main.setText(main.writeInventory());
+		
+		public static function displayInventory():void {
+			Main.setText(Main.writeInventory());
 			
 			hideBtnArray();
 			game.btnsUI.upBtn.visible = false;
 			game.btnsUI.downBtn.visible = false;
 			btnIndex = 0;
 			menuIndex = scrollIndex * 9;
-			for (var i:int = menuIndex; i < main.player.inventory.length && btnIndex < 9; i++) {
+			for (var i:int = menuIndex; i < Player.inventory.length && btnIndex < 9; i++) {
 				btnArray[btnIndex].visible = true;
-				btnArray[btnIndex].btnText.text = main.player.inventory[menuIndex].name;
+				btnArray[btnIndex].btnText.text = Player.inventory[menuIndex].name;
 				
 				btnIndex++;
 				menuIndex++;
@@ -1543,45 +1363,45 @@ package
 			
 			if (scrollIndex > 0)
 				game.btnsUI.upBtn.visible = true;
-			if (main.player.inventory.length > (scrollIndex  + 1) * 9)
+			if (Player.inventory.length > (scrollIndex  + 1) * 9)
 				game.btnsUI.downBtn.visible = true;
 		}
-
-		public function displayAppearance():void {
-			main.setText(main.writeAppearance());
+		
+		public static function displayAppearance():void {
+			Main.setText(Main.writeAppearance());
 			hideBtnArray();
 			
-			if (main.player.equipment["head"] != null) {
+			if (Player.equipment["head"] != null) {
 				game.btnsUI.btn2.visible = true;
-				game.btnsUI.btn2.btnText.text = main.player.equipment["head"].name;
+				game.btnsUI.btn2.btnText.text = Player.equipment["head"].name;
 			}
-			if (main.player.equipment["torso"] != null) {
+			if (Player.equipment["torso"] != null) {
 				game.btnsUI.btn5.visible = true;
-				game.btnsUI.btn5.btnText.text = main.player.equipment["torso"].name;
+				game.btnsUI.btn5.btnText.text = Player.equipment["torso"].name;
 			}
-			if (main.player.equipment["legs"] != null) {
+			if (Player.equipment["legs"] != null) {
 				game.btnsUI.btn8.visible = true;
-				game.btnsUI.btn8.btnText.text = main.player.equipment["legs"].name;
+				game.btnsUI.btn8.btnText.text = Player.equipment["legs"].name;
 			}
-			if (main.player.equipment["feet"] != null) {
+			if (Player.equipment["feet"] != null) {
 				game.btnsUI.btn9.visible = true;
-				game.btnsUI.btn9.btnText.text = main.player.equipment["feet"].name;
+				game.btnsUI.btn9.btnText.text = Player.equipment["feet"].name;
 			}
-			if (main.player.equipment["weapon"] != null) {
+			if (Player.equipment["weapon"] != null) {
 				game.btnsUI.btn4.visible = true;
-				game.btnsUI.btn4.btnText.text = main.player.equipment["weapon"].name;
-				if (main.player.equipment["weapon"].twoHanded) {
+				game.btnsUI.btn4.btnText.text = Player.equipment["weapon"].name;
+				if (Player.equipment["weapon"].twoHanded) {
 					game.btnsUI.btn6.visible = true;
-					game.btnsUI.btn6.btnText.text = main.player.equipment["weapon"].name;
+					game.btnsUI.btn6.btnText.text = Player.equipment["weapon"].name;
 				}
 			}
-			if (main.player.equipment["shield"] != null) {
+			if (Player.equipment["shield"] != null) {
 				game.btnsUI.btn6.visible = true;
-				game.btnsUI.btn6.btnText.text = main.player.equipment["shield"].name;
+				game.btnsUI.btn6.btnText.text = Player.equipment["shield"].name;
 			}
 		}
-
-		public function openOptions():void {
+		
+		public static function openOptions():void {
 			switch (state) {
 				case "gameover" :
 				case "map" :
@@ -1589,14 +1409,17 @@ package
 				case "options" :
 					state = "navigate";
 					
+					if (Player.statPoints > 0)
+						game.lvlupUI.visible = true;	
 					game.optionsBtn.gotoAndStop(1);
-					main.setText(main.mainText);
+					Main.setText(Main.mainText);
 					updateMenuBtns();
 					updateNavBtns();
 					break;
 				default :
 					state = "options";
 					
+					game.lvlupUI.visible = false;
 					game.menuUI.loadBtn.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
@@ -1605,29 +1428,34 @@ package
 					game.menuUI.inventoryBtn.gotoAndStop(1);
 					game.menuUI.skillsBtn.gotoAndStop(1);
 					game.menuUI.questsBtn.gotoAndStop(1);
-					game.mainUI.textField.htmlText = main.optionsText;
-					//main.setText(main.optionsText);
+					game.mainUI.textField.htmlText = Main.optionsText;
+					//Main.setText(Main.optionsText);
 					hideBtnArray();
 					updateMenuBtns();
 					break;
 			}
 		}
-
-		public function openAppearance():void {
+		
+		public static function openAppearance():void {
 			switch (state) {
 				case "map" :
 					break;
 				case "appearance" :
 					state = "navigate";
+					menuItemSelected = false;
+					selectedItem = null;
 					
+					if (Player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.menuUI.appearanceBtn.gotoAndStop(1);
-					main.setText(main.mainText);
+					Main.setText(Main.mainText);
 					updateMenuBtns();
 					updateNavBtns();
 					break;
 				default :
 					state = "appearance";
 					
+					game.lvlupUI.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1637,26 +1465,30 @@ package
 					game.menuUI.questsBtn.gotoAndStop(1);
 					
 					updateMenuBtns();
-					main.setText(main.writeAppearance());
+					Main.setText(Main.writeAppearance());
 					displayAppearance();
 					break;
 			}
 		}
-
-		public function openInventory():void {
+		
+		public static function openInventory():void {
 			switch (state) {
 				case "map" :
 					break;
 				case "inventory" :
 					state = "navigate";
+					menuItemSelected = false;
+					selectedItem = null;
 					btnIndex = 0;
 					menuIndex = 0;
 					scrollIndex = 0;
 					
+					if (Player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.menuUI.inventoryBtn.gotoAndStop(1);
-					main.setText(main.mainText);
+					Main.setText(Main.mainText);
 					updateMenuBtns();
 					updateNavBtns();
 					break;
@@ -1694,13 +1526,14 @@ package
 					game.combatUI.inventoryBtn.gotoAndStop(1);
 					hideBtnArray();
 					
-					main.setText(main.combatText);
+					Main.setText(Main.combatText);
 					game.mainUI.scrollBar.scrollPosition = game.mainUI.scrollBar.maxScrollPosition;
 					game.mainUI.scrollBar.update();
 					break;
 				default :
 					state = "inventory";
 					
+					game.lvlupUI.visible = false;
 					game.optionsBtn.gotoAndStop(1);
 					game.menuUI.appearanceBtn.gotoAndStop(1);
 					game.menuUI.inventoryBtn.gotoAndStop(2);
@@ -1715,18 +1548,20 @@ package
 					break;
 			}
 		}
-
-		public function openSkills():void {	//Needs to work like inventory
+		
+		public static function openSkills():void {	//Needs to work like inventory
 			switch (state) {
 				case "map" :
 					break;
 				case "skills" :
 					state = "navigate";
 					
+					if (Player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.menuUI.skillsBtn.gotoAndStop(1);
 					updateMenuBtns();
 					updateNavBtns();
-					main.setText(main.mainText);
+					Main.setText(Main.mainText);
 					break;
 				case "combat" :
 					state = "combatSkills";
@@ -1742,7 +1577,7 @@ package
 					btnIndex = 0;
 					menuIndex = 0;
 					scrollIndex = 0;
-					main.setText(main.skillsText);
+					Main.setText(Main.skillsText);
 					break;
 				case "combatSkills" :
 					state = "combat";
@@ -1762,13 +1597,14 @@ package
 					game.combatUI.skillsBtn.gotoAndStop(1);
 					hideBtnArray();
 					
-					main.setText(main.combatText);
+					Main.setText(Main.combatText);
 					game.mainUI.scrollBar.scrollPosition = game.mainUI.scrollBar.maxScrollPosition;
 					game.mainUI.scrollBar.update();
 					break;
 				default :
 					state = "skills";
 					
+					game.lvlupUI.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1779,26 +1615,29 @@ package
 					hideBtnArray();
 					
 					updateMenuBtns();
-					main.setText(main.skillsText);
+					Main.setText(Main.skillsText);
 					break;
 			}
 		}
-
-		public function openQuests():void {
+		
+		public static function openQuests():void {
 			switch (state) {
 				case "map" :
 					break;
 				case "quests" :
 					state = "navigate";
 					
+					if (Player.statPoints > 0)
+						game.lvlupUI.visible = true;
 					game.menuUI.questsBtn.gotoAndStop(1);
 					updateMenuBtns();
 					updateNavBtns();
-					main.setText(main.mainText);
+					Main.setText(Main.mainText);
 					break;
 				default :
 					state = "quests"
 					
+					game.lvlupUI.visible = false;
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					game.optionsBtn.gotoAndStop(1);
@@ -1809,27 +1648,31 @@ package
 					hideBtnArray();
 					
 					updateMenuBtns();
-					main.setText(main.writeQuests());
+					Main.setText(Main.writeQuests());
 					break;
 			}
 		}
-
-		public function toggleMap():void {
+		
+		public static function toggleMap():void {
 			switch (state) {
 				case "map" :
 					state = "navigate"
 					
-					game.optionsBtn.visible = true;
-					game.mainUI.bigMap.visible = false;
-					game.mainUI.bigMarker.visible = false;
-					game.mainUI.textField.visible = true;
-					game.mainUI.scrollBar.visible = true;
-					updateNavBtns();
-					updateMenuBtns()
-					break;
+					if (Player.statPoints > 0)
+						game.lvlupUI.visible = true;
+						game.optionsBtn.visible = true;
+						game.mainUI.bigMap.visible = false;
+						game.mainUI.bigMarker.visible = false;
+						game.mainUI.textField.visible = true;
+						game.mainUI.scrollBar.visible = true;
+						updateNavBtns();
+						updateMenuBtns()
+						break;
 				case "navigate" :
-					state = "map";
+					Main.addText("Map is disabled.");
+					/*state = "map";
 					
+					game.lvlupUI.visible = false;
 					game.optionsBtn.visible = false;
 					game.mainUI.bigMap.visible = true;
 					game.mainUI.bigMarker.visible = true;
@@ -1838,22 +1681,22 @@ package
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					updateMenuBtns();
-					hideBtnArray();
+					hideBtnArray();*/
 					break;
 				default :
 					break;
 			}
 		}
-
-		public function menuSelect(x:int):void {
+		
+		public static function menuSelect(x:int):void {
 			var selection:String = btnArray[x].btnText.text;
 			
 			switch (state) {
 				case "appearance" :
 					menuItemSelected = true;
-					selectedItem = main.player.getItemFromEquipment(selection);
-					main.setText(selectedItem.toString("appearanceSelected"));
-					//main.setText(selectedItem.name + "\n\n" + selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);
+					selectedItem = Player.getItemFromEquipment(selection);
+					Main.setText(selectedItem.toString("appearanceSelected"));
+					//Main.setText(selectedItem.name + "\n\n" + selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);
 					
 					hideBtnArray();
 					game.btnsUI.btn1.visible = true;
@@ -1862,9 +1705,9 @@ package
 				case "inventory" :
 				case "combatInventory" :
 					menuItemSelected = true;
-					selectedItem = main.player.getItemFromInventory(ItemDefinitions.getItem(selection));
-					main.setText(selectedItem.toString("inventorySelected"));
-					/*main.setText(selectedItem.name + " -- " + selectedItem.count + "x\n\n" +
+					selectedItem = Player.getItemFromInventory(ItemDefinitions.getItem(selection));
+					Main.setText(selectedItem.toString("inventorySelected"));
+					/*Main.setText(selectedItem.name + " -- " + selectedItem.count + "x\n\n" +
 						selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);*/
 					
 					hideBtnArray();
@@ -1881,15 +1724,15 @@ package
 				case "buying" :
 					menuItemSelected = true;
 					selectedItem = ItemDefinitions.getItem(selection);
-					if (main.player.indexOfInventory(selectedItem) != -1)
-						selectedItem = main.player.getItemFromInventory(selectedItem);
+					if (Player.indexOfInventory(selectedItem) != -1)
+						selectedItem = Player.getItemFromInventory(selectedItem);
 					
-					main.setText(selectedItem.toString("buyingSelected"));
-					/*if (main.player.indexOfInventory(selectedItem) != -1) {
-						main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea. -- " +
-							main.player.getItemFromInventory(selectedItem).count + selectedItem.toString("buyingSelected"));
+					Main.setText(selectedItem.toString("buyingSelected"));
+					/*if (Player.indexOfInventory(selectedItem) != -1) {
+						Main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea. -- " +
+							Player.getItemFromInventory(selectedItem).count + selectedItem.toString("buyingSelected"));
 					} else {
-						main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea. -- 0" +
+						Main.setText(selectedItem.name + " -- " + selectedItem.value + " gold ea. -- 0" +
 							selectedItem.toString("buyingSelected"));
 					}*/
 					
@@ -1901,9 +1744,9 @@ package
 					break;
 				case "selling" :
 					menuItemSelected = true;
-					selectedItem = main.player.getItemFromInventory(ItemDefinitions.getItem(selection));
-					main.setText(selectedItem.toString("sellingSelected"));
-					/*main.setText(selectedItem.name + " -- " + Math.round(0.5 * selectedItem.value) + " gold ea.\n\n" +
+					selectedItem = Player.getItemFromInventory(ItemDefinitions.getItem(selection));
+					Main.setText(selectedItem.toString("sellingSelected"));
+					/*Main.setText(selectedItem.name + " -- " + Math.round(0.5 * selectedItem.value) + " gold ea.\n\n" +
 						selectedItem.effectsText + "\n" + selectedItem.short + " " + selectedItem.long);*/
 					
 					hideBtnArray();
@@ -1917,17 +1760,18 @@ package
 			}
 			updateMenuBtns();
 		}
-
-		public function menuConfirm(object:Object, selection:int):void {
+		
+		public static function menuConfirm(object:Object, selection:int):void {
 			switch (state) {
 				case "appearance" :
 					var equip:Item = object as Item;
 				
 					if (selection == 1) {
-						main.unequip(equip);
+						Main.unequip(equip);
 					}
 					
 					menuItemSelected = false;
+					selectedItem = null;
 					displayAppearance();
 					break;
 				case "inventory" :
@@ -1935,31 +1779,34 @@ package
 					var item:Item = object as Item;
 					
 					if (selection == 0) {
-						main.drop(item, 1);
+						Main.drop(item, 1);
 						//displayInventory();
 					} else if (selection == 1) {
 						if (state == "inventory") {
-							/*if (!main.useItem(item))
+							/*if (!Main.useItem(item))
 								return;
 							displayInventory();*/
-							main.useItem(item)
+							Main.useItem(item)
 						} else {
-							if (!main.combat.turn("inventory", item))
+							if (!Main.combat.turn("inventory", item))
 								return;
 							openInventory();
 						}
 					} else if (selection == -1) {
 						displayInventory();
 						menuItemSelected = false;
+						selectedItem = null;
 					}
 					//menuItemSelected = false;
 					break;
 				case "shop" :
 					if (selection == -1) {
 						state = "navigate";
-						main.setText(main.mainText);
+						Main.setText(Main.mainText);
 						updateMenuBtns();
 						updateNavBtns();
+						if (Player.statPoints > 0)
+							game.lvlupUI.visible = true;
 					}
 					break;
 				case "buying" :
@@ -1968,13 +1815,14 @@ package
 					if (selection == -1) {
 						if (menuItemSelected) {
 							menuItemSelected = false;
+							selectedItem = null;
 							displayBuying();
 						} else {
-							enterShop(World.world[main.player.x][main.player.y]);
+							enterShop(World.world[Player.x][Player.y]);
 						}
 					} else {
-						if (!main.buy(buy))
-							main.addText("You don't have enough gold to buy that.");
+						if (!Main.buy(buy))
+							Main.addText("You don't have enough gold to buy that.");
 					}
 					break;
 				case "selling" :
@@ -1983,16 +1831,17 @@ package
 					if (selection == -1) {
 						if (menuItemSelected) {
 							menuItemSelected = false;
+							selectedItem = null;
 							displaySelling();
 						} else {
-							enterShop(World.world[main.player.x][main.player.y]);
+							enterShop(World.world[Player.x][Player.y]);
 						}
 					} else {
-						if (!main.sell(sell)) {
+						if (!Main.sell(sell)) {
 							if (!sell.canDrop)
-								main.addText("You can't sell that.");
+								Main.addText("You can't sell that.");
 							else
-								main.addText("You don't have any more to sell.");
+								Main.addText("You don't have any more to sell.");
 						}
 					}
 					break;
@@ -2004,133 +1853,141 @@ package
 		//}
 		
 		//{ Navigation
-		public function travel(x:int, y:int):void {
-			//var oldX:int = main.player.x;
-			//var oldY:int = main.player.y;
-			
-			main.player.x = x;
-			main.player.y = y;
+		public static function travel(x:int, y:int):void {
+			var dist:Number = Math.sqrt(Math.pow(Player.x - x, 2) + Math.pow(Player.y - y, 2));
+			Clock.advTime(Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"], dist);
+			Player.x = x;
+			Player.y = y;
 			updateMaps();
 			
 			if (state == "navigate") {
-				main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-					World.world[main.player.x][main.player.y].name + "\n" +
-					World.world[main.player.x][main.player.y].text;
-				main.setText(main.mainText);
+				Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+					World.world[Player.x][Player.y].name + "\n" +
+					World.world[Player.x][Player.y].text;
+				Main.setText(Main.mainText);
 				updateMenuBtns();
 				updateNavBtns();
 			}
 		}
 
-		public function moveNW():void {
-			main.player.x--;
-			main.player.y--;
+		public static function moveNW():void {
+			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.x--;
+			Player.y--;
 			
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 
-		public function moveN():void {
-			main.player.y--;
+		public static function moveN():void {
+			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.y--;
 
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 
-		public function moveNE():void {
-			main.player.x++;
-			main.player.y--;
+		public static function moveNE():void {
+			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.x++;
+			Player.y--;
 			
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 
-		public function moveW():void {
-			main.player.x--;
+		public static function moveW():void {
+			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.x--;
 
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 
-		public function moveCenter():void {
-			var zone:Zone = World.world[main.player.x][main.player.y];
+		public static function moveCenter():void {
+			var zone:Zone = World.world[Player.x][Player.y];
 			
-			if (zone.items != null) {
+			if (zone.items.length > 0) {
 				enterShop(zone);
 			}
 		}
 
-		public function moveE():void {
-			main.player.x++;
+		public static function moveE():void {
+			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.x++;
 
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 		
-		public function moveSW():void {
-			main.player.x--;
-			main.player.y++;
+		public static function moveSW():void {
+			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.x--;
+			Player.y++;
 			
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 		
-		public function moveS():void {
-			main.player.y++;
+		public static function moveS():void {
+			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.y++;
 			
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 
-		public function moveSE():void {
-			main.player.x++;
-			main.player.y++;
+		public static function moveSE():void {
+			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Player.x++;
+			Player.y++;
 			
-			main.mainText = "(" + main.player.x + ", " + main.player.y + ")\n" +
-				World.world[main.player.x][main.player.y].name + "\n" +
-				World.world[main.player.x][main.player.y].text;
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			update();
 		}
 		//}
 		
 		//{ Shop functions
-		public function enterShop(zone:Zone):void {
+		public static function enterShop(zone:Zone):void {
 			state = "shop";
 			
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 			updateMenuBtns();
 			
 			hideBtnArray();
+			game.lvlupUI.visible = false;
 			game.btnsUI.upBtn.visible = false;
 			game.btnsUI.downBtn.visible = false;
 			game.btnsUI.btn1.visible = true;
@@ -2139,20 +1996,20 @@ package
 			game.btnsUI.btn3.btnText.text = "Sell";
 		}
 
-		public function displayBuying():void {
+		public static function displayBuying():void {
 			state = "buying";
 			
-			var zone:Zone = World.world[main.player.x][main.player.y];
-			main.setText(main.writeStock());
+			var zone:Zone = World.world[Player.x][Player.y];
+			Main.setText(Main.writeStock());
 			
 			hideBtnArray();
 			game.btnsUI.upBtn.visible = false;
 			game.btnsUI.downBtn.visible = false;
 			btnIndex = 0;
 			menuIndex = scrollIndex * 9;
-			for (var i:int = menuIndex; i < zone.stock.length && btnIndex < 9; i++) {
+			for (var i:int = menuIndex; i < zone.items.length && btnIndex < 9; i++) {
 				btnArray[btnIndex].visible = true;
-				btnArray[btnIndex].btnText.text = zone.stock[menuIndex].name;
+				btnArray[btnIndex].btnText.text = zone.items[menuIndex].name;
 				
 				btnIndex++;
 				menuIndex++;
@@ -2160,11 +2017,11 @@ package
 			
 			if (scrollIndex > 0)
 				game.btnsUI.upBtn.visible = true;
-			if (zone.stock.length > (scrollIndex  + 1) * 9)
+			if (zone.items.length > (scrollIndex  + 1) * 9)
 				game.btnsUI.downBtn.visible = true;
 		}
 
-		public function displaySelling():void {
+		public static function displaySelling():void {
 			state = "selling";
 			
 			displayInventory();
@@ -2172,7 +2029,7 @@ package
 		//}
 		
 		//{ Combat functions
-		public function displayCombat(enemy:Enemy):void {
+		public static function displayCombat(enemy:Enemy):void {
 			state = "combat";
 			hideBtnArray();
 			game.optionsBtn.visible = false;
@@ -2199,25 +2056,25 @@ package
 			updateEnemyHealth();
 		}
 		
-		public function hideCombat():void {
+		public static function hideCombat():void {
 			state = "navigate";
 			game.optionsBtn.visible = true;
-			if (main.player.statPoints > 0)
+			if (Player.statPoints > 0)
 				game.lvlupUI.visible = true;
 			
 			updateMenuBtns();
 			updateNavBtns();
-			main.setText(main.mainText);
+			Main.setText(Main.mainText);
 		}
 		
-		public function updateEnemyHealth():void {
+		public static function updateEnemyHealth():void {
 			var colorTF:ColorTransform = new ColorTransform();
 			
-			if (main.combat.enemy.currHP < 0)
-				main.combat.enemy.currHP = 0;
+			if (Main.combat.enemy.currHP < 0)
+				Main.combat.enemy.currHP = 0;
 			
-			game.combatUI.healthLabel.text = main.combat.enemy.currHP + "/" + main.combat.enemy.maxHP;
-			game.combatUI.healthBar.scaleX = main.combat.enemy.currHP / main.combat.enemy.maxHP;
+			game.combatUI.healthLabel.text = Main.combat.enemy.currHP + "/" + Main.combat.enemy.maxHP;
+			game.combatUI.healthBar.scaleX = Main.combat.enemy.currHP / Main.combat.enemy.maxHP;
 			if (game.combatUI.healthBar.scaleX <= 0.25) {
 				colorTF.color = 0xDD0000;
 				game.combatUI.healthBar.transform.colorTransform = colorTF;
@@ -2228,14 +2085,16 @@ package
 		}
 		//}
 		
-		public function incStat(stat:String):Function {
+		public static function incStat(stat:String):Function {
 			return function(e:MouseEvent):void {
-				main.addStat(stat, 1);
-				main.player.statPoints--;
-				game.lvlupUI.ptsLabel.text = main.player.statPoints;
+				Main.addStat(stat, 1);
+				Player.statPoints--;
+				game.lvlupUI.ptsLabel.text = Player.statPoints;
 				
-				if (main.player.statPoints <= 0)
+				if (Player.statPoints <= 0)
 					game.lvlupUI.visible = false;
+				
+				debugTrace();
 			}
 		}
 	}

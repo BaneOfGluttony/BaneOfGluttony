@@ -1,36 +1,36 @@
 ﻿package  {
 	
 	public class Player {
-		public var name:String = "Player Name";
-		public var isAlive:Boolean = true;
-		public var x:int = 4;
-		public var y:int = 4;
-		public var maxExp:int = 50;
-		public var currExp:int = 0;
-		public var level:int = 1;
-		public var statPoints:int = 0;
-		public var fat:Number = 15;
-		public var gold:Number = 25;
-		public var height:int = 70;
-		public var quests:Array = [];
-		public var eventRecord:Object = {};
-		public var inventory:Array = [];
-		public var equipment:Object = {head : null, torso : null, legs: null, feet : null, weapon : null, shield : null};
-		public var resources:Object = {
+		public static var name:String = "Player Name";
+		public static var isAlive:Boolean = true;
+		public static var x:int = 49;
+		public static var y:int = 50;
+		public static var maxExp:int = 50;
+		public static var currExp:int = 0;
+		public static var level:int = 1;
+		public static var statPoints:int = 0;
+		public static var fat:Number = 15;
+		public static var gold:Number = 25;
+		public static var height:int = 70;
+		public static var quests:Array = [];
+		public static var eventRecord:Object = {};
+		public static var inventory:Array = [];
+		public static var equipment:Object = {head : null, torso : null, legs: null, feet : null, weapon : null, shield : null};
+		public static var resources:Object = {
 			maxHealth : 100, currHealth : 100, maxMana : 100, currMana : 100, 
 			maxEnergy : 100, currEnergy : 100, maxCapacity : 100, currCapacity : 50};
-		public var stats:Object = {str : 5, agi : 5, vit : 5, "int" : 5, dex : 5, vor : 5};
-		public var derivedStats:Object = {atk : 0, matk : 0, def : 0, mdef : 0, acc : 0, dodge : 0, cap : 0, weight: 0};
+		public static var stats:Object = {str : 5, agi : 5, vit : 5, "int" : 5, dex : 5, vor : 5};
+		public static var derivedStats:Object = {atk : 0, matk : 0, def : 0, mdef : 0, acc : 0, dodge : 0, cap : 0, weight: 0};
 		
 		public function Player() {
 			
 		}
 		
-		public function getItemFromInventory(item:Item):Item {
+		public static function getItemFromInventory(item:Item):Item {
 			return inventory[indexOfInventory(item)];
 		}
 		
-		public function getItemFromEquipment(itemName:String):Item {
+		public static function getItemFromEquipment(itemName:String):Item {
 			for each (var equip:Item in equipment) {
 				if (equip != null && itemName == equip.name)
 					return equip;
@@ -39,7 +39,7 @@
 			return null;
 		}
 		
-		public function indexOfInventory(item:Item):int {
+		public static function indexOfInventory(item:Item):int {
 			for (var i:int = 0; i < inventory.length; i++) {
 				if (inventory[i].name == item.name)
 					return i;
@@ -48,7 +48,7 @@
 			return -1;
 		}
 		
-		public function getStat(stat:String):int {
+		public static function getStat(stat:String):int {
 			switch (stat) {
 				case "currHealth" :
 				case "maxHealth" :
@@ -84,7 +84,7 @@
 			}
 		}
 		
-		public function levelUp():int {
+		public static function levelUp():int {
 			var overflow:int = currExp - maxExp;
 			level++;
 			maxExp *= 1.2;

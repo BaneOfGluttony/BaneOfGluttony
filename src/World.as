@@ -42,7 +42,7 @@
 			}
 		}
 		
-		public static function writeXML(e:Event):void {			
+		public static function writeXML(e:Event):void {	
 			var out:String = "";
 			var lines:Array = e.target.data.split("\n");
 			
@@ -220,7 +220,6 @@
 		
 		public static function parseXML():void {
 			var children:XMLList = xml.children();
-			
 			trace("[World] parseXML called.");
 			
 			var l:int = children.length();		// ~250ms faster

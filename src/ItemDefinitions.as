@@ -1,17 +1,17 @@
 ﻿package  {
 	
 	public class ItemDefinitions {
-		public static var main:Main;
+		//public static var main:Main;
 		
 		/**
 		 * Short for "get stat" - gets the given player stat, resource, etc.
 		 */
 		public static function getStat(stat:String):int {
-			if (main == null || main.player == null) {
+			/*if (main == null || main.player == null) {
 				trace("WARNING: Main or Player not found when trying to call ItemDefinitions.gs()!");
 				return -1;
-			}
-			return main.player.getStat(stat);
+			}*/
+			return Player.getStat(stat);
 		}
 		
 		
@@ -87,16 +87,21 @@
 									//long		: "It's practically oozing its savory juices out of its crispy flesh.",
 									short		: "An enormous hunk of raw pork.",
 									long		: "The succulent hip of a pig, so massive that the cut itself would dwarf an entire pig from only a few short years ago. The fat content has gone far beyond that of simple marbling and is rippling, quite literally, with inch-thick veins of blubber. In fact, it's probably more fat than meat with a comparative toothpick of a bone lodged somewhere deep inside.",
-									value		: 40,
-									effects		: [//function():Array { return ["atk", 10] },
-												   function():Array { return ["currCapacity", 100] } ] },
+									consumable	: false,
+									value		: 40},
 			"Doughnut"			: {	name		: "Doughnut",
 									plural		: "Doughnuts",
 									short		: "A thick ring of deep fried dough slathered in sugary icing.",
 									long		: "The characteristic hole in the center of the doughnut has become increasingly smaller over recent years. At this point, it's gotten so small that you can barely fit the tip of your claw through it; it might as well not even be there. Meanwhile, every other dimension of the doughnut has swelled larger and larger. It's more of a small cake the size of your face than anything else.",
 									value		: 5,
 									effects		: [//function():Array { return ["atk", 10] },
-												   function():Array { return ["currCapacity", 10] }] },
+												   function():Array { return ["currCapacity", 10] } ] },
+			"Mole Pelt"			: { name		: "Mole Pelt",
+									plural		: "Mole Pelts",
+									short		: "The pelt of a giant mole.",
+									long		: "Though the fur is relatively thin, its size alone could let it pass as for a small tent.",
+									consumable	: false,
+									value		: 60},
 										
 			"Knife"				: {	name		: "Knife",
 									plural		: "Knives",
@@ -105,7 +110,15 @@
 									value		: 15,
 									equip		: true,
 									weapon		: true,
-									effects		: [function():Array { return ["atk", 7] }] },
+									effects		: [function():Array { return ["atk", 7] } ] },
+			"Shortsword"		: {	name		: "Shortsword",
+									plural		: "Shortswords",
+									short		: "A short sword... or a long dagger.",
+									long		: "Either-or, it's an effective weapon with a good balance of qualities from both swords and daggers.",
+									value		: 25,
+									equip		: true,
+									weapon		: true,
+									effects		: [function():Array { return ["atk", 13] } ] },
 			"Sword" 			: {	name		: "Sword",
 									plural		: "Swords",
 									short		: "A basic sword.",
@@ -149,7 +162,7 @@
 			"Katana" 			: {	name		: "Katana",
 									plural		: "Katanas",
 									short		: "A long curved blade with an exquisitely fine edge.",
-									long		: "Originating from the far east, the katana requires extensive study in order utilize effectively. Legend has it that only the most skilled warriors, tempered and disciplined by a lifetime of grueling training, were allowed to even wield this weapon.",
+									long		: "Originating from the far east, the katana requires extensive study in order utilize effectively. Legend has it that only the most skilled of warriors, tempered and disciplined by a lifetime of grueling training, were allowed to even wield this weapon.",
 									value		: 140,
 									equip		: true,
 									weapon		: true,

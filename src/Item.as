@@ -7,6 +7,7 @@
 		public var long:String = "Long description";
 		public var wpnText:String = "Weapon text";
 		public var canDrop:Boolean = true;
+		public var consumable:Boolean = true;
 		public var equip:Boolean = false;
 		public var count:int = 0;
 		public var value:int = 0;
@@ -34,7 +35,7 @@
 			writeEffects();
 		}
 		
-		public function procEffects(main:Main):void {
+		public function procEffects():void {
 			// proc special effects
 			if (effects != null && effects.length > 0) {
 				addedStats = [];
@@ -42,7 +43,7 @@
 				for each (var f:Function in effects) {
 					var special:Array = f();		// special will be ["nameOfStat", statValueAsInteger]
 					//trace("[Item] " + name + " procs special effect for " + special[0] + " with value " + special[1]);
-					changeStat(main, special[0], special[1]);
+					changeStat(special[0], special[1]);
 					if (addedStats.length < effects.length)
 						addedStats.push([special[0], special[1]]);
 				}
@@ -50,43 +51,43 @@
 			}
 		}
 		
-		public function deprocEffects(main:Main):void {
+		public function deprocEffects():void {
 			if (addedStats.length == 0)
 				return;
 			//trace("[Item] " + name + " is deproccing.");
 			for each (var special:Array in addedStats) {
-				changeStat(main, special[0], -special[1]);
+				changeStat(special[0], -special[1]);
 				addedStats.pop();
 				//trace("[Item] " + name + " undoes special effect for " + addedStats[i][0] + " with value " + addedStats[i][1]);
 			}
 			//trace("[Item] " + name + " finished deproccing.");
 		}
 		
-		private function changeStat(main:Main, stat:String, amount:int):void {
+		private function changeStat(stat:String, amount:int):void {
 			switch (stat) {
 				case "currHealth" :
-					main.addResource("Health", amount, 0);
+					Main.addResource("Health", amount, 0);
 					break;
 				case "maxHealth" :
-					main.addResource("Health", 0, amount);
+					Main.addResource("Health", 0, amount);
 					break;
 				case "currMana" :
-					main.addResource("Mana", amount, 0);
+					Main.addResource("Mana", amount, 0);
 					break;
 				case "maxMana" :
-					main.addResource("Mana", 0, amount);
+					Main.addResource("Mana", 0, amount);
 					break;
 				case "currEnergy" :
-					main.addResource("Energy", amount, 0);
+					Main.addResource("Energy", amount, 0);
 					break;
 				case "maxEnergy" :
-					main.addResource("Energy", 0, amount);
+					Main.addResource("Energy", 0, amount);
 					break;
 				case "currCapacity" :
-					main.addResource("Capacity", amount, 0);
+					Main.addResource("Capacity", amount, 0);
 					break;
 				case "maxCapacity" :
-					main.addResource("Capacity", 0, amount);
+					Main.addResource("Capacity", 0, amount);
 					break;
 				
 				case "str" :
@@ -95,7 +96,7 @@
 				case "dex" :
 				case "int" :
 				case "vor" :
-					main.addStat(stat, amount);
+					Main.addStat(stat, amount);
 					break;
 					
 				case "atk" :
@@ -105,11 +106,11 @@
 				case "acc" :
 				case "dodge" :
 				case "cap" :
-					main.player.derivedStats[stat] += amount;
+					Player.derivedStats[stat] += amount;
 					break;
 				
 				case "fat" :
-					main.addFat(amount);
+					Main.addFat(amount);
 					break;
 				
 				default :
