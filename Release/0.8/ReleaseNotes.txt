@@ -1,0 +1,32 @@
+[b][u]Disclaimer:[/u][/b] This is a debug release. The normal release version that will be posted on FA is identical, save for the removal of the debug console. The purpose of this is to fix any potential bugs (it’s probably riddled with bugs I’m not aware of) that may pop up during play-testing. This post will be updated as relatively minor additions/changes/fixes are made, so keep an eye out for updates. Again, mind that all content, numbers, text, etc. are all subject to change and balance, so take everything with a grain of salt.
+
+Hello everyone! It’s that time again. Time for another update to BoG! Again it has a lot of changes under the hood, but there is still some new content for you guys to sink your teeth into!
+
+We have introduced:
+
+[ul type="disc"][li]Quest/Events
+[ul type="square"]
+[li]The Blade &amp; Belly quest is now available in the entire lower half of Staphshire.[/li]
+[li]The bread thief event has been moved to the southwest corner of Stapshire.[/li]
+[li]An event made by our very own @aaron! Won’t spoil it here, but it's a ways south of town. Have fun with it![/li][/ul][/li]
+[li]Combat
+[ul type="square"]
+[li]Big fixes! Just a lot under the hood.[/li]
+[li]Bandits and giant moles have been added as enemies![/li][/ul][/li]
+[li]Map
+[ul type="square"]
+[li]Our 100x100 map has finally been added.[/li]
+[li]We know it’s a bit difficult to navigate without a visual map, so we apologize for that. We're still waiting to get a new one drawn up! In the meantime, feel free to [a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.0/BoGmap.xlsx"]click here[/a] to download an Excel spreadsheet to use as a map.[/li]
+[li]For now you should be limited to the central area, and there isn't much very far outside of town, but it's all there![/li][/ul][/li]
+
+Again, if you find any bugs, please copy whatever nonsense that gets printed in the debug console (if anything is printed at all) and either post a reply here or PM me with as much information about the bug’s circumstances as possible so the code monkey can fix it! Preferably, post it as a reply here so other people can see if a particular bug has already been reported.
+
+We hope you continue to enjoy this game and are as excited as we are moving forward!
+
+[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.0/BaneOfGluttony.v0.8.0.swf"][font size="6"][b]Download v0.8 here![/b][/font][/a]
+
+To run it, all you have to do it download it and drag it onto an open browser window. 
+
+And with that, I hope you enjoy!
+
+Happy hunting![/ul]
