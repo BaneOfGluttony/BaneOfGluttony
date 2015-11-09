@@ -226,7 +226,7 @@
 			var l:int = children.length();		// ~250ms faster
 			var entry:XML;
 			for (var i:int = 0; i < l; i++) {
-				/if (i % 100 == 0)
+				//if (i % 100 == 0)
 				//	trace("[World] Parsing, i = " + i);
 				entry = xml.cell[i];
 				world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
