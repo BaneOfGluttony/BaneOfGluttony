@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<event name="PsychicImmortality" repeatable="true">
+	<dialog id="0">
+		<text>
+You stride through the woods, whistling a cheery tune, enjoying the scenery and calming sounds of the forest when you come across a wooden shack. The building, along with the trail leading up to it seems disheveled and abandoned, save for the fact that there is a well-tended vegetable garden just in front of the house. The garden seems out of place, but you don’t feel that threatened by the tomatoes.
+		</text>
+		<options>
+			<option id="1">Investigate</option>
+			<option id="8">Leave</option>
+		</options>
+	</dialog>
+	<dialog id="1">
+		<text>
+Curiosity piqued, you move to the door. Noting the worn wood for a moment, you raise your paw to knock. You rap your knuckles against the wood, making a quick series of thunks.
+You’re surprised when the door swings inwards immediately, revealing a rather muscular and unusually stocky ferret. He is dressed in what appears to be typical hunters’ attire, bearing a smile that dwindles on the precipice of a friendly and unnerving exclamation. 
+“Well, hello!” he greets you, perhaps a little too warmly. He seems oddly thrilled to see you and continues in a disparate tone, “How wonderful it is to see you this day! Please, come in, come in! I have stew boiling for you on the stove, friend.”
+Though you’re pretty sure you’re not familiar enough with this hunter to be called his “friend,” and it’s a bit odd that he seems to have been expecting you, the ferret seems amiable enough.
+		</text>
+		<options>
+			<option id="2">Enter</option>
+			<option id="7">Leave</option>
+		</options>
+	</dialog>
+	<dialog id="2">
+		<text action="capacity:+20">
+Deciding that the ferret’s hospitality seems harmless enough, you accept his invitation, entering into his shack. He closes the door behind you, before leading you to an exceptionally sturdy-looking table.
+“Here, have a seat,” the hunter offers, pulling out a chair for you. Once you’ve settled into it, he moves to the stove and pot of stew he had mentioned before.
+What he had failed to mention was that the pot was more akin to a massive cauldron, seemingly holding enough stew to feed a large family for days on end. Considering the current state of things, this wasn’t all that strange, though the fact that the ferret’s body wasn’t at all corpulent did seem a bit incongruous.
+Not giving you time to think about this, the hunter sets a large bowl of the stew in front of you. “Here, have as much as you’d like; there’s plenty to share,” he insists, seeming a bit firm in the offer. Smiling to your host, you take the first spoonful in your mouth. It tastes good, considering it was made by a non-professional chef, bringing another smile to your face. Eating steadily, you notice after a while that the ferret is watching you eagerly. He’s holding another large bowl of soup but isn’t eating it himself, simply staring at you with that odd smile of his.
+Feeling a bit uncomfortable, you try not to be rude by pointing out the hunter’s odd behavior; he could just be lonely out here in the woods. Once you finish your stew, the ferret swiftly replaces the empty bowl with the one he had been holding, moving back to his pot to refill the first bowl. “There’s more than enough to share,” he repeats to you, an odd tone in his voice.
+		</text>
+		<text check="capacity:-1" goto="4"></text>
+		<options>
+			<option id="3">Keep eating</option>
+			<option id="6">Leave</option>
+		</options>
+	</dialog>
+	<dialog id="3">
+		<text action="capacity:+20">
+Shrugging, you accept the hunter’s gracious offer, enjoying another bowl of his surprisingly well-crafted stew. Once you’ve moved through your next bowl, he quickly replaces it and fetches more, seeming as eager as ever to watch you continue eating for a while. Looking to the ferret’s face though, the eagerness seems to border on frantic desire.
+		</text>
+		<text check="capacity:-1" goto="4"></text>
+		<options>
+			<option id="3">Keep eating</option>
+			<option id="6">Leave</option>
+		</options>
+	</dialog>
+	<dialog id="4">
+		<text state="5" cont="prog">
+As you keep eating more and more of the ferret’s soup, your eyes grow heavy from the dense mass of food in your stomach, eventually lulling you into a food coma.
+		</text>
+	</dialog>
+	<dialog id="5">
+		<text action="cmpltEvent;capacity:*100;fat:+25" cont="end">
+You slowly drift back to the waking world in a dimly lit location. Looking around in confusion, you notice your arms and legs are bound tightly to the wooden chair you’re seated in, while your head has been braced in place against the wall, your snout pointing upwards. Feeling something in your mouth, your vision focuses on the metal funnel poking out the tip of your muzzle, a leather strap firmly holding your mouth closed around it.
+The sound of footsteps descending stairs catches your attention, though it takes a moment for the hunter to enter your field of view - and another for you to recognize the object he’s carrying. Lifting the cauldron slowly upwards, the hunter mutters under his breath, “Plenty to share... plenty to share... plenty to share...”
+Eyes widening as you realize what’s about to happen, there’s nothing you can do but watch with nervous anticipation as he slowly tips the massive pot of stew over the funnel and down your throat. As the fluid starts to pour through the funnel into your mouth, you have no choice but to gulp down the stew as quickly as you can or risk choking on it.
+After only a few seconds, your stomach starts to bloat visibly, stretching with each passing moment into an ever fuller and rounder orb. Eyes watering slightly, you try desperately to keep up with the flow of stew, gulping faster as he tilts the cauldron further. You start to wonder just how long you can keep this up...
+		</text>
+	</dialog>
+	<dialog id="6">
+		<text>
+Deciding you’ve had enough, you get to your feet. Seeing this, the ferret’s expression darkens. “Where are you going?” he demands, sounding hurt and angry, “There’s still plenty to share!”
+		</text>
+		<text check="agi:30" action="cmpltEvent;exp:100" cont="end">
+You try to explain that you’ve had your fill, but this only causes the hunter’s expression to turn to rage. Seeing the pan in his hand coming, you duck the swinging object’s path, before darting to the door, tearing it open and sprinting into the woods. The weasel shrieks with rage, before you hear the sound of a door slamming shut behind you. Continuing to run until you’re sure you’ve reached safety, you take a moment to catch your breath before looking out into the forest once more.
+		</text>
+		<text state="5" cont="prog">
+You try to explain that you’ve had your fill, but this only causes the hunter’s expression to turn to rage. Before you can react, you’re struck over the head with something hard, a bright light filling your vision shortly before it’s overtaken by darkness completely. Just barely clinging onto consciousness, you feel the hunter’s hands on your limbs, dragging you in an unknown direction.
+		</text>
+	</dialog>
+	<dialog id="7">
+		<text>
+Feeling a bit nervous about entering the home of this slightly manic hunter, you try to excuse yourself politely. The act seems to upset the ferret as he reaches out to grab your arm.
+		</text>
+		<text check="agi:30" action="endEvent" cont="end">
+You quickly dodge the grasping hand and make a run for it, the ferret yelling and pleading for you to come back but without giving chase. Sprinting into the woods, you hear a door slam shut behind you, though you continue to run until you're sure you've reached safety. You take a moment to catch your breath before looking out into the forest once more.
+		</text>
+		<text check="str:30" action="endEvent" cont="end">
+Though the ferret catches your limb, you're able to tear yourself away from his grasp and make a run for it, the ferret yelling and pleading for you to come back but without giving chase. Sprinting into the woods, you hear a door slam shut behind you, though you continue to run until you're sure you’ve reached safety. You take a moment to catch your breath before looking out into the forest once more.
+		</text>
+		<text state="5" cont="prog">
+Catching your limb, the ferret's smile turns sinister. "Come now, don't be shy! There's more than enough to share!" he insists. His tone betrays his mania as he pulls you into his house and to a flight of stairs leading downward. Your struggling seems to be completely ineffective against the hunter's strength, though it is enough to enrage him into striking your head, knocking you out cold.
+		</text>
+	</dialog>
+	<dialog id="8" action="endEvent" cont="end">
+		<text>
+The oddly run-down shack seems rather suspicious, so you turn back the way you came, leaving with slightly quicker steps than you had arrived by. As the trees cut off your view of the building, you hear a creak from the direction of the shack, like a door being opened.
+		</text>
+	</dialog>
+</event>
