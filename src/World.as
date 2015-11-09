@@ -1,16 +1,241 @@
 ﻿package  {
+	import flash.events.Event;
+	import flash.net.FileReference;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
+	import mx.utils.StringUtil;
 	
 	public class World {
-		public static var rows:int = 9;
-		public static var cols:int = 9;
+		public static var rows:int = 100;
+		public static var cols:int = 100;
 		public static var world:Array = new Array(rows);
-		createWorld();
+		public static var textLoader:URLLoader;
 		
-		public function World() {
-			
+		private static const SAVEXML:Boolean = false;
+		private static var xml:XML;
+		if (!SAVEXML) {
+			[Embed(source = "XML/world.xml", mimeType = "application/octet-stream")]
+			private static var newXML:Class;
 		}
 		
-		public static function createWorld():void {
+		private static var file:FileReference;
+		private static var bytes:ByteArray;
+		
+		public function World() {
+			for (var y:int = 0; y < rows; y++) {
+				world[y] = [cols];	// new Array(cols);
+				for (var x:int = 0; x < cols; x++)
+					world[y][x] = new Zone({});
+			}
+			
+			if (SAVEXML) {
+				xml = <world></world>;
+				file = new FileReference();
+				bytes = new ByteArray();
+				textLoader = new URLLoader();
+				textLoader.addEventListener(Event.COMPLETE, writeXML);
+				textLoader.load(new URLRequest("map.txt"));
+			} else {
+				xml = new XML(new newXML());
+				parseXML();
+			}
+		}
+		
+		public static function writeXML(e:Event):void {			
+			var out:String = "";
+			var lines:Array = e.target.data.split("\n");
+			
+			for (var i:int = 0; i < rows; i++) {
+				var cell:Array = lines[i].split("\t");
+				for (var j:int = 0; j < cols; j++) {
+					//Region - Name - Text - Enter (false) - Save (false) - Enemies (null) - Items (null) - Events (null)
+					var data:Array = cell[j].split("-");	//Do NOT use hyphens/dashes, commas, or semi-colons in map text
+					//var dataString:String = data.join("*");
+					//dataString = StringUtil.trimArrayElements(data.join("*"), "*");
+					data = (StringUtil.trimArrayElements(data.join("*"), "*")).split("*");
+					
+					var region:String = data[0];
+					var name:String = "";
+					var text:String = "";
+					var enter:Boolean = false;
+					var save:Boolean = false;
+					var enemies:Array = new Array();
+					var items:Array = new Array();
+					var events:Array = new Array();
+					
+					switch (region) {
+						case "St":
+							region = "Staphshire";
+							break;
+						case "Di":
+							region = "Diraq";
+							break;
+						case "Ta":
+							region = "Tarboro";
+							break;
+						case "E":
+							region = "Elyndar";
+							break;
+						case "Di":
+							region = "Diraq";
+							break;
+						case "Ar":
+							region = "Aroshar";
+							break;
+						case "P":
+							region = "Plains";
+							break;
+						case "Fa":
+							region = "Farmlands";
+							break;
+						case "F":
+							region = "Forest";
+							break;
+						case "My":
+							region = "Myseer Islands";
+							break;
+						case "H":
+							region = "Hills";
+							break;
+						case "D":
+							region = "Desert";
+							break;
+						case "M":
+							region = "Mountains";
+							break;
+						case "Ro":
+							region = "Road";
+							break;
+						case "R":
+							region = "River";
+							break;
+						case "L":
+							region = "Lake";
+							break;
+						case "Br":
+							region = "Bridge";
+							break;
+						case "S":
+							region = "Sea";
+							break;
+						case "Sa":
+							region = "Savannah";
+							break;
+						case "Mo":
+							region = "Monastery";
+							break;
+						case "O":
+							region = "Oasis";
+							break;
+						case "Cl":
+							region = "Clearing";
+							break;
+						case "Sw":
+							region = "Swamp";
+							break;
+						case "Po":
+							region = "Port";
+							break;
+						case "Ga":
+							region = "Gaians";
+							break;
+						case "Ws":
+							region = "Wyrmstead";
+							break;
+						case "Or":
+							region = "Ori";
+							break;
+						case "B":
+							region = "Beach";
+							break;
+					}
+						
+					if (data[1] != null && data[1] != "")
+						name = StringUtil.trim(data[1]);
+					
+					if (data[2] != null && data[2] != "")
+						text = StringUtil.trim(data[2]);
+					
+					if (data[3] != null && data[3] != "") {
+						if (StringUtil.trim(data[3]) == "True" || StringUtil.trim(data[3]) == "true")
+							enter = true;
+					}
+					
+					if (data[4] != null && data[4] != "") {
+						if (StringUtil.trim(data[4]) == "True" || StringUtil.trim(data[4]) == "true")
+							save = true;
+					}
+					
+					if (data[5] != null && data[5] != "") {
+						var temp:Array = data[5].split(";");
+						var k:int = 0;
+						
+						for each (var enemy:String in temp) {
+							temp[k] = enemy.split(",");
+							var entry:Array = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
+							enemies.push(entry);
+							k++;
+						}
+					}
+					
+					if (data[6] != null && data[6] != "") {
+						items = StringUtil.trim(data[6]).split(",");
+						items = (StringUtil.trimArrayElements(items.join("*"), "*")).split("*");
+						for each (var item:String in items)
+							item = StringUtil.trim(item);
+					}
+					
+					if (data[7] != null && data[7] != "") {
+						var temp:Array = data[7].split(";");
+						var entry:Array;
+						var k:int = 0;
+						
+						for each (var event:String in temp) {
+							temp[k] = event.split(",");
+							var entry:Array = new Array(StringUtil.trim(temp[k][0]), Number(StringUtil.trim(temp[k][1])));
+							events.push(entry);
+							k++;
+						}
+					}
+					
+					if (name == "")
+						name = region;
+					if (enter == "") {
+						
+					}
+					
+					/*world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text, enter : enter, save : save,
+												enemies : enemies, itemsText : items, events : events } );*/
+					
+					xml.appendChild( < cell name = { name } x = { j } y = { i } region = { region } enter = { enter } 
+									save = { save } enemies = { enemies } items = { items } events = { events } > { text }</cell>);
+				}
+			}
+			bytes.writeUTFBytes(xml);
+			file.save(bytes, "world.xml");
+			parseXML();
+			MainGameUI.updateNavBtns();
+		}
+		
+		public static function parseXML():void {
+			var children:XMLList = xml.children();
+			
+			trace("[World] parseXML called.");
+			
+			var l:int = children.length();		// ~250ms faster
+			var entry:XML;
+			for (var i:int = 0; i < l; i++) {
+				/if (i % 100 == 0)
+				//	trace("[World] Parsing, i = " + i);
+				entry = xml.cell[i];
+				world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
+													  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
+													  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+			}
+		}
+		
+		/*public static function createWorld():void {
 			for (var x:int = 0; x < rows; x++)
 				world[x] = new Array(cols);
 			
@@ -224,6 +449,6 @@
 			world[8][8] = new Zone({name	: "Field"							, x : 8, y : 8, 
 									text	: "This is a test zone.",
 									enemies	: [["Boar", 0.25], ["Slime", 0.25]]});
-		}
+		}*/
 	}
 }
