@@ -220,6 +220,12 @@
 					actions[i] = action.split(":");
 					var str:String = actions[i][0];
 					var val:Object;
+					var vals:String;
+					var items:Array;
+					var item:String;
+					var j:int;
+					var tempItem:Item;
+					
 					if (actions[i].length > 1)
 						val = actions[i][1];
 					
@@ -255,24 +261,24 @@
 					} else if (str == "exp") {
 						Main.addExp(actions[i][1], false);	//add exp
 					} else if (str == "lootItem") {
-						var vals:String = actions[i][1];
-						var items:Array = vals.split(",");
-						var j:int = 0;
+						vals = actions[i][1];
+						items = vals.split(",");
+						j = 0;
 						
-						for each (var item:String in items) {
+						for each (item in items) {
 							items[j] = item.split("-");
-							var tempItem:Item = ItemDefinitions.getItem(items[j][0]);
+							tempItem = ItemDefinitions.getItem(items[j][0]);
 							Main.loot(tempItem, items[j][1]);
 							j++;
 						}
 					} else if (str == "dropItem") {
-						var vals:String = actions[i][1];
-						var items:Array = vals.split(",");
-						var j:int = 0;
+						vals = actions[i][1];
+						items = vals.split(",");
+						j = 0;
 						
-						for each (var item:String in items) {
+						for each (item in items) {
 							items[j] = item.split("-");
-							var tempItem:Item = ItemDefinitions.getItem(items[j][0]);
+							tempItem = ItemDefinitions.getItem(items[j][0]);
 							Main.drop(tempItem, items[j][1]);
 							j++;
 						}

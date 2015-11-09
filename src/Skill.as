@@ -30,11 +30,13 @@
 			Main.addText(useText + "\n\n" + effectsText);
 			
 			if (source is Enemy && target == Player) {
+				var f:Function;
+				var special:Array;
 				// proc special effects
 				if (targetEffects != null && targetEffects.length > 0) {
 					//trace("[Item] " + name + " has special effects!");
-					for each (var f:Function in targetEffects) {
-						var special:Array = f();		// special will be ["nameOfStat", statValueAsInteger]
+					for each (f in targetEffects) {
+						special = f();		// special will be ["nameOfStat", statValueAsInteger]
 						//trace("[Item] " + name + " procs special effect for " + special[0] + " with value " + special[1]);
 						changeStat(target, special[0], special[1]);
 					}
@@ -42,8 +44,8 @@
 				}
 				
 				if (sourceEffects != null && sourceEffects.length > 0) {
-					for each (var f:Function in sourceEffects) {
-						var special:Array = f();
+					for each (f in sourceEffects) {
+						special = f();
 						changeStat(source, special[0], special[1]);
 					}
 				}

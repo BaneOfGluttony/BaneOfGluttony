@@ -64,6 +64,10 @@
 					var items:Array = new Array();
 					var events:Array = new Array();
 					
+					var temp:Array;
+					var entry:Array;
+					var k:int;
+					
 					switch (region) {
 						case "St":
 							region = "Staphshire";
@@ -168,12 +172,12 @@
 					}
 					
 					if (data[5] != null && data[5] != "") {
-						var temp:Array = data[5].split(";");
-						var k:int = 0;
+						temp = data[5].split(";");
+						k = 0;
 						
 						for each (var enemy:String in temp) {
 							temp[k] = enemy.split(",");
-							var entry:Array = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
+							entry = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
 							enemies.push(entry);
 							k++;
 						}
@@ -187,13 +191,12 @@
 					}
 					
 					if (data[7] != null && data[7] != "") {
-						var temp:Array = data[7].split(";");
-						var entry:Array;
-						var k:int = 0;
+						temp = data[7].split(";");
+						k = 0;
 						
 						for each (var event:String in temp) {
 							temp[k] = event.split(",");
-							var entry:Array = new Array(StringUtil.trim(temp[k][0]), Number(StringUtil.trim(temp[k][1])));
+							entry = new Array(StringUtil.trim(temp[k][0]), Number(StringUtil.trim(temp[k][1])));
 							events.push(entry);
 							k++;
 						}
@@ -222,7 +225,7 @@
 			var children:XMLList = xml.children();
 			trace("[World] parseXML called.");
 			
-			var l:int = children.length();		// ~250ms faster
+			/*var l:int = children.length();		// ~250ms faster
 			var entry:XML;
 			for (var i:int = 0; i < l; i++) {
 				//if (i % 100 == 0)
@@ -231,7 +234,7 @@
 				world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
 													  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
 													  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
-			}
+			}*/
 		}
 		
 		/*public static function createWorld():void {
