@@ -16,17 +16,26 @@ We have introduced:
 [li]Map
 [ul type="square"]
 [li]Our 100x100 map has finally been added. [b]NOTE: Given the enormous size (10000 cells) the game will need a moment or two to load and parse all the information in the map.[/b][/li]
-[li]We know it’s a bit difficult to navigate without a visual map, so we apologize for that. We're still waiting to get a new one drawn up! In the meantime, feel free to [a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.0/BoGmap.xlsx"]click here[/a] to download an Excel spreadsheet to use as a map.[/li]
+[li]We know it’s a bit difficult to navigate without a visual map, so we apologize for that. We're still waiting to get a new one drawn up! In the meantime, feel free to [a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.1/BoGmap.xlsx"]click here[/a] to download an Excel spreadsheet to use as a map.[/li]
 [li]For now you should be limited to the central area, and there isn't much very far outside of town, but it's all there![/li][/ul][/li]
 
 Again, if you find any bugs, please copy whatever nonsense that gets printed in the debug console (if anything is printed at all) and either post a reply here or PM me with as much information about the bug’s circumstances as possible so the code monkey can fix it! Preferably, post it as a reply here so other people can see if a particular bug has already been reported.
 
 We hope you continue to enjoy this game and are as excited as we are moving forward!
 
-[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.0/BaneOfGluttony.v0.8.0.debug.swf"][font size="6"][b]Download v0.8 here![/b][/font][/a]
+[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.1/BaneOfGluttony.v0.8.1.debug.swf"][font size="6"][b]Download v0.8 here![/b][/font][/a]
 
 To run it, all you have to do it download it and drag it onto an open browser window. 
 
 And with that, I hope you enjoy!
 
 Happy hunting![/ul]
+
+
+--------------------------------------------------
+
+
+[b][i]v0.8.1[/i][/b]
+Loading the game has been massively optimized. Huge thanks to [a href="http://www.furaffinity.net/user/serule"]Serule[/a] for single-handedly fixing that for me! This has reduced load times by an order of magnitude, depeneding on the system. As a result, the game should no longer freeze the entire tab/browser while trying to start.
+
+This was caused by me originally telling the game to set up all 10,000 tiles on the map from a 10,000 line file from the very start. Horribly inefficient, I know, but I hadn't considered any other way at the time. Because that actually has nothing to do with loading any assets or anything, there is very little that can be done about that to ease what appears to be the game "loading" when it's actually just running a ton of CPU cycles. Instead, the game now only sets up the small section of the map you start in and prepares the rest of the map dynamically as you approach the edges of what currently exists in the map. This means that the game will continue "loading" the map as you play as needed, but you should only barely notice a pause, if at all, when it needs to load more of the map.

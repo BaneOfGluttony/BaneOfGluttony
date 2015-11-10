@@ -28,7 +28,7 @@ package
 			trace("[Runner] Creating mainGame.");
 			
 			var currentTime:int = getTimer();
-			trace("[Runner] Creating a new World.");
+			trace("[Runner] A whole new Wooooooorld.");
 			new World();
 			var elapsedTime:int = getTimer() - currentTime;
 			trace("[Runner] World created.");

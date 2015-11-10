@@ -11,8 +11,8 @@
 		public static var rows:int = 100;
 		public static var cols:int = 100;
 		
-		public static const RANGE_INIT:int = 15;	// radius from which to load XML at the very start
-		public static const RANGE:int = 10;			// radius from which to load XML
+		public static const RANGE_INIT:int = 10;	// radius from which to load XML at the very start
+		public static const RANGE:int = 5;			// radius from which to load XML
 		public static const TRIGGER_RANGE:int = 2;	// if player gets within this number of tiles from an edge, trigger a load
 		public static var loadedXmin:int;			// boundary of loaded world
 		public static var loadedXmax:int;
@@ -267,15 +267,6 @@
 			trace("[World] Loaded region is from (" + loadedXmin + "," + loadedYmin + ") to (" +
 													  loadedXmax + "," + loadedYmax + ")");
 		}
-		
-		/*public static function updateLoadedRegion():void
-		{
-			if (Player.x + TRIGGER_RANGE > loadedXmax || Player.x - TRIGGER_RANGE < loadedXmin ||
-				Player.y + TRIGGER_RANGE > loadedYmax || Player.y - TRIGGER_RANGE < loadedYmin) {
-				MainGameUI.game.addEventListener(Event.EXIT_FRAME, updateLoadedRegionHelper);
-				MainGameUI.game.mainUI.mc_loading.visible = true;
-			}
-		}*/
 		
 		//private static function updateLoadedRegionHelper(e:Event):void
 		public static function updateLoadedRegion():void

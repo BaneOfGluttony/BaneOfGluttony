@@ -316,7 +316,7 @@ package
 			if (!debug)
 				return;
 			
-			/*trace("\n" + Clock.toString());
+			trace("\n" + Clock.toString());
 			trace("atk = " + Player.derivedStats["atk"]);
 			trace("matk = " + Player.derivedStats["matk"]);
 			trace("def = " + Player.derivedStats["def"]);
@@ -328,7 +328,7 @@ package
 			if (selectedItem != null)
 				trace("selectedItem = " + selectedItem.name);
 			else
-				trace("selectedItem = null");*/
+				trace("selectedItem = null");
 		}
 		
 		public static function down(btn:MovieClip):void {
@@ -1860,6 +1860,7 @@ package
 			Player.x = x;
 			Player.y = y;
 			updateMaps();
+			World.updateLoadedRegion();
 			
 			if (state == "navigate") {
 				Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
