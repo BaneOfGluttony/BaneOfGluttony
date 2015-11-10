@@ -1882,6 +1882,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			World.travelDir = [false, true, true, false];
 			update();
 		}
 
@@ -1894,6 +1895,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			World.travelDir = [false, true, false, false];
 			update();
 		}
 
@@ -1907,6 +1909,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			World.travelDir = [false, true, true, false];
 			update();
 		}
 
@@ -1919,6 +1922,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			World.travelDir = [false, false, true, false];
 			update();
 		}
 
@@ -1928,6 +1932,7 @@ package
 			if (zone.items.length > 0) {
 				enterShop(zone);
 			}
+			World.travelDir = [false, false, false, false];
 		}
 
 		public static function moveE():void {
@@ -1939,6 +1944,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			World.travelDir = [true, false, false, false];
 			update();
 		}
 		
@@ -1953,6 +1959,7 @@ package
 			
 			Main.setText(Main.mainText);
 			update();
+			World.travelDir = [true, false, false, true];
 		}
 		
 		public static function moveS():void {
@@ -1964,6 +1971,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			World.travelDir = [false, false, false, true];
 			update();
 		}
 
@@ -1977,6 +1985,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			World.travelDir = [true, false, false, true];
 			update();
 		}
 		//}
