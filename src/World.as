@@ -11,14 +11,12 @@
 		public static var rows:int = 100;
 		public static var cols:int = 100;
 		
-		public static const RANGE_INIT:int = 10;	// radius from which to load XML at the very start
-		public static const RANGE:int = 5;			// radius from which to load XML
-		public static const TRIGGER_RANGE:int = 2;	// if player gets within this number of tiles from an edge, trigger a load
-		public static var loadedXmin:int;			// boundary of loaded world
-		public static var loadedXmax:int;
-		public static var loadedYmin:int;
-		public static var loadedYmax:int;
+		private static const RANGE_INIT:int = 8;	// radius from which to load XML at the very start
+		private static const RANGE:int = 5;			// radius from which to load XML
+		private static const TRIGGER_RANGE:int = 2;	// if player gets within this number of tiles from an edge, trigger a load
 		private static var children:XMLList;
+		/// Keeps track of which direction(s) the Player moved last; 0 = E, 1 = N, 2 = W, 3 = S
+		public static var travelDir:Array = [false, false, false, false];
 		
 		public static var world:Array = [rows];
 		public static var textLoader:URLLoader;
@@ -236,98 +234,69 @@
 			children = xml.children();
 			trace("[World] parseXML called.");
 			
-			loadedXmin = Math.max(Player.x - RANGE_INIT, 0);
-			loadedXmax = Math.min(Player.x + RANGE_INIT, cols - 1);
-			loadedYmin = Math.max(Player.y - RANGE_INIT, 0);
-			loadedYmax = Math.min(Player.y + RANGE_INIT, rows - 1);
+			var cStart:int = Math.max(Player.x - RANGE_INIT, 0);
+			var cEnd:int  = Math.min(Player.x + RANGE_INIT, cols - 1);
+			var rStart:int = Math.max(Player.y - RANGE_INIT, 0);
+			var rEnd:int  = Math.min(Player.y + RANGE_INIT, rows - 1);
 			
-			//var l:int = children.length();		// ~250ms faster
 			var entry:XML;
-			
-			var i:int;
-			for (var r:int = loadedYmin; r <= loadedYmax; r++)
-				for (var c:int = loadedXmin; c <= loadedXmax; c++) {
-					i = r * rows + c;
-					entry = xml.cell[i];
-					world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
-																	enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
-																	itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+			for (var r:int = rStart; r <= rEnd; r++)
+				for (var c:int = cStart; c <= cEnd; c++) {
+					entry = xml.cell[int(r * rows + c)];
+					world[c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
+											  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
+											  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
 				}
-
-			/*for (var i:int = 0; i < l; i++) {
-				//if (i % 100 == 0)
-				//	trace("[World] Parsing, i = " + i);
-				entry = xml.cell[i];
-				world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
-													  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
-													  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
-			}*/
 			
 			trace("[World] Player at " + Player.x + "," + Player.y);
-			trace("[World] Loaded region is from (" + loadedXmin + "," + loadedYmin + ") to (" +
-													  loadedXmax + "," + loadedYmax + ")");
+			trace("[World] Initial loaded region is from (" + rStart + "," + cStart + ") to (" +
+															  rEnd + "," + cEnd + ")");
 		}
-		
-		//private static function updateLoadedRegionHelper(e:Event):void
+
 		public static function updateLoadedRegion():void
-		{
-			//MainGameUI.game.removeEventListener(Event.EXIT_FRAME, updateLoadedRegionHelper);
-			if (Player.x + TRIGGER_RANGE > loadedXmax || Player.x - TRIGGER_RANGE < loadedXmin ||
-				Player.y + TRIGGER_RANGE > loadedYmax || Player.y - TRIGGER_RANGE < loadedYmin) {
-					var currentTime:int = getTimer();
+		{				
+			var checkW:int = Math.max(Player.x - TRIGGER_RANGE, 0);
+			var checkE:int = Math.min(Player.x + TRIGGER_RANGE, cols - 1);
+			var checkS:int = Math.max(Player.y - TRIGGER_RANGE, 0);
+			var checkN:int = Math.min(Player.y + TRIGGER_RANGE, rows - 1);
+				
+			if (world[Player.x][Player.y].x == -1 ||
+				world[checkW][Player.y].x == -1 || world[checkE][Player.y].x == -1 ||
+				world[Player.x][checkS].x == -1 || world[Player.x][checkN].x == -1) {
 					trace("[World] Approaching world edge; loading more of the world.");
-					trace("[World]\tLoaded region is from (" + loadedXmin + "," + loadedYmin + ") to (" +
-															  loadedXmax + "," + loadedYmax + ").");
+					var currentTime:int = getTimer();
 					
-					MainGameUI.game.mainUI.mc_loading.visible = true;
+					//MainGameUI.game.mainUI.mc_loading.visible = true;		// TODO fix or just remove
+
+					var originX:int = Player.x + (travelDir[0] ? TRIGGER_RANGE : 0) - (travelDir[2] ? TRIGGER_RANGE : 0);
+					var originY:int = Player.y + (travelDir[3] ? TRIGGER_RANGE : 0) - (travelDir[1] ? TRIGGER_RANGE : 0);
 					
-					var newXmin:int = loadedXmin;
-					var newXmax:int = loadedXmax;
-					var newYmin:int = loadedYmin;
-					var newYmax:int = loadedYmax;
-					
-					if (Player.x - RANGE < loadedXmin)
-						newXmin = Math.max(Player.x - RANGE, 0);
-					if (Player.x + RANGE > loadedXmax)
-						newXmax = Math.min(Player.x + RANGE, cols - 1);
-					if (Player.y - RANGE < loadedYmin)
-						newYmin = Math.max(Player.y - RANGE, 0);
-					if (Player.y + RANGE > loadedYmax)
-						newYmax = Math.min(Player.y + RANGE, rows - 1);
-					
-					var cStart:int = Math.min(loadedXmin, newXmin);
-					var cEnd:int = Math.max(loadedXmax, newXmax);
-					var rStart:int = Math.min(loadedYmin, newYmin);
-					var rEnd:int = Math.max(loadedYmax, newYmax);
+					// pick the 'center' of the region from which to load ahead of where the Player is moving towards
+					var cStart:int = Math.max(originX - RANGE, 0);
+					var cEnd:int = Math.min(originX + RANGE, cols - 1);
+					var rStart:int = Math.max(originY - RANGE, 0);
+					var rEnd:int = Math.min(originY + RANGE, rows - 1);
 					
 					var loaded:int;		// benchmarking
-					var i:int;
 					var entry:XML;
 					for (var r:int = rStart; r <= rEnd; r++)
 						for (var c:int = cStart; c <= cEnd; c++) {
-							if (c >= loadedXmin && c <= loadedXmax && r >= loadedYmin && r <= loadedYmax)
+							if (world[c][r].x != -1)
 								continue;
 							loaded++;
-							i = r * rows + c;
-							entry = xml.cell[i];
-							world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
-																			enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
-																			itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+							entry = xml.cell[int(r * rows + c)];
+							world[c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
+													  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
+													  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
 						}
 					
-					loadedXmin = cStart;
-					loadedXmax = cEnd;
-					loadedYmin = rStart;
-					loadedYmax = rEnd;
+					//MainGameUI.game.mainUI.mc_loading.visible = false;
 					
-					MainGameUI.game.mainUI.mc_loading.visible = false;
-					
-					trace("[World]\tPlayer at (" + Player.x + "," + Player.y + ").");
-					trace("[World]\tUpdated loaded region is from (" + loadedXmin + "," + loadedYmin + ") to (" +
-																	  loadedXmax + "," + loadedYmax + ").");
 					var elapsedTime:int = getTimer() - currentTime;
-					trace("[World]\tTime elapsed: " + int(elapsedTime / 1000) + "." + (elapsedTime % 1000) + "s" +
-						  "\t\tIterations: " + ((rEnd - rStart) * (cEnd - cStart)) + " tiles, of which " + loaded + " were new.");
+					trace("[World]\tPlayer at (" + Player.x + "," + Player.y + ").");
+					trace("[World]\tLoaded a " + RANGE + "x" + RANGE + " region around (" + originX + "," + originY + ").");
+					trace("[World]\tTime elapsed: " + int(elapsedTime / 1000) + "." + ((elapsedTime % 1000 < 100 ? "0" : "")) + (elapsedTime % 1000) + "s" +
+						  "\t\tIterations: " + ((rEnd - rStart + 1) * (cEnd - cStart + 1)) + " tiles, of which " + loaded + " were new.");
 				} else {	
 					//trace("[World] Nothing to update.");
 				}
