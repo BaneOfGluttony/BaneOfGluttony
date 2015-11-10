@@ -3,6 +3,7 @@ package
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.utils.getTimer;
 	
 	/**
 	 * Entry point
@@ -25,6 +26,14 @@ package
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("--------------------------------------------");
 			trace("[Runner] Creating mainGame.");
+			
+			var currentTime:int = getTimer();
+			trace("[Runner] Creating a new World.");
+			new World();
+			var elapsedTime:int = getTimer() - currentTime;
+			trace("[Runner] World created.");
+			trace("[Runner] Time elapsed: " + int(elapsedTime / 1000) + "." + (elapsedTime % 1000) + "s");
+			
 			mainGame = new Main(this);
 			if (mainGame)
 				trace("[Runner] Done. Thanks, Serule!");

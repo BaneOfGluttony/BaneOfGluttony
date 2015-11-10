@@ -5,11 +5,22 @@
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	import mx.utils.StringUtil;
+	import flash.utils.getTimer;
 	
 	public class World {
 		public static var rows:int = 100;
 		public static var cols:int = 100;
-		public static var world:Array = new Array(rows);
+		
+		public static const RANGE_INIT:int = 15;	// radius from which to load XML at the very start
+		public static const RANGE:int = 10;			// radius from which to load XML
+		public static const TRIGGER_RANGE:int = 2;	// if player gets within this number of tiles from an edge, trigger a load
+		public static var loadedXmin:int;			// boundary of loaded world
+		public static var loadedXmax:int;
+		public static var loadedYmin:int;
+		public static var loadedYmax:int;
+		private static var children:XMLList;
+		
+		public static var world:Array = [rows];
 		public static var textLoader:URLLoader;
 		
 		private static const SAVEXML:Boolean = false;
@@ -24,7 +35,7 @@
 		
 		public function World() {
 			for (var y:int = 0; y < rows; y++) {
-				world[y] = new Array(cols);
+				world[y] = [cols];	// new Array(cols);
 				for (var x:int = 0; x < cols; x++)
 					world[y][x] = new Zone({});
 			}
@@ -42,7 +53,7 @@
 			}
 		}
 		
-		public static function writeXML(e:Event):void {
+		public static function writeXML(e:Event):void {	
 			var out:String = "";
 			var lines:Array = e.target.data.split("\n");
 			
@@ -63,6 +74,10 @@
 					var enemies:Array = new Array();
 					var items:Array = new Array();
 					var events:Array = new Array();
+					
+					var temp:Array;
+					var entry:Array;
+					var k:int;
 					
 					switch (region) {
 						case "St":
@@ -168,12 +183,12 @@
 					}
 					
 					if (data[5] != null && data[5] != "") {
-						var temp:Array = data[5].split(";");
-						var k:int = 0;
+						temp = data[5].split(";");
+						k = 0;
 						
 						for each (var enemy:String in temp) {
 							temp[k] = enemy.split(",");
-							var entry:Array = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
+							entry = new Array(StringUtil.trim(temp[k][0]), StringUtil.trim(temp[k][1]));
 							enemies.push(entry);
 							k++;
 						}
@@ -187,13 +202,12 @@
 					}
 					
 					if (data[7] != null && data[7] != "") {
-						var temp:Array = data[7].split(";");
-						var entry:Array;
-						var k:int = 0;
+						temp = data[7].split(";");
+						k = 0;
 						
 						for each (var event:String in temp) {
 							temp[k] = event.split(",");
-							var entry:Array = new Array(StringUtil.trim(temp[k][0]), Number(StringUtil.trim(temp[k][1])));
+							entry = new Array(StringUtil.trim(temp[k][0]), Number(StringUtil.trim(temp[k][1])));
 							events.push(entry);
 							k++;
 						}
@@ -219,14 +233,113 @@
 		}
 		
 		public static function parseXML():void {
-			var children:XMLList = xml.children();
+			children = xml.children();
+			trace("[World] parseXML called.");
 			
-			for (var i:int = 0; i < children.length(); i++) {
-				var entry:XML = xml.cell[i];
-				world[i % cols][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
-												enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
-												itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+			loadedXmin = Math.max(Player.x - RANGE_INIT, 0);
+			loadedXmax = Math.min(Player.x + RANGE_INIT, cols - 1);
+			loadedYmin = Math.max(Player.y - RANGE_INIT, 0);
+			loadedYmax = Math.min(Player.y + RANGE_INIT, rows - 1);
+			
+			//var l:int = children.length();		// ~250ms faster
+			var entry:XML;
+			
+			var i:int;
+			for (var r:int = loadedYmin; r <= loadedYmax; r++)
+				for (var c:int = loadedXmin; c <= loadedXmax; c++) {
+					i = r * rows + c;
+					entry = xml.cell[i];
+					world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
+																	enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
+																	itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+				}
+
+			/*for (var i:int = 0; i < l; i++) {
+				//if (i % 100 == 0)
+				//	trace("[World] Parsing, i = " + i);
+				entry = xml.cell[i];
+				world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
+													  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
+													  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+			}*/
+			
+			trace("[World] Player at " + Player.x + "," + Player.y);
+			trace("[World] Loaded region is from (" + loadedXmin + "," + loadedYmin + ") to (" +
+													  loadedXmax + "," + loadedYmax + ")");
+		}
+		
+		/*public static function updateLoadedRegion():void
+		{
+			if (Player.x + TRIGGER_RANGE > loadedXmax || Player.x - TRIGGER_RANGE < loadedXmin ||
+				Player.y + TRIGGER_RANGE > loadedYmax || Player.y - TRIGGER_RANGE < loadedYmin) {
+				MainGameUI.game.addEventListener(Event.EXIT_FRAME, updateLoadedRegionHelper);
+				MainGameUI.game.mainUI.mc_loading.visible = true;
 			}
+		}*/
+		
+		//private static function updateLoadedRegionHelper(e:Event):void
+		public static function updateLoadedRegion():void
+		{
+			//MainGameUI.game.removeEventListener(Event.EXIT_FRAME, updateLoadedRegionHelper);
+			if (Player.x + TRIGGER_RANGE > loadedXmax || Player.x - TRIGGER_RANGE < loadedXmin ||
+				Player.y + TRIGGER_RANGE > loadedYmax || Player.y - TRIGGER_RANGE < loadedYmin) {
+					var currentTime:int = getTimer();
+					trace("[World] Approaching world edge; loading more of the world.");
+					trace("[World]\tLoaded region is from (" + loadedXmin + "," + loadedYmin + ") to (" +
+															  loadedXmax + "," + loadedYmax + ").");
+					
+					MainGameUI.game.mainUI.mc_loading.visible = true;
+					
+					var newXmin:int = loadedXmin;
+					var newXmax:int = loadedXmax;
+					var newYmin:int = loadedYmin;
+					var newYmax:int = loadedYmax;
+					
+					if (Player.x - RANGE < loadedXmin)
+						newXmin = Math.max(Player.x - RANGE, 0);
+					if (Player.x + RANGE > loadedXmax)
+						newXmax = Math.min(Player.x + RANGE, cols - 1);
+					if (Player.y - RANGE < loadedYmin)
+						newYmin = Math.max(Player.y - RANGE, 0);
+					if (Player.y + RANGE > loadedYmax)
+						newYmax = Math.min(Player.y + RANGE, rows - 1);
+					
+					var cStart:int = Math.min(loadedXmin, newXmin);
+					var cEnd:int = Math.max(loadedXmax, newXmax);
+					var rStart:int = Math.min(loadedYmin, newYmin);
+					var rEnd:int = Math.max(loadedYmax, newYmax);
+					
+					var loaded:int;		// benchmarking
+					var i:int;
+					var entry:XML;
+					for (var r:int = rStart; r <= rEnd; r++)
+						for (var c:int = cStart; c <= cEnd; c++) {
+							if (c >= loadedXmin && c <= loadedXmax && r >= loadedYmin && r <= loadedYmax)
+								continue;
+							loaded++;
+							i = r * rows + c;
+							entry = xml.cell[i];
+							world[int(i % cols)][int(i / cols)] = new Zone( { name : entry.@name, x : i / cols, y : i % cols, region : entry.@region, text : entry,
+																			enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
+																			itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
+						}
+					
+					loadedXmin = cStart;
+					loadedXmax = cEnd;
+					loadedYmin = rStart;
+					loadedYmax = rEnd;
+					
+					MainGameUI.game.mainUI.mc_loading.visible = false;
+					
+					trace("[World]\tPlayer at (" + Player.x + "," + Player.y + ").");
+					trace("[World]\tUpdated loaded region is from (" + loadedXmin + "," + loadedYmin + ") to (" +
+																	  loadedXmax + "," + loadedYmax + ").");
+					var elapsedTime:int = getTimer() - currentTime;
+					trace("[World]\tTime elapsed: " + int(elapsedTime / 1000) + "." + (elapsedTime % 1000) + "s" +
+						  "\t\tIterations: " + ((rEnd - rStart) * (cEnd - cStart)) + " tiles, of which " + loaded + " were new.");
+				} else {	
+					//trace("[World] Nothing to update.");
+				}
 		}
 		
 		/*public static function createWorld():void {
