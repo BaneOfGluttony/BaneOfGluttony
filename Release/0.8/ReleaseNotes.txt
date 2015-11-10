@@ -36,6 +36,6 @@ Happy hunting![/ul]
 
 
 [b][i]v0.8.1[/i][/b]
-Loading the game has been massively optimized. Huge thanks to [a href="http://www.furaffinity.net/user/serule"]Serule[/a] for single-handedly fixing that for me! This has reduced load times by an order of magnitude, depeneding on the system. As a result, the game should no longer freeze the entire tab/browser while trying to start.
+Loading the game has been massively optimized. Huge thanks to [a href="http://www.furaffinity.net/user/serule"]Serule[/a] for single-handedly fixing that for me! This has reduced load times by an order of magnitude, depending on the system. As a result, the game should no longer freeze the entire tab/browser while trying to start.
 
 This was caused by me originally telling the game to set up all 10,000 tiles on the map from a 10,000 line file from the very start. Horribly inefficient, I know, but I hadn't considered any other way at the time. Because that actually has nothing to do with loading any assets or anything, there is very little that can be done about that to ease what appears to be the game "loading" when it's actually just running a ton of CPU cycles. Instead, the game now only sets up the small section of the map you start in and prepares the rest of the map dynamically as you approach the edges of what currently exists in the map. This means that the game will continue "loading" the map as you play as needed, but you should only barely notice a pause, if at all, when it needs to load more of the map.
