@@ -59,6 +59,7 @@ package
 			game.btnsUI.upBtn.visible = false;
 			game.btnsUI.downBtn.visible = false;
 			game.combatUI.visible = false;
+			game.mainUI.mc_loading.visible = false;
 			
 			updateMaps();
 			
@@ -315,7 +316,7 @@ package
 			if (!debug)
 				return;
 			
-			trace("\n" + Clock.toString());
+			/*trace("\n" + Clock.toString());
 			trace("atk = " + Player.derivedStats["atk"]);
 			trace("matk = " + Player.derivedStats["matk"]);
 			trace("def = " + Player.derivedStats["def"]);
@@ -327,7 +328,7 @@ package
 			if (selectedItem != null)
 				trace("selectedItem = " + selectedItem.name);
 			else
-				trace("selectedItem = null");
+				trace("selectedItem = null");*/
 		}
 		
 		public static function down(btn:MovieClip):void {
@@ -350,6 +351,7 @@ package
 			updateMenuBtns();
 			updateNavBtns();
 			updateMaps();
+			World.updateLoadedRegion();
 			
 			var enemy:Enemy = checkEnemy();
 			if (enemy != null) {
@@ -1122,7 +1124,6 @@ package
 		}
 
 		public static function clickNE(e:MouseEvent):void {
-			trace("state = " + state);
 			switch (state) {
 				case "navigate" :
 					moveNE();
