@@ -5,24 +5,26 @@
 	import flash.utils.IExternalizable;
 	
 	public class GameEvent {
-		public var xml:XML;
+		public var xml:XML = new XML();
 		
-		public var name:String;
-		public var repeatable:Boolean;
-		public var state:int;
-		public var log:String;
-		public var loc:Array;
-		public var cont:String;
+		public var name:String = "";
+		public var repeatable:Boolean = false;
+		public var state:int = 0;
+		public var log:String = "";
+		public var loc:Array = [];
+		public var cont:String = "";
 		
 		public function GameEvent(fileName:String = "") {
 			name = fileName;
-			state = 0;
-			cont = "";
+			//state = 0;
+			//cont = "";
 			
 			fileName = fileName.replace(/ /g, "_");
 			fileName = fileName.toUpperCase();
 			
-			xml = EventDefinitions[fileName];
+			if (fileName != "")
+				parseXML(fileName);
+			/*xml = EventDefinitions[fileName];
 			
 			if ("@name" in xml)
 				name = xml.@name;
@@ -32,11 +34,11 @@
 			else
 				repeatable = false;
 			
-			setDialog(0);
+			setDialog(0);*/
 		}
 		
-		/*public function parseXML(e:Event):void {
-			xml = new XML(e.target.data);
+		public function parseXML(fileName:String):void {
+			xml = EventDefinitions[fileName];
 			
 			if ("@name" in xml)
 				name = xml.@name;
@@ -47,7 +49,7 @@
 				repeatable = false;
 			
 			setDialog(0);
-		}*/
+		}
 		
 		/*public function writeExternal(output:IDataOutput):void {
 			output.writeObject(main);
@@ -164,7 +166,7 @@
 					
 					if (str == "loc") {
 						if (min == -1 || max == -1) {
-							if (loc == null) {
+							if (loc == null || loc.length == 0) {
 								loc = new Array(Player.x, Player.y);
 								succ = true;
 							} else {

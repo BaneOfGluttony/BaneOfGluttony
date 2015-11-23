@@ -3,6 +3,7 @@
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
+	import flash.net.registerClassAlias;
 	import flash.net.SharedObject;
 	import flash.utils.ByteArray;
 	
@@ -15,9 +16,9 @@
 		public static var runner:Runner;
 		//public static var loader:MovieClip;
 		
-		flash.net.registerClassAlias("Player", Player);
-		flash.net.registerClassAlias("Item", Item);
-		flash.net.registerClassAlias("GameEvent", GameEvent);
+		registerClassAlias("Player", Player);
+		registerClassAlias("Item", Item);
+		registerClassAlias("GameEvent", GameEvent);
 		
 		public static var combat:Combat;
 		public static var currEvent:GameEvent;
@@ -50,6 +51,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
+			/*Player.name = "Kazan";
 			addExp(500, false);
 			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
@@ -62,9 +64,9 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			setGold(500);/**/
+			setGold(500);*/
 			
-			loot(ItemDefinitions.getItem("Sword"), 2);
+			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -94,7 +96,7 @@
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
 			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
-			loot(ItemDefinitions.getItem("Mole Pelt"), 1)/**/
+			loot(ItemDefinitions.getItem("Mole Pelt"), 1);*/
 		}
 		
 		public static function reInit():void {
@@ -178,15 +180,6 @@
 		public static function saveGame():void {
 			try {
 				var saveFile:SharedObject = SharedObject.getLocal("BaneOfGluttony-" + MainGameUI.VERSION.substring(6));
-				/*var playerData:ByteArray = new ByteArray();
-				var equipmentData:ByteArray = new ByteArray();
-				var questsData:ByteArray = new ByteArray();
-				playerData.writeObject(Player);
-				equipmentData.writeObject(Player.equipment);
-				questsData.writeObject(Player.quests);
-				saveFile.data.playerData = playerData;
-				saveFile.data.equipmentData = equipmentData;
-				saveFile.data.questsData = questsData;*/
 				var playerData:ByteArray = new ByteArray();
 				
 				playerData.writeUTF(Player.name);
@@ -200,8 +193,8 @@
 				playerData.writeDouble(Player.fat);
 				playerData.writeDouble(Player.gold);
 				playerData.writeInt(Player.height);
-				//Player.quests
-				//Player.eventRecord
+				playerData.writeObject(Player.quests);
+				playerData.writeObject(Player.eventRecord);
 				playerData.writeObject(Player.inventory);
 				playerData.writeObject(Player.equipment);
 				playerData.writeObject(Player.resources);
@@ -222,16 +215,10 @@
 		public static function loadGame():void {
 			try {
 				var saveFile:SharedObject = SharedObject.getLocal("BaneOfGluttony-" + MainGameUI.VERSION.substring(6));
-				/*var playerData:ByteArray = saveFile.data.playerData as ByteArray;
-				var equipmentData:ByteArray = saveFile.data.equipmentData as ByteArray;
-				var questsData:ByteArray = saveFile.data.questsData as ByteArray;
-				playerData.position = 0;
-				Player = playerData.readObject() as Player;
-				equipmentData.position = 0;
-				Player.equipment = equipmentData.readObject() as Object;
-				questsData.position = 0;
-				Player.quests = questsData.readObject() as Array;*/
 				var playerData:ByteArray = saveFile.data.playerData as ByteArray;
+				var quests:Array;
+				var inventory:Array;
+				var equipment:Object;
 				playerData.position = 0;
 				
 				Player.name = playerData.readUTF();
@@ -245,13 +232,24 @@
 				Player.fat = playerData.readDouble();
 				Player.gold = playerData.readDouble();
 				Player.height = playerData.readInt();
-				//Player.quests
-				//Player.eventRecord
-				Player.inventory = playerData.readObject();
-				Player.equipment = playerData.readObject();
+				quests = playerData.readObject();
+				Player.eventRecord = playerData.readObject();
+				inventory = playerData.readObject();
+				equipment = playerData.readObject();
 				Player.resources = playerData.readObject();
 				Player.stats = playerData.readObject();
 				Player.derivedStats = playerData.readObject();
+				
+				for each (var quest:GameEvent in quests)
+					quest.addQuest();
+				for each (var item:Item in inventory)
+					loot(ItemDefinitions.getItem(item.name), item.count);
+				for each (var equip:Item in equipment) {
+					if (equip != null) {
+						loot(ItemDefinitions.getItem(equip.name), 1);
+						useItem(ItemDefinitions.getItem(equip.name));
+					}
+				}
 				
 				setResource("Health", Player.resources["currHealth"], Player.resources["maxHealth"]);
 				setResource("Mana", Player.resources["currMana"], Player.resources["maxMana"]);
@@ -730,11 +728,14 @@
 				item = Player.inventory[index];
 				item.count += x;
 				
-				retString += "You now have " + Player.inventory[index].count + " ";
-				if (Player.inventory[index].count > 1)
-					retString += item.plural + ".";
-				else
-					retString += item.name + ".";
+				if (!unequip) {
+					retString += "You now have " + Player.inventory[index].count + " ";
+					if (Player.inventory[index].count > 1)
+						retString += item.plural + ".";
+					else
+						retString += item.name + ".";
+				}
+				
 			}
 			
 			//ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
