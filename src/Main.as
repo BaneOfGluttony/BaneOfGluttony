@@ -11,9 +11,6 @@
 	 * @author Kazan Fatzan, refactor by Serule Blue
 	 */
 	public class Main extends MovieClip {
-		/// Class containing all of the "timeline" code
-		//public static var MainGameUI:MainGameUI;
-		
 		/// Reference to the main Runner class (use to access stage, etc.)
 		public static var runner:Runner;
 		//public static var loader:MovieClip;
@@ -21,7 +18,6 @@
 		flash.net.registerClassAlias("Player", Player);
 		flash.net.registerClassAlias("Item", Item);
 		flash.net.registerClassAlias("GameEvent", GameEvent);
-		//flash.net.registerClassAlias("Main", Main);
 		
 		public static var combat:Combat;
 		public static var currEvent:GameEvent;
@@ -41,12 +37,7 @@
 		public function Main(_runner:Runner) {
 			runner = _runner;
 			
-			//loader = new LoadScreen();
-			//runner.addChild(loader);
-			
 			new MainGameUI();
-			//ItemDefinitions.main = this;
-			//SkillDefinitions.main = this;
 		}
 		
 		// called by MainGameUI after it is added to the Stage
@@ -54,14 +45,13 @@
 			for each (var name:String in credits)
 				optionsText = optionsText.replace(name, '<u><a href="event:' + name + '">' + name + '</a></u>');
 			
-			//ItemDefinitions.main = this;
-			//SkillDefinitions.main = this;
 			new Clock();
 			//new World();	Now in Runner
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*setResource("Health", 100, -1);
+			addExp(500, false);
+			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
 			setResource("Energy", 84, -1);
 			setResource("Capacity", 93, -1);
@@ -72,10 +62,9 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			addExp(500, false);
-			setGold(500);*/
+			setGold(500);/**/
 			
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -104,7 +93,8 @@
 			loot(ItemDefinitions.getItem("Hat"), 1);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
-			loot(ItemDefinitions.getItem("Pork Haunch"), 5);*/
+			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
+			loot(ItemDefinitions.getItem("Mole Pelt"), 1)/**/
 		}
 		
 		public static function reInit():void {
@@ -186,18 +176,39 @@
 		}
 		
 		public static function saveGame():void {
-			/*try {
-				var saveFile:SharedObject = SharedObject.getLocal("GameFile");
-				var PlayerData:ByteArray = new ByteArray();
+			try {
+				var saveFile:SharedObject = SharedObject.getLocal("BaneOfGluttony-" + MainGameUI.VERSION.substring(6));
+				/*var playerData:ByteArray = new ByteArray();
 				var equipmentData:ByteArray = new ByteArray();
 				var questsData:ByteArray = new ByteArray();
-				PlayerData.writeObject(Player);
+				playerData.writeObject(Player);
 				equipmentData.writeObject(Player.equipment);
 				questsData.writeObject(Player.quests);
-				saveFile.data.PlayerData = PlayerData;
+				saveFile.data.playerData = playerData;
 				saveFile.data.equipmentData = equipmentData;
-				saveFile.data.questsData = questsData;
+				saveFile.data.questsData = questsData;*/
+				var playerData:ByteArray = new ByteArray();
 				
+				playerData.writeUTF(Player.name);
+				playerData.writeBoolean(Player.isAlive);
+				playerData.writeInt(Player.x);
+				playerData.writeInt(Player.y);
+				playerData.writeInt(Player.maxExp);
+				playerData.writeInt(Player.currExp);
+				playerData.writeInt(Player.level);
+				playerData.writeInt(Player.statPoints);
+				playerData.writeDouble(Player.fat);
+				playerData.writeDouble(Player.gold);
+				playerData.writeInt(Player.height);
+				//Player.quests
+				//Player.eventRecord
+				playerData.writeObject(Player.inventory);
+				playerData.writeObject(Player.equipment);
+				playerData.writeObject(Player.resources);
+				playerData.writeObject(Player.stats);
+				playerData.writeObject(Player.derivedStats);
+				
+				saveFile.data.playerData = playerData;
 				saveFile.flush();
 				trace("Game saved");
 				addText("Game saved");
@@ -205,21 +216,42 @@
 				trace("Game save error: " + e.getStackTrace());
 				addText("Could not write save file.");
 				MainGameUI.game.mainUI.debugConsole.text += "\n" + e.message + "\n" + e.getStackTrace();
-			}*/
+			}
 		}
 		
 		public static function loadGame():void {
-			/*try {
-				var saveFile:SharedObject = SharedObject.getLocal("GameFile");
-				var PlayerData:ByteArray = saveFile.data.PlayerData as ByteArray;
+			try {
+				var saveFile:SharedObject = SharedObject.getLocal("BaneOfGluttony-" + MainGameUI.VERSION.substring(6));
+				/*var playerData:ByteArray = saveFile.data.playerData as ByteArray;
 				var equipmentData:ByteArray = saveFile.data.equipmentData as ByteArray;
 				var questsData:ByteArray = saveFile.data.questsData as ByteArray;
-				PlayerData.position = 0;
-				Player = PlayerData.readObject() as Player;
+				playerData.position = 0;
+				Player = playerData.readObject() as Player;
 				equipmentData.position = 0;
 				Player.equipment = equipmentData.readObject() as Object;
 				questsData.position = 0;
-				Player.quests = questsData.readObject() as Array;
+				Player.quests = questsData.readObject() as Array;*/
+				var playerData:ByteArray = saveFile.data.playerData as ByteArray;
+				playerData.position = 0;
+				
+				Player.name = playerData.readUTF();
+				Player.isAlive = playerData.readBoolean();
+				Player.x = playerData.readInt();
+				Player.y = playerData.readInt();
+				Player.maxExp = playerData.readInt();
+				Player.currExp = playerData.readInt();
+				Player.level = playerData.readInt();
+				Player.statPoints = playerData.readInt();
+				Player.fat = playerData.readDouble();
+				Player.gold = playerData.readDouble();
+				Player.height = playerData.readInt();
+				//Player.quests
+				//Player.eventRecord
+				Player.inventory = playerData.readObject();
+				Player.equipment = playerData.readObject();
+				Player.resources = playerData.readObject();
+				Player.stats = playerData.readObject();
+				Player.derivedStats = playerData.readObject();
 				
 				setResource("Health", Player.resources["currHealth"], Player.resources["maxHealth"]);
 				setResource("Mana", Player.resources["currMana"], Player.resources["maxMana"]);
@@ -237,6 +269,7 @@
 				MainGameUI.game.mainUI.expLabel.text = Player.currExp + "/" + Player.maxExp;
 				MainGameUI.game.mainUI.expBar.scaleX = Player.currExp / Player.maxExp;
 				MainGameUI.game.mainUI.levelLabel.text = Player.level.toString();
+				MainGameUI.game.lvlupUI.ptsLabel.text = Player.statPoints;
 				
 				reInit();
 				
@@ -247,7 +280,7 @@
 				addText("Could not load save file.");
 				MainGameUI.game.mainUI.debugConsole.text += "\n" + e.message + "\n" + e.getStackTrace();
 				return;
-			}*/
+			}
 		}
 		
 		public static function addResource(resource:String, deltaCurr:Number, deltaMax:Number):void { //use a separate takeDamage/feed method that uses this		
@@ -342,8 +375,8 @@
 						MainGameUI.game.mainUI.capacityBar.transform.colorTransform = colorTF;
 						MainGameUI.game.mainUI.capacityBar.scaleX = 1;
 						MainGameUI.game.mainUI.capacityLabel.text = "Danger";
-						/*if (Player.resources["currCapacity"] > Player.derivedStats["cap"])
-							gameOver(1);*/
+						if (Player.resources["currCapacity"] > Player.derivedStats["cap"])
+							gameOver(1);
 					}
 					Player.derivedStats["cap"] += deltaMax;
 					Player.derivedStats["weight"] += 0.03 * deltaCurr;
@@ -454,8 +487,8 @@
 						MainGameUI.game.mainUI.capacityBar.transform.colorTransform = colorTF;
 						MainGameUI.game.mainUI.capacityBar.scaleX = 1;
 						MainGameUI.game.mainUI.capacityLabel.text = "Danger";
-						/*if (Player.resources["currCapacity"] > Player.derivedStats["cap"])
-							gameOver(1);*/
+						if (Player.resources["currCapacity"] > Player.derivedStats["cap"])
+							gameOver(1);
 					}
 					break;
 			}
@@ -706,7 +739,6 @@
 				retString = item.toString("buyingSelected") + retString;
 				setText(retString);
 			} else {
-				retString = item.toString(MainGameUI.state) + retString;
 				addText(retString);
 			} 
 			
@@ -764,7 +796,11 @@
 		
 		public static function useItem(item:Item):Boolean {
 			if (Player.getItemFromInventory(item) == null) {
-				setText(item.toString("inventorySelected") + "\n\nYou don't have any more " + item.plural + ".");
+				//setText(item.toString("inventorySelected") + "\n\nYou don't have any more " + item.plural + ".");
+				addText("You don't have any more " + item.plural + ".");
+				return false;
+			} else if (!item.usable) {
+				addText("You can't use that item.");
 				return false;
 			}
 			
@@ -794,8 +830,9 @@
 					trace(Player.equipment["feet"].name + " equipped.");
 				} else if (item.weapon) {
 					if (item.twoHanded && Player.equipment["shield"] != null) {
-						setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
-						return true;
+						//setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
+						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+						return false;
 					} else {
 						if (Player.equipment["weapon"] != null)
 							unequip(Player.equipment["weapon"]);
@@ -809,14 +846,17 @@
 						Player.equipment["shield"] = itemCopy;
 						trace(Player.equipment["shield"].name + " equipped.");
 					} else {
-						setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
-						return true;
+						//setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
+						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+						return false;
 					}
 				}
+				
 				addEquipBonuses();
+				addText("You equipped a " + item.name + ".");
 			} else {
+				addText("You used a " + item.name + ".");
 				itemCopy.procEffects();
-				trace(item.name + " used.");
 			}
 			
 			var index:int = Player.indexOfInventory(item);
@@ -824,11 +864,6 @@
 			Player.inventory[index].count--;
 			if (Player.inventory[index].count <= 0)
 				Player.inventory.splice(index, 1);
-			
-			if (item.equip)
-				setText(item.toString("inventorySelected") + "\n\nYou equipped a " + item.name + ".");
-			else
-				setText(item.toString("inventorySelected") + "\n\nYou used a " + item.name + ".");
 			
 			return isPlayerAlive();
 		}

@@ -182,12 +182,13 @@
 			Main.addText(text);
 			
 			Main.isPlayerAlive();*/
-			if (used) {
+			
+			/*if (used) {
 				if (item.equip)
 					Main.addText("You equipped a " + item.name + ".\n" + item.effectsText);
 				else
 					Main.addText("You used a " + item.name + ".\n" + item.effectsText);
-			}
+			}*/
 			
 			return used;
 		}

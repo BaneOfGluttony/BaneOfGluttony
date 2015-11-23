@@ -101,7 +101,7 @@
 									plural		: "Mole Pelts",
 									short		: "The pelt of a giant mole.",
 									long		: "Though the fur is relatively thin, its size alone could let it pass as for a small tent.",
-									consumable	: false,
+									usable		: false,
 									value		: 60},
 										
 			"Knife"				: {	name		: "Knife",

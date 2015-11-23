@@ -7,7 +7,7 @@
 		public var long:String = "Long description";
 		public var wpnText:String = "Weapon text";
 		public var canDrop:Boolean = true;
-		public var consumable:Boolean = true;
+		public var usable:Boolean = true;
 		public var equip:Boolean = false;
 		public var count:int = 0;
 		public var value:int = 0;

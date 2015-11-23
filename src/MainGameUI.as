@@ -1,5 +1,6 @@
 package  
 {
+	import fl.controls.Button;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -19,7 +20,8 @@ package
 	public class MainGameUI 
 	{
 		public static var game:MovieClip;		// MainGame.swc
-		public static var debug:Boolean = true;	//Show debug console
+		public static const DEBUG:Boolean = true;	//Show debug console
+		public static const VERSION:String = "Build v0.8.1-11.10.15";
 		
 		public static var btnIndex:int = 0
 		public static var scrollIndex:int = 0;
@@ -40,8 +42,9 @@ package
 			game.addEventListener(Event.ADDED_TO_STAGE, init);
 			Main.runner.addChild(game);
 			
-			game.mainUI.debugConsole.visible = debug;
-			game.mainUI.debugScrollbar.visible = debug;
+			game.versionText.text = VERSION;
+			game.mainUI.debugConsole.visible = DEBUG;
+			game.mainUI.debugScrollbar.visible = DEBUG;
 		}
 		
 		private static function init(event:Event):void {
@@ -313,7 +316,7 @@ package
 		}
 
 		public static function debugTrace():void {
-			if (!debug)
+			if (!DEBUG)
 				return;
 			
 			trace("\n" + Clock.toString());
@@ -978,8 +981,8 @@ package
 		}
 
 		public static function clickSave(e:MouseEvent):void {
-			//Main.saveGame();
-			Main.addText("Saving and loading are disabled.");
+			Main.saveGame();
+			//Main.addText("Saving and loading are disabled.");
 			debugTrace();
 		}
 
@@ -987,8 +990,8 @@ package
 			switch (state) {
 				case "gameover" :
 				case "navigate" :
-					//Main.loadGame();
-					Main.addText("Saving and loading are disabled.");
+					Main.loadGame();
+					//Main.addText("Saving and loading are disabled.");
 					break;
 				case "options" :
 					openOptions();
@@ -1789,8 +1792,15 @@ package
 							displayInventory();*/
 							Main.useItem(item)
 						} else {
-							if (!Main.combat.turn("inventory", item))
+							if (!Main.combat.turn("inventory", item)) {
+								/*for (var i:int = 0; i < btnArray.length; i++) {
+									if (btnArray[i].btnText.text == item.name) {
+										menuSelect(i);
+										return;
+									}
+								}*/
 								return;
+							}
 							openInventory();
 						}
 					} else if (selection == -1) {

@@ -46,13 +46,13 @@
 									endText		: "The rat sways back and forth, before falling to the ground, either unconscious or dead.",
 									atkText		: "The thug stabs you with his shoddy shortsword.",
 									loot		: [ItemDefinitions.getItem("Shortsword")],
-									maxHP		: 55,
-									atk			: 35,
-									def			: 15,
+									maxHP		: 60,
+									atk			: 45,
+									def			: 20,
 									agi			: 20,
-									dex			: 12,
-									exp			: 20,
-									gold		: 24}
+									dex			: 15,
+									exp			: 40,
+									gold		: 30}
 		};
 		
 		public static function getEnemy(name:String):Enemy {
