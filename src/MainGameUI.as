@@ -1,6 +1,5 @@
 package  
 {
-	import fl.controls.Button;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -1349,8 +1348,9 @@ package
 			}
 		}
 		
-		public static function displayInventory():void {
-			Main.setText(Main.writeInventory());
+		public static function displayInventory(scroll:Boolean = false):void {
+			if (!scroll)
+				Main.setText(Main.writeInventory());
 			
 			hideBtnArray();
 			game.btnsUI.upBtn.visible = false;
@@ -1787,28 +1787,22 @@ package
 						//displayInventory();
 					} else if (selection == 1) {
 						if (state == "inventory") {
-							/*if (!Main.useItem(item))
-								return;
-							displayInventory();*/
 							Main.useItem(item)
 						} else {
-							if (!Main.combat.turn("inventory", item)) {
-								/*for (var i:int = 0; i < btnArray.length; i++) {
-									if (btnArray[i].btnText.text == item.name) {
-										menuSelect(i);
-										return;
-									}
-								}*/
+							if (Main.testItem(item)) {
+								openInventory();
+								Main.combat.turn("inventory", item);
+								menuItemSelected = false;
+								selectedItem = null;
+							} else {
 								return;
 							}
-							openInventory();
 						}
 					} else if (selection == -1) {
 						displayInventory();
 						menuItemSelected = false;
 						selectedItem = null;
 					}
-					//menuItemSelected = false;
 					break;
 				case "shop" :
 					if (selection == -1) {

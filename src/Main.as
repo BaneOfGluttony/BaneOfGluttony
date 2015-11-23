@@ -138,7 +138,7 @@
 			
 			switch (MainGameUI.state) {
 				case "combat" :
-				case "combatInventory" :
+				//case "combatInventory" :
 				case "combatSkills" :
 					combatText += "\n" + txt;
 					setText(combatText);
@@ -708,13 +708,17 @@
 			}
 		}
 		
-		public static function loot(item:Item, x:int):void {
+		public static function loot(item:Item, x:int, unequip:Boolean = false):void {
 			var retString:String = "";
 			
-			if (x == 1)
-				retString = "You got a " + item.name + ". ";
-			else if (x > 1)
+			if (x == 1) {
+				if (unequip)
+					retString = "You unequipped a " + item.name + ". ";
+				else
+					retString = "You got a " + item.name + ". ";
+			} else if (x > 1) {
 				retString = "You got " + x + " " + item.plural + ". ";
+			}
 			
 			if (x > 0) {
 				var index:int = Player.indexOfInventory(item);
@@ -736,8 +740,9 @@
 			//ItemDefinitions.main = this;		//ItemDefinitions.main is null for some ungodly reason
 			
 			if (MainGameUI.state == "buying" && MainGameUI.menuItemSelected) {
-				retString = item.toString("buyingSelected") + retString;
-				setText(retString);
+				//retString = item.toString("buyingSelected") + retString;
+				//setText(retString);
+				addText(retString);
 			} else {
 				addText(retString);
 			} 
@@ -792,6 +797,30 @@
 			
 			//if (MainGameUI.state != "buying" && MainGameUI.state != "selling")
 				//addText(retString);
+		}
+		
+		public static function testItem(item:Item):Boolean {
+			if (Player.getItemFromInventory(item) == null) {
+				addText("You don't have any more " + item.plural + ".");
+				return false;
+			} else if (!item.usable) {
+				addText("You can't use that item.");
+				return false;
+			}
+			
+			if (item.weapon) {
+				if (item.twoHanded && Player.equipment["shield"] != null) {
+					addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+					return false;
+				}
+			} else if (item.shield) {
+				if (Player.equipment["weapon"] != null && Player.equipment["weapon"].twoHanded) {
+					addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+					return false;
+				}
+			}
+			
+			return true;
 		}
 		
 		public static function useItem(item:Item):Boolean {
@@ -885,7 +914,7 @@
 				Player.equipment["shield"] = null;
 			
 			item.count = 0;
-			loot(item, 1);
+			loot(item, 1, true);
 			//updateStats();
 			trace(item.name + " unequipped.");
 		}
