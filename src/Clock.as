@@ -13,6 +13,7 @@ package  {
 		public function Clock(t:Number = 540) {
 			time = t;
 			interpret();
+			updateUI();
 		}
 		
 		public static function advTime(dist:Number, str:int, agi:int, weight:Number):void {
@@ -23,6 +24,43 @@ package  {
 			dist *= 100;
 			time += dist / rate;
 			interpret();
+			updateUI();
+			digest(dist / rate);
+		}
+		
+		public static function rest(m:int = 0, h:int = 1):void {
+			minute += m;
+			hour += h;
+			updateUI();
+			digest(m + h * 60, true);
+		}
+		
+		public static function digest(m:int = 60, rest:Boolean = false):void {
+			var hours:Number = m / 60;
+			
+			if (Player.resources["currCapacity"] > Player.resources["maxCapacity"]) {
+				var overflow:int = Player.resources["currCapacity"] - Player.resources["maxCapacity"];
+				Main.addResource("Capacity", 0, 0.5 * overflow);
+				Main.addText("Clutching onto your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
+			}
+			
+			var capDrained:int;
+			if (Player.stats["vit"] <= 0.8 * Player.resources["maxCapacity"])
+				capDrained = Math.round(hours * (Player.resources["maxCapacity"] - Player.stats["vit"]));
+			else
+				capDrained = Math.round(hours * Player.resources["maxCapacity"]);
+			
+			if (capDrained > Player.resources["currCapacity"]) {
+				capDrained = Player.resources["currCapacity"];
+				Main.setResource("Capacity", 0, -1);
+			} else {
+				Main.addResource("Capacity", -capDrained, 0);
+			}
+			
+			if (rest)
+				Main.addFat(0.15 * capDrained);
+			else
+				Main.addFat(0.1 * capDrained);
 		}
 		
 		public static function interpret():void {
@@ -45,6 +83,10 @@ package  {
 			if (ret.length < 2)
 				ret = "0" + ret;
 			return ret;
+		}
+		
+		public static function updateUI():void {
+			MainGameUI.game.mainUI.timeLabel.text = toString();
 		}
 		
 		public static function toString():String {

@@ -61,7 +61,7 @@ package
 			game.btnsUI.upBtn.visible = false;
 			game.btnsUI.downBtn.visible = false;
 			game.combatUI.visible = false;
-			game.mainUI.mc_loading.visible = false;
+			//game.mainUI.mc_loading.visible = false;
 			
 			updateMaps();
 			
@@ -70,6 +70,7 @@ package
 			game.menuUI.inventoryBtn.stop();
 			game.menuUI.skillsBtn.stop();
 			game.menuUI.questsBtn.stop();
+			game.menuUI.restBtn.stop();
 
 			game.combatUI.attackBtn.stop();
 			game.combatUI.inventoryBtn.stop();
@@ -125,7 +126,13 @@ package
 			game.menuUI.loadBtn.mouseChildren = false;
 			game.menuUI.loadBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.menuUI.loadBtn); });
 			game.menuUI.loadBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.menuUI.loadBtn); });
-			game.menuUI.loadBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.menuUI.loadBtn); });
+			game.menuUI.loadBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.menuUI.loadBtn); } );
+			
+			game.menuUI.restBtn.buttonMode = true;
+			game.menuUI.restBtn.mouseChildren = false;
+			game.menuUI.restBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.menuUI.restBtn); });
+			game.menuUI.restBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.menuUI.restBtn); });
+			game.menuUI.restBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.menuUI.restBtn); } );
 			
 			//Navigation
 			game.btnsUI.btn1.buttonMode = true;
@@ -280,6 +287,7 @@ package
 			game.mainUI.zoneBtn.addEventListener(MouseEvent.CLICK, clickMap);
 			game.menuUI.saveBtn.addEventListener(MouseEvent.CLICK, clickSave);
 			game.menuUI.loadBtn.addEventListener(MouseEvent.CLICK, clickLoad);
+			game.menuUI.restBtn.addEventListener(MouseEvent.CLICK, clickRest);
 			game.btnsUI.upBtn.addEventListener(MouseEvent.CLICK, clickUpBtn);
 			game.btnsUI.downBtn.addEventListener(MouseEvent.CLICK, clickDownBtn);
 			
@@ -364,7 +372,8 @@ package
 					if (Player.resources["currHealth"] <= 0)
 						Main.gameOver(2);
 				}*/
-				if (Player.resources["currCapacity"] > Player.resources["maxCapacity"]) {
+				
+				/*if (Player.resources["currCapacity"] > Player.resources["maxCapacity"]) {
 					var overflow:int = Player.resources["currCapacity"] - Player.resources["maxCapacity"];
 					Main.addResource("Capacity", 0, 0.5 * overflow);
 					Main.addText("Clutching onto your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
@@ -379,10 +388,11 @@ package
 				if (capDrained > Player.resources["currCapacity"]) {
 					capDrained = Player.resources["currCapacity"];
 					Main.setResource("Capacity", 0, -1);
-				} else
+				} else {
 					Main.addResource("Capacity", -capDrained, 0);
+				}
 				
-				Main.addFat(0.1 * capDrained);
+				Main.addFat(0.1 * capDrained);*/
 			}
 			
 			
@@ -1025,6 +1035,11 @@ package
 			debugTrace();
 		}
 
+		public static function clickRest(e:MouseEvent):void {
+			Clock.rest(0, 1);
+			debugTrace();
+		}
+		
 		public static function clickMap(e:MouseEvent):void {
 			toggleMap();
 			debugTrace();

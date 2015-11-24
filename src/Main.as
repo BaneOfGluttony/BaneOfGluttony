@@ -130,6 +130,7 @@
 			MainGameUI.updateNavBtns();
 			MainGameUI.updateMaps();
 			calcStats(true);
+			Clock.updateUI();
 			
 			MainGameUI.debugTrace();
 		}
@@ -181,6 +182,7 @@
 			try {
 				var saveFile:SharedObject = SharedObject.getLocal("BaneOfGluttony-" + MainGameUI.VERSION.substring(6));
 				var playerData:ByteArray = new ByteArray();
+				var clockData:ByteArray = new ByteArray();
 				
 				playerData.writeUTF(Player.name);
 				playerData.writeBoolean(Player.isAlive);
@@ -201,7 +203,15 @@
 				playerData.writeObject(Player.stats);
 				playerData.writeObject(Player.derivedStats);
 				
+				clockData.writeDouble(Clock.time);
+				clockData.writeInt(Clock.minute);
+				clockData.writeInt(Clock.hour);
+				clockData.writeInt(Clock.day);
+				clockData.writeInt(Clock.year);
+				clockData.writeBoolean(Clock.h12);
+				
 				saveFile.data.playerData = playerData;
+				saveFile.data.clockData = clockData;
 				saveFile.flush();
 				trace("Game saved");
 				addText("Game saved");
@@ -216,6 +226,7 @@
 			try {
 				var saveFile:SharedObject = SharedObject.getLocal("BaneOfGluttony-" + MainGameUI.VERSION.substring(6));
 				var playerData:ByteArray = saveFile.data.playerData as ByteArray;
+				var clockData:ByteArray = saveFile.data.clockData as ByteArray;
 				var quests:Array;
 				var inventory:Array;
 				var equipment:Object;
@@ -251,7 +262,7 @@
 					}
 				}
 				
-				setResource("Health", Player.resources["currHealth"], Player.resources["maxHealth"]);
+				/*setResource("Health", Player.resources["currHealth"], Player.resources["maxHealth"]);
 				setResource("Mana", Player.resources["currMana"], Player.resources["maxMana"]);
 				setResource("Energy", Player.resources["currEnergy"], Player.resources["maxEnergy"]);
 				setResource("Capacity", Player.resources["currCapacity"], Player.resources["maxCapacity"]);
@@ -262,12 +273,19 @@
 				setStat("dex", Player.stats["dex"]);
 				setStat("vor", Player.stats["vor"]);
 				setFat(Player.fat);
-				setGold(Player.gold);
+				setGold(Player.gold);*/
 				
 				MainGameUI.game.mainUI.expLabel.text = Player.currExp + "/" + Player.maxExp;
 				MainGameUI.game.mainUI.expBar.scaleX = Player.currExp / Player.maxExp;
 				MainGameUI.game.mainUI.levelLabel.text = Player.level.toString();
 				MainGameUI.game.lvlupUI.ptsLabel.text = Player.statPoints;
+				
+				Clock.time = clockData.readDouble();
+				Clock.minute = clockData.readInt();
+				Clock.hour = clockData.readInt();
+				Clock.day = clockData.readInt();
+				Clock.year = clockData.readInt();
+				Clock.h12 = clockData.readBoolean();
 				
 				reInit();
 				
