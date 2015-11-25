@@ -25,6 +25,12 @@ package  {
 			time += dist / rate;
 			interpret();
 			updateUI();
+			
+			if (Player.metabolism > 1.25)
+				Player.metabolism = 1.25;
+			else
+				Player.metabolism += 0.01 * ((dist / rate) / 60);
+			
 			digest(dist / rate);
 		}
 		
@@ -32,6 +38,12 @@ package  {
 			minute += m;
 			hour += h;
 			updateUI();
+			
+			if (Player.metabolism < 0.75)
+				Player.metabolism = 0.75;
+			else
+				Player.metabolism -= 0.01 * (h + m / 60);
+			
 			digest(m + h * 60, true);
 		}
 		
@@ -58,9 +70,9 @@ package  {
 			}
 			
 			if (rest)
-				Main.addFat(0.15 * capDrained);
+				Main.addFat(0.15 * capDrained * Player.metabolism);
 			else
-				Main.addFat(0.1 * capDrained);
+				Main.addFat(0.1 * capDrained * Player.metabolism);
 		}
 		
 		public static function interpret():void {

@@ -192,6 +192,7 @@
 				playerData.writeInt(Player.currExp);
 				playerData.writeInt(Player.level);
 				playerData.writeInt(Player.statPoints);
+				playerData.writeInt(Player.metabolism);
 				playerData.writeDouble(Player.fat);
 				playerData.writeDouble(Player.gold);
 				playerData.writeInt(Player.height);
@@ -240,6 +241,7 @@
 				Player.currExp = playerData.readInt();
 				Player.level = playerData.readInt();
 				Player.statPoints = playerData.readInt();
+				Player.metabolism = playerData.readDouble();
 				Player.fat = playerData.readDouble();
 				Player.gold = playerData.readDouble();
 				Player.height = playerData.readInt();

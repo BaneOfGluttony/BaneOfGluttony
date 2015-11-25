@@ -334,6 +334,7 @@ package
 			trace("acc = " + Player.derivedStats["acc"]);
 			trace("dodge = " + Player.derivedStats["dodge"]);
 			trace("cap = " + Player.resources["currCapacity"] + " / " + Player.resources["maxCapacity"] + " (" + Player.derivedStats["cap"] + ")");
+			trace("metabolism = " + Player.metabolism);
 			trace("state = " + state);
 			if (selectedItem != null)
 				trace("selectedItem = " + selectedItem.name);

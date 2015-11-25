@@ -9,6 +9,7 @@
 		public static var currExp:int = 0;
 		public static var level:int = 1;
 		public static var statPoints:int = 0;
+		public static var metabolism:Number = 1.0;
 		public static var fat:Number = 15;
 		public static var gold:Number = 25;
 		public static var height:int = 70;
