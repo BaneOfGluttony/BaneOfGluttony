@@ -51,7 +51,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*Player.name = "Kazan";
+			Player.name = "Kazan";
 			addExp(500, false);
 			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
@@ -64,9 +64,9 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			setGold(500);*/
+			setGold(500);/**/
 			
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -96,7 +96,7 @@
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
 			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
-			loot(ItemDefinitions.getItem("Mole Pelt"), 1);*/
+			loot(ItemDefinitions.getItem("Mole Pelt"), 1);/**/
 		}
 		
 		public static function reInit():void {
@@ -192,7 +192,7 @@
 				playerData.writeInt(Player.currExp);
 				playerData.writeInt(Player.level);
 				playerData.writeInt(Player.statPoints);
-				playerData.writeInt(Player.metabolism);
+				playerData.writeDouble(Player.metabolism);
 				playerData.writeDouble(Player.fat);
 				playerData.writeDouble(Player.gold);
 				playerData.writeInt(Player.height);

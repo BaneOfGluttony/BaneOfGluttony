@@ -135,6 +135,9 @@
 				case "devour" :
 					
 					break;
+				case "wait" :
+					enemyTurn();
+					break;
 				case "surrender" :
 					surrender();
 					break;
@@ -164,7 +167,6 @@
 		}
 		
 		public function useItem(item:Item):Boolean {
-			var used:Boolean = Main.useItem(item);
 			/*var text:String = "";
 			
 			if (used && item.equip) {
@@ -190,7 +192,7 @@
 					Main.addText("You used a " + item.name + ".\n" + item.effectsText);
 			}*/
 			
-			return used;
+			return Main.useItem(item);
 		}
 		
 		public function run():Boolean {
@@ -272,17 +274,6 @@
 			
 			return isAlive;
 		}
-		/*public function isEnemyAlive():Boolean {
-			if (Main.isPlayerAlive() && enemy.currHP <= 0) {
-				//MainGameUI.updateEnemyHealth();
-				enemyIsAlive = false;
-				
-				Main.addText("\n----------");
-				Main.addText("\n" + enemy.endText + " You have defeated the " + enemy.name + ".\n");
-			}
-			
-			return enemyIsAlive;
-		}*/
 		
 		public function didHit(source:Object, target:Object):Boolean {
 			var sourceDex:int;

@@ -77,6 +77,7 @@ package
 			game.combatUI.skillsBtn.stop();
 			game.combatUI.runBtn.stop();
 			game.combatUI.devourBtn.stop();
+			game.combatUI.waitBtn.stop();
 			game.combatUI.surrenderBtn.stop();
 
 			//Menus
@@ -232,6 +233,12 @@ package
 			game.combatUI.devourBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.combatUI.devourBtn); });
 			game.combatUI.devourBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.combatUI.devourBtn); });
 
+			game.combatUI.waitBtn.buttonMode = true;
+			game.combatUI.waitBtn.mouseChildren = false;
+			game.combatUI.waitBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.combatUI.waitBtn); });
+			game.combatUI.waitBtn.addEventListener(MouseEvent.MOUSE_UP, function():void { up(game.combatUI.waitBtn); });
+			game.combatUI.waitBtn.addEventListener(MouseEvent.MOUSE_OUT, function():void { up(game.combatUI.waitBtn); });
+			
 			game.combatUI.surrenderBtn.buttonMode = true;
 			game.combatUI.surrenderBtn.mouseChildren = false;
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.MOUSE_DOWN, function():void { down(game.combatUI.surrenderBtn); });
@@ -306,6 +313,7 @@ package
 			game.combatUI.skillsBtn.addEventListener(MouseEvent.CLICK, combatSkills);
 			game.combatUI.runBtn.addEventListener(MouseEvent.CLICK, combatRun);
 			game.combatUI.devourBtn.addEventListener(MouseEvent.CLICK, combatDevour);
+			game.combatUI.waitBtn.addEventListener(MouseEvent.CLICK, combatWait);
 			game.combatUI.surrenderBtn.addEventListener(MouseEvent.CLICK, combatSurrender);
 			
 			game.lvlupUI.strBtn.addEventListener(MouseEvent.CLICK, incStat("str"));
@@ -464,6 +472,7 @@ package
 			game.menuUI.questsBtn.visible = true;
 			game.menuUI.saveBtn.visible = true;
 			game.menuUI.loadBtn.visible = true;
+			game.menuUI.restBtn.visible = true;
 			
 			switch (state) {
 				case "navigate" :
@@ -484,6 +493,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "inventory" :
 					game.optionsBtn.visible = false;
@@ -493,6 +503,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "appearance" :
 					game.optionsBtn.visible = false;
@@ -502,6 +513,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "skills" :
 					game.optionsBtn.visible = false;
@@ -511,6 +523,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "quests" :
 					game.optionsBtn.visible = false;
@@ -520,6 +533,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "shop" :
 				case "buying" :
@@ -532,6 +546,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "map" :
 					game.optionsBtn.visible = false;
@@ -541,6 +556,7 @@ package
 					game.menuUI.questsBtn.visible = false;
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = false;
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "combat" :
 					game.optionsBtn.visible = false;
@@ -550,6 +566,7 @@ package
 					game.menuUI.questsBtn.visible = false;
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = false;
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "combatInventory" :
 				case "combatSkills" :
@@ -561,6 +578,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Back";
+					game.menuUI.restBtn.visible = false;
 					break;
 				case "gameover" :
 					game.combatUI.attackBtn.visible = false;
@@ -568,6 +586,7 @@ package
 					game.combatUI.skillsBtn.visible = false;
 					game.combatUI.runBtn.visible = false;
 					game.combatUI.devourBtn.visible = false;
+					game.combatUI.waitBtn.visible = false;
 					game.combatUI.surrenderBtn.visible = false;
 					game.optionsBtn.visible = false;
 					game.menuUI.visible = true;
@@ -578,6 +597,7 @@ package
 					game.menuUI.saveBtn.visible = false;
 					game.menuUI.loadBtn.visible = true;
 					game.menuUI.loadBtn.btnText.text = "Load";
+					game.menuUI.restBtn.visible = false;
 					break;
 				default :
 					game.menuUI.saveBtn.visible = false;
@@ -1081,6 +1101,11 @@ package
 			debugTrace();
 		}
 		
+		public static function combatWait(e:MouseEvent):void {
+			Main.combat.turn("wait");
+			debugTrace();
+		}
+		
 		public static function combatSurrender(e:MouseEvent):void {
 			Main.combat.turn("surrender");
 			debugTrace();
@@ -1519,6 +1544,7 @@ package
 					game.combatUI.skillsBtn.visible = false;
 					game.combatUI.runBtn.visible = false;
 					game.combatUI.devourBtn.visible = false;
+					game.combatUI.waitBtn.visible = false;
 					game.combatUI.surrenderBtn.visible = false;
 					game.combatUI.inventoryBtn.gotoAndStop(2);
 					
@@ -1542,6 +1568,7 @@ package
 					game.combatUI.skillsBtn.visible = true;
 					game.combatUI.runBtn.visible = true;
 					game.combatUI.devourBtn.visible = true;
+					game.combatUI.waitBtn.visible = true;
 					game.combatUI.surrenderBtn.visible = true;
 					game.combatUI.inventoryBtn.gotoAndStop(1);
 					hideBtnArray();
@@ -1590,6 +1617,7 @@ package
 					game.combatUI.inventoryBtn.visible = false;
 					game.combatUI.runBtn.visible = false;
 					game.combatUI.devourBtn.visible = false;
+					game.combatUI.waitBtn.visible = false;
 					game.combatUI.surrenderBtn.visible = false;
 					game.combatUI.skillsBtn.gotoAndStop(2);
 					
@@ -1613,6 +1641,7 @@ package
 					game.combatUI.skillsBtn.visible = true;
 					game.combatUI.runBtn.visible = true;
 					game.combatUI.devourBtn.visible = true;
+					game.combatUI.waitBtn.visible = true;
 					game.combatUI.surrenderBtn.visible = true;
 					game.combatUI.skillsBtn.gotoAndStop(1);
 					hideBtnArray();
@@ -2074,6 +2103,7 @@ package
 			game.combatUI.skillsBtn.visible = true;
 			game.combatUI.runBtn.visible = true;
 			game.combatUI.devourBtn.visible = true;
+			game.combatUI.waitBtn.visible = true;
 			game.combatUI.surrenderBtn.visible = true;
 			updateMenuBtns();
 			
