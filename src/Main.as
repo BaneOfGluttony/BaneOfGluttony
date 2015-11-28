@@ -999,7 +999,7 @@
 			}
 			
 			if (rest)
-				addFat(0.15 * capDrained / Player.metabolism);
+				addFat(0.2 * capDrained / Player.metabolism);
 			else
 				addFat(0.1 * capDrained / Player.metabolism);
 		}

@@ -692,11 +692,11 @@ package
 		}
 
 		public static function updateMaps():void {
-			game.mainUI.miniMap.x = 350 + 70 - 35 * Player.x;
-			game.mainUI.miniMap.y = 70 - 35 * Player.y;
+			game.mainUI.miniMap.x = 350 + 70 - 35 * (Player.x - 39);
+			game.mainUI.miniMap.y = 70 - 35 * (Player.y - 40);
 			
-			game.mainUI.bigMarker.x = 552 + 62 * Player.x;
-			game.mainUI.bigMarker.y = 62 * Player.y;
+			game.mainUI.bigMarker.x = 675 + 12 * (Player.x - 39);
+			game.mainUI.bigMarker.y = 10 + 12 * (Player.y - 40);
 		}
 		//}
 		
@@ -1730,8 +1730,7 @@ package
 						updateMenuBtns()
 						break;
 				case "navigate" :
-					Main.addText("Map is disabled.");
-					/*state = "map";
+					state = "map";
 					
 					game.lvlupUI.visible = false;
 					game.optionsBtn.visible = false;
@@ -1742,7 +1741,7 @@ package
 					game.btnsUI.upBtn.visible = false;
 					game.btnsUI.downBtn.visible = false;
 					updateMenuBtns();
-					hideBtnArray();*/
+					hideBtnArray();
 					break;
 				default :
 					break;

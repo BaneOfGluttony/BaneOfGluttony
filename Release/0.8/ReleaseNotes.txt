@@ -39,3 +39,28 @@ Happy hunting![/ul]
 Loading the game has been massively optimized. Huge thanks to [a href="http://www.furaffinity.net/user/serule"]Serule[/a] for single-handedly fixing that for me! This has reduced load times by an order of magnitude, depending on the system. As a result, the game should no longer freeze the entire tab/browser while trying to start.
 
 This was caused by me originally telling the game to set up all 10,000 tiles on the map from a 10,000 line file from the very start. Horribly inefficient, I know, but I hadn't considered any other way at the time. Because that actually has nothing to do with loading any assets or anything, there is very little that can be done about that to ease what appears to be the game "loading" when it's actually just running a ton of CPU cycles. Instead, the game now only sets up the small section of the map you start in and prepares the rest of the map dynamically as you approach the edges of what currently exists in the map. This means that the game will continue "loading" the map as you play as needed, but you should only barely notice a pause, if at all, when it needs to load more of the map.
+
+
+--------------------------------------------------
+
+
+[b][i]v0.8.2[/i][/b]
+
+[ul type="disc"][li]World/map loading has been further optimized thanks to [a href="http://www.furaffinity.net/user/serule"]Serule[/a]
+[ul type="square"]
+[li]Zones will only load near the player, 'leading' the player based on the most recent direction travelled in[/li]
+[li]Optimization of 100% to over 5000% (time reduced down to <0.1s, from 0.1s to over 0.5s)[/li][/ul][/li]
+[li]Save files have been fixed to work with quests (hopefully) and have been reenabled[/li]
+[li]Added in-game time/clock[/li]
+[li]Added player metabolism which affects fat conversion[/li]
+[li]Added resting to overworld
+[ul type="square"]
+[li]Resting is currently fixed to one hour intervals[/li]
+[li]Resting restores 10% of your max health per hour[/li]
+[li]Resting digests a large portion of what's in your stomach, converting it into fat at a slightly higher rate than if you were traveling
+[ul type="circle"]
+[li]Note that since resting takes an entire hour, it will look like it digests way more than it would if you were traveling because traveling only takes a few mintues[/li][/ul][/li]
+[li]If you're resting on a space with potential enemy or event encounters, you can still be interrupted and trigger an encounter while resting, albeit at a significantly reduced probability[/li]
+[li]Resting causes a slight decrease in metabolism (accordingly, moving causes a slight increase in metabolism)[/li][/ul][/li]
+[li]Added waiting to combat to just skip your turn[/li]
+[li]Added a few digestive items to the apothecary that instantly digest a percentage of your stomach capacity at a significantly increased fat conversion rate than even resting[/li][/ul]
