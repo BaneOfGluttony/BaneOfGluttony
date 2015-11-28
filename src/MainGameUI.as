@@ -375,8 +375,8 @@ package
 			var enemy:Enemy = checkEnemy();
 			if (enemy != null) {
 				Main.startCombat(enemy);
-			} else {
-				/*if (Player.resources["currCapacity"] <= 0) {
+			} /*else {
+				if (Player.resources["currCapacity"] <= 0) {
 					Main.addResource("Health", -0.05 * Player.resources["maxHealth"], 0);
 					if (Player.resources["currHealth"] <= 0)
 						Main.gameOver(2);
@@ -401,12 +401,14 @@ package
 					Main.addResource("Capacity", -capDrained, 0);
 				}
 				
-				Main.addFat(0.1 * capDrained);*/
-			}
+				Main.addFat(0.1 * capDrained);
+			}*/
 			
 			
 			//Main.updateStats();
-			updateQuests();
+			var event:String = updateQuests();
+			if (event != null)
+				new GameEvent(event);
 		}
 
 		public static function checkBounds(x:int, y:int):Boolean {
@@ -418,7 +420,7 @@ package
 				return true;
 		}
 
-		public static function updateQuests():void {
+		public static function updateQuests(modifier:Number = 1):String {
 			var existingEvent:Boolean = false;
 			var currLoc:Zone = World.world[Player.x][Player.y];
 			
@@ -432,34 +434,40 @@ package
 			if (!existingEvent && currLoc.events.length > 0) {
 				for each (var event:Array in currLoc.events) {
 					//trace(event[0] in Player.eventRecord);
-					if ((!(event[0] in Player.eventRecord) || Player.eventRecord[event[0]]) && Math.random() < event[1])
-						var exec:GameEvent = new GameEvent(event[0]);
+					if ((!(event[0] in Player.eventRecord) || Player.eventRecord[event[0]]) && Math.random() < event[1] * modifier) {
+						//var exec:GameEvent = new GameEvent(event[0]);
+						return event[0];
+					}
 				}
 			}
+			
+			return null;
 		}
 		
-		public static function checkEnemy():Enemy {
-			var ret:Enemy = null;
+		public static function checkEnemy(modifier:Number = 1):Enemy {
 			var currLoc:Zone = World.world[Player.x][Player.y];
 			
 			if (currLoc.enemies.length > 0) {
 				var possibleEnemies:Array = [];
 				var probs:Array = [];
 				for each (var enemy:Array in currLoc.enemies) {
+					var enemyCopy:Array = [enemy[0], enemy[1]];
 					var prob:Number = Math.random();
-					if (prob < enemy[1]) {
-						enemy[1] = prob;
-						possibleEnemies.push(EnemyDefinitions.getEnemy(enemy[0]));
+					if (prob < enemyCopy[1] * modifier) {
+						enemyCopy[1] = prob;
+						possibleEnemies.push(EnemyDefinitions.getEnemy(enemyCopy[0]));
 						probs.push(prob);
 					}
 				}
 				
-				var min:Number = Math.min.apply(null, probs);
-				var minIndex:int = probs.indexOf(min);
-				ret = possibleEnemies[minIndex];
+				if (possibleEnemies.length > 0) {
+					var min:Number = Math.min.apply(null, probs);
+					var minIndex:int = probs.indexOf(min);
+					return possibleEnemies[minIndex];
+				}
 			}
 			
-			return ret;
+			return null;
 		}
 
 		public static function updateMenuBtns():void {
@@ -1057,7 +1065,11 @@ package
 		}
 
 		public static function clickRest(e:MouseEvent):void {
-			Clock.rest(0, 1);
+			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
+				World.world[Player.x][Player.y].name + "\n" +
+				World.world[Player.x][Player.y].text;
+			Main.setText(Main.mainText);
+			Main.rest();
 			debugTrace();
 		}
 		
@@ -1832,7 +1844,11 @@ package
 						//displayInventory();
 					} else if (selection == 1) {
 						if (state == "inventory") {
-							Main.useItem(item)
+							if (Main.testItem(item)) {
+								Main.useItem(item)
+							} else {
+								return;
+							}
 						} else {
 							if (Main.testItem(item)) {
 								openInventory();
@@ -1905,7 +1921,7 @@ package
 		//{ Navigation
 		public static function travel(x:int, y:int):void {
 			var dist:Number = Math.sqrt(Math.pow(Player.x - x, 2) + Math.pow(Player.y - y, 2));
-			Clock.advTime(Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"], dist);
+			Clock.advTravelTime(dist);
 			Player.x = x;
 			Player.y = y;
 			updateMaps();
@@ -1922,7 +1938,7 @@ package
 		}
 
 		public static function moveNW():void {
-			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(Math.sqrt(2));
 			Player.x--;
 			Player.y--;
 			
@@ -1936,7 +1952,7 @@ package
 		}
 
 		public static function moveN():void {
-			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(1);
 			Player.y--;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -1949,7 +1965,7 @@ package
 		}
 
 		public static function moveNE():void {
-			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(Math.sqrt(2));
 			Player.x++;
 			Player.y--;
 			
@@ -1963,7 +1979,7 @@ package
 		}
 
 		public static function moveW():void {
-			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(1);
 			Player.x--;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -1985,7 +2001,7 @@ package
 		}
 
 		public static function moveE():void {
-			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(1);
 			Player.x++;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -1998,7 +2014,7 @@ package
 		}
 		
 		public static function moveSW():void {
-			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(Math.sqrt(2));
 			Player.x--;
 			Player.y++;
 			
@@ -2012,7 +2028,7 @@ package
 		}
 		
 		public static function moveS():void {
-			Clock.advTime(1, Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(1);
 			Player.y++;
 			
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -2025,7 +2041,7 @@ package
 		}
 
 		public static function moveSE():void {
-			Clock.advTime(Math.sqrt(2), Player.stats["str"], Player.stats["agi"], Player.derivedStats["weight"]);
+			Clock.advTravelTime(Math.sqrt(2));
 			Player.x++;
 			Player.y++;
 			

@@ -2585,7 +2585,7 @@
   <cell name="Beach" x="83" y="25" region="Beach" enter="false" save="false" enemies="" items="" events="">The beach's sand becomes more coarse as you come nearer to the mountain, as if it's influence were making even the quiet beach harsher than naturally.</cell>
   <cell name="Beach" x="84" y="25" region="Beach" enter="false" save="false" enemies="" items="" events="">The beach's sand becomes more coarse as you come nearer to the mountain, as if it's influence were making even the quiet beach harsher than naturally.</cell>
   <cell name="Block" x="85" y="25" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Sea" x="86" y="25" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Block" x="86" y="25" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Sea" x="87" y="25" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Sea" x="88" y="25" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Sea" x="89" y="25" region="Sea" enter="false" save="false" enemies="" items="" events=""/>
@@ -4950,7 +4950,7 @@
   <cell name="River" x="48" y="49" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="49" y="49" region="River" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="River" x="50" y="49" region="River" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Apothecary" x="51" y="49" region="Staphshire" enter="true" save="false" enemies="" items="Red Potion,Orange Potion,Yellow Potion,White Potion,Blue Potion,Violet Potion" events="">Potions of all kinds.</cell>
+  <cell name="Apothecary" x="51" y="49" region="Staphshire" enter="true" save="false" enemies="" items="Red Potion,Orange Potion,Yellow Potion,White Potion,Blue Potion,Violet Potion,Digestive,Super Digestive,Max Digestive" events="">Potions of all kinds.</cell>
   <cell name="Staphshire" x="52" y="49" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Staphshire" x="53" y="49" region="Staphshire" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Block" x="54" y="49" region="Farmlands" enter="false" save="false" enemies="" items="" events=""/>

@@ -56,7 +56,7 @@
 			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
 			setResource("Energy", 84, -1);
-			setResource("Capacity", 93, -1);
+			setResource("Capacity", 100, -1);
 			setStat("str", 9);
 			setStat("agi", 4);
 			setStat("vit", 14);
@@ -92,11 +92,14 @@
 			loot(ItemDefinitions.getItem("Flail"), 1);
 			loot(ItemDefinitions.getItem("Halberd"), 1);
 			loot(ItemDefinitions.getItem("Cerulean Hat"), 1);
-			loot(ItemDefinitions.getItem("Hat"), 1);
+			loot(ItemDefinitions.getItem("Hat"), 42);
 			loot(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Sabre"), 1);
 			loot(ItemDefinitions.getItem("Pork Haunch"), 5);
-			loot(ItemDefinitions.getItem("Mole Pelt"), 1);/**/
+			loot(ItemDefinitions.getItem("Mole Pelt"), 1);
+			loot(ItemDefinitions.getItem("Digestive"), 10);
+			loot(ItemDefinitions.getItem("Super Digestive"), 10);
+			loot(ItemDefinitions.getItem("Max Digestive"), 10);/**/
 		}
 		
 		public static function reInit():void {
@@ -141,7 +144,7 @@
 			
 			switch (MainGameUI.state) {
 				case "combat" :
-				//case "combatInventory" :
+				case "combatInventory" :
 				case "combatSkills" :
 					combatText += "\n" + txt;
 					setText(combatText);
@@ -253,6 +256,10 @@
 				Player.stats = playerData.readObject();
 				Player.derivedStats = playerData.readObject();
 				
+				Player.quests = new Array();
+				Player.inventory = new Array();
+				Player.equipment = new Object();
+				
 				for each (var quest:GameEvent in quests)
 					quest.addQuest();
 				for each (var item:Item in inventory)
@@ -263,19 +270,6 @@
 						useItem(ItemDefinitions.getItem(equip.name));
 					}
 				}
-				
-				/*setResource("Health", Player.resources["currHealth"], Player.resources["maxHealth"]);
-				setResource("Mana", Player.resources["currMana"], Player.resources["maxMana"]);
-				setResource("Energy", Player.resources["currEnergy"], Player.resources["maxEnergy"]);
-				setResource("Capacity", Player.resources["currCapacity"], Player.resources["maxCapacity"]);
-				setStat("str", Player.stats["str"]);
-				setStat("agi", Player.stats["agi"]);
-				setStat("vit", Player.stats["vit"]);
-				setStat("int", Player.stats["int"]);
-				setStat("dex", Player.stats["dex"]);
-				setStat("vor", Player.stats["vor"]);
-				setFat(Player.fat);
-				setGold(Player.gold);*/
 				
 				MainGameUI.game.mainUI.expLabel.text = Player.currExp + "/" + Player.maxExp;
 				MainGameUI.game.mainUI.expBar.scaleX = Player.currExp / Player.maxExp;
@@ -600,6 +594,7 @@
 		
 		public static function addFat(x:Number):void {
 			Player.fat += x;
+			Player.derivedStats["weight"] += x;
 			
 			if (Player.fat < 0) {
 				Player.fat = 0;
@@ -622,6 +617,7 @@
 			}
 			
 			MainGameUI.game.mainUI.fatLabel.text = Math.round(Player.fat);
+			calcStats();
 		}
 		
 		public static function addGold(x:Number):void {
@@ -831,12 +827,16 @@
 			
 			if (item.weapon) {
 				if (item.twoHanded && Player.equipment["shield"] != null) {
-					addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+					MainGameUI.game.mainUI.textField.appendText("\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
+					MainGameUI.game.mainUI.scrollBar.scrollPosition = MainGameUI.game.mainUI.scrollBar.maxScrollPosition;
+					MainGameUI.game.mainUI.scrollBar.update();
 					return false;
 				}
 			} else if (item.shield) {
 				if (Player.equipment["weapon"] != null && Player.equipment["weapon"].twoHanded) {
-					addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
+					MainGameUI.game.mainUI.textField.appendText("\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
+					MainGameUI.game.mainUI.scrollBar.scrollPosition = MainGameUI.game.mainUI.scrollBar.maxScrollPosition;
+					MainGameUI.game.mainUI.scrollBar.update();
 					return false;
 				}
 			}
@@ -846,8 +846,11 @@
 		
 		public static function useItem(item:Item):Boolean {
 			if (Player.getItemFromInventory(item) == null) {
-				//setText(item.toString("inventorySelected") + "\n\nYou don't have any more " + item.plural + ".");
-				addText("You don't have any more " + item.plural + ".");
+				if (MainGameUI.state == "combatInventory")
+					addText("You don't have any more " + item.plural + ".");
+				else
+					setText(item.toString("inventorySelected") + "\n\nYou don't have any more " + item.plural + ".");
+				
 				return false;
 			} else if (!item.usable) {
 				addText("You can't use that item.");
@@ -879,41 +882,41 @@
 					Player.equipment["feet"] = itemCopy;
 					trace(Player.equipment["feet"].name + " equipped.");
 				} else if (item.weapon) {
-					if (item.twoHanded && Player.equipment["shield"] != null) {
-						//setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
-						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
-						return false;
-					} else {
-						if (Player.equipment["weapon"] != null)
-							unequip(Player.equipment["weapon"]);
-						Player.equipment["weapon"] = itemCopy;
-						trace(Player.equipment["weapon"].name + " equipped.");
-					}
+					if (Player.equipment["weapon"] != null)
+						unequip(Player.equipment["weapon"]);
+					Player.equipment["weapon"] = itemCopy;
+					trace(Player.equipment["weapon"].name + " equipped.");
 				} else if (item.shield) {
-					if (Player.equipment["weapon"] == null || !Player.equipment["weapon"].twoHanded) {
-						if (Player.equipment["shield"] != null)
-							unequip(Player.equipment["shield"]);
-						Player.equipment["shield"] = itemCopy;
-						trace(Player.equipment["shield"].name + " equipped.");
-					} else {
-						//setText(item.toString("inventorySelected") + "\n\nA two-handed weapon and a shield cannot be equipped simultaneously.");
-						addText("A two-handed weapon and a shield cannot be equipped simultaneously.");
-						return false;
-					}
+					if (Player.equipment["shield"] != null)
+						unequip(Player.equipment["shield"]);
+					Player.equipment["shield"] = itemCopy;
+					trace(Player.equipment["shield"].name + " equipped.");
 				}
 				
 				addEquipBonuses();
-				addText("You equipped a " + item.name + ".");
 			} else {
-				addText("You used a " + item.name + ".");
 				itemCopy.procEffects();
 			}
 			
 			var index:int = Player.indexOfInventory(item);
-			
 			Player.inventory[index].count--;
 			if (Player.inventory[index].count <= 0)
 				Player.inventory.splice(index, 1);
+			
+			if (Player.isAlive) {
+				if (item.equip) {
+					if (MainGameUI.state == "combat" || MainGameUI.state == "combatInventory")
+						addText("You equipped a " + item.name + ".");
+					else
+						setText(item.toString("inventorySelected") + "\n\nYou equipped a " + item.name + ".");
+				} else {
+					if (MainGameUI.state == "combat" || MainGameUI.state == "combatInventory")
+						addText("You used a " + item.name + ".");
+					else
+						setText(item.toString("inventorySelected") + "\n\nYou used a " + item.name + ".");
+				}
+			}
+			
 			
 			return isPlayerAlive();
 		}
@@ -940,6 +943,67 @@
 			trace(item.name + " unequipped.");
 		}
 
+		public static function rest(m:int = 0, h:int = 1):void {
+			var interval:int = 15 + Math.random() * 45;
+			var event:String;
+			var enemy:Enemy;
+			var elapsed:int;
+			for (elapsed = 0; elapsed < m + 60 * h; elapsed += interval) {
+				interval = 15 + Math.random() * 45;
+				if ((event = MainGameUI.updateQuests(0.5 * interval / 60)) != null)
+					break;
+				if ((enemy = MainGameUI.checkEnemy(0.5 * interval / 60)) != null)
+					break;
+			}
+			
+			if (event == null && enemy == null)
+				elapsed = m + 60 * h;
+			trace("elapsed = " + elapsed);
+			Clock.advTime(elapsed);
+			
+			var hours:Number = elapsed / 60
+			addResource("Health", 0.1 * hours * Player.resources["maxHealth"], 0);
+			if (Player.metabolism < 0.75)
+				Player.metabolism = 0.75;
+			else
+				Player.metabolism -= 0.01 * hours;
+			
+			digest(elapsed, true);
+			
+			if (event != null)
+				new GameEvent(event);
+			if (enemy != null)
+				Main.startCombat(enemy);
+		}
+		
+		public static function digest(m:int = 60, rest:Boolean = false):void {
+			var hours:Number = m / 60;
+			
+			if (Player.resources["currCapacity"] > Player.resources["maxCapacity"]) {
+				var overflow:int = Player.resources["currCapacity"] - Player.resources["maxCapacity"];
+				addResource("Capacity", 0, 0.05 * overflow);
+				addText("Clutching onto your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
+			}
+			
+			var capDrained:int;
+			if (Player.stats["vit"] <= 0.8 * Player.resources["maxCapacity"])
+				capDrained = Math.round(hours * (Player.resources["maxCapacity"] - Player.stats["vit"]));
+			else
+				capDrained = Math.round(hours * Player.resources["maxCapacity"]);
+			
+			if (capDrained > Player.resources["currCapacity"]) {
+				capDrained = Player.resources["currCapacity"];
+				setResource("Capacity", 0, -1);
+			} else {
+				addResource("Capacity", -capDrained, 0);
+			}
+			
+			if (rest)
+				addFat(0.15 * capDrained / Player.metabolism);
+			else
+				addFat(0.1 * capDrained / Player.metabolism);
+		}
+		
 		public static function buy(item:Item):Boolean {
 			if (Player.gold >= item.value) {
 				loot(item, 1);
@@ -979,32 +1043,26 @@
 			var isEmpty:Boolean = true;
 			if (Player.equipment["head"] != null) {
 				appearanceText += "Head: " + Player.equipment["head"].toString("appearance") + "\n\n";
-				//appearanceText += "Head:\n" + Player.equipment["head"].name + " - " + Player.equipment["head"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (Player.equipment["torso"] != null) {
 				appearanceText += "Torso: " + Player.equipment["torso"].toString("appearance") + "\n\n";
-				//appearanceText += "Torso:\n" + Player.equipment["torso"].name + " - " + Player.equipment["torso"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (Player.equipment["legs"] != null) {
 				appearanceText += "Legs: " + Player.equipment["legs"].toString("appearance") + "\n\n";
-				//appearanceText += "Legs:\n" + Player.equipment["legs"].name + " - " + Player.equipment["legs"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (Player.equipment["feet"] != null) {
 				appearanceText += "Feet: " + Player.equipment["feet"].toString("appearance") + "\n\n";
-				//appearanceText += "Feet:\n" + Player.equipment["feet"].name + " - " + Player.equipment["feet"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (Player.equipment["weapon"] != null) {
 				appearanceText += "Weapon: " + Player.equipment["weapon"].toString("appearance") + "\n\n";
-				//appearanceText += "Weapon:\n" + Player.equipment["weapon"].name + " - " + Player.equipment["weapon"].short + "\n\n";
 				isEmpty = false;
 			}
 			if (Player.equipment["shield"] != null) {
 				appearanceText += "Shield: " + Player.equipment["shield"].toString("appearance") + "\n\n";
-				//appearanceText += "Shield:\n" + Player.equipment["shield"].name + " - " + Player.equipment["shield"].short + "\n\n";
 				isEmpty = false;
 			}
 			

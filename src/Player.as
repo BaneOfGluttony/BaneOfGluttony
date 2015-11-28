@@ -79,6 +79,11 @@
 				case "weight" :
 					return derivedStats[stat];
 				
+				case "fat" :
+					return fat;
+				case "metabolism":
+					return metabolism;
+				
 				default :
 					trace("WARNING: Player.getStat(" + stat + ") is not valid!");
 					return -1;

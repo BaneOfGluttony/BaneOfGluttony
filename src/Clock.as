@@ -16,63 +16,26 @@ package  {
 			updateUI();
 		}
 		
-		public static function advTime(dist:Number, str:int, agi:int, weight:Number):void {
-			var rate:Number = 500 * (str + agi) / weight;
+		public static function advTime(t:Number):void {
+			time += t;
+			interpret();
+			updateUI();
+		}
+		
+		public static function advTravelTime(dist:Number):void {
+			var rate:Number = 500 * (Player.stats["str"] + Player.stats["agi"]) / Player.derivedStats["weight"];
 			if (rate > 800)
 				rate = 800;
 			
 			dist *= 100;
-			time += dist / rate;
-			interpret();
-			updateUI();
+			advTime(dist / rate);
 			
 			if (Player.metabolism > 1.25)
 				Player.metabolism = 1.25;
 			else
 				Player.metabolism += 0.01 * ((dist / rate) / 60);
 			
-			digest(dist / rate);
-		}
-		
-		public static function rest(m:int = 0, h:int = 1):void {
-			minute += m;
-			hour += h;
-			updateUI();
-			
-			if (Player.metabolism < 0.75)
-				Player.metabolism = 0.75;
-			else
-				Player.metabolism -= 0.01 * (h + m / 60);
-			
-			digest(m + h * 60, true);
-		}
-		
-		public static function digest(m:int = 60, rest:Boolean = false):void {
-			var hours:Number = m / 60;
-			
-			if (Player.resources["currCapacity"] > Player.resources["maxCapacity"]) {
-				var overflow:int = Player.resources["currCapacity"] - Player.resources["maxCapacity"];
-				Main.addResource("Capacity", 0, 0.5 * overflow);
-				Main.addText("Clutching onto your aching, grossly swollen gut, it's blatantly obvious that you've been overindulging your appetite, literally playing Iroshan Roulette with your stomach. With a worried groan accompanied by quick short pants, you're caught off guard by the fact that you can't quite decide whether or not you like this oddly enjoyable sensation. The burning pain of your belly's innards stretching to accommodate the boulder-like mass contained within is, deep down, thoroughly satisfying.");
-			}
-			
-			var capDrained:int;
-			if (Player.stats["vit"] <= 0.8 * Player.resources["maxCapacity"])
-				capDrained = Math.round(hours * (Player.resources["maxCapacity"] - Player.stats["vit"]));
-			else
-				capDrained = Math.round(hours * Player.resources["maxCapacity"]);
-			
-			if (capDrained > Player.resources["currCapacity"]) {
-				capDrained = Player.resources["currCapacity"];
-				Main.setResource("Capacity", 0, -1);
-			} else {
-				Main.addResource("Capacity", -capDrained, 0);
-			}
-			
-			if (rest)
-				Main.addFat(0.15 * capDrained * Player.metabolism);
-			else
-				Main.addFat(0.1 * capDrained * Player.metabolism);
+			Main.digest(dist / rate);
 		}
 		
 		public static function interpret():void {

@@ -16,25 +16,12 @@
 		
 		public function GameEvent(fileName:String = "") {
 			name = fileName;
-			//state = 0;
-			//cont = "";
 			
 			fileName = fileName.replace(/ /g, "_");
 			fileName = fileName.toUpperCase();
 			
 			if (fileName != "")
 				parseXML(fileName);
-			/*xml = EventDefinitions[fileName];
-			
-			if ("@name" in xml)
-				name = xml.@name;
-			
-			if (xml.@repeatable == "true")
-				repeatable = true;
-			else
-				repeatable = false;
-			
-			setDialog(0);*/
 		}
 		
 		public function parseXML(fileName:String):void {
@@ -50,28 +37,6 @@
 			
 			setDialog(0);
 		}
-		
-		/*public function writeExternal(output:IDataOutput):void {
-			output.writeObject(main);
-			output.writeObject(Player);
-			output.writeObject(xml);
-			//output.writeObject(loader);
-			output.writeUTF(name);
-			output.writeBoolean(repeatable);
-			output.writeInt(state);
-			output.writeUTF(log);
-		}
-		
-		public function readExternal(input:IDataInput):void {
-			main = input.readObject();
-			Player = input.readObject();
-			xml = input.readObject();
-			//loader = input.readObject();
-			name = input.readUTF();
-			repeatable = input.readBoolean();
-			state = input.readInt();
-			log = input.readUTF();
-		}*/
 		
 		public function setDialog(x:int):Boolean {
 			var ret:Boolean = false;
@@ -244,17 +209,55 @@
 						MainGameUI.travel(temp[0], temp[1]);
 					} else if (Player.resources.hasOwnProperty("curr" + str.charAt(0).toUpperCase() + str.substring(1))) {
 						str = str.charAt(0).toUpperCase() + str.substring(1);
-						if (val.charAt(0) == "+")			//add flat
+						var old:int = Player.resources["curr" + str];
+						
+						if (val.charAt(0) == "+") {				//add flat
 							Main.addResource(str, val.substring(1), 0);
-						else if (val.charAt(0) == "%")		//add percentage
+						} else if (val.charAt(0) == "%") {		//add percentage
 							Main.addResource(str, Math.round((val.substring(1) / 100) * Player.resources["max" + str]), 0);
-						else if (val.charAt(0) == "*")		//set percentage
-							Main.setResource(str, Math.round((val.substring(1) / 100) * Player.resources["max" + str]), -1);
+						} else if (val.charAt(0) == "*") {		//set percentage
+							if (str == "Capacity" && val.substring(1) == "max") {
+								Main.setResource(str, Player.derivedStats["cap"], -1);
+								continue;
+							} else {
+								Main.setResource(str, Math.round((val.substring(1) / 100) * Player.resources["max" + str]), -1);
+							}
+						}
+						
+						var diff:int = Player.resources["curr" + str] - old;
+						
+						switch (str) {
+							case "Health" :
+								str = "HP";
+								break;
+							case "Mana" :
+								str = "MP";
+								break;
+							case "Energy" :
+								str = "EN";
+								break;
+							case "Capacity" :
+								str = "CAP";
+								break;
+						}
+						
+						if (diff > 0)
+							Main.addText(str + "+" + diff);
+						else if (diff < 0)
+							Main.addText(str + diff);
 					} else if (str == "fat") {
+						var oldFat:Number = Player.fat;
+						
 						if (val.charAt(0) == "+")			//add fat
 							Main.addFat(val.substring(1));
 						else if (val.charAt(0) == "*")		//scale fat
 							Main.setFat(val.substring(1) * Player.fat);
+						
+						var fatDiff:Number = Player.fat - oldFat;
+						if (fatDiff > 0)
+							Main.addText("Fat+" + fatDiff);
+						else if (diff < 0)
+							Main.addText("Fat" + fatDiff);
 					} else if (str == "gold") {
 						if (val.charAt(0) == "+")			//add gold
 							Main.addGold(val.substring(1));
@@ -289,10 +292,6 @@
 					i++;
 				}
 			}
-		}
-		
-		public function checkState():int {
-			return -1;	//override
 		}
 		
 		public function addQuest():void {

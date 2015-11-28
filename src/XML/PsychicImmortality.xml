@@ -51,7 +51,7 @@ As you keep eating more and more of the ferret’s soup, your eyes grow heavy fr
 		</text>
 	</dialog>
 	<dialog id="5">
-		<text action="cmpltEvent;capacity:*100;fat:+25" cont="end">
+		<text action="cmpltEvent;capacity:*max;fat:+25" cont="end">
 You slowly drift back to the waking world in a dimly lit location. Looking around in confusion, you notice your arms and legs are bound tightly to the wooden chair you’re seated in, while your head has been braced in place against the wall, your snout pointing upwards. Feeling something in your mouth, your vision focuses on the metal funnel poking out the tip of your muzzle, a leather strap firmly holding your mouth closed around it.
 The sound of footsteps descending stairs catches your attention, though it takes a moment for the hunter to enter your field of view - and another for you to recognize the object he’s carrying. Lifting the cauldron slowly upwards, the hunter mutters under his breath, “Plenty to share... plenty to share... plenty to share...”
 Eyes widening as you realize what’s about to happen, there’s nothing you can do but watch with nervous anticipation as he slowly tips the massive pot of stew over the funnel and down your throat. As the fluid starts to pour through the funnel into your mouth, you have no choice but to gulp down the stew as quickly as you can or risk choking on it.

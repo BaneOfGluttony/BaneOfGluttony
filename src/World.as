@@ -225,6 +225,7 @@
 				}
 			}
 			bytes.writeUTFBytes(xml);
+			file.cancel();
 			file.save(bytes, "world.xml");
 			parseXML();
 			MainGameUI.updateNavBtns();
