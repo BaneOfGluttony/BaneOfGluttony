@@ -63,4 +63,5 @@ This was caused by me originally telling the game to set up all 10,000 tiles on 
 [li]If you're resting on a space with potential enemy or event encounters, you can still be interrupted and trigger an encounter while resting, albeit at a significantly reduced probability[/li]
 [li]Resting causes a slight decrease in metabolism (accordingly, moving causes a slight increase in metabolism)[/li][/ul][/li]
 [li]Added waiting to combat to just skip your turn[/li]
-[li]Added a few digestive items to the apothecary that instantly digest a percentage of your stomach capacity at a significantly increased fat conversion rate than even resting[/li][/ul]
+[li]Added a few digestive items to the apothecary that instantly digest a percentage of your stomach capacity at a significantly increased fat conversion rate than even resting[/li]
+[li]Added a new temporary map and reenabled map/minimap functions[/li][/ul]
