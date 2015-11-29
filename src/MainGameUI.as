@@ -692,11 +692,11 @@ package
 		}
 
 		public static function updateMaps():void {
-			game.mainUI.miniMap.x = 350 + 70 - 35 * (Player.x - 39);
-			game.mainUI.miniMap.y = 70 - 35 * (Player.y - 40);
+			game.mainUI.miniMap.x = 350 + 70 - 35 * Player.x;
+			game.mainUI.miniMap.y = 70 - 35 * Player.y;
 			
-			game.mainUI.bigMarker.x = 675 + 12 * (Player.x - 39);
-			game.mainUI.bigMarker.y = 10 + 12 * (Player.y - 40);
+			game.mainUI.bigMarker.x = 575 + 5 * Player.x;
+			game.mainUI.bigMarker.y = 30 + 5 * Player.y;
 		}
 		//}
 		

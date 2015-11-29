@@ -217,7 +217,8 @@
 							Main.addResource(str, Math.round((val.substring(1) / 100) * Player.resources["max" + str]), 0);
 						} else if (val.charAt(0) == "*") {		//set percentage
 							if (str == "Capacity" && val.substring(1) == "max") {
-								Main.setResource(str, Player.derivedStats["cap"], -1);
+								Main.setResource("Capacity", Player.derivedStats["cap"], -1);
+								Main.setResource("Health", 1, -1);
 								continue;
 							} else {
 								Main.setResource(str, Math.round((val.substring(1) / 100) * Player.resources["max" + str]), -1);
