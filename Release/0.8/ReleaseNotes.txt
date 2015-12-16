@@ -23,7 +23,7 @@ Again, if you find any bugs, please copy whatever nonsense that gets printed in 
 
 We hope you continue to enjoy this game and are as excited as we are moving forward!
 
-[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.1/BaneOfGluttony.v0.8.1.debug.swf"][font size="6"][b]Download v0.8 here![/b][/font][/a]
+[a href="https://github.com/BaneOfGluttony/BaneOfGluttony/releases/download/v0.8.2/BaneOfGluttony.v0.8.2.debug.swf"][font size="6"][b]Download v0.8 here![/b][/font][/a]
 
 To run it, all you have to do it download it and drag it onto an open browser window. 
 
@@ -48,7 +48,7 @@ This was caused by me originally telling the game to set up all 10,000 tiles on 
 
 [ul type="disc"][li]World/map loading has been further optimized thanks to [a href="http://www.furaffinity.net/user/serule"]Serule[/a]
 [ul type="square"]
-[li]Zones will only load near the player, 'leading' the player based on the most recent direction travelled in[/li]
+[li]Zones will only load near the player, "leading" the player based on the most recent direction travelled in[/li]
 [li]Optimization of 100% to over 5000% (time reduced down to <0.1s, from 0.1s to over 0.5s)[/li][/ul][/li]
 [li]Save files have been fixed to work with quests (hopefully) and have been reenabled[/li]
 [li]Added in-game time/clock[/li]
@@ -61,7 +61,8 @@ This was caused by me originally telling the game to set up all 10,000 tiles on 
 [ul type="circle"]
 [li]Note that since resting takes an entire hour, it will look like it digests way more than it would if you were traveling because traveling only takes a few mintues[/li][/ul][/li]
 [li]If you're resting on a space with potential enemy or event encounters, you can still be interrupted and trigger an encounter while resting, albeit at a significantly reduced probability[/li]
-[li]Resting causes a slight decrease in metabolism (accordingly, moving causes a slight increase in metabolism)[/li][/ul][/li]
+[li]Resting causes a slight decrease in metabolism which increases fat conversion (accordingly, moving causes a slight increase in metabolism which decreases fat conversion)[/li][/ul][/li]
 [li]Added waiting to combat to just skip your turn[/li]
 [li]Added a few digestive items to the apothecary that instantly digest a percentage of your stomach capacity at a significantly increased fat conversion rate than even resting[/li]
-[li]Added a new temporary map and reenabled map/minimap functions[/li][/ul]
+[li]Added a new temporary map and re-enabled map/mini-map functions - I quickly realized how impossible it is to navigate without a map[/li]
+[li]Miscellaneous bug fixes, among other things[/li][/ul]
