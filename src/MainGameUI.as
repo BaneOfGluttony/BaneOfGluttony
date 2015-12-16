@@ -20,7 +20,7 @@ package
 	{
 		public static var game:MovieClip;								// MainGame.swc
 		public static const DEBUG:Boolean = true;						//Show debug console
-		public static const VERSION:String = "Build v0.8.2-12.16.15";
+		public static const VERSION:String = "Build v0.8.2.1-12.16.15";
 		
 		public static var btnIndex:int = 0
 		public static var scrollIndex:int = 0;
