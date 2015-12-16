@@ -29,7 +29,7 @@
 		public static var appearanceText:String = "Appearance";
 		public static var inventoryText:String = "Inventory";
 		public static var skillsText:String = "Skills\n\nTo be implemented.";
-		public static var questsText:String = "Quests\n\nTo be implemented.";
+		public static var questsText:String = "Quests";
 		public static var combatText:String = "Combat";
 		//}
 		
@@ -51,7 +51,7 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			Player.name = "Kazan";
+			/*Player.name = "Kazan";
 			addExp(500, false);
 			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
@@ -64,9 +64,9 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			setGold(500);/**/
+			setGold(500);*/
 			
-			loot(ItemDefinitions.getItem("Sword"), 2);
+			/*loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -99,7 +99,7 @@
 			loot(ItemDefinitions.getItem("Mole Pelt"), 1);
 			loot(ItemDefinitions.getItem("Digestive"), 10);
 			loot(ItemDefinitions.getItem("Super Digestive"), 10);
-			loot(ItemDefinitions.getItem("Max Digestive"), 10);/**/
+			loot(ItemDefinitions.getItem("Max Digestive"), 10);*/
 		}
 		
 		public static function reInit():void {
@@ -663,12 +663,15 @@
 			if (x > 0 && !levelup)
 				addText("You gained " + x + " experience.");
 			
+			if (Player.statPoints > 0) {
+				MainGameUI.game.lvlupUI.ptsLabel.text = Player.statPoints;
+				MainGameUI.game.lvlupUI.visible = true;
+			}
+			
 			if (Player.currExp >= Player.maxExp) {
 				var overflow:int = Player.levelUp();
 				addText("Level up!");
 				MainGameUI.game.mainUI.levelLabel.text = Player.level.toString();
-				MainGameUI.game.lvlupUI.ptsLabel.text = Player.statPoints;
-				MainGameUI.game.lvlupUI.visible = true;
 				
 				setResource("Health", Player.resources["maxHealth"], -1);
 				setResource("Mana", Player.resources["maxMana"], -1);

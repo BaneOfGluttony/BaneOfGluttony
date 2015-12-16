@@ -9,7 +9,7 @@ package
 	 * Entry point
 	 * @author Serule Blue
 	 */
-	[SWF(width = "800", height = "710", backgroundColor = "#E2C38C", framerate = "30")] //non-debug height = 600
+	[SWF(width = "800", height = "600", backgroundColor = "#E2C38C", framerate = "30")] //non-debug height = 600, debug height = 710
 	//[Frame(factoryClass="Preloader")]
 	public class Runner extends Sprite {
 		private var mainGame:MovieClip;
