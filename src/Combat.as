@@ -233,28 +233,33 @@
 			var dmg:int = 0;
 			var text:String = "";
 			
-			if (enemy.skills.length > 1) {
-				var rand:Number = Math.random();
-				if (rand < 0.5) {
+			if (didHit(enemy, Player)) {
+				if (enemy.skills.length > 1) {
+					var rand:Number = Math.random();
+					if (rand < 0.5) {
+						//if (didHit(enemy, Player)) {
+							dmg = calcDmg(enemy, Player);
+							text += enemy.atkText + "\n\nYou take " + dmg + " damage.";
+						//} else {
+							//text += "The enemy's attack missed.";
+						//}
+					} else {
+						var randSkill:int = (Math.random() * (enemy.skills.length - 1)) as int;
+						enemy.skills[1 + randSkill].useSkill(enemy, Player);
+					}
+				} else {
 					if (didHit(enemy, Player)) {
 						dmg = calcDmg(enemy, Player);
 						text += enemy.atkText + "\n\nYou take " + dmg + " damage.";
 					} else {
 						text += "The enemy's attack missed.";
-				}
-				} else {
-					var randSkill:int = (Math.random() * (enemy.skills.length - 1)) as int;
-					enemy.skills[1 + randSkill].useSkill(enemy, Player);
+					}
+					
 				}
 			} else {
-				if (didHit(enemy, Player)) {
-					dmg = calcDmg(enemy, Player);
-					text += enemy.atkText + "\n\nYou take " + dmg + " damage.";
-				} else {
-					text += "The enemy's attack missed.";
-				}
-				
+				text += "The enemy's attack missed.";
 			}
+			
 			
 			Main.addText(text);
 			Main.isPlayerAlive();
@@ -335,7 +340,7 @@
 			enemy.currHP -= dmg;
 			MainGameUI.updateEnemyHealth();
 			
-			if (Main.isPlayerAlive() && enemy.currHP <= 0) {
+			if (Player.isAlive && enemy.currHP <= 0) {
 				enemyIsAlive = false;
 				
 				Main.addText("\n----------");

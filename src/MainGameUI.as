@@ -348,6 +348,7 @@ package
 				trace("selectedItem = " + selectedItem.name);
 			else
 				trace("selectedItem = null");
+			trace("isPlayerAlive = " + Player.isAlive);
 		}
 		
 		public static function down(btn:MovieClip):void {

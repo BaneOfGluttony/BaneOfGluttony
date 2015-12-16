@@ -51,22 +51,22 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*Player.name = "Kazan";
+			Player.name = "Kazan";
 			addExp(500, false);
 			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
 			setResource("Energy", 84, -1);
 			setResource("Capacity", 100, -1);
 			setStat("str", 9);
-			setStat("agi", 4);
+			setStat("agi", 8);
 			setStat("vit", 14);
 			setStat("int", 6);
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			setGold(500);*/
+			setGold(500);/**/
 			
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -99,7 +99,7 @@
 			loot(ItemDefinitions.getItem("Mole Pelt"), 1);
 			loot(ItemDefinitions.getItem("Digestive"), 10);
 			loot(ItemDefinitions.getItem("Super Digestive"), 10);
-			loot(ItemDefinitions.getItem("Max Digestive"), 10);*/
+			loot(ItemDefinitions.getItem("Max Digestive"), 10);/**/
 		}
 		
 		public static function reInit():void {
@@ -396,12 +396,7 @@
 					break;
 			}
 			
-			/*trace("\natk = " + Player.derivedStats["atk"]);
-			trace("matk = " + Player.derivedStats["matk"]);
-			trace("def = " + Player.derivedStats["def"]);
-			trace("mdef = " + Player.derivedStats["mdef"]);
-			trace("acc = " + Player.derivedStats["acc"]);
-			trace("dodge = " + Player.derivedStats["dodge"]);*/
+			isPlayerAlive();
 		}
 		
 		public static function setResource(resource:String, deltaCurr:Number, deltaMax:Number):void { //use a separate takeDamage/feed method that uses this
@@ -505,6 +500,7 @@
 					break;
 			}
 			
+			isPlayerAlive();
 			calcStats(true);
 		}
 		
@@ -906,7 +902,7 @@
 			if (Player.inventory[index].count <= 0)
 				Player.inventory.splice(index, 1);
 			
-			if (Player.isAlive) {
+			if (isPlayerAlive()) {
 				if (item.equip) {
 					if (MainGameUI.state == "combat" || MainGameUI.state == "combatInventory")
 						addText("You equipped a " + item.name + ".");
@@ -1166,6 +1162,8 @@
 					endCombat(false);
 					gameOver(0);
 				}
+			} else {
+				Player.isAlive = true;
 			}
 			
 			return Player.isAlive;
