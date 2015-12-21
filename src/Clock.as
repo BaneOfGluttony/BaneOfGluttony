@@ -30,7 +30,7 @@ package  {
 			dist *= 100;
 			advTime(dist / rate);
 			
-			if (Player.metabolism > 1.25)
+			if (Player.metabolism >= 1.25)
 				Player.metabolism = 1.25;
 			else
 				Player.metabolism += 0.01 * ((dist / rate) / 60);

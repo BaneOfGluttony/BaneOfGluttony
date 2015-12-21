@@ -20,7 +20,7 @@ package
 	{
 		public static var game:MovieClip;								// MainGame.swc
 		public static const DEBUG:Boolean = true;						//Show debug console
-		public static const VERSION:String = "Build v0.8.2.1-12.16.15";
+		public static const VERSION:String = "Build v0.8.2.2-12.20.15";
 		
 		public static var btnIndex:int = 0
 		public static var scrollIndex:int = 0;
@@ -1921,7 +1921,6 @@ package
 		//{ Navigation
 		public static function travel(x:int, y:int):void {
 			var dist:Number = Math.sqrt(Math.pow(Player.x - x, 2) + Math.pow(Player.y - y, 2));
-			Clock.advTravelTime(dist);
 			Player.x = x;
 			Player.y = y;
 			updateMaps();
@@ -1932,13 +1931,13 @@ package
 					World.world[Player.x][Player.y].name + "\n" +
 					World.world[Player.x][Player.y].text;
 				Main.setText(Main.mainText);
+				Clock.advTravelTime(dist);
 				updateMenuBtns();
 				updateNavBtns();
 			}
 		}
 
 		public static function moveNW():void {
-			Clock.advTravelTime(Math.sqrt(2));
 			Player.x--;
 			Player.y--;
 			
@@ -1947,12 +1946,12 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(Math.sqrt(2));
 			World.travelDir = [false, true, true, false];
 			update();
 		}
 
 		public static function moveN():void {
-			Clock.advTravelTime(1);
 			Player.y--;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -1960,12 +1959,12 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(1);
 			World.travelDir = [false, true, false, false];
 			update();
 		}
 
 		public static function moveNE():void {
-			Clock.advTravelTime(Math.sqrt(2));
 			Player.x++;
 			Player.y--;
 			
@@ -1974,12 +1973,12 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(Math.sqrt(2));
 			World.travelDir = [false, true, true, false];
 			update();
 		}
 
 		public static function moveW():void {
-			Clock.advTravelTime(1);
 			Player.x--;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -1987,6 +1986,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(1);
 			World.travelDir = [false, false, true, false];
 			update();
 		}
@@ -2001,7 +2001,6 @@ package
 		}
 
 		public static function moveE():void {
-			Clock.advTravelTime(1);
 			Player.x++;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -2009,12 +2008,12 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(1);
 			World.travelDir = [true, false, false, false];
 			update();
 		}
 		
 		public static function moveSW():void {
-			Clock.advTravelTime(Math.sqrt(2));
 			Player.x--;
 			Player.y++;
 			
@@ -2023,12 +2022,12 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(Math.sqrt(2));
 			update();
 			World.travelDir = [true, false, false, true];
 		}
 		
 		public static function moveS():void {
-			Clock.advTravelTime(1);
 			Player.y++;
 			
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
@@ -2036,12 +2035,12 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(1);
 			World.travelDir = [false, false, false, true];
 			update();
 		}
 
 		public static function moveSE():void {
-			Clock.advTravelTime(Math.sqrt(2));
 			Player.x++;
 			Player.y++;
 			
@@ -2050,6 +2049,7 @@ package
 				World.world[Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
+			Clock.advTravelTime(Math.sqrt(2));
 			World.travelDir = [true, false, false, true];
 			update();
 		}

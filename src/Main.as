@@ -962,7 +962,7 @@
 			
 			var hours:Number = elapsed / 60
 			addResource("Health", 0.1 * hours * Player.resources["maxHealth"], 0);
-			if (Player.metabolism < 0.75)
+			if (Player.metabolism <= 0.75)
 				Player.metabolism = 0.75;
 			else
 				Player.metabolism -= 0.01 * hours;

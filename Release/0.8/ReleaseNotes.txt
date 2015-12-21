@@ -73,4 +73,6 @@ This was caused by me originally telling the game to set up all 10,000 tiles on 
 
 [b][i]v0.8.2.1[/i][/b]
 
-Hot-fixed bug that made it impossible to kill anything after completing the force-feeding quest in the forest. When you reached maximum capacity, you wouuld "die" from a food coma but then come back to life with 1 HP. Problem was the game still thought you were dead, so it wouldn't properly register some commands.
+Hot-fixed bug that made it impossible to kill anything after completing the force-feeding quest in the forest. When you reached maximum capacity, you would "die" from a food coma but then come back to life with 1 HP. Problem was the game still thought you were dead, so it wouldn't properly register some commands.
+
+I should also note that save files should not work between different versions. This is to avoid possible incompatibilities while things are still early in development.
