@@ -6,7 +6,7 @@
 		/**
 		 * Short for "get stat" - gets the given player stat, resource, etc.
 		 */
-		public static function getStat(stat:String):int {
+		public static function getStat(stat:String):Number {
 			/*if (main == null || main.player == null) {
 				trace("WARNING: Main or Player not found when trying to call ItemDefinitions.gs()!");
 				return -1;

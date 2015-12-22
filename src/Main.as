@@ -58,7 +58,7 @@
 			setResource("Energy", 84, -1);
 			setResource("Capacity", 100, -1);
 			setStat("str", 9);
-			setStat("agi", 8);
+			setStat("agi", 5);
 			setStat("vit", 14);
 			setStat("int", 6);
 			setStat("dex", 10);

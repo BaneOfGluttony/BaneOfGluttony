@@ -49,7 +49,7 @@
 			return -1;
 		}
 		
-		public static function getStat(stat:String):int {
+		public static function getStat(stat:String):Number {
 			switch (stat) {
 				case "currHealth" :
 				case "maxHealth" :
