@@ -1,5 +1,6 @@
 package  
 {
+	import flash.display.Bitmap;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -30,6 +31,8 @@ package
 
 		public static var menuItemSelected:Boolean = false;
 		public static var selectedItem:Item = null;
+		
+		public static var currImg:Bitmap = null;
 
 		public static var btnArray:Array;
 		
@@ -366,6 +369,26 @@ package
 					btn.visible = false;
 		}
 
+		public static function displayPortrait(obj:Object):void {	//NPC or Enemy
+			if (obj["img"] != null) {
+				game.mainUI.miniMap.visible = false;
+				//game.mainUI.smallMarker.visible = false;
+				game.mainUI.zoneBtn.zoneName.text = obj.name;
+				currImg = obj.img;
+				game.addChild(currImg);
+			}	
+		}
+		
+		public static function hidePortrait():void {
+			if (currImg != null) {
+				game.mainUI.miniMap.visible = true;
+				//game.mainUI.smallMarker.visible = true;
+				game.mainUI.zoneBtn.zoneName.text = World.world[Player.x][Player.y].name;
+				game.removeChild(currImg);
+				currImg = null;
+			}
+		}
+		
 		//{ Update functions
 		public static function update():void {
 			updateMenuBtns();
@@ -968,6 +991,7 @@ package
 					case "dialog" :
 						if (Main.currEvent.cont == "end") {
 							state = "navigate";
+							hidePortrait();
 							updateNavBtns();
 							updateMenuBtns();
 							travel(Player.x, Player.y);
@@ -1341,6 +1365,7 @@ package
 				case "dialog" :
 					if (Main.currEvent.cont == "end") {
 						state = "navigate";
+						hidePortrait();
 						updateNavBtns();
 						updateMenuBtns();
 						travel(Player.x, Player.y);
@@ -2131,6 +2156,7 @@ package
 				game.combatUI.enemyLabel.text = name;
 			
 			updateEnemyHealth();
+			displayPortrait(enemy);
 		}
 		
 		public static function hideCombat():void {
@@ -2141,6 +2167,7 @@ package
 			
 			updateMenuBtns();
 			updateNavBtns();
+			hidePortrait();
 			Main.setText(Main.mainText);
 		}
 		

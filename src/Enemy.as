@@ -1,7 +1,9 @@
 ﻿package  {
+	import flash.display.Bitmap;
 	
 	public class Enemy {
 		public var name:String = "Enemy";
+		public var img:Bitmap = null;
 		public var canRun:Boolean = true;
 		public var startText:String = "Start";
 		public var endText:String = "End";

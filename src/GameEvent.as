@@ -56,6 +56,11 @@
 					MainGameUI.game.optionsBtn.visible = false;
 					MainGameUI.game.lvlupUI.visible = false;
 					
+					if ("@image" in text)
+						MainGameUI.displayPortrait(NPCDefinitions.Shara);
+					else
+						MainGameUI.hidePortrait();
+					
 					if (text == dialog.text[0] || text.@override == "true")
 						Main.setText(text);
 					else
