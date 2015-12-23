@@ -20,12 +20,13 @@
 			fileName = fileName.replace(/ /g, "_");
 			fileName = fileName.toUpperCase();
 			
-			if (fileName != "")
-				parseXML(fileName);
+			parseXML(fileName);
 		}
 		
 		public function parseXML(fileName:String):void {
 			xml = EventDefinitions[fileName];
+			if (xml == null)
+				return;
 			
 			if ("@name" in xml)
 				name = xml.@name;

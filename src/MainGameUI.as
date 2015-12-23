@@ -428,7 +428,7 @@ package
 			for each (var quest:GameEvent in Player.quests) {
 				if (quest.setDialog(quest.state)) {
 					existingEvent = true;
-					break;
+					return "";
 				}
 			}
 			
