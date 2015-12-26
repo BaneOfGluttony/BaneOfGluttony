@@ -436,7 +436,7 @@ package
 		}
 
 		public static function checkBounds(x:int, y:int):Boolean {
-			if (x < 0 || x > World.rows - 1 || y < 0 || y > World.cols - 1 || World.world[x][y] == null)
+			if (x < 0 || x > World.WORLD_ROWS - 1 || y < 0 || y > World.WORLD_COLS - 1 || World.world[x][y] == null)
 				return false;
 			else if (StringUtil.trim(World.world[x][y].name) == "Block" || StringUtil.trim(World.world[x][y].name) == "River")
 				return false;

@@ -4,27 +4,35 @@
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
+	import flash.utils.getDefinitionByName;
 	import mx.utils.StringUtil;
 	import flash.utils.getTimer;
 	
 	public class World {
-		public static var rows:int = 100;
-		public static var cols:int = 100;
+		public static const WORLD_ROWS:int = 100;
+		public static const WORLD_COLS:int = 100;
 		
-		private static const RANGE_INIT:int = 8;	// radius from which to load XML at the very start
+		public static const BARRO_ROWS:int = 38;
+		public static const BARRO_COLS:int = 43;
+		
+		private static const RANGE_INIT:int = 10;	// radius from which to load XML at the very start
 		private static const RANGE:int = 5;			// radius from which to load XML
 		private static const TRIGGER_RANGE:int = 2;	// if player gets within this number of tiles from an edge, trigger a load
 		private static var children:XMLList;
 		/// Keeps track of which direction(s) the Player moved last; 0 = E, 1 = N, 2 = W, 3 = S
 		public static var travelDir:Array = [false, false, false, false];
-		
-		public static var world:Array = [rows];
 		public static var textLoader:URLLoader;
 		
-		private static const SAVEXML:Boolean = false;
-		private static var xml:XML;
-		if (!SAVEXML) {
-			[Embed(source = "XML/world.xml", mimeType = "application/octet-stream")]
+		public static var world:Array = [WORLD_ROWS];
+		public static var barro:Array = [BARRO_ROWS];
+		
+		//private static const SAVE_XML:Boolean = true;
+		//WORLD, BARRO
+		private static const SAVE_XML:String = "";
+		
+		private static var xml:XML = new XML();
+		if (SAVE_XML != "WORLD") {
+			[Embed(source = "XML/WORLD.xml", mimeType = "application/octet-stream")]
 			private static var newXML:Class;
 		}
 		
@@ -32,19 +40,24 @@
 		private static var bytes:ByteArray;
 		
 		public function World() {
-			for (var y:int = 0; y < rows; y++) {
-				world[y] = [cols];	// new Array(cols);
-				for (var x:int = 0; x < cols; x++)
+			for (var y:int = 0; y < WORLD_ROWS; y++) {
+				world[y] = [WORLD_COLS];
+				for (var x:int = 0; x < WORLD_COLS; x++)
 					world[y][x] = new Zone({});
 			}
 			
-			if (SAVEXML) {
-				xml = <world></world>;
+			if (SAVE_XML != "") {
 				file = new FileReference();
 				bytes = new ByteArray();
 				textLoader = new URLLoader();
 				textLoader.addEventListener(Event.COMPLETE, writeXML);
-				textLoader.load(new URLRequest("map.txt"));
+				xml = <{SAVE_XML.toLowerCase()}></{SAVE_XML.toLowerCase()}>;
+				/*xml = <world></world>;
+				file = new FileReference();
+				bytes = new ByteArray();
+				textLoader = new URLLoader();
+				textLoader.addEventListener(Event.COMPLETE, writeXML);*/
+				textLoader.load(new URLRequest(SAVE_XML + ".txt"));
 			} else {
 				xml = new XML(new newXML());
 				parseXML();
@@ -55,13 +68,11 @@
 			var out:String = "";
 			var lines:Array = e.target.data.split("\n");
 			
-			for (var i:int = 0; i < rows; i++) {
+			for (var i:int = 0; i < getDefinitionByName("World")[SAVE_XML + "_ROWS"]; i++) {
 				var cell:Array = lines[i].split("\t");
-				for (var j:int = 0; j < cols; j++) {
+				for (var j:int = 0; j < getDefinitionByName("World")[SAVE_XML + "_COLS"]; j++) {
 					//Region - Name - Text - Enter (false) - Save (false) - Enemies (null) - Items (null) - Events (null)
 					var data:Array = cell[j].split("-");	//Do NOT use hyphens/dashes, commas, or semi-colons in map text
-					//var dataString:String = data.join("*");
-					//dataString = StringUtil.trimArrayElements(data.join("*"), "*");
 					data = (StringUtil.trimArrayElements(data.join("*"), "*")).split("*");
 					
 					var region:String = data[0];
@@ -162,6 +173,12 @@
 						case "B":
 							region = "Beach";
 							break;
+						case "Ba":
+							region = "Barro";
+							break;
+						case "G":
+							region = "Gate";
+							break;
 					}
 						
 					if (data[1] != null && data[1] != "")
@@ -213,20 +230,13 @@
 					
 					if (name == "")
 						name = region;
-					if (enter == "") {
-						
-					}
-					
-					/*world[j][i] = new Zone( { name : name, x : j, y : i, region : region, text : text, enter : enter, save : save,
-												enemies : enemies, itemsText : items, events : events } );*/
 					
 					xml.appendChild( < cell name = { name } x = { j } y = { i } region = { region } enter = { enter } 
 									save = { save } enemies = { enemies } items = { items } events = { events } > { text }</cell>);
 				}
 			}
 			bytes.writeUTFBytes(xml);
-			file.cancel();
-			file.save(bytes, "world.xml");
+			file.save(bytes, SAVE_XML + ".xml");
 			parseXML();
 			MainGameUI.updateNavBtns();
 		}
@@ -236,15 +246,19 @@
 			trace("[World] parseXML called.");
 			
 			var cStart:int = Math.max(Player.x - RANGE_INIT, 0);
-			var cEnd:int  = Math.min(Player.x + RANGE_INIT, cols - 1);
+			//var cEnd:int  = Math.min(Player.x + RANGE_INIT, worldCols - 1);
+			var cEnd:int  = Math.min(Player.x + RANGE_INIT, getDefinitionByName("World")[Player.region + "_COLS"] - 1);
 			var rStart:int = Math.max(Player.y - RANGE_INIT, 0);
-			var rEnd:int  = Math.min(Player.y + RANGE_INIT, rows - 1);
+			//var rEnd:int  = Math.min(Player.y + RANGE_INIT, worldRows - 1);
+			var rEnd:int  = Math.min(Player.y + RANGE_INIT, getDefinitionByName("World")[Player.region + "_ROWS"] - 1);
 			
 			var entry:XML;
 			for (var r:int = rStart; r <= rEnd; r++)
 				for (var c:int = cStart; c <= cEnd; c++) {
-					entry = xml.cell[int(r * rows + c)];
-					world[c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
+					//entry = xml.cell[int(r * worldRows + c)];
+					entry = xml.cell[int(r * getDefinitionByName("World")[Player.region + "_ROW"] + c)];
+					//world[c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
+					getDefinitionByName("World")[Player.region.toLowerCase()][c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
 											  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
 											  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
 				}
@@ -254,16 +268,20 @@
 															  rEnd + "," + cEnd + ")");
 		}
 
-		public static function updateLoadedRegion():void
-		{				
+		public static function updateLoadedRegion():void {				
 			var checkW:int = Math.max(Player.x - TRIGGER_RANGE, 0);
-			var checkE:int = Math.min(Player.x + TRIGGER_RANGE, cols - 1);
+			//var checkE:int = Math.min(Player.x + TRIGGER_RANGE, worldCols - 1);
+			var checkE:int = Math.min(Player.x + TRIGGER_RANGE, getDefinitionByName("World")[Player.region + "_COLS"] - 1);
 			var checkS:int = Math.max(Player.y - TRIGGER_RANGE, 0);
-			var checkN:int = Math.min(Player.y + TRIGGER_RANGE, rows - 1);
+			//var checkN:int = Math.min(Player.y + TRIGGER_RANGE, worldRows - 1);
+			var checkN:int = Math.min(Player.y + TRIGGER_RANGE, getDefinitionByName("World")[Player.region + "_ROWS"] - 1);
 				
-			if (world[Player.x][Player.y].x == -1 ||
-				world[checkW][Player.y].x == -1 || world[checkE][Player.y].x == -1 ||
-				world[Player.x][checkS].x == -1 || world[Player.x][checkN].x == -1) {
+			//if (world[Player.x][Player.y].x == -1 ||
+			if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].x == -1 ||
+				//world[checkW][Player.y].x == -1 || world[checkE][Player.y].x == -1 ||
+				getDefinitionByName("World")[Player.region.toLowerCase()][checkW][Player.y].x == -1 || getDefinitionByName("World")[Player.region.toLowerCase()][checkE][Player.y].x == -1 ||
+				//world[Player.x][checkS].x == -1 || world[Player.x][checkN].x == -1) {
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][checkS].x == -1 || getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][checkN].x == -1) {
 					trace("[World] Approaching world edge; loading more of the world.");
 					var currentTime:int = getTimer();
 					
@@ -274,19 +292,24 @@
 					
 					// pick the 'center' of the region from which to load ahead of where the Player is moving towards
 					var cStart:int = Math.max(originX - RANGE, 0);
-					var cEnd:int = Math.min(originX + RANGE, cols - 1);
+					//var cEnd:int = Math.min(originX + RANGE, worldCols - 1);
+					var cEnd:int = Math.min(originX + RANGE, getDefinitionByName("World")[Player.region + "_COLS"] - 1);
 					var rStart:int = Math.max(originY - RANGE, 0);
-					var rEnd:int = Math.min(originY + RANGE, rows - 1);
+					//var rEnd:int = Math.min(originY + RANGE, worldRows - 1);
+					var rEnd:int = Math.min(originY + RANGE, getDefinitionByName("World")[Player.region + "_ROWS"] - 1);
 					
 					var loaded:int;		// benchmarking
 					var entry:XML;
 					for (var r:int = rStart; r <= rEnd; r++)
 						for (var c:int = cStart; c <= cEnd; c++) {
-							if (world[c][r].x != -1)
+							//if (world[c][r].x != -1)
+							if (getDefinitionByName("World")[Player.region.toLowerCase()][c][r].x != -1)
 								continue;
 							loaded++;
-							entry = xml.cell[int(r * rows + c)];
-							world[c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
+							//entry = xml.cell[int(r * worldRows + c)];
+							entry = xml.cell[int(r * getDefinitionByName("World")[Player.region + "_ROWS"] + c)];
+							//world[c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
+							getDefinitionByName("World")[Player.region.toLowerCase()][c][r] = new Zone( { name : entry.@name, x : c, y : r, region : entry.@region, text : entry,
 													  enterText : entry.@enter, saveText : entry.@save, enemiesText : entry.@enemies.split(","),
 													  itemsText : entry.@items.split(","), eventsText : entry.@events.split(",")} );
 						}
@@ -301,6 +324,14 @@
 				} else {	
 					//trace("[World] Nothing to update.");
 				}
+		}
+		
+		public static function loadSubRegion(region:String):void {
+			/*for (var y:int = 0; y < rows; y++) {
+				world[y] = [cols];
+				for (var x:int = 0; x < cols; x++)
+					world[y][x] = new Zone({});
+			}*/
 		}
 		
 		/*public static function createWorld():void {

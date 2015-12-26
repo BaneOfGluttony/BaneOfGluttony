@@ -5,6 +5,7 @@
 		public static var isAlive:Boolean = true;
 		public static var x:int = 49;
 		public static var y:int = 50;
+		public static var region:String = "WORLD";
 		public static var maxExp:int = 50;
 		public static var currExp:int = 0;
 		public static var level:int = 1;

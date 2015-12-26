@@ -1,0 +1,38 @@
+																																										
+																																										
+																																										
+																																										
+																																										
+																																		Boss fight. On chat.								
+																																										
+																																										
+																																										
+																																										
+																																	Main palace chambers.									
+																			Green Maze made of rotten produce. Might attack you.																							
+				Ro																																						
+	Dr	Ro	Ro	Ro	Ro																																					
+Dr	Ro	Ro			Ro																																					
+Dr	Ro				Ro			Ro	Ro	Ro																																
+Dr	Ro				Ro	Ro	Ro	Ro	A door blocks your way. With the key from the pastry-master, you make you way inside.	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro -  - A crumbling gate lies before you. Intentionally apparently. Who did it, if the people of the city or the ones inside the castle fortress, it is not clear. What is clear is that you are not getting through here.	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro									
+Dr	Ro				Ro				Along the floor boards, beneath a carpet, you find a secret passage, just where the monsters mentioned it would be. When you pull it open, only darkness awaits you on the bellow passages.		Ro										Ro												Ro									
+Dr	Ro				Ro						Ro			This building is partially collapsed unto the wall. You can try to climb its stairs and have a look at the maze's layout. If you have the key.				Ro	Ro	Ro	Ro	Ro	Ro	Ro									Ro									
+Dr	Ro		Besides you, rolls and rolls of parchment lay about. This seemed to have been a scribes office. Way before. If you listen carefully, you think you can still hear them moan…		Ro						Ro							Ro						Ro									Ro									
+Dr	Ro				Ro			Abandoned Bakery - You walk along the clumbling halls of what seemed to be a bakery, just blown completely out of proportion. This veritable factory could probably house hundreds of people (or ONE very big person) at any given time, making pastries and kneeding dough at the same time. Regardless, there is none of it around anymore, just a few patches of flour and ferment on the floor and tables.			Ro							Ro						Ro									Ro									
+Dr	Ro				Ro						Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro						Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro									
+Dr	Ro				Ro						Ro							Ro			A square. In the middle of it, a fountain pours some kind of strange liquid from a jar. It wears a strange stone mask and it's eyes seem to follow you everywhere you go. You can choose to drink from the fountain.			Ro									Ro									
+Dr	Ro				Ro	Ro					Ro			A great manor. The floor seems fragile, and you can hear faint sounds from bellow. Coming here weighting enough will trigger a mini-boss, that will give you the key to the castle.				Ro						Ro									Ro									
+Dr	Ro	Ro	Dr	Dr	Dr	Ro				Dr	Ro							Ro	Ro	Ro	Ro	Ro	Ro	Ro									Ro	Ro	Ro	Ro	Ro	Ro				
+Dr	Dr	Ro	Dr	Dr	Dr	Ro	Ro	Ro	Ro	Dr	Ro										Ro																	Ro				Collapsed building Breaks into the fog
+Dr	Dr	Ro	Dr						Ro	Ro	Ro	Ro	Ro	Ro					Armoring's & Co. - Here you can find special tools that can upgrade your local shop. That and rusted equipent.(Run it by Kolo. Not sure if he wants to go this way with shops, just seemed a good idea.)		Ro		Amongst books, you can find an old volume of the children of thorestein. They were up to something here.		You can try to break down this door.													Ro				
+Dr	Dr	Ro	Ro											Ro	Ro	Ro					Ro													Garden and graveyard. Overrun.				Ro				
+Dr	Dr	Dr	Ro													Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro													Ro				
+Dr	Dr	Dr	Ro								A large building complex, now abandoned. Inside you will find hints that people died in their couches. A letter. Rabid survivors.					Ro					Ro				Ro				Altar. By using the secret words found in the book in the sacristy, you can open a secret passage in blue.									Ro	Ro	Ro	Ro	Ro
+Dr	Dr	Dr	Ro	Ro	Ro	Ro	Ro									Ro					Ro		A house. A letter from one of the rebels.		Ro													Ro	Dr	Dr	Dr	Dr
+Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro									Ro		Clothier. Food stains everywhere.			Ro				Ro										Ro	Ro	Ro	Ro	Dr	Dr	Dr	Dr
+Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro					Ro				Ro	Ro				Inside you can find more data on a journal about what has been going on here. A priest from Thorestein has been sent to investigate the artifact.					Ro	Dr	Dr	Dr	Dr	Dr	Dr	
+	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Ro	Dr	Dr	Dr	Dr	Ro									Ro	Dr	Dr	Dr	Dr			
+				Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Dr	Dr	Dr	Dr	Dr	Ro	Ro						Ro	Ro	Ro	Dr	Dr	Dr	Dr			
+								Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Ro	Ro	Ro	Ro	Ro	Ro									
+																				G -  - When you step a foot onto a stone street, the fog subsides almost immediatelly. You stand before the gates of a city. It's name long crumpled and consumed my moist and fungi. All around you, the fog forms intangible walls around the city, some places over 50 meters high, and greatly diminishing the light available. The city itself, much like it's entrance seems dark, damp and eerily forgotten.																						
+																				F -  - You are immersed by fog. You can't see a foot in front of you. You just know that you are not where you were supposed to be. The forest makes that clear to you.																						

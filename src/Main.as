@@ -191,6 +191,7 @@
 				playerData.writeBoolean(Player.isAlive);
 				playerData.writeInt(Player.x);
 				playerData.writeInt(Player.y);
+				playerData.writeUTF(Player.region);
 				playerData.writeInt(Player.maxExp);
 				playerData.writeInt(Player.currExp);
 				playerData.writeInt(Player.level);
@@ -240,6 +241,7 @@
 				Player.isAlive = playerData.readBoolean();
 				Player.x = playerData.readInt();
 				Player.y = playerData.readInt();
+				Player.region = playerData.readUTF();
 				Player.maxExp = playerData.readInt();
 				Player.currExp = playerData.readInt();
 				Player.level = playerData.readInt();
