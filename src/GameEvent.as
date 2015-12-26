@@ -212,7 +212,10 @@
 						cmpltEvent();
 					} else if (str == "loc") {
 						var temp:Array = val.split(",");
-						MainGameUI.travel(temp[0], temp[1]);
+						if (temp.length > 2)
+							MainGameUI.travel(temp[0], temp[1], temp[2]);
+						else
+							MainGameUI.travel(Player.region, temp[0], temp[1]);
 					} else if (Player.resources.hasOwnProperty("curr" + str.charAt(0).toUpperCase() + str.substring(1))) {
 						str = str.charAt(0).toUpperCase() + str.substring(1);
 						var old:int = Player.resources["curr" + str];

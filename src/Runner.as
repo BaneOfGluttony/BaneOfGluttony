@@ -21,8 +21,6 @@ package
 		}
 		
 		private function init(e:Event = null):void {
-			new World();
-			
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			trace("--------------------------------------------");
 			trace("[Runner] Creating mainGame.");

@@ -6,6 +6,7 @@
 	import flash.net.registerClassAlias;
 	import flash.net.SharedObject;
 	import flash.utils.ByteArray;
+	import flash.utils.getDefinitionByName;
 	
 	/**
 	 * ...
@@ -51,7 +52,8 @@
 			reInit();
 			
 			/*TEST CODE BELOW*/
-			/*Player.name = "Kazan";
+			Player.name = "Kazan";
+			MainGameUI.travel("World", 63, 89);
 			addExp(500, false);
 			setResource("Health", 100, -1);
 			setResource("Mana", 21, -1);
@@ -64,9 +66,9 @@
 			setStat("dex", 10);
 			setStat("vor", 26);
 			setFat(86);
-			setGold(500);*/
+			setGold(500);/**/
 			
-			/*loot(ItemDefinitions.getItem("Sword"), 2);
+			loot(ItemDefinitions.getItem("Sword"), 2);
 			drop(ItemDefinitions.getItem("Sword"), 1);
 			loot(ItemDefinitions.getItem("Red Potion"), 13);
 			loot(ItemDefinitions.getItem("Orange Potion"), 6);
@@ -99,7 +101,7 @@
 			loot(ItemDefinitions.getItem("Mole Pelt"), 1);
 			loot(ItemDefinitions.getItem("Digestive"), 10);
 			loot(ItemDefinitions.getItem("Super Digestive"), 10);
-			loot(ItemDefinitions.getItem("Max Digestive"), 10);*/
+			loot(ItemDefinitions.getItem("Max Digestive"), 10);/**/
 		}
 		
 		public static function reInit():void {
@@ -288,7 +290,7 @@
 				reInit();
 				
 				trace("Game loaded");
-				MainGameUI.travel(Player.x, Player.y);
+				MainGameUI.travel(Player.region, Player.x, Player.y);
 			} catch (e:Error) {
 				trace("Could not load save file.\n" + e.getStackTrace());
 				addText("Could not load save file.");
@@ -1131,7 +1133,7 @@
 		
 		public static function writeStock():String {
 			var text:String = "Buying\n\n--------------------------------------------------\n\n";
-			for each (var item:Item in World.world[Player.x][Player.y].items) {
+			for each (var item:Item in getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].items) {
 				text += item.name + " -- " + item.value + " gold ea. -- ";
 				
 				if (Player.indexOfInventory(item) != -1)

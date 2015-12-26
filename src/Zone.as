@@ -75,9 +75,11 @@
 			
 			if (itemsText != null) {
 				n = itemsText.length;
-				l = 0;
-				for (i = 0; i < n; i++)
-					items[l++] = ItemDefinitions.getItem(itemsText[i]);
+				if (n > 0 && itemsText[0] != "") {
+					l = 0;
+					for (i = 0; i < n; i++)
+						items[l++] = ItemDefinitions.getItem(itemsText[i]);
+				}
 				
 				// this code ~1s slower
 				/*for each (var item:String in itemsText)

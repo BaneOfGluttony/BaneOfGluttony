@@ -11,6 +11,7 @@ package
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
+	import flash.utils.getDefinitionByName;
 	import mx.utils.StringUtil;
 	
 	/**
@@ -21,7 +22,7 @@ package
 	{
 		public static var game:MovieClip;								// MainGame.swc
 		public static const DEBUG:Boolean = true;						//Show debug console
-		public static const VERSION:String = "Build v0.8.2.2-12.20.15";
+		public static const VERSION:String = "Build v0.8.2.2-12.25.15";
 		
 		public static var btnIndex:int = 0
 		public static var scrollIndex:int = 0;
@@ -383,7 +384,7 @@ package
 			if (currImg != null) {
 				game.mainUI.miniMap.visible = true;
 				//game.mainUI.smallMarker.visible = true;
-				game.mainUI.zoneBtn.zoneName.text = World.world[Player.x][Player.y].name;
+				game.mainUI.zoneBtn.zoneName.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name;
 				game.removeChild(currImg);
 				currImg = null;
 			}
@@ -436,9 +437,10 @@ package
 		}
 
 		public static function checkBounds(x:int, y:int):Boolean {
-			if (x < 0 || x > World.WORLD_ROWS - 1 || y < 0 || y > World.WORLD_COLS - 1 || World.world[x][y] == null)
+			if (x < 0 || x > getDefinitionByName("World")[Player.region + "_ROWS"] - 1 ||
+					y < 0 || y > getDefinitionByName("World")[Player.region + "_COLS"] - 1 || getDefinitionByName("World")[Player.region.toLowerCase()][x][y] == null)
 				return false;
-			else if (StringUtil.trim(World.world[x][y].name) == "Block" || StringUtil.trim(World.world[x][y].name) == "River")
+			else if (getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name == "Zone" || StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "Block" || StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "River")
 				return false;
 			else
 				return true;
@@ -446,7 +448,7 @@ package
 
 		public static function updateQuests(modifier:Number = 1):String {
 			var existingEvent:Boolean = false;
-			var currLoc:Zone = World.world[Player.x][Player.y];
+			var currLoc:Zone = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y];
 			
 			for each (var quest:GameEvent in Player.quests) {
 				if (quest.setDialog(quest.state)) {
@@ -469,7 +471,7 @@ package
 		}
 		
 		public static function checkEnemy(modifier:Number = 1):Enemy {
-			var currLoc:Zone = World.world[Player.x][Player.y];
+			var currLoc:Zone = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y];
 			
 			if (currLoc.enemies.length > 0) {
 				var possibleEnemies:Array = [];
@@ -508,7 +510,7 @@ package
 			
 			switch (state) {
 				case "navigate" :
-					if (World.world[Player.x][Player.y].save) {
+					if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].save) {
 						game.menuUI.saveBtn.visible = true;
 						game.menuUI.loadBtn.visible = true;
 					} else {
@@ -643,75 +645,75 @@ package
 			var y:int = Player.y;
 			
 			game.btnsUI.btn5.visible = false;
-			game.mainUI.zoneBtn.zoneName.text = World.world[Player.x][Player.y].name;
+			game.mainUI.zoneBtn.zoneName.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name;
 			
 			if (!checkBounds(Player.x - 1, Player.y - 1) ||
-					World.world[Player.x - 1][Player.y - 1] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y - 1] == null) {
 				game.btnsUI.btn1.visible = false;
 			} else {
 				game.btnsUI.btn1.visible = true;
-				game.btnsUI.btn1.btnText.text = World.world[Player.x - 1][Player.y - 1].name;
+				game.btnsUI.btn1.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y - 1].name;
 			}
 			
 			if (!checkBounds(Player.x, Player.y - 1) ||
-					World.world[Player.x][Player.y - 1] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y - 1] == null) {
 				game.btnsUI.btn2.visible = false;
 			} else {
 				game.btnsUI.btn2.visible = true;
-				game.btnsUI.btn2.btnText.text = World.world[x][y - 1].name;
+				game.btnsUI.btn2.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][x][y - 1].name;
 			}
 			
 			if (!checkBounds(Player.x + 1, Player.y - 1) ||
-					World.world[Player.x + 1][Player.y - 1] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y - 1] == null) {
 				game.btnsUI.btn3.visible = false;
 			} else {
 				game.btnsUI.btn3.visible = true;
-				game.btnsUI.btn3.btnText.text = World.world[Player.x + 1][Player.y - 1].name;
+				game.btnsUI.btn3.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y - 1].name;
 			}
 			
 			if (!checkBounds(Player.x - 1, Player.y) ||
-					World.world[Player.x - 1][Player.y] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y] == null) {
 				game.btnsUI.btn4.visible = false;
 			} else {
 				game.btnsUI.btn4.visible = true;
-				game.btnsUI.btn4.btnText.text = World.world[Player.x - 1][Player.y].name;
+				game.btnsUI.btn4.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y].name;
 			}
 			
-			if (World.world[Player.x][Player.y].enter) {
+			if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].enter) {
 				game.btnsUI.btn5.visible = true;
 				game.btnsUI.btn5.btnText.text = "Enter";
 			}
 			
 			if (!checkBounds(Player.x + 1, Player.y) ||
-					World.world[Player.x + 1][Player.y] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y] == null) {
 				game.btnsUI.btn6.visible = false;
 			} else {
 				game.btnsUI.btn6.visible = true;
-				game.btnsUI.btn6.btnText.text = World.world[Player.x + 1][Player.y].name;
+				game.btnsUI.btn6.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y].name;
 			}
 			
 			if (!checkBounds(Player.x - 1, Player.y + 1) ||
-					World.world[Player.x - 1][Player.y + 1] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y + 1] == null) {
 				game.btnsUI.btn7.visible = false;
 			} else {
 				game.btnsUI.btn7.visible = true;
-				game.btnsUI.btn7.btnText.text = World.world[Player.x - 1][Player.y + 1].name;
+				game.btnsUI.btn7.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y + 1].name;
 			}
 			
 			if (!checkBounds(Player.x, Player.y + 1) ||
-					World.world[Player.x][Player.y + 1] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y + 1] == null) {
 				game.btnsUI.btn8.visible = false;
 			} else {
 				game.btnsUI.btn8.visible = true;
-				game.btnsUI.btn8.btnText.text = World.world[Player.x][Player.y + 1].name;
+				game.btnsUI.btn8.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y + 1].name;
 			}
 			
 			if (!checkBounds(Player.x + 1, Player.y + 1) ||
-					World.world[Player.x + 1][Player.y + 1] == null) {
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y + 1] == null) {
 				game.btnsUI.btn9.visible = false;
 			} else {
 				game.btnsUI.btn9.visible = true;
-				game.btnsUI.btn9.btnText.text = World.world[Player.x + 1][Player.y + 1].name;
+				game.btnsUI.btn9.btnText.text = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y + 1].name;
 			}
 		}
 
@@ -799,7 +801,7 @@ package
 			else if (game.btnsUI.btn1.visible && e.keyCode == Keyboard.NUMPAD_7) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x - 1][Player.y - 1] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y - 1] != null)
 							moveNW();
 						break;
 					case "appearance" :
@@ -828,7 +830,7 @@ package
 			else if (game.btnsUI.btn2.visible && (e.keyCode == Keyboard.NUMPAD_8 || e.keyCode == Keyboard.UP || e.keyCode == Keyboard.W)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x][Player.y - 1] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y - 1] != null)
 							moveN();
 						break;
 					case "appearance" :
@@ -848,7 +850,7 @@ package
 			else if (game.btnsUI.btn3.visible && e.keyCode == Keyboard.NUMPAD_9) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x + 1][Player.y - 1] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y - 1] != null)
 							moveNE();
 						break;
 					case "inventory" :
@@ -873,7 +875,7 @@ package
 			else if (game.btnsUI.btn4.visible && (e.keyCode == Keyboard.NUMPAD_4 || e.keyCode == Keyboard.LEFT || e.keyCode == Keyboard.A)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x - 1][Player.y] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y] != null)
 							moveW();
 						break;
 					case "appearance" :
@@ -912,7 +914,7 @@ package
 			else if (game.btnsUI.btn6.visible && (e.keyCode == Keyboard.NUMPAD_6 || e.keyCode == Keyboard.RIGHT || e.keyCode == Keyboard.D)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x + 1][Player.y] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y] != null)
 							moveE();
 						break;
 					case "appearance" :
@@ -932,7 +934,7 @@ package
 			else if (game.btnsUI.btn7.visible && e.keyCode == Keyboard.NUMPAD_1) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x - 1][Player.y + 1] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x - 1][Player.y + 1] != null)
 							moveSW();
 						break;
 					case "inventory" :
@@ -955,7 +957,7 @@ package
 			else if (game.btnsUI.btn8.visible && (e.keyCode == Keyboard.NUMPAD_2 || e.keyCode == Keyboard.DOWN || e.keyCode == Keyboard.S)) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x][Player.y + 1] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y + 1] != null)
 							moveS();
 						break;
 					case "appearance" :
@@ -975,7 +977,7 @@ package
 			else if (game.btnsUI.btn9.visible && e.keyCode == Keyboard.NUMPAD_3) {
 				switch (state) {
 					case "navigate"	:
-						if (World.world[Player.x + 1][Player.y + 1] != null)
+						if (getDefinitionByName("World")[Player.region.toLowerCase()][Player.x + 1][Player.y + 1] != null)
 							moveSE();
 						break;
 					case "appearance" :
@@ -994,7 +996,7 @@ package
 							hidePortrait();
 							updateNavBtns();
 							updateMenuBtns();
-							travel(Player.x, Player.y);
+							travel(Player.region, Player.x, Player.y);
 							if (Player.statPoints > 0)
 								game.lvlupUI.visible = true;
 						} else if (Main.currEvent.cont == "prog") {
@@ -1091,8 +1093,8 @@ package
 
 		public static function clickRest(e:MouseEvent):void {
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			Main.setText(Main.mainText);
 			Main.rest();
 			debugTrace();
@@ -1368,7 +1370,7 @@ package
 						hidePortrait();
 						updateNavBtns();
 						updateMenuBtns();
-						travel(Player.x, Player.y);
+						travel(Player.region, Player.x, Player.y);
 						if (Player.statPoints > 0)
 							game.lvlupUI.visible = true;
 					} else if (Main.currEvent.cont == "prog") {
@@ -1909,7 +1911,7 @@ package
 							selectedItem = null;
 							displayBuying();
 						} else {
-							enterShop(World.world[Player.x][Player.y]);
+							enterShop(getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y]);
 						}
 					} else {
 						if (!Main.buy(buy))
@@ -1925,7 +1927,7 @@ package
 							selectedItem = null;
 							displaySelling();
 						} else {
-							enterShop(World.world[Player.x][Player.y]);
+							enterShop(getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y]);
 						}
 					} else {
 						if (!Main.sell(sell)) {
@@ -1944,22 +1946,30 @@ package
 		//}
 		
 		//{ Navigation
-		public static function travel(x:int, y:int):void {
-			var dist:Number = Math.sqrt(Math.pow(Player.x - x, 2) + Math.pow(Player.y - y, 2));
+		public static function travel(region:String, x:int, y:int):void {
+			var dist:Number = 0;
 			Player.x = x;
 			Player.y = y;
-			updateMaps();
-			World.updateLoadedRegion();
+			
+			if (Player.region == region.toUpperCase()) {
+				dist = Math.sqrt(Math.pow(Player.x - x, 2) + Math.pow(Player.y - y, 2));
+				World.updateLoadedRegion();
+			} else {
+				Player.region = region.toUpperCase();
+				World.parseXML();
+			}
 			
 			if (state == "navigate") {
 				Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-					World.world[Player.x][Player.y].name + "\n" +
-					World.world[Player.x][Player.y].text;
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+					getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 				Main.setText(Main.mainText);
 				Clock.advTravelTime(dist);
 				updateMenuBtns();
 				updateNavBtns();
 			}
+			
+			updateMaps();	//Change maps if new region
 		}
 
 		public static function moveNW():void {
@@ -1967,8 +1977,8 @@ package
 			Player.y--;
 			
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(Math.sqrt(2));
@@ -1980,8 +1990,8 @@ package
 			Player.y--;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(1);
@@ -1994,8 +2004,8 @@ package
 			Player.y--;
 			
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(Math.sqrt(2));
@@ -2007,8 +2017,8 @@ package
 			Player.x--;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(1);
@@ -2017,11 +2027,14 @@ package
 		}
 
 		public static function moveCenter():void {
-			var zone:Zone = World.world[Player.x][Player.y];
+			var zone:Zone = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y];
 			
 			if (zone.items.length > 0) {
 				enterShop(zone);
+			} else if (zone.name == "Barro") {
+				travel("Barro", 20, 37);
 			}
+			
 			World.travelDir = [false, false, false, false];
 		}
 
@@ -2029,8 +2042,8 @@ package
 			Player.x++;
 
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(1);
@@ -2043,8 +2056,8 @@ package
 			Player.y++;
 			
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(Math.sqrt(2));
@@ -2056,8 +2069,8 @@ package
 			Player.y++;
 			
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(1);
@@ -2070,8 +2083,8 @@ package
 			Player.y++;
 			
 			Main.mainText = "(" + Player.x + ", " + Player.y + ")\n" +
-				World.world[Player.x][Player.y].name + "\n" +
-				World.world[Player.x][Player.y].text;
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].name + "\n" +
+				getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y].text;
 			
 			Main.setText(Main.mainText);
 			Clock.advTravelTime(Math.sqrt(2));
@@ -2100,7 +2113,7 @@ package
 		public static function displayBuying():void {
 			state = "buying";
 			
-			var zone:Zone = World.world[Player.x][Player.y];
+			var zone:Zone = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y];
 			Main.setText(Main.writeStock());
 			
 			hideBtnArray();
