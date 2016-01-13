@@ -31,14 +31,15 @@
 		private static const SAVE_XML:String = "";
 		
 		private static var xml:XML = new XML();
-		if (SAVE_XML != "WORLD") {
-			[Embed(source = "XML/WORLD.xml", mimeType = "application/octet-stream")]
-			private static var worldXML:Class;
-		}
-		if (SAVE_XML != "BARRO") {
-			[Embed(source = "XML/BARRO.xml", mimeType = "application/octet-stream")]
-			private static var barroXML:Class;
-		}
+		[Embed(source = "XML/WORLD.xml", mimeType = "application/octet-stream")]
+		private static var worldXML:Class;
+		[Embed(source = "XML/BARRO.xml", mimeType = "application/octet-stream")]
+		private static var barroXML:Class;
+		//Handle new zones
+		/*
+		if (SAVE_XML != "new zone")
+			embed new thing
+		*/
 		
 		private static var file:FileReference;
 		private static var bytes:ByteArray;
@@ -55,12 +56,6 @@
 				bytes = new ByteArray();
 				textLoader = new URLLoader();
 				textLoader.addEventListener(Event.COMPLETE, writeXML);
-				xml = <{SAVE_XML.toLowerCase()}></{SAVE_XML.toLowerCase()}>;
-				/*xml = <world></world>;
-				file = new FileReference();
-				bytes = new ByteArray();
-				textLoader = new URLLoader();
-				textLoader.addEventListener(Event.COMPLETE, writeXML);*/
 				textLoader.load(new URLRequest(SAVE_XML + ".txt"));
 			} else {
 				xml = new XML(new worldXML());
@@ -68,7 +63,8 @@
 			}
 		}
 		
-		public static function writeXML(e:Event):void {	
+		public static function writeXML(e:Event):void {
+			xml = <{SAVE_XML.toLowerCase()}></{SAVE_XML.toLowerCase()}>;
 			var out:String = "";
 			var lines:Array = e.target.data.split("\n");
 			
@@ -271,14 +267,6 @@
 			
 			var ClassReference:Class = getDefinitionByName("World")[Player.region.toLowerCase() + "XML"] as Class;
 			xml = new XML(new ClassReference());
-			/*switch (Player.region) {
-				case "BARRO" :
-					xml = new XML(new barroXML());
-					break;
-				default :
-					xml = new XML(new worldXML());
-					break;
-			}*/
 			
 			children = xml.children();
 			trace("[World] parseXML called.");
@@ -318,10 +306,10 @@
 			//var checkN:int = Math.min(Player.y + TRIGGER_RANGE, worldRows - 1);
 			var checkN:int = Math.min(Player.y + TRIGGER_RANGE, rows - 1);
 			
-			if (SAVE_XML != "") {
+			//if (SAVE_XML != "") {
 				var ClassReference:Class = getDefinitionByName("World")[Player.region.toLowerCase() + "XML"] as Class;
 				xml = new XML(new ClassReference());
-			}
+			//}
 			
 			
 			//if (world[Player.x][Player.y].x == -1 ||

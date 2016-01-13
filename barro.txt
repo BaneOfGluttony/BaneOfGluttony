@@ -35,4 +35,4 @@ Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro	Ro					Ro				Ro	Ro				Inside you
 				Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Dr	Dr	Dr	Dr	Dr	Ro	Ro						Ro	Ro	Ro	Dr	Dr	Dr	Dr			
 								Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Dr	Dr	Dr	Dr	Dr	Dr	Ro	Ro	Ro	Ro	Ro	Ro	Ro									
 																				G -  - When you step a foot onto a stone street, the fog subsides almost immediatelly. You stand before the gates of a city. It's name long crumpled and consumed my moist and fungi. All around you, the fog forms intangible walls around the city, some places over 50 meters high, and greatly diminishing the light available. The city itself, much like it's entrance seems dark, damp and eerily forgotten.																						
-																				F -  - You are immersed by fog. You can't see a foot in front of you. You just know that you are not where you were supposed to be. The forest makes that clear to you.																						
+																				F -  - You are immersed by fog. You can't see a foot in front of you. You just know that you are not where you were supposed to be. The forest makes that clear to you. - True																						

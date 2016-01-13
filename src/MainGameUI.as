@@ -438,9 +438,13 @@ package
 
 		public static function checkBounds(x:int, y:int):Boolean {
 			if (x < 0 || x > getDefinitionByName("World")[Player.region + "_ROWS"] - 1 ||
-					y < 0 || y > getDefinitionByName("World")[Player.region + "_COLS"] - 1 || getDefinitionByName("World")[Player.region.toLowerCase()][x][y] == null)
+					y < 0 || y > getDefinitionByName("World")[Player.region + "_COLS"] - 1 ||
+					getDefinitionByName("World")[Player.region.toLowerCase()][x][y] == null)
 				return false;
-			else if (getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name == "Zone" || StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "Block" || StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "River")
+			else if (StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "" ||
+					StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "Zone" ||
+					StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "Block" ||
+					StringUtil.trim(getDefinitionByName("World")[Player.region.toLowerCase()][x][y].name) == "River")
 				return false;
 			else
 				return true;
@@ -2029,11 +2033,13 @@ package
 		public static function moveCenter():void {
 			var zone:Zone = getDefinitionByName("World")[Player.region.toLowerCase()][Player.x][Player.y];
 			
-			if (zone.items.length > 0) {
+			if (zone.items.length > 0)
 				enterShop(zone);
-			} else if (zone.name == "Barro") {
+			else if (Player.region == "WORLD" && zone.name == "Barro")
 				travel("Barro", 20, 37);
-			}
+			else if (Player.region == "BARRO" && zone.name == "Forest")
+				travel("World", 63, 89);
+			
 			
 			World.travelDir = [false, false, false, false];
 		}
