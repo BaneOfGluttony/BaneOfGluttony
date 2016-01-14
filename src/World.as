@@ -71,8 +71,8 @@
 			for (var i:int = 0; i < getDefinitionByName("World")[SAVE_XML + "_ROWS"]; i++) {
 				var cell:Array = lines[i].split("\t");
 				for (var j:int = 0; j < getDefinitionByName("World")[SAVE_XML + "_COLS"]; j++) {
-					//Region - Name - Text - Enter (false) - Save (false) - Enemies (null) - Items (null) - Events (null)
-					var data:Array = cell[j].split("-");	//Do NOT use hyphens/dashes, commas, or semi-colons in map text
+					//Region | Name | Text | Enter (false) | Save (false) | Enemies (null) | Items (null) | Events (null)
+					var data:Array = cell[j].split("|");	//Do NOT use vertical bars (|), commas (,), or semi-colons (;) in map text
 					data = (StringUtil.trimArrayElements(data.join("*"), "*")).split("*");
 					
 					var region:String = data[0];

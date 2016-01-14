@@ -24,6 +24,12 @@ package
 		public static const DEBUG:Boolean = true;						//Show debug console
 		public static const VERSION:String = "Build v0.8.2.2-12.25.15";
 		
+		//Constants for each region's full map starting coordinates
+		public static const WORLD_X:int = 0;
+		public static const WORLD_Y:int = 0;
+		public static const BARRO_X:int = 100;
+		public static const BARRO_Y:int = 100;
+		
 		public static var btnIndex:int = 0
 		public static var scrollIndex:int = 0;
 		public static var menuIndex:int = 0;
@@ -66,6 +72,12 @@ package
 			game.btnsUI.downBtn.visible = false;
 			game.combatUI.visible = false;
 			//game.mainUI.mc_loading.visible = false;
+			
+			game.mainUI.miniMap.WORLD.visible = true;
+			game.mainUI.miniMap.BARRO.visible = false;
+			
+			game.mainUI.bigMap.WORLD.visible = true;
+			game.mainUI.bigMap.BARRO.visible = false;
 			
 			updateMaps();
 			
@@ -725,8 +737,8 @@ package
 			game.mainUI.miniMap.x = 350 + 70 - 35 * Player.x;
 			game.mainUI.miniMap.y = 70 - 35 * Player.y;
 			
-			game.mainUI.bigMarker.x = 575 + 5 * Player.x;
-			game.mainUI.bigMarker.y = 30 + 5 * Player.y;
+			game.mainUI.bigMarker.x = 575 + getDefinitionByName("MainGameUI")[Player.region.toUpperCase() + "_X"] + 5 * Player.x;
+			game.mainUI.bigMarker.y = 30 + getDefinitionByName("MainGameUI")[Player.region.toUpperCase() + "_Y"] + 5 * Player.y;
 		}
 		//}
 		
@@ -1960,6 +1972,15 @@ package
 				World.updateLoadedRegion();
 			} else {
 				Player.region = region.toUpperCase();
+				
+				game.mainUI.bigMap.WORLD.visible = false;
+				game.mainUI.bigMap.BARRO.visible = false;
+				game.mainUI.bigMap[Player.region.toUpperCase()].visible = true;
+				
+				game.mainUI.miniMap.WORLD.visible = false;
+				game.mainUI.miniMap.BARRO.visible = false;
+				game.mainUI.miniMap[Player.region.toUpperCase()].visible = true;
+				
 				World.parseXML();
 			}
 			

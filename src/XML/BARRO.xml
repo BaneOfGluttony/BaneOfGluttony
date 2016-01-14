@@ -696,7 +696,7 @@
   <cell name="Road" x="6" y="16" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="7" y="16" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="8" y="16" region="Road" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="master, you make you way inside." x="9" y="16" region="A door blocks your way. With the key from the pastry" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="A door blocks your way. With the key from the pastry-master, you make you way inside." x="9" y="16" region="A door blocks your way. With the key from the pastry-master, you make you way inside." enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="10" y="16" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="11" y="16" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="12" y="16" region="Road" enter="false" save="false" enemies="" items="" events=""/>
@@ -867,7 +867,7 @@
   <cell name="Road" x="5" y="20" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="6" y="20" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="7" y="20" region="" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="You walk along the clumbling halls of what seemed to be a bakery, just blown completely out of proportion. This veritable factory could probably house hundreds of people (or ONE very big person) at any given time, making pastries and kneeding dough at the same time. Regardless, there is none of it around anymore, just a few patches of flour and ferment on the floor and tables." x="8" y="20" region="Abandoned Bakery" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Abandoned Bakery - You walk along the clumbling halls of what seemed to be a bakery, just blown completely out of proportion. This veritable factory could probably house hundreds of people (or ONE very big person) at any given time, making pastries and kneeding dough at the same time. Regardless, there is none of it around anymore, just a few patches of flour and ferment on the floor and tables." x="8" y="20" region="Abandoned Bakery - You walk along the clumbling halls of what seemed to be a bakery, just blown completely out of proportion. This veritable factory could probably house hundreds of people (or ONE very big person) at any given time, making pastries and kneeding dough at the same time. Regardless, there is none of it around anymore, just a few patches of flour and ferment on the floor and tables." enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="9" y="20" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="10" y="20" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="11" y="20" region="Road" enter="false" save="false" enemies="" items="" events=""/>
@@ -1002,7 +1002,7 @@
   <cell name="Road" x="11" y="23" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="12" y="23" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="13" y="23" region="" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="boss, that will give you the key to the castle." x="14" y="23" region="A great manor. The floor seems fragile, and you can hear faint sounds from bellow. Coming here weighting enough will trigger a mini" enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="A great manor. The floor seems fragile, and you can hear faint sounds from bellow. Coming here weighting enough will trigger a mini-boss, that will give you the key to the castle." x="14" y="23" region="A great manor. The floor seems fragile, and you can hear faint sounds from bellow. Coming here weighting enough will trigger a mini-boss, that will give you the key to the castle." enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="15" y="23" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="16" y="23" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="17" y="23" region="" enter="false" save="false" enemies="" items="" events=""/>
@@ -1136,7 +1136,7 @@
   <cell name="" x="16" y="26" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="17" y="26" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="18" y="26" region="" enter="false" save="false" enemies="" items="" events=""/>
-  <cell name="Here you can find special tools that can upgrade your local shop. That and rusted equipent.(Run it by Kolo. Not sure if he wants to go this way with shops, just seemed a good idea.)" x="19" y="26" region="Armoring's &amp; Co." enter="false" save="false" enemies="" items="" events=""/>
+  <cell name="Armoring's &amp; Co. - Here you can find special tools that can upgrade your local shop. That and rusted equipent.(Run it by Kolo. Not sure if he wants to go this way with shops, just seemed a good idea.)" x="19" y="26" region="Armoring's &amp; Co. - Here you can find special tools that can upgrade your local shop. That and rusted equipent.(Run it by Kolo. Not sure if he wants to go this way with shops, just seemed a good idea.)" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="20" y="26" region="" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="Road" x="21" y="26" region="Road" enter="false" save="false" enemies="" items="" events=""/>
   <cell name="" x="22" y="26" region="" enter="false" save="false" enemies="" items="" events=""/>
