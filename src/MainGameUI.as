@@ -2040,7 +2040,6 @@ package
 			else if (Player.region == "BARRO" && zone.name == "Forest")
 				travel("World", 63, 89);
 			
-			
 			World.travelDir = [false, false, false, false];
 		}
 

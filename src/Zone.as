@@ -67,12 +67,6 @@
 						enemies[l++] = [enemiesText[i], enemiesText[i + 1]];
 			}
 			
-			// this code ~1s slower
-			/*if (enemiesText != null && enemiesText.length > 1) {
-				for (var i:int = 0; i < enemiesText.length; i += 2)
-					enemies.push(new Array(enemiesText[i], enemiesText[i + 1]));
-			}*/
-			
 			if (itemsText != null) {
 				n = itemsText.length;
 				if (n > 0 && itemsText[0] != "") {
@@ -80,10 +74,6 @@
 					for (i = 0; i < n; i++)
 						items[l++] = ItemDefinitions.getItem(itemsText[i]);
 				}
-				
-				// this code ~1s slower
-				/*for each (var item:String in itemsText)
-					items.push(ItemDefinitions.getItem(item));*/
 			}
 			
 			if (eventsText != null) {
@@ -94,12 +84,6 @@
 						events[l++] = [eventsText[i], eventsText[i + 1]];
 				}
 			}
-			
-			// this code <1s slower
-			/*if (eventsText != null && eventsText.length > 1) {
-				for (var i:int = 0; i < eventsText.length; i += 2)
-					events.push(new Array(eventsText[i], eventsText[i + 1]));
-			}*/
 		}
 	}
 }

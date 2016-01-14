@@ -259,10 +259,12 @@
 			
 			if (region.length <= 1) {
 				for (var y:int = 0; y < rows; y++) {
-					region[y] = [WORLD_COLS];
+					region[y] = [cols];
 					for (var x:int = 0; x < cols; x++)
 						region[y][x] = new Zone({});
 				}
+			} else if (region[Player.x][Player.y].name != "Zone") {
+				return;
 			}
 			
 			var ClassReference:Class = getDefinitionByName("World")[Player.region.toLowerCase() + "XML"] as Class;
@@ -360,14 +362,6 @@
 				} else {	
 					//trace("[World] Nothing to update.");
 				}
-		}
-		
-		public static function loadSubRegion(region:String):void {
-			/*for (var y:int = 0; y < rows; y++) {
-				world[y] = [cols];
-				for (var x:int = 0; x < cols; x++)
-					world[y][x] = new Zone({});
-			}*/
 		}
 		
 		/*public static function createWorld():void {
