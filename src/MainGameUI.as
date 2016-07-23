@@ -44,7 +44,7 @@ package
 		public static var btnArray:Array;
 		
 		public static const faURL:String = "http://www.furaffinity.net/user/";
-						
+		
 		public function MainGameUI() {
 			game = new MainGame();
 			
