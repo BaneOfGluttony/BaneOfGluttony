@@ -66,6 +66,8 @@ package
 								 game.btnsUI.btn7, game.btnsUI.btn8, game.btnsUI.btn9);
 			
 			game.mainUI.creationUI.visible = false;
+			//game.menuUI.visible = false;
+			//game.btnsUI.visible = false;
 			
 			game.lvlupUI.visible = false;
 			game.mainUI.bigMap.visible = false;		

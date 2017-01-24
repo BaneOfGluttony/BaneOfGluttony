@@ -681,6 +681,7 @@
 			}
 		}
 		
+		// Consider adjusting capacity (starting) values to actually represent weight of food consumed to match player weight 1:1
 		public static function calcStats(flag:Boolean = false):void {
 			if (flag)
 				removeEquipBonuses();
@@ -692,7 +693,8 @@
 			Player.derivedStats["acc"] = 0.2 * Player.stats["agi"] + Player.stats["dex"];
 			Player.derivedStats["dodge"] = Player.stats["agi"] + 0.2 * Player.stats["dex"];
 			Player.derivedStats["cap"] = Player.resources["maxCapacity"] + Player.stats["vor"];
-			Player.derivedStats["weight"] = 2.2 * (50 + 2.3 * (Player.height - 60)) + 0.5 * Player.stats["str"] + Player.fat + 0.03 * Player.resources["currCapacity"];
+			// Based on the Hamwi formula for ideal weight. x2.2 to convert from kilograms. Currently only calculates male weight.
+			Player.derivedStats["weight"] = 2.2 * (48 + 2.7 * (Player.height - 60)) + 0.5 * Player.stats["str"] + Player.fat + 0.03 * Player.resources["currCapacity"];
 			
 			if (flag)
 				addEquipBonuses();
@@ -706,7 +708,8 @@
 			Player.derivedStats["acc"] += 0.2 * Player.stats["agi"] + Player.stats["dex"];
 			Player.derivedStats["dodge"] += Player.stats["agi"] + 0.2 * Player.stats["dex"];
 			Player.derivedStats["cap"] += Player.resources["maxCapacity"] + Player.stats["vor"];
-			Player.derivedStats["weight"] += 2.2 * (50 + 2.3 * (Player.height - 60)) + 0.5 * Player.stats["str"] + Player.fat + 0.03 * Player.resources["currCapacity"];
+			// Based on the Hamwi formula for ideal weight. x2.2 to convert from kilograms. Currently only calculates male weight.
+			Player.derivedStats["weight"] += 2.2 * (48 + 2.7 * (Player.height - 60)) + 0.5 * Player.stats["str"] + Player.fat + 0.03 * Player.resources["currCapacity"];
 		}
 		
 		public static function addEquipBonuses():void {
